@@ -22,6 +22,11 @@
     "suggest": {
         "amphp/artax": "To use the async api"
     },
+    "extra": {
+        "branch-alias": {
+            "4.1.25": "4.1.25.x-dev"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
