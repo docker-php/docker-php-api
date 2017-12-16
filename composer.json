@@ -1,0 +1,27 @@
+{
+    "name": "docker-php/docker-php-api",
+    "license": "MIT",
+    "type": "library",
+    "description": "Docker API generated files from OpenAPI Specification",
+    "autoload": {
+        "psr-4": {
+            "Docker\\API\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "jane-php/open-api-runtime": "^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "friendsofphp/php-cs-fixer": "^2.9",
+        "jane-php/open-api": "^4.0",
+        "jane-php/json-schema": "^4.0",
+        "amphp/artax": "^3.0"
+    },
+    "suggest": {
+        "amphp/artax": "To use the async api"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
