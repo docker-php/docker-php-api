@@ -32,6 +32,6 @@ class ClientAsync extends \Jane\OpenApiRuntime\Client\AmpArtaxResource
         }
         $serializer = new \Symfony\Component\Serializer\Serializer(\Docker\API\Normalizer\NormalizerFactory::create(), [new \Symfony\Component\Serializer\Encoder\JsonEncoder(new \Symfony\Component\Serializer\Encoder\JsonEncode(), new \Symfony\Component\Serializer\Encoder\JsonDecode())]);
 
-        return new self($httpClient, $serializer);
+        return new static($httpClient, $serializer);
     }
 }
