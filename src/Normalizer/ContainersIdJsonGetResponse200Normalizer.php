@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,90 +35,90 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ContainersIdJsonGetResponse200();
-        if (property_exists($data, 'Id')) {
+        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
             $object->setId($data->{'Id'});
         }
-        if (property_exists($data, 'Created')) {
+        if (property_exists($data, 'Created') && $data->{'Created'} !== null) {
             $object->setCreated($data->{'Created'});
         }
-        if (property_exists($data, 'Path')) {
+        if (property_exists($data, 'Path') && $data->{'Path'} !== null) {
             $object->setPath($data->{'Path'});
         }
-        if (property_exists($data, 'Args')) {
+        if (property_exists($data, 'Args') && $data->{'Args'} !== null) {
             $values = [];
             foreach ($data->{'Args'} as $value) {
                 $values[] = $value;
             }
             $object->setArgs($values);
         }
-        if (property_exists($data, 'State')) {
+        if (property_exists($data, 'State') && $data->{'State'} !== null) {
             $object->setState($this->denormalizer->denormalize($data->{'State'}, 'Docker\\API\\Model\\ContainersIdJsonGetResponse200State', 'json', $context));
         }
-        if (property_exists($data, 'Image')) {
+        if (property_exists($data, 'Image') && $data->{'Image'} !== null) {
             $object->setImage($data->{'Image'});
         }
-        if (property_exists($data, 'ResolvConfPath')) {
+        if (property_exists($data, 'ResolvConfPath') && $data->{'ResolvConfPath'} !== null) {
             $object->setResolvConfPath($data->{'ResolvConfPath'});
         }
-        if (property_exists($data, 'HostnamePath')) {
+        if (property_exists($data, 'HostnamePath') && $data->{'HostnamePath'} !== null) {
             $object->setHostnamePath($data->{'HostnamePath'});
         }
-        if (property_exists($data, 'HostsPath')) {
+        if (property_exists($data, 'HostsPath') && $data->{'HostsPath'} !== null) {
             $object->setHostsPath($data->{'HostsPath'});
         }
-        if (property_exists($data, 'LogPath')) {
+        if (property_exists($data, 'LogPath') && $data->{'LogPath'} !== null) {
             $object->setLogPath($data->{'LogPath'});
         }
-        if (property_exists($data, 'Node')) {
+        if (property_exists($data, 'Node') && $data->{'Node'} !== null) {
             $object->setNode($data->{'Node'});
         }
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'RestartCount')) {
+        if (property_exists($data, 'RestartCount') && $data->{'RestartCount'} !== null) {
             $object->setRestartCount($data->{'RestartCount'});
         }
-        if (property_exists($data, 'Driver')) {
+        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
             $object->setDriver($data->{'Driver'});
         }
-        if (property_exists($data, 'MountLabel')) {
+        if (property_exists($data, 'MountLabel') && $data->{'MountLabel'} !== null) {
             $object->setMountLabel($data->{'MountLabel'});
         }
-        if (property_exists($data, 'ProcessLabel')) {
+        if (property_exists($data, 'ProcessLabel') && $data->{'ProcessLabel'} !== null) {
             $object->setProcessLabel($data->{'ProcessLabel'});
         }
-        if (property_exists($data, 'AppArmorProfile')) {
+        if (property_exists($data, 'AppArmorProfile') && $data->{'AppArmorProfile'} !== null) {
             $object->setAppArmorProfile($data->{'AppArmorProfile'});
         }
-        if (property_exists($data, 'ExecIDs')) {
+        if (property_exists($data, 'ExecIDs') && $data->{'ExecIDs'} !== null) {
             $object->setExecIDs($data->{'ExecIDs'});
         }
-        if (property_exists($data, 'HostConfig')) {
+        if (property_exists($data, 'HostConfig') && $data->{'HostConfig'} !== null) {
             $object->setHostConfig($this->denormalizer->denormalize($data->{'HostConfig'}, 'Docker\\API\\Model\\HostConfig', 'json', $context));
         }
-        if (property_exists($data, 'GraphDriver')) {
+        if (property_exists($data, 'GraphDriver') && $data->{'GraphDriver'} !== null) {
             $object->setGraphDriver($this->denormalizer->denormalize($data->{'GraphDriver'}, 'Docker\\API\\Model\\GraphDriver', 'json', $context));
         }
-        if (property_exists($data, 'SizeRw')) {
+        if (property_exists($data, 'SizeRw') && $data->{'SizeRw'} !== null) {
             $object->setSizeRw($data->{'SizeRw'});
         }
-        if (property_exists($data, 'SizeRootFs')) {
+        if (property_exists($data, 'SizeRootFs') && $data->{'SizeRootFs'} !== null) {
             $object->setSizeRootFs($data->{'SizeRootFs'});
         }
-        if (property_exists($data, 'Mounts')) {
+        if (property_exists($data, 'Mounts') && $data->{'Mounts'} !== null) {
             $values_1 = [];
             foreach ($data->{'Mounts'} as $value_1) {
                 $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\MountPoint', 'json', $context);
             }
             $object->setMounts($values_1);
         }
-        if (property_exists($data, 'Config')) {
+        if (property_exists($data, 'Config') && $data->{'Config'} !== null) {
             $object->setConfig($this->denormalizer->denormalize($data->{'Config'}, 'Docker\\API\\Model\\Config', 'json', $context));
         }
-        if (property_exists($data, 'NetworkSettings')) {
+        if (property_exists($data, 'NetworkSettings') && $data->{'NetworkSettings'} !== null) {
             $object->setNetworkSettings($this->denormalizer->denormalize($data->{'NetworkSettings'}, 'Docker\\API\\Model\\NetworkConfig', 'json', $context));
         }
 

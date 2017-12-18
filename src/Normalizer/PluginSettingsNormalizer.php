@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,31 +35,31 @@ class PluginSettingsNormalizer implements DenormalizerInterface, NormalizerInter
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\PluginSettings();
-        if (property_exists($data, 'Mounts')) {
+        if (property_exists($data, 'Mounts') && $data->{'Mounts'} !== null) {
             $values = [];
             foreach ($data->{'Mounts'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\PluginMount', 'json', $context);
             }
             $object->setMounts($values);
         }
-        if (property_exists($data, 'Env')) {
+        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
             $values_1 = [];
             foreach ($data->{'Env'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setEnv($values_1);
         }
-        if (property_exists($data, 'Args')) {
+        if (property_exists($data, 'Args') && $data->{'Args'} !== null) {
             $values_2 = [];
             foreach ($data->{'Args'} as $value_2) {
                 $values_2[] = $value_2;
             }
             $object->setArgs($values_2);
         }
-        if (property_exists($data, 'Devices')) {
+        if (property_exists($data, 'Devices') && $data->{'Devices'} !== null) {
             $values_3 = [];
             foreach ($data->{'Devices'} as $value_3) {
                 $values_3[] = $this->denormalizer->denormalize($value_3, 'Docker\\API\\Model\\PluginDevice', 'json', $context);

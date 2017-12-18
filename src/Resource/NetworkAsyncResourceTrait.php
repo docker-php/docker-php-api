@@ -41,10 +41,10 @@ trait NetworkAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Network[]', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -78,13 +78,13 @@ trait NetworkAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkDeleteNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -117,10 +117,10 @@ trait NetworkAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Network', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -154,16 +154,16 @@ trait NetworkAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (201 === $response->getStatusCode()) {
+                if (201 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\NetworksCreatePostResponse201', 'json');
                 }
-                if (403 === $response->getStatusCode()) {
+                if (403 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkCreateForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkCreateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkCreateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -199,16 +199,16 @@ trait NetworkAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (403 === $response->getStatusCode()) {
+                if (403 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkConnectForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkConnectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkConnectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -244,16 +244,16 @@ trait NetworkAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (403 === $response->getStatusCode()) {
+                if (403 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkDisconnectForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkDisconnectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkDisconnectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -292,10 +292,10 @@ trait NetworkAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\NetworksPrunePostResponse200', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkPruneInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }

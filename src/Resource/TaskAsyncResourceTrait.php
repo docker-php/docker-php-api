@@ -41,10 +41,10 @@ trait TaskAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Task[]', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\TaskListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -78,13 +78,13 @@ trait TaskAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Task', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\TaskInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\TaskInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }

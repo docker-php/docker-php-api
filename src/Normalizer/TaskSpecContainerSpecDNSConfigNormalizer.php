@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,24 +35,24 @@ class TaskSpecContainerSpecDNSConfigNormalizer implements DenormalizerInterface,
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskSpecContainerSpecDNSConfig();
-        if (property_exists($data, 'Nameservers')) {
+        if (property_exists($data, 'Nameservers') && $data->{'Nameservers'} !== null) {
             $values = [];
             foreach ($data->{'Nameservers'} as $value) {
                 $values[] = $value;
             }
             $object->setNameservers($values);
         }
-        if (property_exists($data, 'Search')) {
+        if (property_exists($data, 'Search') && $data->{'Search'} !== null) {
             $values_1 = [];
             foreach ($data->{'Search'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setSearch($values_1);
         }
-        if (property_exists($data, 'Options')) {
+        if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
             $values_2 = [];
             foreach ($data->{'Options'} as $value_2) {
                 $values_2[] = $value_2;

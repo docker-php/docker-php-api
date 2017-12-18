@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class EventsGetResponse200ActorNormalizer implements DenormalizerInterface, Norm
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\EventsGetResponse200Actor();
-        if (property_exists($data, 'ID')) {
+        if (property_exists($data, 'ID') && $data->{'ID'} !== null) {
             $object->setID($data->{'ID'});
         }
-        if (property_exists($data, 'Attributes')) {
+        if (property_exists($data, 'Attributes') && $data->{'Attributes'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Attributes'} as $key => $value) {
                 $values[$key] = $value;

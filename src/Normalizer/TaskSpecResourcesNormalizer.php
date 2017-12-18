@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class TaskSpecResourcesNormalizer implements DenormalizerInterface, NormalizerIn
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskSpecResources();
-        if (property_exists($data, 'Limits')) {
+        if (property_exists($data, 'Limits') && $data->{'Limits'} !== null) {
             $object->setLimits($this->denormalizer->denormalize($data->{'Limits'}, 'Docker\\API\\Model\\TaskSpecResourcesLimits', 'json', $context));
         }
-        if (property_exists($data, 'Reservation')) {
+        if (property_exists($data, 'Reservation') && $data->{'Reservation'} !== null) {
             $object->setReservation($this->denormalizer->denormalize($data->{'Reservation'}, 'Docker\\API\\Model\\TaskSpecResourcesReservation', 'json', $context));
         }
 

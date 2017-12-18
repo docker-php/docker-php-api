@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,60 +35,60 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskSpecContainerSpec();
-        if (property_exists($data, 'Image')) {
+        if (property_exists($data, 'Image') && $data->{'Image'} !== null) {
             $object->setImage($data->{'Image'});
         }
-        if (property_exists($data, 'Command')) {
+        if (property_exists($data, 'Command') && $data->{'Command'} !== null) {
             $values = [];
             foreach ($data->{'Command'} as $value) {
                 $values[] = $value;
             }
             $object->setCommand($values);
         }
-        if (property_exists($data, 'Args')) {
+        if (property_exists($data, 'Args') && $data->{'Args'} !== null) {
             $values_1 = [];
             foreach ($data->{'Args'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setArgs($values_1);
         }
-        if (property_exists($data, 'Env')) {
+        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
             $values_2 = [];
             foreach ($data->{'Env'} as $value_2) {
                 $values_2[] = $value_2;
             }
             $object->setEnv($values_2);
         }
-        if (property_exists($data, 'Dir')) {
+        if (property_exists($data, 'Dir') && $data->{'Dir'} !== null) {
             $object->setDir($data->{'Dir'});
         }
-        if (property_exists($data, 'User')) {
+        if (property_exists($data, 'User') && $data->{'User'} !== null) {
             $object->setUser($data->{'User'});
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_3 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key => $value_3) {
                 $values_3[$key] = $value_3;
             }
             $object->setLabels($values_3);
         }
-        if (property_exists($data, 'TTY')) {
+        if (property_exists($data, 'TTY') && $data->{'TTY'} !== null) {
             $object->setTTY($data->{'TTY'});
         }
-        if (property_exists($data, 'Mounts')) {
+        if (property_exists($data, 'Mounts') && $data->{'Mounts'} !== null) {
             $values_4 = [];
             foreach ($data->{'Mounts'} as $value_4) {
                 $values_4[] = $this->denormalizer->denormalize($value_4, 'Docker\\API\\Model\\Mount', 'json', $context);
             }
             $object->setMounts($values_4);
         }
-        if (property_exists($data, 'StopGracePeriod')) {
+        if (property_exists($data, 'StopGracePeriod') && $data->{'StopGracePeriod'} !== null) {
             $object->setStopGracePeriod($data->{'StopGracePeriod'});
         }
-        if (property_exists($data, 'DNSConfig')) {
+        if (property_exists($data, 'DNSConfig') && $data->{'DNSConfig'} !== null) {
             $object->setDNSConfig($this->denormalizer->denormalize($data->{'DNSConfig'}, 'Docker\\API\\Model\\TaskSpecContainerSpecDNSConfig', 'json', $context));
         }
 

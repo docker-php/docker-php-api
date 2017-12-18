@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,42 +35,42 @@ class ContainersIdExecPostBodyNormalizer implements DenormalizerInterface, Norma
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ContainersIdExecPostBody();
-        if (property_exists($data, 'AttachStdin')) {
+        if (property_exists($data, 'AttachStdin') && $data->{'AttachStdin'} !== null) {
             $object->setAttachStdin($data->{'AttachStdin'});
         }
-        if (property_exists($data, 'AttachStdout')) {
+        if (property_exists($data, 'AttachStdout') && $data->{'AttachStdout'} !== null) {
             $object->setAttachStdout($data->{'AttachStdout'});
         }
-        if (property_exists($data, 'AttachStderr')) {
+        if (property_exists($data, 'AttachStderr') && $data->{'AttachStderr'} !== null) {
             $object->setAttachStderr($data->{'AttachStderr'});
         }
-        if (property_exists($data, 'DetachKeys')) {
+        if (property_exists($data, 'DetachKeys') && $data->{'DetachKeys'} !== null) {
             $object->setDetachKeys($data->{'DetachKeys'});
         }
-        if (property_exists($data, 'Tty')) {
+        if (property_exists($data, 'Tty') && $data->{'Tty'} !== null) {
             $object->setTty($data->{'Tty'});
         }
-        if (property_exists($data, 'Env')) {
+        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
             $values = [];
             foreach ($data->{'Env'} as $value) {
                 $values[] = $value;
             }
             $object->setEnv($values);
         }
-        if (property_exists($data, 'Cmd')) {
+        if (property_exists($data, 'Cmd') && $data->{'Cmd'} !== null) {
             $values_1 = [];
             foreach ($data->{'Cmd'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setCmd($values_1);
         }
-        if (property_exists($data, 'Privileged')) {
+        if (property_exists($data, 'Privileged') && $data->{'Privileged'} !== null) {
             $object->setPrivileged($data->{'Privileged'});
         }
-        if (property_exists($data, 'User')) {
+        if (property_exists($data, 'User') && $data->{'User'} !== null) {
             $object->setUser($data->{'User'});
         }
 

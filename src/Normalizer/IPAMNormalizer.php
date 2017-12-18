@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class IPAMNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\IPAM();
-        if (property_exists($data, 'Driver')) {
+        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
             $object->setDriver($data->{'Driver'});
         }
-        if (property_exists($data, 'Config')) {
+        if (property_exists($data, 'Config') && $data->{'Config'} !== null) {
             $values = [];
             foreach ($data->{'Config'} as $value) {
                 $values_1 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
@@ -53,7 +52,7 @@ class IPAMNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
             }
             $object->setConfig($values);
         }
-        if (property_exists($data, 'Options')) {
+        if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
             $values_2 = [];
             foreach ($data->{'Options'} as $value_2) {
                 $values_3 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);

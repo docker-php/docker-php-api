@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,22 +35,22 @@ class ProcessConfigNormalizer implements DenormalizerInterface, NormalizerInterf
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ProcessConfig();
-        if (property_exists($data, 'privileged')) {
+        if (property_exists($data, 'privileged') && $data->{'privileged'} !== null) {
             $object->setPrivileged($data->{'privileged'});
         }
-        if (property_exists($data, 'user')) {
+        if (property_exists($data, 'user') && $data->{'user'} !== null) {
             $object->setUser($data->{'user'});
         }
-        if (property_exists($data, 'tty')) {
+        if (property_exists($data, 'tty') && $data->{'tty'} !== null) {
             $object->setTty($data->{'tty'});
         }
-        if (property_exists($data, 'entrypoint')) {
+        if (property_exists($data, 'entrypoint') && $data->{'entrypoint'} !== null) {
             $object->setEntrypoint($data->{'entrypoint'});
         }
-        if (property_exists($data, 'arguments')) {
+        if (property_exists($data, 'arguments') && $data->{'arguments'} !== null) {
             $values = [];
             foreach ($data->{'arguments'} as $value) {
                 $values[] = $value;

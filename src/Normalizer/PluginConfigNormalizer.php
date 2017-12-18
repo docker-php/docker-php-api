@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,58 +35,58 @@ class PluginConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\PluginConfig();
-        if (property_exists($data, 'Description')) {
+        if (property_exists($data, 'Description') && $data->{'Description'} !== null) {
             $object->setDescription($data->{'Description'});
         }
-        if (property_exists($data, 'Documentation')) {
+        if (property_exists($data, 'Documentation') && $data->{'Documentation'} !== null) {
             $object->setDocumentation($data->{'Documentation'});
         }
-        if (property_exists($data, 'Interface')) {
+        if (property_exists($data, 'Interface') && $data->{'Interface'} !== null) {
             $object->setInterface($this->denormalizer->denormalize($data->{'Interface'}, 'Docker\\API\\Model\\PluginConfigInterface', 'json', $context));
         }
-        if (property_exists($data, 'Entrypoint')) {
+        if (property_exists($data, 'Entrypoint') && $data->{'Entrypoint'} !== null) {
             $values = [];
             foreach ($data->{'Entrypoint'} as $value) {
                 $values[] = $value;
             }
             $object->setEntrypoint($values);
         }
-        if (property_exists($data, 'WorkDir')) {
+        if (property_exists($data, 'WorkDir') && $data->{'WorkDir'} !== null) {
             $object->setWorkDir($data->{'WorkDir'});
         }
-        if (property_exists($data, 'User')) {
+        if (property_exists($data, 'User') && $data->{'User'} !== null) {
             $object->setUser($this->denormalizer->denormalize($data->{'User'}, 'Docker\\API\\Model\\PluginConfigUser', 'json', $context));
         }
-        if (property_exists($data, 'Network')) {
+        if (property_exists($data, 'Network') && $data->{'Network'} !== null) {
             $object->setNetwork($this->denormalizer->denormalize($data->{'Network'}, 'Docker\\API\\Model\\PluginConfigNetwork', 'json', $context));
         }
-        if (property_exists($data, 'Linux')) {
+        if (property_exists($data, 'Linux') && $data->{'Linux'} !== null) {
             $object->setLinux($this->denormalizer->denormalize($data->{'Linux'}, 'Docker\\API\\Model\\PluginConfigLinux', 'json', $context));
         }
-        if (property_exists($data, 'PropagatedMount')) {
+        if (property_exists($data, 'PropagatedMount') && $data->{'PropagatedMount'} !== null) {
             $object->setPropagatedMount($data->{'PropagatedMount'});
         }
-        if (property_exists($data, 'Mounts')) {
+        if (property_exists($data, 'Mounts') && $data->{'Mounts'} !== null) {
             $values_1 = [];
             foreach ($data->{'Mounts'} as $value_1) {
                 $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\PluginMount', 'json', $context);
             }
             $object->setMounts($values_1);
         }
-        if (property_exists($data, 'Env')) {
+        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
             $values_2 = [];
             foreach ($data->{'Env'} as $value_2) {
                 $values_2[] = $this->denormalizer->denormalize($value_2, 'Docker\\API\\Model\\PluginEnv', 'json', $context);
             }
             $object->setEnv($values_2);
         }
-        if (property_exists($data, 'Args')) {
+        if (property_exists($data, 'Args') && $data->{'Args'} !== null) {
             $object->setArgs($this->denormalizer->denormalize($data->{'Args'}, 'Docker\\API\\Model\\PluginConfigArgs', 'json', $context));
         }
-        if (property_exists($data, 'rootfs')) {
+        if (property_exists($data, 'rootfs') && $data->{'rootfs'} !== null) {
             $object->setRootfs($this->denormalizer->denormalize($data->{'rootfs'}, 'Docker\\API\\Model\\PluginConfigRootfs', 'json', $context));
         }
 

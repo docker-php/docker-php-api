@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,22 +35,22 @@ class ServiceSpecUpdateConfigNormalizer implements DenormalizerInterface, Normal
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ServiceSpecUpdateConfig();
-        if (property_exists($data, 'Parallelism')) {
+        if (property_exists($data, 'Parallelism') && $data->{'Parallelism'} !== null) {
             $object->setParallelism($data->{'Parallelism'});
         }
-        if (property_exists($data, 'Delay')) {
+        if (property_exists($data, 'Delay') && $data->{'Delay'} !== null) {
             $object->setDelay($data->{'Delay'});
         }
-        if (property_exists($data, 'FailureAction')) {
+        if (property_exists($data, 'FailureAction') && $data->{'FailureAction'} !== null) {
             $object->setFailureAction($data->{'FailureAction'});
         }
-        if (property_exists($data, 'Monitor')) {
+        if (property_exists($data, 'Monitor') && $data->{'Monitor'} !== null) {
             $object->setMonitor($data->{'Monitor'});
         }
-        if (property_exists($data, 'MaxFailureRatio')) {
+        if (property_exists($data, 'MaxFailureRatio') && $data->{'MaxFailureRatio'} !== null) {
             $object->setMaxFailureRatio($data->{'MaxFailureRatio'});
         }
 

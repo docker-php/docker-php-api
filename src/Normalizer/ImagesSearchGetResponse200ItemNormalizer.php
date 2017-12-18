@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,22 +35,22 @@ class ImagesSearchGetResponse200ItemNormalizer implements DenormalizerInterface,
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ImagesSearchGetResponse200Item();
-        if (property_exists($data, 'description')) {
+        if (property_exists($data, 'description') && $data->{'description'} !== null) {
             $object->setDescription($data->{'description'});
         }
-        if (property_exists($data, 'is_official')) {
+        if (property_exists($data, 'is_official') && $data->{'is_official'} !== null) {
             $object->setIsOfficial($data->{'is_official'});
         }
-        if (property_exists($data, 'is_automated')) {
+        if (property_exists($data, 'is_automated') && $data->{'is_automated'} !== null) {
             $object->setIsAutomated($data->{'is_automated'});
         }
-        if (property_exists($data, 'name')) {
+        if (property_exists($data, 'name') && $data->{'name'} !== null) {
             $object->setName($data->{'name'});
         }
-        if (property_exists($data, 'star_count')) {
+        if (property_exists($data, 'star_count') && $data->{'star_count'} !== null) {
             $object->setStarCount($data->{'star_count'});
         }
 

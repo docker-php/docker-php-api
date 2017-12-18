@@ -48,13 +48,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainerSummaryItem[]', 'json');
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerListBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -95,22 +95,22 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (201 === $response->getStatusCode()) {
+                if (201 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersCreatePostResponse201', 'json');
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerCreateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerCreateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (406 === $response->getStatusCode()) {
+                if (406 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerCreateNotAcceptableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (409 === $response->getStatusCode()) {
+                if (409 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerCreateConflictException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerCreateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -151,13 +151,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdJsonGetResponse200', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -198,13 +198,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdTopGetResponse200', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerTopNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerTopInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -259,16 +259,16 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (101 === $response->getStatusCode()) {
+                if (101 === $response->getStatus()) {
                     return null;
                 }
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerLogsNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerLogsInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -309,13 +309,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdChangesGetResponse200Item[]', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerChangesNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerChangesInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -351,13 +351,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerExportNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerExportInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -401,13 +401,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerStatsNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerStatsInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -450,13 +450,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerResizeNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerResizeInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -495,16 +495,16 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (304 === $response->getStatusCode()) {
+                if (304 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerStartNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerStartInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -543,16 +543,16 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (304 === $response->getStatusCode()) {
+                if (304 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerStopNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerStopInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -591,13 +591,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerRestartNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerRestartInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -638,13 +638,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerKillNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerKillInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -681,13 +681,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdUpdatePostResponse200', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerUpdateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerUpdateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -727,16 +727,16 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerRenameNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (409 === $response->getStatusCode()) {
+                if (409 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerRenameConflictException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerRenameInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -775,13 +775,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerPauseNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerPauseInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -817,13 +817,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerUnpauseNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerUnpauseInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -951,19 +951,19 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (101 === $response->getStatusCode()) {
+                if (101 === $response->getStatus()) {
                     return null;
                 }
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerAttachBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerAttachNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerAttachInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -1013,19 +1013,19 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (101 === $response->getStatusCode()) {
+                if (101 === $response->getStatus()) {
                     return null;
                 }
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerAttachWebsocketBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerAttachWebsocketNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerAttachWebsocketInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -1061,13 +1061,13 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdWaitPostResponse200', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerWaitNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerWaitInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -1109,16 +1109,16 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerDeleteBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerDeleteNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -1160,16 +1160,16 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerGetArchiveBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdArchiveGetResponse400', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerGetArchiveNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerGetArchiveInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -1211,16 +1211,16 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerArchiveHeadBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdArchiveHeadResponse400', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerArchiveHeadNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerArchiveHeadInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -1266,19 +1266,19 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerPutArchiveBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (403 === $response->getStatusCode()) {
+                if (403 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerPutArchiveForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerPutArchiveNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerPutArchiveInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -1317,10 +1317,10 @@ trait ContainerAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersPrunePostResponse200', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerPruneInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }

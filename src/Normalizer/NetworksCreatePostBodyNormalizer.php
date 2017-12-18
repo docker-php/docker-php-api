@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,35 +35,35 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\NetworksCreatePostBody();
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'CheckDuplicate')) {
+        if (property_exists($data, 'CheckDuplicate') && $data->{'CheckDuplicate'} !== null) {
             $object->setCheckDuplicate($data->{'CheckDuplicate'});
         }
-        if (property_exists($data, 'Driver')) {
+        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
             $object->setDriver($data->{'Driver'});
         }
-        if (property_exists($data, 'Internal')) {
+        if (property_exists($data, 'Internal') && $data->{'Internal'} !== null) {
             $object->setInternal($data->{'Internal'});
         }
-        if (property_exists($data, 'IPAM')) {
+        if (property_exists($data, 'IPAM') && $data->{'IPAM'} !== null) {
             $object->setIPAM($this->denormalizer->denormalize($data->{'IPAM'}, 'Docker\\API\\Model\\IPAM', 'json', $context));
         }
-        if (property_exists($data, 'EnableIPv6')) {
+        if (property_exists($data, 'EnableIPv6') && $data->{'EnableIPv6'} !== null) {
             $object->setEnableIPv6($data->{'EnableIPv6'});
         }
-        if (property_exists($data, 'Options')) {
+        if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Options'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setOptions($values);
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_1 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key_1 => $value_1) {
                 $values_1[$key_1] = $value_1;

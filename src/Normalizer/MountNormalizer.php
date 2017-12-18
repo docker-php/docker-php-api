@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,28 +35,28 @@ class MountNormalizer implements DenormalizerInterface, NormalizerInterface, Den
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\Mount();
-        if (property_exists($data, 'Target')) {
+        if (property_exists($data, 'Target') && $data->{'Target'} !== null) {
             $object->setTarget($data->{'Target'});
         }
-        if (property_exists($data, 'Source')) {
+        if (property_exists($data, 'Source') && $data->{'Source'} !== null) {
             $object->setSource($data->{'Source'});
         }
-        if (property_exists($data, 'Type')) {
+        if (property_exists($data, 'Type') && $data->{'Type'} !== null) {
             $object->setType($data->{'Type'});
         }
-        if (property_exists($data, 'ReadOnly')) {
+        if (property_exists($data, 'ReadOnly') && $data->{'ReadOnly'} !== null) {
             $object->setReadOnly($data->{'ReadOnly'});
         }
-        if (property_exists($data, 'BindOptions')) {
+        if (property_exists($data, 'BindOptions') && $data->{'BindOptions'} !== null) {
             $object->setBindOptions($this->denormalizer->denormalize($data->{'BindOptions'}, 'Docker\\API\\Model\\MountBindOptions', 'json', $context));
         }
-        if (property_exists($data, 'VolumeOptions')) {
+        if (property_exists($data, 'VolumeOptions') && $data->{'VolumeOptions'} !== null) {
             $object->setVolumeOptions($this->denormalizer->denormalize($data->{'VolumeOptions'}, 'Docker\\API\\Model\\MountVolumeOptions', 'json', $context));
         }
-        if (property_exists($data, 'TmpfsOptions')) {
+        if (property_exists($data, 'TmpfsOptions') && $data->{'TmpfsOptions'} !== null) {
             $object->setTmpfsOptions($this->denormalizer->denormalize($data->{'TmpfsOptions'}, 'Docker\\API\\Model\\MountTmpfsOptions', 'json', $context));
         }
 

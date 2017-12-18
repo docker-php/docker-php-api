@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class AuthPostResponse200Normalizer implements DenormalizerInterface, Normalizer
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\AuthPostResponse200();
-        if (property_exists($data, 'Status')) {
+        if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
             $object->setStatus($data->{'Status'});
         }
-        if (property_exists($data, 'IdentityToken')) {
+        if (property_exists($data, 'IdentityToken') && $data->{'IdentityToken'} !== null) {
             $object->setIdentityToken($data->{'IdentityToken'});
         }
 

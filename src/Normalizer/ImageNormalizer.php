@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,66 +35,66 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\Image();
-        if (property_exists($data, 'Id')) {
+        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
             $object->setId($data->{'Id'});
         }
-        if (property_exists($data, 'RepoTags')) {
+        if (property_exists($data, 'RepoTags') && $data->{'RepoTags'} !== null) {
             $values = [];
             foreach ($data->{'RepoTags'} as $value) {
                 $values[] = $value;
             }
             $object->setRepoTags($values);
         }
-        if (property_exists($data, 'RepoDigests')) {
+        if (property_exists($data, 'RepoDigests') && $data->{'RepoDigests'} !== null) {
             $values_1 = [];
             foreach ($data->{'RepoDigests'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setRepoDigests($values_1);
         }
-        if (property_exists($data, 'Parent')) {
+        if (property_exists($data, 'Parent') && $data->{'Parent'} !== null) {
             $object->setParent($data->{'Parent'});
         }
-        if (property_exists($data, 'Comment')) {
+        if (property_exists($data, 'Comment') && $data->{'Comment'} !== null) {
             $object->setComment($data->{'Comment'});
         }
-        if (property_exists($data, 'Created')) {
+        if (property_exists($data, 'Created') && $data->{'Created'} !== null) {
             $object->setCreated($data->{'Created'});
         }
-        if (property_exists($data, 'Container')) {
+        if (property_exists($data, 'Container') && $data->{'Container'} !== null) {
             $object->setContainer($data->{'Container'});
         }
-        if (property_exists($data, 'ContainerConfig')) {
+        if (property_exists($data, 'ContainerConfig') && $data->{'ContainerConfig'} !== null) {
             $object->setContainerConfig($this->denormalizer->denormalize($data->{'ContainerConfig'}, 'Docker\\API\\Model\\Config', 'json', $context));
         }
-        if (property_exists($data, 'DockerVersion')) {
+        if (property_exists($data, 'DockerVersion') && $data->{'DockerVersion'} !== null) {
             $object->setDockerVersion($data->{'DockerVersion'});
         }
-        if (property_exists($data, 'Author')) {
+        if (property_exists($data, 'Author') && $data->{'Author'} !== null) {
             $object->setAuthor($data->{'Author'});
         }
-        if (property_exists($data, 'Config')) {
+        if (property_exists($data, 'Config') && $data->{'Config'} !== null) {
             $object->setConfig($this->denormalizer->denormalize($data->{'Config'}, 'Docker\\API\\Model\\Config', 'json', $context));
         }
-        if (property_exists($data, 'Architecture')) {
+        if (property_exists($data, 'Architecture') && $data->{'Architecture'} !== null) {
             $object->setArchitecture($data->{'Architecture'});
         }
-        if (property_exists($data, 'Os')) {
+        if (property_exists($data, 'Os') && $data->{'Os'} !== null) {
             $object->setOs($data->{'Os'});
         }
-        if (property_exists($data, 'Size')) {
+        if (property_exists($data, 'Size') && $data->{'Size'} !== null) {
             $object->setSize($data->{'Size'});
         }
-        if (property_exists($data, 'VirtualSize')) {
+        if (property_exists($data, 'VirtualSize') && $data->{'VirtualSize'} !== null) {
             $object->setVirtualSize($data->{'VirtualSize'});
         }
-        if (property_exists($data, 'GraphDriver')) {
+        if (property_exists($data, 'GraphDriver') && $data->{'GraphDriver'} !== null) {
             $object->setGraphDriver($this->denormalizer->denormalize($data->{'GraphDriver'}, 'Docker\\API\\Model\\GraphDriver', 'json', $context));
         }
-        if (property_exists($data, 'RootFS')) {
+        if (property_exists($data, 'RootFS') && $data->{'RootFS'} !== null) {
             $object->setRootFS($this->denormalizer->denormalize($data->{'RootFS'}, 'Docker\\API\\Model\\ImageRootFS', 'json', $context));
         }
 

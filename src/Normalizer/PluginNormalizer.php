@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,22 +35,22 @@ class PluginNormalizer implements DenormalizerInterface, NormalizerInterface, De
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\Plugin();
-        if (property_exists($data, 'Id')) {
+        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
             $object->setId($data->{'Id'});
         }
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Enabled')) {
+        if (property_exists($data, 'Enabled') && $data->{'Enabled'} !== null) {
             $object->setEnabled($data->{'Enabled'});
         }
-        if (property_exists($data, 'Settings')) {
+        if (property_exists($data, 'Settings') && $data->{'Settings'} !== null) {
             $object->setSettings($this->denormalizer->denormalize($data->{'Settings'}, 'Docker\\API\\Model\\PluginSettings', 'json', $context));
         }
-        if (property_exists($data, 'Config')) {
+        if (property_exists($data, 'Config') && $data->{'Config'} !== null) {
             $object->setConfig($this->denormalizer->denormalize($data->{'Config'}, 'Docker\\API\\Model\\PluginConfig', 'json', $context));
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,28 +35,28 @@ class BuildInfoNormalizer implements DenormalizerInterface, NormalizerInterface,
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\BuildInfo();
-        if (property_exists($data, 'id')) {
+        if (property_exists($data, 'id') && $data->{'id'} !== null) {
             $object->setId($data->{'id'});
         }
-        if (property_exists($data, 'stream')) {
+        if (property_exists($data, 'stream') && $data->{'stream'} !== null) {
             $object->setStream($data->{'stream'});
         }
-        if (property_exists($data, 'error')) {
+        if (property_exists($data, 'error') && $data->{'error'} !== null) {
             $object->setError($data->{'error'});
         }
-        if (property_exists($data, 'errorDetail')) {
+        if (property_exists($data, 'errorDetail') && $data->{'errorDetail'} !== null) {
             $object->setErrorDetail($this->denormalizer->denormalize($data->{'errorDetail'}, 'Docker\\API\\Model\\ErrorDetail', 'json', $context));
         }
-        if (property_exists($data, 'status')) {
+        if (property_exists($data, 'status') && $data->{'status'} !== null) {
             $object->setStatus($data->{'status'});
         }
-        if (property_exists($data, 'progress')) {
+        if (property_exists($data, 'progress') && $data->{'progress'} !== null) {
             $object->setProgress($data->{'progress'});
         }
-        if (property_exists($data, 'progressDetail')) {
+        if (property_exists($data, 'progressDetail') && $data->{'progressDetail'} !== null) {
             $object->setProgressDetail($this->denormalizer->denormalize($data->{'progressDetail'}, 'Docker\\API\\Model\\ProgressDetail', 'json', $context));
         }
 

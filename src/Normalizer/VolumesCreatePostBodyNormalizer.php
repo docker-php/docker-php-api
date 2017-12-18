@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,23 +35,23 @@ class VolumesCreatePostBodyNormalizer implements DenormalizerInterface, Normaliz
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\VolumesCreatePostBody();
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Driver')) {
+        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
             $object->setDriver($data->{'Driver'});
         }
-        if (property_exists($data, 'DriverOpts')) {
+        if (property_exists($data, 'DriverOpts') && $data->{'DriverOpts'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'DriverOpts'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setDriverOpts($values);
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_1 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key_1 => $value_1) {
                 $values_1[$key_1] = $value_1;

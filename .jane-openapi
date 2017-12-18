@@ -5,4 +5,5 @@ return [
     'namespace' => 'Docker\\API',
     'openapi-file' => __DIR__ . '/docker-swagger.yaml',
     'async' => true,
+    'strict' => false,
 ];

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class SwarmGetResponse200JoinTokensNormalizer implements DenormalizerInterface, 
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\SwarmGetResponse200JoinTokens();
-        if (property_exists($data, 'Worker')) {
+        if (property_exists($data, 'Worker') && $data->{'Worker'} !== null) {
             $object->setWorker($data->{'Worker'});
         }
-        if (property_exists($data, 'Manager')) {
+        if (property_exists($data, 'Manager') && $data->{'Manager'} !== null) {
             $object->setManager($data->{'Manager'});
         }
 

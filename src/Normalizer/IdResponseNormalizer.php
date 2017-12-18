@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,10 +35,10 @@ class IdResponseNormalizer implements DenormalizerInterface, NormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\IdResponse();
-        if (property_exists($data, 'Id')) {
+        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
             $object->setId($data->{'Id'});
         }
 

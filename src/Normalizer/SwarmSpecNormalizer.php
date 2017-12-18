@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,35 +35,35 @@ class SwarmSpecNormalizer implements DenormalizerInterface, NormalizerInterface,
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\SwarmSpec();
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setLabels($values);
         }
-        if (property_exists($data, 'Orchestration')) {
+        if (property_exists($data, 'Orchestration') && $data->{'Orchestration'} !== null) {
             $object->setOrchestration($this->denormalizer->denormalize($data->{'Orchestration'}, 'Docker\\API\\Model\\SwarmSpecOrchestration', 'json', $context));
         }
-        if (property_exists($data, 'Raft')) {
+        if (property_exists($data, 'Raft') && $data->{'Raft'} !== null) {
             $object->setRaft($this->denormalizer->denormalize($data->{'Raft'}, 'Docker\\API\\Model\\SwarmSpecRaft', 'json', $context));
         }
-        if (property_exists($data, 'Dispatcher')) {
+        if (property_exists($data, 'Dispatcher') && $data->{'Dispatcher'} !== null) {
             $object->setDispatcher($this->denormalizer->denormalize($data->{'Dispatcher'}, 'Docker\\API\\Model\\SwarmSpecDispatcher', 'json', $context));
         }
-        if (property_exists($data, 'CAConfig')) {
+        if (property_exists($data, 'CAConfig') && $data->{'CAConfig'} !== null) {
             $object->setCAConfig($this->denormalizer->denormalize($data->{'CAConfig'}, 'Docker\\API\\Model\\SwarmSpecCAConfig', 'json', $context));
         }
-        if (property_exists($data, 'EncryptionConfig')) {
+        if (property_exists($data, 'EncryptionConfig') && $data->{'EncryptionConfig'} !== null) {
             $object->setEncryptionConfig($this->denormalizer->denormalize($data->{'EncryptionConfig'}, 'Docker\\API\\Model\\SwarmSpecEncryptionConfig', 'json', $context));
         }
-        if (property_exists($data, 'TaskDefaults')) {
+        if (property_exists($data, 'TaskDefaults') && $data->{'TaskDefaults'} !== null) {
             $object->setTaskDefaults($this->denormalizer->denormalize($data->{'TaskDefaults'}, 'Docker\\API\\Model\\SwarmSpecTaskDefaults', 'json', $context));
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class NodeDescriptionNormalizer implements DenormalizerInterface, NormalizerInte
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\NodeDescription();
-        if (property_exists($data, 'Hostname')) {
+        if (property_exists($data, 'Hostname') && $data->{'Hostname'} !== null) {
             $object->setHostname($data->{'Hostname'});
         }
-        if (property_exists($data, 'Platform')) {
+        if (property_exists($data, 'Platform') && $data->{'Platform'} !== null) {
             $object->setPlatform($this->denormalizer->denormalize($data->{'Platform'}, 'Docker\\API\\Model\\NodeDescriptionPlatform', 'json', $context));
         }
-        if (property_exists($data, 'Resources')) {
+        if (property_exists($data, 'Resources') && $data->{'Resources'} !== null) {
             $object->setResources($this->denormalizer->denormalize($data->{'Resources'}, 'Docker\\API\\Model\\NodeDescriptionResources', 'json', $context));
         }
-        if (property_exists($data, 'Engine')) {
+        if (property_exists($data, 'Engine') && $data->{'Engine'} !== null) {
             $object->setEngine($this->denormalizer->denormalize($data->{'Engine'}, 'Docker\\API\\Model\\NodeDescriptionEngine', 'json', $context));
         }
 

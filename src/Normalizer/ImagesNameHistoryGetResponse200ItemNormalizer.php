@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,29 +35,29 @@ class ImagesNameHistoryGetResponse200ItemNormalizer implements DenormalizerInter
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ImagesNameHistoryGetResponse200Item();
-        if (property_exists($data, 'Id')) {
+        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
             $object->setId($data->{'Id'});
         }
-        if (property_exists($data, 'Created')) {
+        if (property_exists($data, 'Created') && $data->{'Created'} !== null) {
             $object->setCreated($data->{'Created'});
         }
-        if (property_exists($data, 'CreatedBy')) {
+        if (property_exists($data, 'CreatedBy') && $data->{'CreatedBy'} !== null) {
             $object->setCreatedBy($data->{'CreatedBy'});
         }
-        if (property_exists($data, 'Tags')) {
+        if (property_exists($data, 'Tags') && $data->{'Tags'} !== null) {
             $values = [];
             foreach ($data->{'Tags'} as $value) {
                 $values[] = $value;
             }
             $object->setTags($values);
         }
-        if (property_exists($data, 'Size')) {
+        if (property_exists($data, 'Size') && $data->{'Size'} !== null) {
             $object->setSize($data->{'Size'});
         }
-        if (property_exists($data, 'Comment')) {
+        if (property_exists($data, 'Comment') && $data->{'Comment'} !== null) {
             $object->setComment($data->{'Comment'});
         }
 

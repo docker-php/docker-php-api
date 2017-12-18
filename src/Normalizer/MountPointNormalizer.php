@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,31 +35,31 @@ class MountPointNormalizer implements DenormalizerInterface, NormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\MountPoint();
-        if (property_exists($data, 'Type')) {
+        if (property_exists($data, 'Type') && $data->{'Type'} !== null) {
             $object->setType($data->{'Type'});
         }
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Source')) {
+        if (property_exists($data, 'Source') && $data->{'Source'} !== null) {
             $object->setSource($data->{'Source'});
         }
-        if (property_exists($data, 'Destination')) {
+        if (property_exists($data, 'Destination') && $data->{'Destination'} !== null) {
             $object->setDestination($data->{'Destination'});
         }
-        if (property_exists($data, 'Driver')) {
+        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
             $object->setDriver($data->{'Driver'});
         }
-        if (property_exists($data, 'Mode')) {
+        if (property_exists($data, 'Mode') && $data->{'Mode'} !== null) {
             $object->setMode($data->{'Mode'});
         }
-        if (property_exists($data, 'RW')) {
+        if (property_exists($data, 'RW') && $data->{'RW'} !== null) {
             $object->setRW($data->{'RW'});
         }
-        if (property_exists($data, 'Propagation')) {
+        if (property_exists($data, 'Propagation') && $data->{'Propagation'} !== null) {
             $object->setPropagation($data->{'Propagation'});
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,20 +35,20 @@ class NodeDescriptionEngineNormalizer implements DenormalizerInterface, Normaliz
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\NodeDescriptionEngine();
-        if (property_exists($data, 'EngineVersion')) {
+        if (property_exists($data, 'EngineVersion') && $data->{'EngineVersion'} !== null) {
             $object->setEngineVersion($data->{'EngineVersion'});
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setLabels($values);
         }
-        if (property_exists($data, 'Plugins')) {
+        if (property_exists($data, 'Plugins') && $data->{'Plugins'} !== null) {
             $values_1 = [];
             foreach ($data->{'Plugins'} as $value_1) {
                 $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\NodeDescriptionEnginePluginsItem', 'json', $context);

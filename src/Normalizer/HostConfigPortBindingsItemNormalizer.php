@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class HostConfigPortBindingsItemNormalizer implements DenormalizerInterface, Nor
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\HostConfigPortBindingsItem();
-        if (property_exists($data, 'HostIp')) {
+        if (property_exists($data, 'HostIp') && $data->{'HostIp'} !== null) {
             $object->setHostIp($data->{'HostIp'});
         }
-        if (property_exists($data, 'HostPort')) {
+        if (property_exists($data, 'HostPort') && $data->{'HostPort'} !== null) {
             $object->setHostPort($data->{'HostPort'});
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,49 +35,49 @@ class ImageSummaryNormalizer implements DenormalizerInterface, NormalizerInterfa
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ImageSummary();
-        if (property_exists($data, 'Id')) {
+        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
             $object->setId($data->{'Id'});
         }
-        if (property_exists($data, 'ParentId')) {
+        if (property_exists($data, 'ParentId') && $data->{'ParentId'} !== null) {
             $object->setParentId($data->{'ParentId'});
         }
-        if (property_exists($data, 'RepoTags')) {
+        if (property_exists($data, 'RepoTags') && $data->{'RepoTags'} !== null) {
             $values = [];
             foreach ($data->{'RepoTags'} as $value) {
                 $values[] = $value;
             }
             $object->setRepoTags($values);
         }
-        if (property_exists($data, 'RepoDigests')) {
+        if (property_exists($data, 'RepoDigests') && $data->{'RepoDigests'} !== null) {
             $values_1 = [];
             foreach ($data->{'RepoDigests'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setRepoDigests($values_1);
         }
-        if (property_exists($data, 'Created')) {
+        if (property_exists($data, 'Created') && $data->{'Created'} !== null) {
             $object->setCreated($data->{'Created'});
         }
-        if (property_exists($data, 'Size')) {
+        if (property_exists($data, 'Size') && $data->{'Size'} !== null) {
             $object->setSize($data->{'Size'});
         }
-        if (property_exists($data, 'SharedSize')) {
+        if (property_exists($data, 'SharedSize') && $data->{'SharedSize'} !== null) {
             $object->setSharedSize($data->{'SharedSize'});
         }
-        if (property_exists($data, 'VirtualSize')) {
+        if (property_exists($data, 'VirtualSize') && $data->{'VirtualSize'} !== null) {
             $object->setVirtualSize($data->{'VirtualSize'});
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_2 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key => $value_2) {
                 $values_2[$key] = $value_2;
             }
             $object->setLabels($values_2);
         }
-        if (property_exists($data, 'Containers')) {
+        if (property_exists($data, 'Containers') && $data->{'Containers'} !== null) {
             $object->setContainers($data->{'Containers'});
         }
 

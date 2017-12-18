@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,17 +35,17 @@ class ImagesPrunePostResponse200Normalizer implements DenormalizerInterface, Nor
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ImagesPrunePostResponse200();
-        if (property_exists($data, 'ImagesDeleted')) {
+        if (property_exists($data, 'ImagesDeleted') && $data->{'ImagesDeleted'} !== null) {
             $values = [];
             foreach ($data->{'ImagesDeleted'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\ImageDeleteResponse', 'json', $context);
             }
             $object->setImagesDeleted($values);
         }
-        if (property_exists($data, 'SpaceReclaimed')) {
+        if (property_exists($data, 'SpaceReclaimed') && $data->{'SpaceReclaimed'} !== null) {
             $object->setSpaceReclaimed($data->{'SpaceReclaimed'});
         }
 

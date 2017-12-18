@@ -38,10 +38,10 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Plugin[]', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -77,10 +77,10 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\PluginsPrivilegesGetResponse200Item[]', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\GetPluginPrivilegesInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -127,10 +127,10 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginPullInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -164,13 +164,13 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Plugin', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -209,13 +209,13 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Plugin', 'json');
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginDeleteNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -253,10 +253,10 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginEnableInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -289,10 +289,10 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginDisableInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -329,10 +329,10 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginCreateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -368,13 +368,13 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginPushNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginPushInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -409,13 +409,13 @@ trait PluginAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatusCode()) {
+                if (204 === $response->getStatus()) {
                     return null;
                 }
-                if (404 === $response->getStatusCode()) {
+                if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginSetNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginSetInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }

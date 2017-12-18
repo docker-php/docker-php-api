@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,10 +35,10 @@ class TaskSpecPlacementNormalizer implements DenormalizerInterface, NormalizerIn
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskSpecPlacement();
-        if (property_exists($data, 'Constraints')) {
+        if (property_exists($data, 'Constraints') && $data->{'Constraints'} !== null) {
             $values = [];
             foreach ($data->{'Constraints'} as $value) {
                 $values[] = $value;

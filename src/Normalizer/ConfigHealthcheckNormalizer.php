@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,23 +35,23 @@ class ConfigHealthcheckNormalizer implements DenormalizerInterface, NormalizerIn
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ConfigHealthcheck();
-        if (property_exists($data, 'Test')) {
+        if (property_exists($data, 'Test') && $data->{'Test'} !== null) {
             $values = [];
             foreach ($data->{'Test'} as $value) {
                 $values[] = $value;
             }
             $object->setTest($values);
         }
-        if (property_exists($data, 'Interval')) {
+        if (property_exists($data, 'Interval') && $data->{'Interval'} !== null) {
             $object->setInterval($data->{'Interval'});
         }
-        if (property_exists($data, 'Timeout')) {
+        if (property_exists($data, 'Timeout') && $data->{'Timeout'} !== null) {
             $object->setTimeout($data->{'Timeout'});
         }
-        if (property_exists($data, 'Retries')) {
+        if (property_exists($data, 'Retries') && $data->{'Retries'} !== null) {
             $object->setRetries($data->{'Retries'});
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,22 +35,22 @@ class EventsGetResponse200Normalizer implements DenormalizerInterface, Normalize
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\EventsGetResponse200();
-        if (property_exists($data, 'Type')) {
+        if (property_exists($data, 'Type') && $data->{'Type'} !== null) {
             $object->setType($data->{'Type'});
         }
-        if (property_exists($data, 'Action')) {
+        if (property_exists($data, 'Action') && $data->{'Action'} !== null) {
             $object->setAction($data->{'Action'});
         }
-        if (property_exists($data, 'Actor')) {
+        if (property_exists($data, 'Actor') && $data->{'Actor'} !== null) {
             $object->setActor($this->denormalizer->denormalize($data->{'Actor'}, 'Docker\\API\\Model\\EventsGetResponse200Actor', 'json', $context));
         }
-        if (property_exists($data, 'time')) {
+        if (property_exists($data, 'time') && $data->{'time'} !== null) {
             $object->setTime($data->{'time'});
         }
-        if (property_exists($data, 'timeNano')) {
+        if (property_exists($data, 'timeNano') && $data->{'timeNano'} !== null) {
             $object->setTimeNano($data->{'timeNano'});
         }
 

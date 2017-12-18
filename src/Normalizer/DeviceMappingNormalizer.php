@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,16 +35,16 @@ class DeviceMappingNormalizer implements DenormalizerInterface, NormalizerInterf
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\DeviceMapping();
-        if (property_exists($data, 'PathOnHost')) {
+        if (property_exists($data, 'PathOnHost') && $data->{'PathOnHost'} !== null) {
             $object->setPathOnHost($data->{'PathOnHost'});
         }
-        if (property_exists($data, 'PathInContainer')) {
+        if (property_exists($data, 'PathInContainer') && $data->{'PathInContainer'} !== null) {
             $object->setPathInContainer($data->{'PathInContainer'});
         }
-        if (property_exists($data, 'CgroupPermissions')) {
+        if (property_exists($data, 'CgroupPermissions') && $data->{'CgroupPermissions'} !== null) {
             $object->setCgroupPermissions($data->{'CgroupPermissions'});
         }
 

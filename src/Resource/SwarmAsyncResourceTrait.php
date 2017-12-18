@@ -36,10 +36,10 @@ trait SwarmAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SwarmGetResponse200', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -73,16 +73,16 @@ trait SwarmAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInitBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (406 === $response->getStatusCode()) {
+                if (406 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInitNotAcceptableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInitInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -116,16 +116,16 @@ trait SwarmAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmJoinBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmJoinInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (503 === $response->getStatusCode()) {
+                if (503 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmJoinServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -162,13 +162,13 @@ trait SwarmAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmLeaveInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (503 === $response->getStatusCode()) {
+                if (503 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmLeaveServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -213,16 +213,16 @@ trait SwarmAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (400 === $response->getStatusCode()) {
+                if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmUpdateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmUpdateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (503 === $response->getStatusCode()) {
+                if (503 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmUpdateServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -253,10 +253,10 @@ trait SwarmAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SwarmUnlockkeyGetResponse200', 'json');
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmUnlockkeyInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
@@ -288,10 +288,10 @@ trait SwarmAsyncResourceTrait
             $request = $request->withBody($body);
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatusCode()) {
+                if (200 === $response->getStatus()) {
                     return null;
                 }
-                if (500 === $response->getStatusCode()) {
+                if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmUnlockInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }

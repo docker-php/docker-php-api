@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,20 +35,20 @@ class PluginConfigLinuxNormalizer implements DenormalizerInterface, NormalizerIn
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\PluginConfigLinux();
-        if (property_exists($data, 'Capabilities')) {
+        if (property_exists($data, 'Capabilities') && $data->{'Capabilities'} !== null) {
             $values = [];
             foreach ($data->{'Capabilities'} as $value) {
                 $values[] = $value;
             }
             $object->setCapabilities($values);
         }
-        if (property_exists($data, 'AllowAllDevices')) {
+        if (property_exists($data, 'AllowAllDevices') && $data->{'AllowAllDevices'} !== null) {
             $object->setAllowAllDevices($data->{'AllowAllDevices'});
         }
-        if (property_exists($data, 'Devices')) {
+        if (property_exists($data, 'Devices') && $data->{'Devices'} !== null) {
             $values_1 = [];
             foreach ($data->{'Devices'} as $value_1) {
                 $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\PluginDevice', 'json', $context);

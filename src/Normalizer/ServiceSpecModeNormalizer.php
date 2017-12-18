@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class ServiceSpecModeNormalizer implements DenormalizerInterface, NormalizerInte
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ServiceSpecMode();
-        if (property_exists($data, 'Replicated')) {
+        if (property_exists($data, 'Replicated') && $data->{'Replicated'} !== null) {
             $object->setReplicated($this->denormalizer->denormalize($data->{'Replicated'}, 'Docker\\API\\Model\\ServiceSpecModeReplicated', 'json', $context));
         }
-        if (property_exists($data, 'Global')) {
+        if (property_exists($data, 'Global') && $data->{'Global'} !== null) {
             $object->setGlobal($data->{'Global'});
         }
 

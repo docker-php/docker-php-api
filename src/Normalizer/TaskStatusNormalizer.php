@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,22 +35,22 @@ class TaskStatusNormalizer implements DenormalizerInterface, NormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskStatus();
-        if (property_exists($data, 'Timestamp')) {
+        if (property_exists($data, 'Timestamp') && $data->{'Timestamp'} !== null) {
             $object->setTimestamp($data->{'Timestamp'});
         }
-        if (property_exists($data, 'State')) {
+        if (property_exists($data, 'State') && $data->{'State'} !== null) {
             $object->setState($data->{'State'});
         }
-        if (property_exists($data, 'Message')) {
+        if (property_exists($data, 'Message') && $data->{'Message'} !== null) {
             $object->setMessage($data->{'Message'});
         }
-        if (property_exists($data, 'Err')) {
+        if (property_exists($data, 'Err') && $data->{'Err'} !== null) {
             $object->setErr($data->{'Err'});
         }
-        if (property_exists($data, 'ContainerStatus')) {
+        if (property_exists($data, 'ContainerStatus') && $data->{'ContainerStatus'} !== null) {
             $object->setContainerStatus($this->denormalizer->denormalize($data->{'ContainerStatus'}, 'Docker\\API\\Model\\TaskStatusContainerStatus', 'json', $context));
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,43 +35,43 @@ class VolumeNormalizer implements DenormalizerInterface, NormalizerInterface, De
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\Volume();
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Driver')) {
+        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
             $object->setDriver($data->{'Driver'});
         }
-        if (property_exists($data, 'Mountpoint')) {
+        if (property_exists($data, 'Mountpoint') && $data->{'Mountpoint'} !== null) {
             $object->setMountpoint($data->{'Mountpoint'});
         }
-        if (property_exists($data, 'Status')) {
+        if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Status'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setStatus($values);
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_1 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key_1 => $value_1) {
                 $values_1[$key_1] = $value_1;
             }
             $object->setLabels($values_1);
         }
-        if (property_exists($data, 'Scope')) {
+        if (property_exists($data, 'Scope') && $data->{'Scope'} !== null) {
             $object->setScope($data->{'Scope'});
         }
-        if (property_exists($data, 'Options')) {
+        if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
             $values_2 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Options'} as $key_2 => $value_2) {
                 $values_2[$key_2] = $value_2;
             }
             $object->setOptions($values_2);
         }
-        if (property_exists($data, 'UsageData')) {
+        if (property_exists($data, 'UsageData') && $data->{'UsageData'} !== null) {
             $object->setUsageData($this->denormalizer->denormalize($data->{'UsageData'}, 'Docker\\API\\Model\\VolumeUsageData', 'json', $context));
         }
 

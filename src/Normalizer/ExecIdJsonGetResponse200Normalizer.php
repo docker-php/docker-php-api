@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,34 +35,34 @@ class ExecIdJsonGetResponse200Normalizer implements DenormalizerInterface, Norma
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ExecIdJsonGetResponse200();
-        if (property_exists($data, 'ID')) {
+        if (property_exists($data, 'ID') && $data->{'ID'} !== null) {
             $object->setID($data->{'ID'});
         }
-        if (property_exists($data, 'Running')) {
+        if (property_exists($data, 'Running') && $data->{'Running'} !== null) {
             $object->setRunning($data->{'Running'});
         }
-        if (property_exists($data, 'ExitCode')) {
+        if (property_exists($data, 'ExitCode') && $data->{'ExitCode'} !== null) {
             $object->setExitCode($data->{'ExitCode'});
         }
-        if (property_exists($data, 'ProcessConfig')) {
+        if (property_exists($data, 'ProcessConfig') && $data->{'ProcessConfig'} !== null) {
             $object->setProcessConfig($this->denormalizer->denormalize($data->{'ProcessConfig'}, 'Docker\\API\\Model\\ProcessConfig', 'json', $context));
         }
-        if (property_exists($data, 'OpenStdin')) {
+        if (property_exists($data, 'OpenStdin') && $data->{'OpenStdin'} !== null) {
             $object->setOpenStdin($data->{'OpenStdin'});
         }
-        if (property_exists($data, 'OpenStderr')) {
+        if (property_exists($data, 'OpenStderr') && $data->{'OpenStderr'} !== null) {
             $object->setOpenStderr($data->{'OpenStderr'});
         }
-        if (property_exists($data, 'OpenStdout')) {
+        if (property_exists($data, 'OpenStdout') && $data->{'OpenStdout'} !== null) {
             $object->setOpenStdout($data->{'OpenStdout'});
         }
-        if (property_exists($data, 'ContainerID')) {
+        if (property_exists($data, 'ContainerID') && $data->{'ContainerID'} !== null) {
             $object->setContainerID($data->{'ContainerID'});
         }
-        if (property_exists($data, 'Pid')) {
+        if (property_exists($data, 'Pid') && $data->{'Pid'} !== null) {
             $object->setPid($data->{'Pid'});
         }
 

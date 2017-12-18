@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,22 +35,22 @@ class SwarmSpecRaftNormalizer implements DenormalizerInterface, NormalizerInterf
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\SwarmSpecRaft();
-        if (property_exists($data, 'SnapshotInterval')) {
+        if (property_exists($data, 'SnapshotInterval') && $data->{'SnapshotInterval'} !== null) {
             $object->setSnapshotInterval($data->{'SnapshotInterval'});
         }
-        if (property_exists($data, 'KeepOldSnapshots')) {
+        if (property_exists($data, 'KeepOldSnapshots') && $data->{'KeepOldSnapshots'} !== null) {
             $object->setKeepOldSnapshots($data->{'KeepOldSnapshots'});
         }
-        if (property_exists($data, 'LogEntriesForSlowFollowers')) {
+        if (property_exists($data, 'LogEntriesForSlowFollowers') && $data->{'LogEntriesForSlowFollowers'} !== null) {
             $object->setLogEntriesForSlowFollowers($data->{'LogEntriesForSlowFollowers'});
         }
-        if (property_exists($data, 'ElectionTick')) {
+        if (property_exists($data, 'ElectionTick') && $data->{'ElectionTick'} !== null) {
             $object->setElectionTick($data->{'ElectionTick'});
         }
-        if (property_exists($data, 'HeartbeatTick')) {
+        if (property_exists($data, 'HeartbeatTick') && $data->{'HeartbeatTick'} !== null) {
             $object->setHeartbeatTick($data->{'HeartbeatTick'});
         }
 

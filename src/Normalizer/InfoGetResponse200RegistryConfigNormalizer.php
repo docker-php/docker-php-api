@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,17 +35,17 @@ class InfoGetResponse200RegistryConfigNormalizer implements DenormalizerInterfac
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\InfoGetResponse200RegistryConfig();
-        if (property_exists($data, 'IndexConfigs')) {
+        if (property_exists($data, 'IndexConfigs') && $data->{'IndexConfigs'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'IndexConfigs'} as $key => $value) {
                 $values[$key] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\InfoGetResponse200RegistryConfigIndexConfigsItem', 'json', $context);
             }
             $object->setIndexConfigs($values);
         }
-        if (property_exists($data, 'InsecureRegistryCIDRs')) {
+        if (property_exists($data, 'InsecureRegistryCIDRs') && $data->{'InsecureRegistryCIDRs'} !== null) {
             $values_1 = [];
             foreach ($data->{'InsecureRegistryCIDRs'} as $value_1) {
                 $values_1[] = $value_1;

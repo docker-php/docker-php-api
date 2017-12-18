@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,17 +35,17 @@ class PluginConfigInterfaceNormalizer implements DenormalizerInterface, Normaliz
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\PluginConfigInterface();
-        if (property_exists($data, 'Types')) {
+        if (property_exists($data, 'Types') && $data->{'Types'} !== null) {
             $values = [];
             foreach ($data->{'Types'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\PluginInterfaceType', 'json', $context);
             }
             $object->setTypes($values);
         }
-        if (property_exists($data, 'Socket')) {
+        if (property_exists($data, 'Socket') && $data->{'Socket'} !== null) {
             $object->setSocket($data->{'Socket'});
         }
 

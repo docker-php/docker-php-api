@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,25 +35,25 @@ class SwarmGetResponse200Normalizer implements DenormalizerInterface, Normalizer
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\SwarmGetResponse200();
-        if (property_exists($data, 'ID')) {
+        if (property_exists($data, 'ID') && $data->{'ID'} !== null) {
             $object->setID($data->{'ID'});
         }
-        if (property_exists($data, 'Version')) {
+        if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
             $object->setVersion($this->denormalizer->denormalize($data->{'Version'}, 'Docker\\API\\Model\\ClusterInfoVersion', 'json', $context));
         }
-        if (property_exists($data, 'CreatedAt')) {
+        if (property_exists($data, 'CreatedAt') && $data->{'CreatedAt'} !== null) {
             $object->setCreatedAt($data->{'CreatedAt'});
         }
-        if (property_exists($data, 'UpdatedAt')) {
+        if (property_exists($data, 'UpdatedAt') && $data->{'UpdatedAt'} !== null) {
             $object->setUpdatedAt($data->{'UpdatedAt'});
         }
-        if (property_exists($data, 'Spec')) {
+        if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
             $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\SwarmSpec', 'json', $context));
         }
-        if (property_exists($data, 'JoinTokens')) {
+        if (property_exists($data, 'JoinTokens') && $data->{'JoinTokens'} !== null) {
             $object->setJoinTokens($this->denormalizer->denormalize($data->{'JoinTokens'}, 'Docker\\API\\Model\\SwarmGetResponse200JoinTokens', 'json', $context));
         }
 

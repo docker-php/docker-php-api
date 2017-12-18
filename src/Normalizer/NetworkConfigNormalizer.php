@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,28 +35,28 @@ class NetworkConfigNormalizer implements DenormalizerInterface, NormalizerInterf
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\NetworkConfig();
-        if (property_exists($data, 'Bridge')) {
+        if (property_exists($data, 'Bridge') && $data->{'Bridge'} !== null) {
             $object->setBridge($data->{'Bridge'});
         }
-        if (property_exists($data, 'Gateway')) {
+        if (property_exists($data, 'Gateway') && $data->{'Gateway'} !== null) {
             $object->setGateway($data->{'Gateway'});
         }
-        if (property_exists($data, 'Address')) {
+        if (property_exists($data, 'Address') && $data->{'Address'} !== null) {
             $object->setAddress($data->{'Address'});
         }
-        if (property_exists($data, 'IPPrefixLen')) {
+        if (property_exists($data, 'IPPrefixLen') && $data->{'IPPrefixLen'} !== null) {
             $object->setIPPrefixLen($data->{'IPPrefixLen'});
         }
-        if (property_exists($data, 'MacAddress')) {
+        if (property_exists($data, 'MacAddress') && $data->{'MacAddress'} !== null) {
             $object->setMacAddress($data->{'MacAddress'});
         }
-        if (property_exists($data, 'PortMapping')) {
+        if (property_exists($data, 'PortMapping') && $data->{'PortMapping'} !== null) {
             $object->setPortMapping($data->{'PortMapping'});
         }
-        if (property_exists($data, 'Ports')) {
+        if (property_exists($data, 'Ports') && $data->{'Ports'} !== null) {
             $values = [];
             foreach ($data->{'Ports'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\Port', 'json', $context);

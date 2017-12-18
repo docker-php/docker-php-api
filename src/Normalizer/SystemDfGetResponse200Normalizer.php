@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,20 +35,20 @@ class SystemDfGetResponse200Normalizer implements DenormalizerInterface, Normali
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\SystemDfGetResponse200();
-        if (property_exists($data, 'LayersSize')) {
+        if (property_exists($data, 'LayersSize') && $data->{'LayersSize'} !== null) {
             $object->setLayersSize($data->{'LayersSize'});
         }
-        if (property_exists($data, 'Images')) {
+        if (property_exists($data, 'Images') && $data->{'Images'} !== null) {
             $values = [];
             foreach ($data->{'Images'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\ImageSummary', 'json', $context);
             }
             $object->setImages($values);
         }
-        if (property_exists($data, 'Containers')) {
+        if (property_exists($data, 'Containers') && $data->{'Containers'} !== null) {
             $values_1 = [];
             foreach ($data->{'Containers'} as $value_1) {
                 $values_2 = [];
@@ -60,7 +59,7 @@ class SystemDfGetResponse200Normalizer implements DenormalizerInterface, Normali
             }
             $object->setContainers($values_1);
         }
-        if (property_exists($data, 'Volumes')) {
+        if (property_exists($data, 'Volumes') && $data->{'Volumes'} !== null) {
             $values_3 = [];
             foreach ($data->{'Volumes'} as $value_3) {
                 $values_3[] = $this->denormalizer->denormalize($value_3, 'Docker\\API\\Model\\Volume', 'json', $context);

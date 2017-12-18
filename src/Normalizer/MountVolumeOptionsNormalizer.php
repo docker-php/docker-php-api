@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,20 +35,20 @@ class MountVolumeOptionsNormalizer implements DenormalizerInterface, NormalizerI
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\MountVolumeOptions();
-        if (property_exists($data, 'NoCopy')) {
+        if (property_exists($data, 'NoCopy') && $data->{'NoCopy'} !== null) {
             $object->setNoCopy($data->{'NoCopy'});
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setLabels($values);
         }
-        if (property_exists($data, 'DriverConfig')) {
+        if (property_exists($data, 'DriverConfig') && $data->{'DriverConfig'} !== null) {
             $object->setDriverConfig($this->denormalizer->denormalize($data->{'DriverConfig'}, 'Docker\\API\\Model\\MountVolumeOptionsDriverConfig', 'json', $context));
         }
 

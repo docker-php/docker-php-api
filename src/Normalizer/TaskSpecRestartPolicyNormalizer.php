@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class TaskSpecRestartPolicyNormalizer implements DenormalizerInterface, Normaliz
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskSpecRestartPolicy();
-        if (property_exists($data, 'Condition')) {
+        if (property_exists($data, 'Condition') && $data->{'Condition'} !== null) {
             $object->setCondition($data->{'Condition'});
         }
-        if (property_exists($data, 'Delay')) {
+        if (property_exists($data, 'Delay') && $data->{'Delay'} !== null) {
             $object->setDelay($data->{'Delay'});
         }
-        if (property_exists($data, 'MaxAttempts')) {
+        if (property_exists($data, 'MaxAttempts') && $data->{'MaxAttempts'} !== null) {
             $object->setMaxAttempts($data->{'MaxAttempts'});
         }
-        if (property_exists($data, 'Window')) {
+        if (property_exists($data, 'Window') && $data->{'Window'} !== null) {
             $object->setWindow($data->{'Window'});
         }
 

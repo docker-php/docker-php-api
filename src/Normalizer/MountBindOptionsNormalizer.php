@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,10 +35,10 @@ class MountBindOptionsNormalizer implements DenormalizerInterface, NormalizerInt
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\MountBindOptions();
-        if (property_exists($data, 'Propagation')) {
+        if (property_exists($data, 'Propagation') && $data->{'Propagation'} !== null) {
             $object->setPropagation($data->{'Propagation'});
         }
 

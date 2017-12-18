@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,37 +35,37 @@ class VersionGetResponse200Normalizer implements DenormalizerInterface, Normaliz
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\VersionGetResponse200();
-        if (property_exists($data, 'Version')) {
+        if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
             $object->setVersion($data->{'Version'});
         }
-        if (property_exists($data, 'ApiVersion')) {
+        if (property_exists($data, 'ApiVersion') && $data->{'ApiVersion'} !== null) {
             $object->setApiVersion($data->{'ApiVersion'});
         }
-        if (property_exists($data, 'MinAPIVersion')) {
+        if (property_exists($data, 'MinAPIVersion') && $data->{'MinAPIVersion'} !== null) {
             $object->setMinAPIVersion($data->{'MinAPIVersion'});
         }
-        if (property_exists($data, 'GitCommit')) {
+        if (property_exists($data, 'GitCommit') && $data->{'GitCommit'} !== null) {
             $object->setGitCommit($data->{'GitCommit'});
         }
-        if (property_exists($data, 'GoVersion')) {
+        if (property_exists($data, 'GoVersion') && $data->{'GoVersion'} !== null) {
             $object->setGoVersion($data->{'GoVersion'});
         }
-        if (property_exists($data, 'Os')) {
+        if (property_exists($data, 'Os') && $data->{'Os'} !== null) {
             $object->setOs($data->{'Os'});
         }
-        if (property_exists($data, 'Arch')) {
+        if (property_exists($data, 'Arch') && $data->{'Arch'} !== null) {
             $object->setArch($data->{'Arch'});
         }
-        if (property_exists($data, 'KernelVersion')) {
+        if (property_exists($data, 'KernelVersion') && $data->{'KernelVersion'} !== null) {
             $object->setKernelVersion($data->{'KernelVersion'});
         }
-        if (property_exists($data, 'Experimental')) {
+        if (property_exists($data, 'Experimental') && $data->{'Experimental'} !== null) {
             $object->setExperimental($data->{'Experimental'});
         }
-        if (property_exists($data, 'BuildTime')) {
+        if (property_exists($data, 'BuildTime') && $data->{'BuildTime'} !== null) {
             $object->setBuildTime($data->{'BuildTime'});
         }
 

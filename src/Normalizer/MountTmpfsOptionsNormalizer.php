@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class MountTmpfsOptionsNormalizer implements DenormalizerInterface, NormalizerIn
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\MountTmpfsOptions();
-        if (property_exists($data, 'SizeBytes')) {
+        if (property_exists($data, 'SizeBytes') && $data->{'SizeBytes'} !== null) {
             $object->setSizeBytes($data->{'SizeBytes'});
         }
-        if (property_exists($data, 'Mode')) {
+        if (property_exists($data, 'Mode') && $data->{'Mode'} !== null) {
             $object->setMode($data->{'Mode'});
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,20 +35,20 @@ class ServiceEndpointNormalizer implements DenormalizerInterface, NormalizerInte
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ServiceEndpoint();
-        if (property_exists($data, 'Spec')) {
+        if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
             $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\EndpointSpec', 'json', $context));
         }
-        if (property_exists($data, 'Ports')) {
+        if (property_exists($data, 'Ports') && $data->{'Ports'} !== null) {
             $values = [];
             foreach ($data->{'Ports'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\EndpointPortConfig', 'json', $context);
             }
             $object->setPorts($values);
         }
-        if (property_exists($data, 'VirtualIPs')) {
+        if (property_exists($data, 'VirtualIPs') && $data->{'VirtualIPs'} !== null) {
             $values_1 = [];
             foreach ($data->{'VirtualIPs'} as $value_1) {
                 $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\ServiceEndpointVirtualIPsItem', 'json', $context);

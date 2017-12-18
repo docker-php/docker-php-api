@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,16 +35,16 @@ class SwarmSpecCAConfigExternalCAsItemNormalizer implements DenormalizerInterfac
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\SwarmSpecCAConfigExternalCAsItem();
-        if (property_exists($data, 'Protocol')) {
+        if (property_exists($data, 'Protocol') && $data->{'Protocol'} !== null) {
             $object->setProtocol($data->{'Protocol'});
         }
-        if (property_exists($data, 'URL')) {
+        if (property_exists($data, 'URL') && $data->{'URL'} !== null) {
             $object->setURL($data->{'URL'});
         }
-        if (property_exists($data, 'Options')) {
+        if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Options'} as $key => $value) {
                 $values[$key] = $value;

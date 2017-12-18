@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,64 +35,64 @@ class ContainerSummaryItemNormalizer implements DenormalizerInterface, Normalize
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ContainerSummaryItem();
-        if (property_exists($data, 'Id')) {
+        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
             $object->setId($data->{'Id'});
         }
-        if (property_exists($data, 'Names')) {
+        if (property_exists($data, 'Names') && $data->{'Names'} !== null) {
             $values = [];
             foreach ($data->{'Names'} as $value) {
                 $values[] = $value;
             }
             $object->setNames($values);
         }
-        if (property_exists($data, 'Image')) {
+        if (property_exists($data, 'Image') && $data->{'Image'} !== null) {
             $object->setImage($data->{'Image'});
         }
-        if (property_exists($data, 'ImageID')) {
+        if (property_exists($data, 'ImageID') && $data->{'ImageID'} !== null) {
             $object->setImageID($data->{'ImageID'});
         }
-        if (property_exists($data, 'Command')) {
+        if (property_exists($data, 'Command') && $data->{'Command'} !== null) {
             $object->setCommand($data->{'Command'});
         }
-        if (property_exists($data, 'Created')) {
+        if (property_exists($data, 'Created') && $data->{'Created'} !== null) {
             $object->setCreated($data->{'Created'});
         }
-        if (property_exists($data, 'Ports')) {
+        if (property_exists($data, 'Ports') && $data->{'Ports'} !== null) {
             $values_1 = [];
             foreach ($data->{'Ports'} as $value_1) {
                 $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\Port', 'json', $context);
             }
             $object->setPorts($values_1);
         }
-        if (property_exists($data, 'SizeRw')) {
+        if (property_exists($data, 'SizeRw') && $data->{'SizeRw'} !== null) {
             $object->setSizeRw($data->{'SizeRw'});
         }
-        if (property_exists($data, 'SizeRootFs')) {
+        if (property_exists($data, 'SizeRootFs') && $data->{'SizeRootFs'} !== null) {
             $object->setSizeRootFs($data->{'SizeRootFs'});
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_2 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key => $value_2) {
                 $values_2[$key] = $value_2;
             }
             $object->setLabels($values_2);
         }
-        if (property_exists($data, 'State')) {
+        if (property_exists($data, 'State') && $data->{'State'} !== null) {
             $object->setState($data->{'State'});
         }
-        if (property_exists($data, 'Status')) {
+        if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
             $object->setStatus($data->{'Status'});
         }
-        if (property_exists($data, 'HostConfig')) {
+        if (property_exists($data, 'HostConfig') && $data->{'HostConfig'} !== null) {
             $object->setHostConfig($this->denormalizer->denormalize($data->{'HostConfig'}, 'Docker\\API\\Model\\ContainerSummaryItemHostConfig', 'json', $context));
         }
-        if (property_exists($data, 'NetworkSettings')) {
+        if (property_exists($data, 'NetworkSettings') && $data->{'NetworkSettings'} !== null) {
             $object->setNetworkSettings($this->denormalizer->denormalize($data->{'NetworkSettings'}, 'Docker\\API\\Model\\ContainerSummaryItemNetworkSettings', 'json', $context));
         }
-        if (property_exists($data, 'Mounts')) {
+        if (property_exists($data, 'Mounts') && $data->{'Mounts'} !== null) {
             $values_3 = [];
             foreach ($data->{'Mounts'} as $value_3) {
                 $values_3[] = $this->denormalizer->denormalize($value_3, 'Docker\\API\\Model\\Mount', 'json', $context);

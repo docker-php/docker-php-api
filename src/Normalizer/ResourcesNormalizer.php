@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,122 +35,122 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\Resources();
-        if (property_exists($data, 'CpuShares')) {
+        if (property_exists($data, 'CpuShares') && $data->{'CpuShares'} !== null) {
             $object->setCpuShares($data->{'CpuShares'});
         }
-        if (property_exists($data, 'Memory')) {
+        if (property_exists($data, 'Memory') && $data->{'Memory'} !== null) {
             $object->setMemory($data->{'Memory'});
         }
-        if (property_exists($data, 'CgroupParent')) {
+        if (property_exists($data, 'CgroupParent') && $data->{'CgroupParent'} !== null) {
             $object->setCgroupParent($data->{'CgroupParent'});
         }
-        if (property_exists($data, 'BlkioWeight')) {
+        if (property_exists($data, 'BlkioWeight') && $data->{'BlkioWeight'} !== null) {
             $object->setBlkioWeight($data->{'BlkioWeight'});
         }
-        if (property_exists($data, 'BlkioWeightDevice')) {
+        if (property_exists($data, 'BlkioWeightDevice') && $data->{'BlkioWeightDevice'} !== null) {
             $values = [];
             foreach ($data->{'BlkioWeightDevice'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\ResourcesBlkioWeightDeviceItem', 'json', $context);
             }
             $object->setBlkioWeightDevice($values);
         }
-        if (property_exists($data, 'BlkioDeviceReadBps')) {
+        if (property_exists($data, 'BlkioDeviceReadBps') && $data->{'BlkioDeviceReadBps'} !== null) {
             $values_1 = [];
             foreach ($data->{'BlkioDeviceReadBps'} as $value_1) {
                 $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\ThrottleDevice', 'json', $context);
             }
             $object->setBlkioDeviceReadBps($values_1);
         }
-        if (property_exists($data, 'BlkioDeviceWriteBps')) {
+        if (property_exists($data, 'BlkioDeviceWriteBps') && $data->{'BlkioDeviceWriteBps'} !== null) {
             $values_2 = [];
             foreach ($data->{'BlkioDeviceWriteBps'} as $value_2) {
                 $values_2[] = $this->denormalizer->denormalize($value_2, 'Docker\\API\\Model\\ThrottleDevice', 'json', $context);
             }
             $object->setBlkioDeviceWriteBps($values_2);
         }
-        if (property_exists($data, 'BlkioDeviceReadIOps')) {
+        if (property_exists($data, 'BlkioDeviceReadIOps') && $data->{'BlkioDeviceReadIOps'} !== null) {
             $values_3 = [];
             foreach ($data->{'BlkioDeviceReadIOps'} as $value_3) {
                 $values_3[] = $this->denormalizer->denormalize($value_3, 'Docker\\API\\Model\\ThrottleDevice', 'json', $context);
             }
             $object->setBlkioDeviceReadIOps($values_3);
         }
-        if (property_exists($data, 'BlkioDeviceWriteIOps')) {
+        if (property_exists($data, 'BlkioDeviceWriteIOps') && $data->{'BlkioDeviceWriteIOps'} !== null) {
             $values_4 = [];
             foreach ($data->{'BlkioDeviceWriteIOps'} as $value_4) {
                 $values_4[] = $this->denormalizer->denormalize($value_4, 'Docker\\API\\Model\\ThrottleDevice', 'json', $context);
             }
             $object->setBlkioDeviceWriteIOps($values_4);
         }
-        if (property_exists($data, 'CpuPeriod')) {
+        if (property_exists($data, 'CpuPeriod') && $data->{'CpuPeriod'} !== null) {
             $object->setCpuPeriod($data->{'CpuPeriod'});
         }
-        if (property_exists($data, 'CpuQuota')) {
+        if (property_exists($data, 'CpuQuota') && $data->{'CpuQuota'} !== null) {
             $object->setCpuQuota($data->{'CpuQuota'});
         }
-        if (property_exists($data, 'CpuRealtimePeriod')) {
+        if (property_exists($data, 'CpuRealtimePeriod') && $data->{'CpuRealtimePeriod'} !== null) {
             $object->setCpuRealtimePeriod($data->{'CpuRealtimePeriod'});
         }
-        if (property_exists($data, 'CpuRealtimeRuntime')) {
+        if (property_exists($data, 'CpuRealtimeRuntime') && $data->{'CpuRealtimeRuntime'} !== null) {
             $object->setCpuRealtimeRuntime($data->{'CpuRealtimeRuntime'});
         }
-        if (property_exists($data, 'CpusetCpus')) {
+        if (property_exists($data, 'CpusetCpus') && $data->{'CpusetCpus'} !== null) {
             $object->setCpusetCpus($data->{'CpusetCpus'});
         }
-        if (property_exists($data, 'CpusetMems')) {
+        if (property_exists($data, 'CpusetMems') && $data->{'CpusetMems'} !== null) {
             $object->setCpusetMems($data->{'CpusetMems'});
         }
-        if (property_exists($data, 'Devices')) {
+        if (property_exists($data, 'Devices') && $data->{'Devices'} !== null) {
             $values_5 = [];
             foreach ($data->{'Devices'} as $value_5) {
                 $values_5[] = $this->denormalizer->denormalize($value_5, 'Docker\\API\\Model\\DeviceMapping', 'json', $context);
             }
             $object->setDevices($values_5);
         }
-        if (property_exists($data, 'DiskQuota')) {
+        if (property_exists($data, 'DiskQuota') && $data->{'DiskQuota'} !== null) {
             $object->setDiskQuota($data->{'DiskQuota'});
         }
-        if (property_exists($data, 'KernelMemory')) {
+        if (property_exists($data, 'KernelMemory') && $data->{'KernelMemory'} !== null) {
             $object->setKernelMemory($data->{'KernelMemory'});
         }
-        if (property_exists($data, 'MemoryReservation')) {
+        if (property_exists($data, 'MemoryReservation') && $data->{'MemoryReservation'} !== null) {
             $object->setMemoryReservation($data->{'MemoryReservation'});
         }
-        if (property_exists($data, 'MemorySwap')) {
+        if (property_exists($data, 'MemorySwap') && $data->{'MemorySwap'} !== null) {
             $object->setMemorySwap($data->{'MemorySwap'});
         }
-        if (property_exists($data, 'MemorySwappiness')) {
+        if (property_exists($data, 'MemorySwappiness') && $data->{'MemorySwappiness'} !== null) {
             $object->setMemorySwappiness($data->{'MemorySwappiness'});
         }
-        if (property_exists($data, 'NanoCPUs')) {
+        if (property_exists($data, 'NanoCPUs') && $data->{'NanoCPUs'} !== null) {
             $object->setNanoCPUs($data->{'NanoCPUs'});
         }
-        if (property_exists($data, 'OomKillDisable')) {
+        if (property_exists($data, 'OomKillDisable') && $data->{'OomKillDisable'} !== null) {
             $object->setOomKillDisable($data->{'OomKillDisable'});
         }
-        if (property_exists($data, 'PidsLimit')) {
+        if (property_exists($data, 'PidsLimit') && $data->{'PidsLimit'} !== null) {
             $object->setPidsLimit($data->{'PidsLimit'});
         }
-        if (property_exists($data, 'Ulimits')) {
+        if (property_exists($data, 'Ulimits') && $data->{'Ulimits'} !== null) {
             $values_6 = [];
             foreach ($data->{'Ulimits'} as $value_6) {
                 $values_6[] = $this->denormalizer->denormalize($value_6, 'Docker\\API\\Model\\ResourcesUlimitsItem', 'json', $context);
             }
             $object->setUlimits($values_6);
         }
-        if (property_exists($data, 'CpuCount')) {
+        if (property_exists($data, 'CpuCount') && $data->{'CpuCount'} !== null) {
             $object->setCpuCount($data->{'CpuCount'});
         }
-        if (property_exists($data, 'CpuPercent')) {
+        if (property_exists($data, 'CpuPercent') && $data->{'CpuPercent'} !== null) {
             $object->setCpuPercent($data->{'CpuPercent'});
         }
-        if (property_exists($data, 'IOMaximumIOps')) {
+        if (property_exists($data, 'IOMaximumIOps') && $data->{'IOMaximumIOps'} !== null) {
             $object->setIOMaximumIOps($data->{'IOMaximumIOps'});
         }
-        if (property_exists($data, 'IOMaximumBandwidth')) {
+        if (property_exists($data, 'IOMaximumBandwidth') && $data->{'IOMaximumBandwidth'} !== null) {
             $object->setIOMaximumBandwidth($data->{'IOMaximumBandwidth'});
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,32 +35,32 @@ class PluginMountNormalizer implements DenormalizerInterface, NormalizerInterfac
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\PluginMount();
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Description')) {
+        if (property_exists($data, 'Description') && $data->{'Description'} !== null) {
             $object->setDescription($data->{'Description'});
         }
-        if (property_exists($data, 'Settable')) {
+        if (property_exists($data, 'Settable') && $data->{'Settable'} !== null) {
             $values = [];
             foreach ($data->{'Settable'} as $value) {
                 $values[] = $value;
             }
             $object->setSettable($values);
         }
-        if (property_exists($data, 'Source')) {
+        if (property_exists($data, 'Source') && $data->{'Source'} !== null) {
             $object->setSource($data->{'Source'});
         }
-        if (property_exists($data, 'Destination')) {
+        if (property_exists($data, 'Destination') && $data->{'Destination'} !== null) {
             $object->setDestination($data->{'Destination'});
         }
-        if (property_exists($data, 'Type')) {
+        if (property_exists($data, 'Type') && $data->{'Type'} !== null) {
             $object->setType($data->{'Type'});
         }
-        if (property_exists($data, 'Options')) {
+        if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
             $values_1 = [];
             foreach ($data->{'Options'} as $value_1) {
                 $values_1[] = $value_1;

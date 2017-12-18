@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class ContainersIdArchiveHeadResponse400Normalizer implements DenormalizerInterf
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ContainersIdArchiveHeadResponse400();
-        if (property_exists($data, 'message')) {
+        if (property_exists($data, 'message') && $data->{'message'} !== null) {
             $object->setMessage($data->{'message'});
         }
-        if (property_exists($data, 'message')) {
+        if (property_exists($data, 'message') && $data->{'message'} !== null) {
             $object->setMessage($data->{'message'});
         }
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class SwarmInitPostBodyNormalizer implements DenormalizerInterface, NormalizerIn
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\SwarmInitPostBody();
-        if (property_exists($data, 'ListenAddr')) {
+        if (property_exists($data, 'ListenAddr') && $data->{'ListenAddr'} !== null) {
             $object->setListenAddr($data->{'ListenAddr'});
         }
-        if (property_exists($data, 'AdvertiseAddr')) {
+        if (property_exists($data, 'AdvertiseAddr') && $data->{'AdvertiseAddr'} !== null) {
             $object->setAdvertiseAddr($data->{'AdvertiseAddr'});
         }
-        if (property_exists($data, 'ForceNewCluster')) {
+        if (property_exists($data, 'ForceNewCluster') && $data->{'ForceNewCluster'} !== null) {
             $object->setForceNewCluster($data->{'ForceNewCluster'});
         }
-        if (property_exists($data, 'Spec')) {
+        if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
             $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\SwarmSpec', 'json', $context));
         }
 

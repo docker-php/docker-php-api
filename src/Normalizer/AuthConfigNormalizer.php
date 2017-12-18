@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class AuthConfigNormalizer implements DenormalizerInterface, NormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\AuthConfig();
-        if (property_exists($data, 'username')) {
+        if (property_exists($data, 'username') && $data->{'username'} !== null) {
             $object->setUsername($data->{'username'});
         }
-        if (property_exists($data, 'password')) {
+        if (property_exists($data, 'password') && $data->{'password'} !== null) {
             $object->setPassword($data->{'password'});
         }
-        if (property_exists($data, 'email')) {
+        if (property_exists($data, 'email') && $data->{'email'} !== null) {
             $object->setEmail($data->{'email'});
         }
-        if (property_exists($data, 'serveraddress')) {
+        if (property_exists($data, 'serveraddress') && $data->{'serveraddress'} !== null) {
             $object->setServeraddress($data->{'serveraddress'});
         }
 

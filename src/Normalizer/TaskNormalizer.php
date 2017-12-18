@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,47 +35,47 @@ class TaskNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\Task();
-        if (property_exists($data, 'ID')) {
+        if (property_exists($data, 'ID') && $data->{'ID'} !== null) {
             $object->setID($data->{'ID'});
         }
-        if (property_exists($data, 'Version')) {
+        if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
             $object->setVersion($this->denormalizer->denormalize($data->{'Version'}, 'Docker\\API\\Model\\TaskVersion', 'json', $context));
         }
-        if (property_exists($data, 'CreatedAt')) {
+        if (property_exists($data, 'CreatedAt') && $data->{'CreatedAt'} !== null) {
             $object->setCreatedAt($data->{'CreatedAt'});
         }
-        if (property_exists($data, 'UpdatedAt')) {
+        if (property_exists($data, 'UpdatedAt') && $data->{'UpdatedAt'} !== null) {
             $object->setUpdatedAt($data->{'UpdatedAt'});
         }
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setLabels($values);
         }
-        if (property_exists($data, 'Spec')) {
+        if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
             $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\TaskSpec', 'json', $context));
         }
-        if (property_exists($data, 'ServiceID')) {
+        if (property_exists($data, 'ServiceID') && $data->{'ServiceID'} !== null) {
             $object->setServiceID($data->{'ServiceID'});
         }
-        if (property_exists($data, 'Slot')) {
+        if (property_exists($data, 'Slot') && $data->{'Slot'} !== null) {
             $object->setSlot($data->{'Slot'});
         }
-        if (property_exists($data, 'NodeID')) {
+        if (property_exists($data, 'NodeID') && $data->{'NodeID'} !== null) {
             $object->setNodeID($data->{'NodeID'});
         }
-        if (property_exists($data, 'Status')) {
+        if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
             $object->setStatus($this->denormalizer->denormalize($data->{'Status'}, 'Docker\\API\\Model\\TaskStatus', 'json', $context));
         }
-        if (property_exists($data, 'DesiredState')) {
+        if (property_exists($data, 'DesiredState') && $data->{'DesiredState'} !== null) {
             $object->setDesiredState($data->{'DesiredState'});
         }
 

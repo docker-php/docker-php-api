@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class ServiceUpdateStatusNormalizer implements DenormalizerInterface, Normalizer
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ServiceUpdateStatus();
-        if (property_exists($data, 'State')) {
+        if (property_exists($data, 'State') && $data->{'State'} !== null) {
             $object->setState($data->{'State'});
         }
-        if (property_exists($data, 'StartedAt')) {
+        if (property_exists($data, 'StartedAt') && $data->{'StartedAt'} !== null) {
             $object->setStartedAt($data->{'StartedAt'});
         }
-        if (property_exists($data, 'CompletedAt')) {
+        if (property_exists($data, 'CompletedAt') && $data->{'CompletedAt'} !== null) {
             $object->setCompletedAt($data->{'CompletedAt'});
         }
-        if (property_exists($data, 'Message')) {
+        if (property_exists($data, 'Message') && $data->{'Message'} !== null) {
             $object->setMessage($data->{'Message'});
         }
 

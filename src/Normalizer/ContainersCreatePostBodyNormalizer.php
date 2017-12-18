@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,51 +35,51 @@ class ContainersCreatePostBodyNormalizer implements DenormalizerInterface, Norma
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ContainersCreatePostBody();
-        if (property_exists($data, 'Hostname')) {
+        if (property_exists($data, 'Hostname') && $data->{'Hostname'} !== null) {
             $object->setHostname($data->{'Hostname'});
         }
-        if (property_exists($data, 'Domainname')) {
+        if (property_exists($data, 'Domainname') && $data->{'Domainname'} !== null) {
             $object->setDomainname($data->{'Domainname'});
         }
-        if (property_exists($data, 'User')) {
+        if (property_exists($data, 'User') && $data->{'User'} !== null) {
             $object->setUser($data->{'User'});
         }
-        if (property_exists($data, 'AttachStdin')) {
+        if (property_exists($data, 'AttachStdin') && $data->{'AttachStdin'} !== null) {
             $object->setAttachStdin($data->{'AttachStdin'});
         }
-        if (property_exists($data, 'AttachStdout')) {
+        if (property_exists($data, 'AttachStdout') && $data->{'AttachStdout'} !== null) {
             $object->setAttachStdout($data->{'AttachStdout'});
         }
-        if (property_exists($data, 'AttachStderr')) {
+        if (property_exists($data, 'AttachStderr') && $data->{'AttachStderr'} !== null) {
             $object->setAttachStderr($data->{'AttachStderr'});
         }
-        if (property_exists($data, 'ExposedPorts')) {
+        if (property_exists($data, 'ExposedPorts') && $data->{'ExposedPorts'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'ExposedPorts'} as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setExposedPorts($values);
         }
-        if (property_exists($data, 'Tty')) {
+        if (property_exists($data, 'Tty') && $data->{'Tty'} !== null) {
             $object->setTty($data->{'Tty'});
         }
-        if (property_exists($data, 'OpenStdin')) {
+        if (property_exists($data, 'OpenStdin') && $data->{'OpenStdin'} !== null) {
             $object->setOpenStdin($data->{'OpenStdin'});
         }
-        if (property_exists($data, 'StdinOnce')) {
+        if (property_exists($data, 'StdinOnce') && $data->{'StdinOnce'} !== null) {
             $object->setStdinOnce($data->{'StdinOnce'});
         }
-        if (property_exists($data, 'Env')) {
+        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
             $values_1 = [];
             foreach ($data->{'Env'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setEnv($values_1);
         }
-        if (property_exists($data, 'Cmd')) {
+        if (property_exists($data, 'Cmd') && $data->{'Cmd'} !== null) {
             $value_2 = $data->{'Cmd'};
             if (is_array($data->{'Cmd'})) {
                 $values_2 = [];
@@ -94,22 +93,22 @@ class ContainersCreatePostBodyNormalizer implements DenormalizerInterface, Norma
             }
             $object->setCmd($value_2);
         }
-        if (property_exists($data, 'Healthcheck')) {
+        if (property_exists($data, 'Healthcheck') && $data->{'Healthcheck'} !== null) {
             $object->setHealthcheck($this->denormalizer->denormalize($data->{'Healthcheck'}, 'Docker\\API\\Model\\ConfigHealthcheck', 'json', $context));
         }
-        if (property_exists($data, 'ArgsEscaped')) {
+        if (property_exists($data, 'ArgsEscaped') && $data->{'ArgsEscaped'} !== null) {
             $object->setArgsEscaped($data->{'ArgsEscaped'});
         }
-        if (property_exists($data, 'Image')) {
+        if (property_exists($data, 'Image') && $data->{'Image'} !== null) {
             $object->setImage($data->{'Image'});
         }
-        if (property_exists($data, 'Volumes')) {
+        if (property_exists($data, 'Volumes') && $data->{'Volumes'} !== null) {
             $object->setVolumes($this->denormalizer->denormalize($data->{'Volumes'}, 'Docker\\API\\Model\\ConfigVolumes', 'json', $context));
         }
-        if (property_exists($data, 'WorkingDir')) {
+        if (property_exists($data, 'WorkingDir') && $data->{'WorkingDir'} !== null) {
             $object->setWorkingDir($data->{'WorkingDir'});
         }
-        if (property_exists($data, 'Entrypoint')) {
+        if (property_exists($data, 'Entrypoint') && $data->{'Entrypoint'} !== null) {
             $value_4 = $data->{'Entrypoint'};
             if (is_array($data->{'Entrypoint'})) {
                 $values_3 = [];
@@ -123,43 +122,43 @@ class ContainersCreatePostBodyNormalizer implements DenormalizerInterface, Norma
             }
             $object->setEntrypoint($value_4);
         }
-        if (property_exists($data, 'NetworkDisabled')) {
+        if (property_exists($data, 'NetworkDisabled') && $data->{'NetworkDisabled'} !== null) {
             $object->setNetworkDisabled($data->{'NetworkDisabled'});
         }
-        if (property_exists($data, 'MacAddress')) {
+        if (property_exists($data, 'MacAddress') && $data->{'MacAddress'} !== null) {
             $object->setMacAddress($data->{'MacAddress'});
         }
-        if (property_exists($data, 'OnBuild')) {
+        if (property_exists($data, 'OnBuild') && $data->{'OnBuild'} !== null) {
             $values_4 = [];
             foreach ($data->{'OnBuild'} as $value_6) {
                 $values_4[] = $value_6;
             }
             $object->setOnBuild($values_4);
         }
-        if (property_exists($data, 'Labels')) {
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_5 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Labels'} as $key_1 => $value_7) {
                 $values_5[$key_1] = $value_7;
             }
             $object->setLabels($values_5);
         }
-        if (property_exists($data, 'StopSignal')) {
+        if (property_exists($data, 'StopSignal') && $data->{'StopSignal'} !== null) {
             $object->setStopSignal($data->{'StopSignal'});
         }
-        if (property_exists($data, 'StopTimeout')) {
+        if (property_exists($data, 'StopTimeout') && $data->{'StopTimeout'} !== null) {
             $object->setStopTimeout($data->{'StopTimeout'});
         }
-        if (property_exists($data, 'Shell')) {
+        if (property_exists($data, 'Shell') && $data->{'Shell'} !== null) {
             $values_6 = [];
             foreach ($data->{'Shell'} as $value_8) {
                 $values_6[] = $value_8;
             }
             $object->setShell($values_6);
         }
-        if (property_exists($data, 'HostConfig')) {
+        if (property_exists($data, 'HostConfig') && $data->{'HostConfig'} !== null) {
             $object->setHostConfig($this->denormalizer->denormalize($data->{'HostConfig'}, 'Docker\\API\\Model\\HostConfig', 'json', $context));
         }
-        if (property_exists($data, 'NetworkingConfig')) {
+        if (property_exists($data, 'NetworkingConfig') && $data->{'NetworkingConfig'} !== null) {
             $object->setNetworkingConfig($this->denormalizer->denormalize($data->{'NetworkingConfig'}, 'Docker\\API\\Model\\ContainersCreatePostBodyNetworkingConfig', 'json', $context));
         }
 

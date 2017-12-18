@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class EndpointSpecNormalizer implements DenormalizerInterface, NormalizerInterfa
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\EndpointSpec();
-        if (property_exists($data, 'Mode')) {
+        if (property_exists($data, 'Mode') && $data->{'Mode'} !== null) {
             $object->setMode($data->{'Mode'});
         }
-        if (property_exists($data, 'Ports')) {
+        if (property_exists($data, 'Ports') && $data->{'Ports'} !== null) {
             $values = [];
             foreach ($data->{'Ports'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\EndpointPortConfig', 'json', $context);

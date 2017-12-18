@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,23 +35,23 @@ class PluginEnvNormalizer implements DenormalizerInterface, NormalizerInterface,
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\PluginEnv();
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Description')) {
+        if (property_exists($data, 'Description') && $data->{'Description'} !== null) {
             $object->setDescription($data->{'Description'});
         }
-        if (property_exists($data, 'Settable')) {
+        if (property_exists($data, 'Settable') && $data->{'Settable'} !== null) {
             $values = [];
             foreach ($data->{'Settable'} as $value) {
                 $values[] = $value;
             }
             $object->setSettable($values);
         }
-        if (property_exists($data, 'Value')) {
+        if (property_exists($data, 'Value') && $data->{'Value'} !== null) {
             $object->setValue($data->{'Value'});
         }
 

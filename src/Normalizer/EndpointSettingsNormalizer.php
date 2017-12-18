@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,51 +35,51 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\EndpointSettings();
-        if (property_exists($data, 'IPAMConfig')) {
+        if (property_exists($data, 'IPAMConfig') && $data->{'IPAMConfig'} !== null) {
             $object->setIPAMConfig($this->denormalizer->denormalize($data->{'IPAMConfig'}, 'Docker\\API\\Model\\EndpointSettingsIPAMConfig', 'json', $context));
         }
-        if (property_exists($data, 'Links')) {
+        if (property_exists($data, 'Links') && $data->{'Links'} !== null) {
             $values = [];
             foreach ($data->{'Links'} as $value) {
                 $values[] = $value;
             }
             $object->setLinks($values);
         }
-        if (property_exists($data, 'Aliases')) {
+        if (property_exists($data, 'Aliases') && $data->{'Aliases'} !== null) {
             $values_1 = [];
             foreach ($data->{'Aliases'} as $value_1) {
                 $values_1[] = $value_1;
             }
             $object->setAliases($values_1);
         }
-        if (property_exists($data, 'NetworkID')) {
+        if (property_exists($data, 'NetworkID') && $data->{'NetworkID'} !== null) {
             $object->setNetworkID($data->{'NetworkID'});
         }
-        if (property_exists($data, 'EndpointID')) {
+        if (property_exists($data, 'EndpointID') && $data->{'EndpointID'} !== null) {
             $object->setEndpointID($data->{'EndpointID'});
         }
-        if (property_exists($data, 'Gateway')) {
+        if (property_exists($data, 'Gateway') && $data->{'Gateway'} !== null) {
             $object->setGateway($data->{'Gateway'});
         }
-        if (property_exists($data, 'IPAddress')) {
+        if (property_exists($data, 'IPAddress') && $data->{'IPAddress'} !== null) {
             $object->setIPAddress($data->{'IPAddress'});
         }
-        if (property_exists($data, 'IPPrefixLen')) {
+        if (property_exists($data, 'IPPrefixLen') && $data->{'IPPrefixLen'} !== null) {
             $object->setIPPrefixLen($data->{'IPPrefixLen'});
         }
-        if (property_exists($data, 'IPv6Gateway')) {
+        if (property_exists($data, 'IPv6Gateway') && $data->{'IPv6Gateway'} !== null) {
             $object->setIPv6Gateway($data->{'IPv6Gateway'});
         }
-        if (property_exists($data, 'GlobalIPv6Address')) {
+        if (property_exists($data, 'GlobalIPv6Address') && $data->{'GlobalIPv6Address'} !== null) {
             $object->setGlobalIPv6Address($data->{'GlobalIPv6Address'});
         }
-        if (property_exists($data, 'GlobalIPv6PrefixLen')) {
+        if (property_exists($data, 'GlobalIPv6PrefixLen') && $data->{'GlobalIPv6PrefixLen'} !== null) {
             $object->setGlobalIPv6PrefixLen($data->{'GlobalIPv6PrefixLen'});
         }
-        if (property_exists($data, 'MacAddress')) {
+        if (property_exists($data, 'MacAddress') && $data->{'MacAddress'} !== null) {
             $object->setMacAddress($data->{'MacAddress'});
         }
 

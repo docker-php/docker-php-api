@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,16 +35,16 @@ class TaskStatusContainerStatusNormalizer implements DenormalizerInterface, Norm
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskStatusContainerStatus();
-        if (property_exists($data, 'ContainerID')) {
+        if (property_exists($data, 'ContainerID') && $data->{'ContainerID'} !== null) {
             $object->setContainerID($data->{'ContainerID'});
         }
-        if (property_exists($data, 'PID')) {
+        if (property_exists($data, 'PID') && $data->{'PID'} !== null) {
             $object->setPID($data->{'PID'});
         }
-        if (property_exists($data, 'ExitCode')) {
+        if (property_exists($data, 'ExitCode') && $data->{'ExitCode'} !== null) {
             $object->setExitCode($data->{'ExitCode'});
         }
 

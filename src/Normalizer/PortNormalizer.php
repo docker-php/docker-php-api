@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class PortNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\Port();
-        if (property_exists($data, 'IP')) {
+        if (property_exists($data, 'IP') && $data->{'IP'} !== null) {
             $object->setIP($data->{'IP'});
         }
-        if (property_exists($data, 'PrivatePort')) {
+        if (property_exists($data, 'PrivatePort') && $data->{'PrivatePort'} !== null) {
             $object->setPrivatePort($data->{'PrivatePort'});
         }
-        if (property_exists($data, 'PublicPort')) {
+        if (property_exists($data, 'PublicPort') && $data->{'PublicPort'} !== null) {
             $object->setPublicPort($data->{'PublicPort'});
         }
-        if (property_exists($data, 'Type')) {
+        if (property_exists($data, 'Type') && $data->{'Type'} !== null) {
             $object->setType($data->{'Type'});
         }
 

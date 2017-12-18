@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class PluginConfigRootfsNormalizer implements DenormalizerInterface, NormalizerI
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\PluginConfigRootfs();
-        if (property_exists($data, 'type')) {
+        if (property_exists($data, 'type') && $data->{'type'} !== null) {
             $object->setType($data->{'type'});
         }
-        if (property_exists($data, 'diff_ids')) {
+        if (property_exists($data, 'diff_ids') && $data->{'diff_ids'} !== null) {
             $values = [];
             foreach ($data->{'diff_ids'} as $value) {
                 $values[] = $value;

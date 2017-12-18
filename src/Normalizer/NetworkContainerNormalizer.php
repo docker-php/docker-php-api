@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class NetworkContainerNormalizer implements DenormalizerInterface, NormalizerInt
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\NetworkContainer();
-        if (property_exists($data, 'EndpointID')) {
+        if (property_exists($data, 'EndpointID') && $data->{'EndpointID'} !== null) {
             $object->setEndpointID($data->{'EndpointID'});
         }
-        if (property_exists($data, 'MacAddress')) {
+        if (property_exists($data, 'MacAddress') && $data->{'MacAddress'} !== null) {
             $object->setMacAddress($data->{'MacAddress'});
         }
-        if (property_exists($data, 'IPv4Address')) {
+        if (property_exists($data, 'IPv4Address') && $data->{'IPv4Address'} !== null) {
             $object->setIPv4Address($data->{'IPv4Address'});
         }
-        if (property_exists($data, 'IPv6Address')) {
+        if (property_exists($data, 'IPv6Address') && $data->{'IPv6Address'} !== null) {
             $object->setIPv6Address($data->{'IPv6Address'});
         }
 

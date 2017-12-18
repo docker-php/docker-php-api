@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,13 +35,13 @@ class NodeDescriptionPlatformNormalizer implements DenormalizerInterface, Normal
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\NodeDescriptionPlatform();
-        if (property_exists($data, 'Architecture')) {
+        if (property_exists($data, 'Architecture') && $data->{'Architecture'} !== null) {
             $object->setArchitecture($data->{'Architecture'});
         }
-        if (property_exists($data, 'OS')) {
+        if (property_exists($data, 'OS') && $data->{'OS'} !== null) {
             $object->setOS($data->{'OS'});
         }
 

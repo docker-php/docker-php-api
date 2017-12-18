@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,40 +35,40 @@ class ContainersIdJsonGetResponse200StateNormalizer implements DenormalizerInter
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ContainersIdJsonGetResponse200State();
-        if (property_exists($data, 'Status')) {
+        if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
             $object->setStatus($data->{'Status'});
         }
-        if (property_exists($data, 'Running')) {
+        if (property_exists($data, 'Running') && $data->{'Running'} !== null) {
             $object->setRunning($data->{'Running'});
         }
-        if (property_exists($data, 'Paused')) {
+        if (property_exists($data, 'Paused') && $data->{'Paused'} !== null) {
             $object->setPaused($data->{'Paused'});
         }
-        if (property_exists($data, 'Restarting')) {
+        if (property_exists($data, 'Restarting') && $data->{'Restarting'} !== null) {
             $object->setRestarting($data->{'Restarting'});
         }
-        if (property_exists($data, 'OOMKilled')) {
+        if (property_exists($data, 'OOMKilled') && $data->{'OOMKilled'} !== null) {
             $object->setOOMKilled($data->{'OOMKilled'});
         }
-        if (property_exists($data, 'Dead')) {
+        if (property_exists($data, 'Dead') && $data->{'Dead'} !== null) {
             $object->setDead($data->{'Dead'});
         }
-        if (property_exists($data, 'Pid')) {
+        if (property_exists($data, 'Pid') && $data->{'Pid'} !== null) {
             $object->setPid($data->{'Pid'});
         }
-        if (property_exists($data, 'ExitCode')) {
+        if (property_exists($data, 'ExitCode') && $data->{'ExitCode'} !== null) {
             $object->setExitCode($data->{'ExitCode'});
         }
-        if (property_exists($data, 'Error')) {
+        if (property_exists($data, 'Error') && $data->{'Error'} !== null) {
             $object->setError($data->{'Error'});
         }
-        if (property_exists($data, 'StartedAt')) {
+        if (property_exists($data, 'StartedAt') && $data->{'StartedAt'} !== null) {
             $object->setStartedAt($data->{'StartedAt'});
         }
-        if (property_exists($data, 'FinishedAt')) {
+        if (property_exists($data, 'FinishedAt') && $data->{'FinishedAt'} !== null) {
             $object->setFinishedAt($data->{'FinishedAt'});
         }
 

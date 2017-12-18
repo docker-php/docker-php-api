@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,17 +35,17 @@ class ContainersIdTopGetResponse200Normalizer implements DenormalizerInterface, 
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\ContainersIdTopGetResponse200();
-        if (property_exists($data, 'Titles')) {
+        if (property_exists($data, 'Titles') && $data->{'Titles'} !== null) {
             $values = [];
             foreach ($data->{'Titles'} as $value) {
                 $values[] = $value;
             }
             $object->setTitles($values);
         }
-        if (property_exists($data, 'Processes')) {
+        if (property_exists($data, 'Processes') && $data->{'Processes'} !== null) {
             $values_1 = [];
             foreach ($data->{'Processes'} as $value_1) {
                 $values_2 = [];

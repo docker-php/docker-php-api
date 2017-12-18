@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,32 +35,32 @@ class TaskSpecNormalizer implements DenormalizerInterface, NormalizerInterface, 
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\TaskSpec();
-        if (property_exists($data, 'ContainerSpec')) {
+        if (property_exists($data, 'ContainerSpec') && $data->{'ContainerSpec'} !== null) {
             $object->setContainerSpec($this->denormalizer->denormalize($data->{'ContainerSpec'}, 'Docker\\API\\Model\\TaskSpecContainerSpec', 'json', $context));
         }
-        if (property_exists($data, 'Resources')) {
+        if (property_exists($data, 'Resources') && $data->{'Resources'} !== null) {
             $object->setResources($this->denormalizer->denormalize($data->{'Resources'}, 'Docker\\API\\Model\\TaskSpecResources', 'json', $context));
         }
-        if (property_exists($data, 'RestartPolicy')) {
+        if (property_exists($data, 'RestartPolicy') && $data->{'RestartPolicy'} !== null) {
             $object->setRestartPolicy($this->denormalizer->denormalize($data->{'RestartPolicy'}, 'Docker\\API\\Model\\TaskSpecRestartPolicy', 'json', $context));
         }
-        if (property_exists($data, 'Placement')) {
+        if (property_exists($data, 'Placement') && $data->{'Placement'} !== null) {
             $object->setPlacement($this->denormalizer->denormalize($data->{'Placement'}, 'Docker\\API\\Model\\TaskSpecPlacement', 'json', $context));
         }
-        if (property_exists($data, 'ForceUpdate')) {
+        if (property_exists($data, 'ForceUpdate') && $data->{'ForceUpdate'} !== null) {
             $object->setForceUpdate($data->{'ForceUpdate'});
         }
-        if (property_exists($data, 'Networks')) {
+        if (property_exists($data, 'Networks') && $data->{'Networks'} !== null) {
             $values = [];
             foreach ($data->{'Networks'} as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\TaskSpecNetworksItem', 'json', $context);
             }
             $object->setNetworks($values);
         }
-        if (property_exists($data, 'LogDriver')) {
+        if (property_exists($data, 'LogDriver') && $data->{'LogDriver'} !== null) {
             $object->setLogDriver($this->denormalizer->denormalize($data->{'LogDriver'}, 'Docker\\API\\Model\\TaskSpecLogDriver', 'json', $context));
         }
 

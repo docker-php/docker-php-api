@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Normalizer;
 
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -36,19 +35,19 @@ class EndpointPortConfigNormalizer implements DenormalizerInterface, NormalizerI
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!is_object($data)) {
-            throw new InvalidArgumentException();
+            return null;
         }
         $object = new \Docker\API\Model\EndpointPortConfig();
-        if (property_exists($data, 'Name')) {
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Protocol')) {
+        if (property_exists($data, 'Protocol') && $data->{'Protocol'} !== null) {
             $object->setProtocol($data->{'Protocol'});
         }
-        if (property_exists($data, 'TargetPort')) {
+        if (property_exists($data, 'TargetPort') && $data->{'TargetPort'} !== null) {
             $object->setTargetPort($data->{'TargetPort'});
         }
-        if (property_exists($data, 'PublishedPort')) {
+        if (property_exists($data, 'PublishedPort') && $data->{'PublishedPort'} !== null) {
             $object->setPublishedPort($data->{'PublishedPort'});
         }
 
