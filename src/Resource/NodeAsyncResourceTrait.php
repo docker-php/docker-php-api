@@ -32,9 +32,9 @@ trait NodeAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('filters', null);
-            $url = '/v1.25/nodes';
+            $url = '/nodes';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -73,10 +73,10 @@ trait NodeAsyncResourceTrait
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('force', false);
-            $url = '/v1.25/nodes/{id}';
+            $url = '/nodes/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'DELETE');
             $request = $request->withHeaders($headers);
@@ -113,10 +113,10 @@ trait NodeAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/nodes/{id}';
+            $url = '/nodes/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -159,10 +159,10 @@ trait NodeAsyncResourceTrait
         return \Amp\call(function () use ($id, $body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setRequired('version');
-            $url = '/v1.25/nodes/{id}/update';
+            $url = '/nodes/{id}/update';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

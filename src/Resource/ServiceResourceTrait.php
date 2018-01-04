@@ -30,9 +30,9 @@ trait ServiceResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', null);
-        $url = '/v1.25/services';
+        $url = '/services';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -69,9 +69,9 @@ trait ServiceResourceTrait
         $queryParam = new QueryParam();
         $queryParam->setDefault('X-Registry-Auth', null);
         $queryParam->setHeaderParameters(['X-Registry-Auth']);
-        $url = '/v1.25/services/create';
+        $url = '/services/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -109,10 +109,10 @@ trait ServiceResourceTrait
     public function serviceDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/services/{id}';
+        $url = '/services/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('DELETE', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -144,10 +144,10 @@ trait ServiceResourceTrait
     public function serviceInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/services/{id}';
+        $url = '/services/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -190,10 +190,10 @@ trait ServiceResourceTrait
         $queryParam->setDefault('registryAuthFrom', 'spec');
         $queryParam->setDefault('X-Registry-Auth', null);
         $queryParam->setHeaderParameters(['X-Registry-Auth']);
-        $url = '/v1.25/services/{id}/update';
+        $url = '/services/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -248,19 +248,19 @@ trait ServiceResourceTrait
         $queryParam->setDefault('since', 0);
         $queryParam->setDefault('timestamps', false);
         $queryParam->setDefault('tail', 'all');
-        $url = '/v1.25/services/{id}/logs';
+        $url = '/services/{id}/logs';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
         if (self::FETCH_OBJECT === $fetch) {
             if (101 === $response->getStatusCode()) {
-                return null;
+                return json_decode((string) $response->getBody());
             }
             if (200 === $response->getStatusCode()) {
-                return null;
+                return json_decode((string) $response->getBody());
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceLogsNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

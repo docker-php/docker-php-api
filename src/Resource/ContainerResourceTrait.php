@@ -37,9 +37,9 @@ trait ContainerResourceTrait
         $queryParam->setDefault('limit', null);
         $queryParam->setDefault('size', false);
         $queryParam->setDefault('filters', null);
-        $url = '/v1.25/containers/json';
+        $url = '/containers/json';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -79,9 +79,9 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('name', null);
-        $url = '/v1.25/containers/create';
+        $url = '/containers/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -129,10 +129,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('size', false);
-        $url = '/v1.25/containers/{id}/json';
+        $url = '/containers/{id}/json';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -171,10 +171,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('ps_args', '-ef');
-        $url = '/v1.25/containers/{id}/top';
+        $url = '/containers/{id}/top';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -227,19 +227,19 @@ trait ContainerResourceTrait
         $queryParam->setDefault('since', 0);
         $queryParam->setDefault('timestamps', false);
         $queryParam->setDefault('tail', 'all');
-        $url = '/v1.25/containers/{id}/logs';
+        $url = '/containers/{id}/logs';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
         if (self::FETCH_OBJECT === $fetch) {
             if (101 === $response->getStatusCode()) {
-                return null;
+                return json_decode((string) $response->getBody());
             }
             if (200 === $response->getStatusCode()) {
-                return null;
+                return json_decode((string) $response->getBody());
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ContainerLogsNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -272,10 +272,10 @@ trait ContainerResourceTrait
     public function containerChanges(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/containers/{id}/changes';
+        $url = '/containers/{id}/changes';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -309,10 +309,10 @@ trait ContainerResourceTrait
     public function containerExport(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/containers/{id}/export';
+        $url = '/containers/{id}/export';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -354,16 +354,16 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('stream', true);
-        $url = '/v1.25/containers/{id}/stats';
+        $url = '/containers/{id}/stats';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
-                return null;
+                return json_decode((string) $response->getBody());
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ContainerStatsNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -398,10 +398,10 @@ trait ContainerResourceTrait
         $queryParam = new QueryParam();
         $queryParam->setDefault('h', null);
         $queryParam->setDefault('w', null);
-        $url = '/v1.25/containers/{id}/resize';
+        $url = '/containers/{id}/resize';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -438,10 +438,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('detachKeys', null);
-        $url = '/v1.25/containers/{id}/start';
+        $url = '/containers/{id}/start';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -481,10 +481,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('t', null);
-        $url = '/v1.25/containers/{id}/stop';
+        $url = '/containers/{id}/stop';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -524,10 +524,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('t', null);
-        $url = '/v1.25/containers/{id}/restart';
+        $url = '/containers/{id}/restart';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -566,10 +566,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('signal', 'SIGKILL');
-        $url = '/v1.25/containers/{id}/kill';
+        $url = '/containers/{id}/kill';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -604,10 +604,10 @@ trait ContainerResourceTrait
     public function containerUpdate(string $id, \Docker\API\Model\ContainersIdUpdatePostBody $update, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/containers/{id}/update';
+        $url = '/containers/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($update, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -645,10 +645,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('name');
-        $url = '/v1.25/containers/{id}/rename';
+        $url = '/containers/{id}/rename';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -688,10 +688,10 @@ trait ContainerResourceTrait
     public function containerPause(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/containers/{id}/pause';
+        $url = '/containers/{id}/pause';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -725,10 +725,10 @@ trait ContainerResourceTrait
     public function containerUnpause(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/containers/{id}/unpause';
+        $url = '/containers/{id}/unpause';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -854,10 +854,10 @@ trait ContainerResourceTrait
         $queryParam->setDefault('stdin', false);
         $queryParam->setDefault('stdout', false);
         $queryParam->setDefault('stderr', false);
-        $url = '/v1.25/containers/{id}/attach';
+        $url = '/containers/{id}/attach';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -911,10 +911,10 @@ trait ContainerResourceTrait
         $queryParam->setDefault('stdin', false);
         $queryParam->setDefault('stdout', false);
         $queryParam->setDefault('stderr', false);
-        $url = '/v1.25/containers/{id}/attach/ws';
+        $url = '/containers/{id}/attach/ws';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -954,10 +954,10 @@ trait ContainerResourceTrait
     public function containerWait(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/containers/{id}/wait';
+        $url = '/containers/{id}/wait';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -997,10 +997,10 @@ trait ContainerResourceTrait
         $queryParam = new QueryParam();
         $queryParam->setDefault('v', false);
         $queryParam->setDefault('force', false);
-        $url = '/v1.25/containers/{id}';
+        $url = '/containers/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('DELETE', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -1043,10 +1043,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('path');
-        $url = '/v1.25/containers/{id}/archive';
+        $url = '/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -1089,10 +1089,10 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('path');
-        $url = '/v1.25/containers/{id}/archive';
+        $url = '/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('HEAD', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -1139,10 +1139,10 @@ trait ContainerResourceTrait
         $queryParam = new QueryParam();
         $queryParam->setRequired('path');
         $queryParam->setDefault('noOverwriteDirNonDir', null);
-        $url = '/v1.25/containers/{id}/archive';
+        $url = '/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
         $body = $inputStream;
         $request = $this->messageFactory->createRequest('PUT', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -1186,9 +1186,9 @@ trait ContainerResourceTrait
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', null);
-        $url = '/v1.25/containers/prune';
+        $url = '/containers/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);

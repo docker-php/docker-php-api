@@ -31,9 +31,9 @@ trait VolumeAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('filters', null);
-            $url = '/v1.25/volumes';
+            $url = '/volumes';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -66,9 +66,9 @@ trait VolumeAsyncResourceTrait
     {
         return \Amp\call(function () use ($volumeConfig, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/volumes/create';
+            $url = '/volumes/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($volumeConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -110,10 +110,10 @@ trait VolumeAsyncResourceTrait
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('force', false);
-            $url = '/v1.25/volumes/{name}';
+            $url = '/volumes/{name}';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'DELETE');
             $request = $request->withHeaders($headers);
@@ -153,10 +153,10 @@ trait VolumeAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/volumes/{name}';
+            $url = '/volumes/{name}';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -199,9 +199,9 @@ trait VolumeAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('filters', null);
-            $url = '/v1.25/volumes/prune';
+            $url = '/volumes/prune';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

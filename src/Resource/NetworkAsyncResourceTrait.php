@@ -32,9 +32,9 @@ trait NetworkAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('filters', null);
-            $url = '/v1.25/networks';
+            $url = '/networks';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -68,10 +68,10 @@ trait NetworkAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/networks/{id}';
+            $url = '/networks/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'DELETE');
             $request = $request->withHeaders($headers);
@@ -107,10 +107,10 @@ trait NetworkAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/networks/{id}';
+            $url = '/networks/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -145,9 +145,9 @@ trait NetworkAsyncResourceTrait
     {
         return \Amp\call(function () use ($networkConfig, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/networks/create';
+            $url = '/networks/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($networkConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -189,10 +189,10 @@ trait NetworkAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $container, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/networks/{id}/connect';
+            $url = '/networks/{id}/connect';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($container, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -234,10 +234,10 @@ trait NetworkAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $container, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/networks/{id}/disconnect';
+            $url = '/networks/{id}/disconnect';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($container, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -283,9 +283,9 @@ trait NetworkAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('filters', null);
-            $url = '/v1.25/networks/prune';
+            $url = '/networks/prune';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

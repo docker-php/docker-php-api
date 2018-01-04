@@ -27,9 +27,9 @@ trait SwarmAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/swarm';
+            $url = '/swarm';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -64,9 +64,9 @@ trait SwarmAsyncResourceTrait
     {
         return \Amp\call(function () use ($body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/swarm/init';
+            $url = '/swarm/init';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -74,7 +74,7 @@ trait SwarmAsyncResourceTrait
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
-                    return null;
+                    return json_decode((yield $response->getBody()));
                 }
                 if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInitBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -107,9 +107,9 @@ trait SwarmAsyncResourceTrait
     {
         return \Amp\call(function () use ($body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/swarm/join';
+            $url = '/swarm/join';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -153,9 +153,9 @@ trait SwarmAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('force', false);
-            $url = '/v1.25/swarm/leave';
+            $url = '/swarm/leave';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -204,9 +204,9 @@ trait SwarmAsyncResourceTrait
             $queryParam->setDefault('rotateWorkerToken', false);
             $queryParam->setDefault('rotateManagerToken', false);
             $queryParam->setDefault('rotateManagerUnlockKey', false);
-            $url = '/v1.25/swarm/update';
+            $url = '/swarm/update';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -244,9 +244,9 @@ trait SwarmAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/swarm/unlockkey';
+            $url = '/swarm/unlockkey';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -279,9 +279,9 @@ trait SwarmAsyncResourceTrait
     {
         return \Amp\call(function () use ($body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/swarm/unlock';
+            $url = '/swarm/unlock';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

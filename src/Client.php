@@ -29,6 +29,10 @@ class Client extends \Jane\OpenApiRuntime\Client\Psr7HttplugResource
     {
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\HttpClientDiscovery::find();
+            $plugins = [];
+            $uri = \Http\Discovery\UriFactoryDiscovery::find()->createUri('v1.25');
+            $plugins[] = new \Http\Client\Common\Plugin\AddPathPlugin($uri);
+            $httpClient = new \Http\Client\Common\PluginClient($httpClient, $plugins);
         }
         $messageFactory = \Http\Discovery\MessageFactoryDiscovery::find();
         $serializer = new \Symfony\Component\Serializer\Serializer(\Docker\API\Normalizer\NormalizerFactory::create(), [new \Symfony\Component\Serializer\Encoder\JsonEncoder(new \Symfony\Component\Serializer\Encoder\JsonEncode(), new \Symfony\Component\Serializer\Encoder\JsonDecode())]);

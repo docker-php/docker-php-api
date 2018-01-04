@@ -17,8 +17,8 @@ trait ExecResourceTrait
     /**
      * Run a command inside a running container.
      *
-     * @param string                                     $id         ID or name of container
      * @param \Docker\API\Model\ContainersIdExecPostBody $execConfig Exec configuration
+     * @param string                                     $id         ID or name of container
      * @param array                                      $parameters List of parameters
      * @param string                                     $fetch      Fetch mode (object or response)
      *
@@ -28,13 +28,13 @@ trait ExecResourceTrait
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\IdResponse
      */
-    public function containerExec(string $id, \Docker\API\Model\ContainersIdExecPostBody $execConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerExec(\Docker\API\Model\ContainersIdExecPostBody $execConfig, string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/containers/{id}/exec';
+        $url = '/containers/{id}/exec';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($execConfig, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -59,8 +59,8 @@ trait ExecResourceTrait
     /**
      * Starts a previously set up exec instance. If detach is true, this endpoint returns immediately after starting the command. Otherwise, it sets up an interactive session with the command.
      *
-     * @param string                                $id              Exec instance ID
      * @param \Docker\API\Model\ExecIdStartPostBody $execStartConfig
+     * @param string                                $id              Exec instance ID
      * @param array                                 $parameters      List of parameters
      * @param string                                $fetch           Fetch mode (object or response)
      *
@@ -69,13 +69,13 @@ trait ExecResourceTrait
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function execStart(string $id, \Docker\API\Model\ExecIdStartPostBody $execStartConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function execStart(\Docker\API\Model\ExecIdStartPostBody $execStartConfig, string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/exec/{id}/start';
+        $url = '/exec/{id}/start';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($execStartConfig, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -115,10 +115,10 @@ trait ExecResourceTrait
         $queryParam = new QueryParam();
         $queryParam->setDefault('h', null);
         $queryParam->setDefault('w', null);
-        $url = '/v1.25/exec/{id}/resize';
+        $url = '/exec/{id}/resize';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -149,10 +149,10 @@ trait ExecResourceTrait
     public function execInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.25/exec/{id}/json';
+        $url = '/exec/{id}/json';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
         $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);

@@ -39,9 +39,9 @@ trait ImageAsyncResourceTrait
             $queryParam->setDefault('all', false);
             $queryParam->setDefault('filters', null);
             $queryParam->setDefault('digests', false);
-            $url = '/v1.25/images/json';
+            $url = '/images/json';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -132,9 +132,9 @@ trait ImageAsyncResourceTrait
             $queryParam->setHeaderParameters(['Content-type']);
             $queryParam->setDefault('X-Registry-Config', null);
             $queryParam->setHeaderParameters(['X-Registry-Config']);
-            $url = '/v1.25/build';
+            $url = '/build';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $inputStream;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -184,9 +184,9 @@ trait ImageAsyncResourceTrait
             $queryParam->setDefault('tag', null);
             $queryParam->setDefault('X-Registry-Auth', null);
             $queryParam->setHeaderParameters(['X-Registry-Auth']);
-            $url = '/v1.25/images/create';
+            $url = '/images/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $inputImage;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -225,10 +225,10 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/images/{name}/json';
+            $url = '/images/{name}/json';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -267,10 +267,10 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/images/{name}/history';
+            $url = '/images/{name}/history';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -322,10 +322,10 @@ trait ImageAsyncResourceTrait
             $queryParam->setDefault('tag', null);
             $queryParam->setRequired('X-Registry-Auth');
             $queryParam->setHeaderParameters(['X-Registry-Auth']);
-            $url = '/v1.25/images/{name}/push';
+            $url = '/images/{name}/push';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -373,10 +373,10 @@ trait ImageAsyncResourceTrait
             $queryParam = new QueryParam();
             $queryParam->setDefault('repo', null);
             $queryParam->setDefault('tag', null);
-            $url = '/v1.25/images/{name}/tag';
+            $url = '/images/{name}/tag';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -432,10 +432,10 @@ trait ImageAsyncResourceTrait
             $queryParam = new QueryParam();
             $queryParam->setDefault('force', false);
             $queryParam->setDefault('noprune', false);
-            $url = '/v1.25/images/{name}';
+            $url = '/images/{name}';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'DELETE');
             $request = $request->withHeaders($headers);
@@ -484,9 +484,9 @@ trait ImageAsyncResourceTrait
             $queryParam->setRequired('term');
             $queryParam->setDefault('limit', null);
             $queryParam->setDefault('filters', null);
-            $url = '/v1.25/images/search';
+            $url = '/images/search';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -523,9 +523,9 @@ trait ImageAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('filters', null);
-            $url = '/v1.25/images/prune';
+            $url = '/images/prune';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -576,9 +576,9 @@ trait ImageAsyncResourceTrait
             $queryParam->setDefault('author', null);
             $queryParam->setDefault('pause', true);
             $queryParam->setDefault('changes', null);
-            $url = '/v1.25/commit';
+            $url = '/commit';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($containerConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -639,10 +639,10 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/images/{name}/get';
+            $url = '/images/{name}/get';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -650,7 +650,7 @@ trait ImageAsyncResourceTrait
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
-                    return null;
+                    return json_decode((yield $response->getBody()));
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ImageGetInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -686,9 +686,9 @@ trait ImageAsyncResourceTrait
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('names', null);
-            $url = '/v1.25/images/get';
+            $url = '/images/get';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
@@ -696,7 +696,7 @@ trait ImageAsyncResourceTrait
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
-                    return null;
+                    return json_decode((yield $response->getBody()));
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ImageGetAllInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -731,9 +731,9 @@ trait ImageAsyncResourceTrait
         return \Amp\call(function () use ($imagesTarball, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->setDefault('quiet', false);
-            $url = '/v1.25/images/load';
+            $url = '/images/load';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $imagesTarball;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

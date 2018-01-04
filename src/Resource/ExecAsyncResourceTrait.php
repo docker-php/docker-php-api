@@ -17,8 +17,8 @@ trait ExecAsyncResourceTrait
     /**
      * Run a command inside a running container.
      *
-     * @param string                                     $id                ID or name of container
      * @param \Docker\API\Model\ContainersIdExecPostBody $execConfig        Exec configuration
+     * @param string                                     $id                ID or name of container
      * @param array                                      $parameters        List of parameters
      * @param string                                     $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken                     $cancellationToken Token to cancel the request
@@ -29,14 +29,14 @@ trait ExecAsyncResourceTrait
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\IdResponse>
      */
-    public function containerExec(string $id, \Docker\API\Model\ContainersIdExecPostBody $execConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function containerExec(\Docker\API\Model\ContainersIdExecPostBody $execConfig, string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
-        return \Amp\call(function () use ($id, $execConfig, $parameters, $fetch, $cancellationToken) {
+        return \Amp\call(function () use ($execConfig, $id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/containers/{id}/exec';
+            $url = '/containers/{id}/exec';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($execConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -64,8 +64,8 @@ trait ExecAsyncResourceTrait
     /**
      * Starts a previously set up exec instance. If detach is true, this endpoint returns immediately after starting the command. Otherwise, it sets up an interactive session with the command.
      *
-     * @param string                                $id                Exec instance ID
      * @param \Docker\API\Model\ExecIdStartPostBody $execStartConfig
+     * @param string                                $id                Exec instance ID
      * @param array                                 $parameters        List of parameters
      * @param string                                $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken                $cancellationToken Token to cancel the request
@@ -75,14 +75,14 @@ trait ExecAsyncResourceTrait
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
-    public function execStart(string $id, \Docker\API\Model\ExecIdStartPostBody $execStartConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function execStart(\Docker\API\Model\ExecIdStartPostBody $execStartConfig, string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
-        return \Amp\call(function () use ($id, $execStartConfig, $parameters, $fetch, $cancellationToken) {
+        return \Amp\call(function () use ($execStartConfig, $id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/exec/{id}/start';
+            $url = '/exec/{id}/start';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($execStartConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -127,10 +127,10 @@ trait ExecAsyncResourceTrait
             $queryParam = new QueryParam();
             $queryParam->setDefault('h', null);
             $queryParam->setDefault('w', null);
-            $url = '/v1.25/exec/{id}/resize';
+            $url = '/exec/{id}/resize';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -166,10 +166,10 @@ trait ExecAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $url = '/v1.25/exec/{id}/json';
+            $url = '/exec/{id}/json';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $queryParam->buildFormDataString($parameters);
             $request = new \Amp\Artax\Request($url, 'GET');
             $request = $request->withHeaders($headers);
