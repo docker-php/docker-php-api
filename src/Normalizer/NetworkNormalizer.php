@@ -62,6 +62,9 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if (property_exists($data, 'Internal') && $data->{'Internal'} !== null) {
             $object->setInternal($data->{'Internal'});
         }
+        if (property_exists($data, 'Attachable') && $data->{'Attachable'} !== null) {
+            $object->setAttachable($data->{'Attachable'});
+        }
         if (property_exists($data, 'Containers') && $data->{'Containers'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Containers'} as $key => $value) {
@@ -113,6 +116,9 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         }
         if (null !== $object->getInternal()) {
             $data->{'Internal'} = $object->getInternal();
+        }
+        if (null !== $object->getAttachable()) {
+            $data->{'Attachable'} = $object->getAttachable();
         }
         if (null !== $object->getContainers()) {
             $values = new \stdClass();

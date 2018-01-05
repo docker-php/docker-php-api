@@ -24,6 +24,7 @@ trait ServiceAsyncResourceTrait
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\ServiceListInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceListServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Service>
      */
@@ -47,6 +48,9 @@ trait ServiceAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ServiceListServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -63,6 +67,7 @@ trait ServiceAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\ServiceCreateBadRequestException
      * @throws \Docker\API\Exception\ServiceCreateForbiddenException
      * @throws \Docker\API\Exception\ServiceCreateConflictException
      * @throws \Docker\API\Exception\ServiceCreateInternalServerErrorException
@@ -86,6 +91,9 @@ trait ServiceAsyncResourceTrait
             if (self::FETCH_OBJECT === $fetch) {
                 if (201 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ServicesCreatePostResponse201', 'json');
+                }
+                if (400 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ServiceCreateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (403 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceCreateForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -113,6 +121,7 @@ trait ServiceAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\ServiceDeleteNotFoundException
      * @throws \Docker\API\Exception\ServiceDeleteInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceDeleteServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -139,6 +148,9 @@ trait ServiceAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ServiceDeleteServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -153,6 +165,7 @@ trait ServiceAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\ServiceInspectNotFoundException
      * @throws \Docker\API\Exception\ServiceInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceInspectServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Service>
      */
@@ -179,6 +192,9 @@ trait ServiceAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ServiceInspectServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -198,8 +214,10 @@ trait ServiceAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\ServiceUpdateBadRequestException
      * @throws \Docker\API\Exception\ServiceUpdateNotFoundException
      * @throws \Docker\API\Exception\ServiceUpdateInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceUpdateServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\ImageDeleteResponse>
      */
@@ -223,11 +241,17 @@ trait ServiceAsyncResourceTrait
                 if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ImageDeleteResponse', 'json');
                 }
+                if (400 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ServiceUpdateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceUpdateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceUpdateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ServiceUpdateServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -259,6 +283,7 @@ trait ServiceAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\ServiceLogsNotFoundException
      * @throws \Docker\API\Exception\ServiceLogsInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceLogsServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -294,6 +319,9 @@ trait ServiceAsyncResourceTrait
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceLogsInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ServiceLogsServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

@@ -45,6 +45,10 @@ class Network
      */
     protected $internal;
     /**
+     * @var bool
+     */
+    protected $attachable;
+    /**
      * @var NetworkContainer[]
      */
     protected $containers;
@@ -213,6 +217,26 @@ class Network
     public function setInternal(?bool $internal): self
     {
         $this->internal = $internal;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAttachable(): ?bool
+    {
+        return $this->attachable;
+    }
+
+    /**
+     * @param bool $attachable
+     *
+     * @return self
+     */
+    public function setAttachable(?bool $attachable): self
+    {
+        $this->attachable = $attachable;
 
         return $this;
     }

@@ -22,7 +22,10 @@ trait NodeResourceTrait
      * }
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\NodeListBadRequestException
+     * @throws \Docker\API\Exception\NodeListNotFoundException
      * @throws \Docker\API\Exception\NodeListInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeListServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Node
      */
@@ -40,8 +43,17 @@ trait NodeResourceTrait
             if (200 === $response->getStatusCode()) {
                 return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Node[]', 'json');
             }
+            if (400 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NodeListBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (404 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NodeListNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NodeListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NodeListServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 
@@ -59,6 +71,7 @@ trait NodeResourceTrait
      *
      * @throws \Docker\API\Exception\NodeDeleteNotFoundException
      * @throws \Docker\API\Exception\NodeDeleteInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeDeleteServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
@@ -83,6 +96,9 @@ trait NodeResourceTrait
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NodeDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NodeDeleteServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
         }
 
         return $response;
@@ -95,6 +111,7 @@ trait NodeResourceTrait
      *
      * @throws \Docker\API\Exception\NodeInspectNotFoundException
      * @throws \Docker\API\Exception\NodeInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeInspectServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Node
      */
@@ -118,6 +135,9 @@ trait NodeResourceTrait
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NodeInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NodeInspectServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
         }
 
         return $response;
@@ -135,6 +155,7 @@ trait NodeResourceTrait
      *
      * @throws \Docker\API\Exception\NodeUpdateNotFoundException
      * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
@@ -158,6 +179,9 @@ trait NodeResourceTrait
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NodeUpdateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NodeUpdateServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 

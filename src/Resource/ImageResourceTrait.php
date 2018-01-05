@@ -20,7 +20,7 @@ trait ImageResourceTrait
      * @param array $parameters {
      *
      *     @var bool $all Show all images. Only images from a final layer (no children) are shown by default.
-     *     @var string $filters a JSON encoded value of the filters (a `map[string][]string`) to process on the images list
+     *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters:
 
      *     @var bool $digests Show digest information as a `RepoDigests` field on each image.
      * }
@@ -94,6 +94,7 @@ trait ImageResourceTrait
      * }
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\ImageBuildBadRequestException
      * @throws \Docker\API\Exception\ImageBuildInternalServerErrorException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
@@ -132,6 +133,9 @@ trait ImageResourceTrait
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
                 return null;
+            }
+            if (400 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ImageBuildBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ImageBuildInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -459,9 +463,14 @@ trait ImageResourceTrait
     /**
      * @param array $parameters {
      *
-     *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
+     *     @var string $filters Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters:
+
+    - `dangling=<boolean>` When set to `true` (or `1`), prune only
+      unused *and* untagged images. When set to `false`
+      (or `0`), all unused images are pruned.
 
      * }
+     *
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\ImagePruneInternalServerErrorException

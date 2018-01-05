@@ -42,7 +42,7 @@ class ServiceNormalizer implements DenormalizerInterface, NormalizerInterface, D
             $object->setID($data->{'ID'});
         }
         if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
-            $object->setVersion($this->denormalizer->denormalize($data->{'Version'}, 'Docker\\API\\Model\\ServiceVersion', 'json', $context));
+            $object->setVersion($this->denormalizer->denormalize($data->{'Version'}, 'Docker\\API\\Model\\ObjectVersion', 'json', $context));
         }
         if (property_exists($data, 'CreatedAt') && $data->{'CreatedAt'} !== null) {
             $object->setCreatedAt($data->{'CreatedAt'});

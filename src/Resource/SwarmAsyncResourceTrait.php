@@ -19,7 +19,9 @@ trait SwarmAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\SwarmInspectNotFoundException
      * @throws \Docker\API\Exception\SwarmInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmInspectServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\SwarmGetResponse200>
      */
@@ -39,8 +41,14 @@ trait SwarmAsyncResourceTrait
                 if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SwarmGetResponse200', 'json');
                 }
+                if (404 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SwarmInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SwarmInspectServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -55,8 +63,8 @@ trait SwarmAsyncResourceTrait
      * @param \Amp\CancellationToken              $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\SwarmInitBadRequestException
-     * @throws \Docker\API\Exception\SwarmInitNotAcceptableException
      * @throws \Docker\API\Exception\SwarmInitInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmInitServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -79,11 +87,11 @@ trait SwarmAsyncResourceTrait
                 if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInitBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (406 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SwarmInitNotAcceptableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInitInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SwarmInitServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -237,6 +245,7 @@ trait SwarmAsyncResourceTrait
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\SwarmUnlockkeyInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmUnlockkeyServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\SwarmUnlockkeyGetResponse200>
      */
@@ -259,6 +268,9 @@ trait SwarmAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmUnlockkeyInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SwarmUnlockkeyServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -272,6 +284,7 @@ trait SwarmAsyncResourceTrait
      * @param \Amp\CancellationToken                $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\SwarmUnlockInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmUnlockServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -293,6 +306,9 @@ trait SwarmAsyncResourceTrait
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmUnlockInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SwarmUnlockServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

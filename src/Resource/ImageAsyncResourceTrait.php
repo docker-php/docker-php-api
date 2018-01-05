@@ -20,7 +20,7 @@ trait ImageAsyncResourceTrait
      * @param array $parameters {
      *
      *     @var bool $all Show all images. Only images from a final layer (no children) are shown by default.
-     *     @var string $filters a JSON encoded value of the filters (a `map[string][]string`) to process on the images list
+     *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters:
 
      *     @var bool $digests Show digest information as a `RepoDigests` field on each image.
      * }
@@ -100,6 +100,7 @@ trait ImageAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\ImageBuildBadRequestException
      * @throws \Docker\API\Exception\ImageBuildInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
@@ -141,6 +142,9 @@ trait ImageAsyncResourceTrait
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
                     return null;
+                }
+                if (400 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\ImageBuildBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ImageBuildInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -504,9 +508,14 @@ trait ImageAsyncResourceTrait
     /**
      * @param array $parameters {
      *
-     *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
+     *     @var string $filters Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters:
+
+    - `dangling=<boolean>` When set to `true` (or `1`), prune only
+      unused *and* untagged images. When set to `false`
+      (or `0`), all unused images are pruned.
 
      * }
+     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *

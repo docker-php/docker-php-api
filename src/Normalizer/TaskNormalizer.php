@@ -42,7 +42,7 @@ class TaskNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
             $object->setID($data->{'ID'});
         }
         if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
-            $object->setVersion($this->denormalizer->denormalize($data->{'Version'}, 'Docker\\API\\Model\\TaskVersion', 'json', $context));
+            $object->setVersion($this->denormalizer->denormalize($data->{'Version'}, 'Docker\\API\\Model\\ObjectVersion', 'json', $context));
         }
         if (property_exists($data, 'CreatedAt') && $data->{'CreatedAt'} !== null) {
             $object->setCreatedAt($data->{'CreatedAt'});

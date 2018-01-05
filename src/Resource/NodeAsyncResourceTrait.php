@@ -23,7 +23,10 @@ trait NodeAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\NodeListBadRequestException
+     * @throws \Docker\API\Exception\NodeListNotFoundException
      * @throws \Docker\API\Exception\NodeListInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeListServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Node>
      */
@@ -44,8 +47,17 @@ trait NodeAsyncResourceTrait
                 if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Node[]', 'json');
                 }
+                if (400 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NodeListBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (404 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NodeListNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NodeListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NodeListServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -65,6 +77,7 @@ trait NodeAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\NodeDeleteNotFoundException
      * @throws \Docker\API\Exception\NodeDeleteInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeDeleteServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -92,6 +105,9 @@ trait NodeAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NodeDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NodeDeleteServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -106,6 +122,7 @@ trait NodeAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\NodeInspectNotFoundException
      * @throws \Docker\API\Exception\NodeInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeInspectServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Node>
      */
@@ -132,6 +149,9 @@ trait NodeAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NodeInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NodeInspectServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -151,6 +171,7 @@ trait NodeAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\NodeUpdateNotFoundException
      * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -177,6 +198,9 @@ trait NodeAsyncResourceTrait
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NodeUpdateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NodeUpdateServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

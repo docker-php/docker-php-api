@@ -233,6 +233,7 @@ trait PluginAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\PluginEnableNotFoundException
      * @throws \Docker\API\Exception\PluginEnableInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
@@ -255,6 +256,9 @@ trait PluginAsyncResourceTrait
                 if (200 === $response->getStatus()) {
                     return null;
                 }
+                if (404 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\PluginEnableNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginEnableInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
@@ -270,6 +274,7 @@ trait PluginAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\PluginDisableNotFoundException
      * @throws \Docker\API\Exception\PluginDisableInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
@@ -291,8 +296,60 @@ trait PluginAsyncResourceTrait
                 if (200 === $response->getStatus()) {
                     return null;
                 }
+                if (404 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\PluginDisableNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\PluginDisableInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+            }
+
+            return $response;
+        });
+    }
+
+    /**
+     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param array  $body
+     * @param array  $parameters {
+     *
+     *     @var string $remote remote reference to upgrade to
+
+     *     @var string $X-Registry-Auth A base64-encoded auth configuration to use when pulling a plugin from a registry. [See the authentication section for details.](#section/Authentication)
+     * }
+     *
+     * @param string                 $fetch             Fetch mode (object or response)
+     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     *
+     * @throws \Docker\API\Exception\PluginUpgradeNotFoundException
+     * @throws \Docker\API\Exception\PluginUpgradeInternalServerErrorException
+     *
+     * @return \Amp\Promise<\Amp\Artax\Response|null>
+     */
+    public function pluginUpgrade(string $name, array $body, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    {
+        return \Amp\call(function () use ($name, $body, $parameters, $fetch, $cancellationToken) {
+            $queryParam = new QueryParam();
+            $queryParam->addQueryParameter('remote', true, ['string']);
+            $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
+            $url = '/plugins/{name}/upgrade';
+            $url = str_replace('{name}', urlencode($name), $url);
+            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $body = $body;
+            $request = new \Amp\Artax\Request($url, 'POST');
+            $request = $request->withHeaders($headers);
+            $request = $request->withBody($body);
+            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
+            if (self::FETCH_OBJECT === $fetch) {
+                if (204 === $response->getStatus()) {
+                    return null;
+                }
+                if (404 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\PluginUpgradeNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (500 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\PluginUpgradeInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

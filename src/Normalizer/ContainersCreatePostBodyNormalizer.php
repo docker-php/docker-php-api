@@ -94,7 +94,7 @@ class ContainersCreatePostBodyNormalizer implements DenormalizerInterface, Norma
             $object->setCmd($value_2);
         }
         if (property_exists($data, 'Healthcheck') && $data->{'Healthcheck'} !== null) {
-            $object->setHealthcheck($this->denormalizer->denormalize($data->{'Healthcheck'}, 'Docker\\API\\Model\\ConfigHealthcheck', 'json', $context));
+            $object->setHealthcheck($this->denormalizer->denormalize($data->{'Healthcheck'}, 'Docker\\API\\Model\\HealthConfig', 'json', $context));
         }
         if (property_exists($data, 'ArgsEscaped') && $data->{'ArgsEscaped'} !== null) {
             $object->setArgsEscaped($data->{'ArgsEscaped'});

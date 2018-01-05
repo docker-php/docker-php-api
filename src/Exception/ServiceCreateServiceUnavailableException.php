@@ -16,7 +16,7 @@ class ServiceCreateServiceUnavailableException extends \RuntimeException impleme
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse)
     {
-        parent::__construct('server error or node is not part of a swarm', 503);
+        parent::__construct('node is not part of a swarm', 503);
         $this->errorResponse = $errorResponse;
     }
 

@@ -145,7 +145,7 @@ trait SystemResourceTrait
 
     Various objects within Docker report events when something happens to them.
 
-    Containers report these events: `attach, commit, copy, create, destroy, detach, die, exec_create, exec_detach, exec_start, export, kill, oom, pause, rename, resize, restart, start, stop, top, unpause, update`
+    Containers report these events: `attach, commit, copy, create, destroy, detach, die, exec_create, exec_detach, exec_start, export, health_status, kill, oom, pause, rename, resize, restart, start, stop, top, unpause, update`
 
     Images report these events: `delete, import, load, pull, push, save, tag, untag`
 
@@ -165,6 +165,7 @@ trait SystemResourceTrait
      * }
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\SystemEventsBadRequestException
      * @throws \Docker\API\Exception\SystemEventsInternalServerErrorException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\EventsGetResponse200
@@ -184,6 +185,9 @@ trait SystemResourceTrait
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
                 return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\EventsGetResponse200', 'json');
+            }
+            if (400 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SystemEventsBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SystemEventsInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

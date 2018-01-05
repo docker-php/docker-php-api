@@ -50,6 +50,9 @@ class PluginNormalizer implements DenormalizerInterface, NormalizerInterface, De
         if (property_exists($data, 'Settings') && $data->{'Settings'} !== null) {
             $object->setSettings($this->denormalizer->denormalize($data->{'Settings'}, 'Docker\\API\\Model\\PluginSettings', 'json', $context));
         }
+        if (property_exists($data, 'PluginReference') && $data->{'PluginReference'} !== null) {
+            $object->setPluginReference($data->{'PluginReference'});
+        }
         if (property_exists($data, 'Config') && $data->{'Config'} !== null) {
             $object->setConfig($this->denormalizer->denormalize($data->{'Config'}, 'Docker\\API\\Model\\PluginConfig', 'json', $context));
         }
@@ -71,6 +74,9 @@ class PluginNormalizer implements DenormalizerInterface, NormalizerInterface, De
         }
         if (null !== $object->getSettings()) {
             $data->{'Settings'} = $this->normalizer->normalize($object->getSettings(), 'json', $context);
+        }
+        if (null !== $object->getPluginReference()) {
+            $data->{'PluginReference'} = $object->getPluginReference();
         }
         if (null !== $object->getConfig()) {
             $data->{'Config'} = $this->normalizer->normalize($object->getConfig(), 'json', $context);

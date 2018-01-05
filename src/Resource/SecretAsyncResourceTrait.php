@@ -27,6 +27,7 @@ trait SecretAsyncResourceTrait
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\SecretListInternalServerErrorException
+     * @throws \Docker\API\Exception\SecretListServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Secret>
      */
@@ -50,6 +51,9 @@ trait SecretAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretListServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -62,9 +66,9 @@ trait SecretAsyncResourceTrait
      * @param string                                  $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken                  $cancellationToken Token to cancel the request
      *
-     * @throws \Docker\API\Exception\SecretCreateNotAcceptableException
      * @throws \Docker\API\Exception\SecretCreateConflictException
      * @throws \Docker\API\Exception\SecretCreateInternalServerErrorException
+     * @throws \Docker\API\Exception\SecretCreateServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\SecretsCreatePostResponse201>
      */
@@ -84,14 +88,14 @@ trait SecretAsyncResourceTrait
                 if (201 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SecretsCreatePostResponse201', 'json');
                 }
-                if (406 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SecretCreateNotAcceptableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
                 if (409 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretCreateConflictException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretCreateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretCreateServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -107,6 +111,7 @@ trait SecretAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\SecretDeleteNotFoundException
      * @throws \Docker\API\Exception\SecretDeleteInternalServerErrorException
+     * @throws \Docker\API\Exception\SecretDeleteServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -133,6 +138,9 @@ trait SecretAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretDeleteServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -146,8 +154,8 @@ trait SecretAsyncResourceTrait
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\SecretInspectNotFoundException
-     * @throws \Docker\API\Exception\SecretInspectNotAcceptableException
      * @throws \Docker\API\Exception\SecretInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\SecretInspectServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Secret>
      */
@@ -171,11 +179,57 @@ trait SecretAsyncResourceTrait
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
-                if (406 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SecretInspectNotAcceptableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretInspectServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+            }
+
+            return $response;
+        });
+    }
+
+    /**
+     * @param string                       $id         The ID of the secret
+     * @param \Docker\API\Model\SecretSpec $body       The spec of the secret to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [SecretInspect endpoint](#operation/SecretInspect) response values.
+     * @param array                        $parameters {
+     *
+     *     @var int $version The version number of the secret object being updated. This is required to avoid conflicting writes.
+     * }
+     *
+     * @param string                 $fetch             Fetch mode (object or response)
+     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     *
+     * @throws \Docker\API\Exception\SecretUpdateNotFoundException
+     * @throws \Docker\API\Exception\SecretUpdateInternalServerErrorException
+     *
+     * @return \Amp\Promise<\Amp\Artax\Response|null>
+     */
+    public function secretUpdate(string $id, \Docker\API\Model\SecretSpec $body, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    {
+        return \Amp\call(function () use ($id, $body, $parameters, $fetch, $cancellationToken) {
+            $queryParam = new QueryParam();
+            $queryParam->addQueryParameter('version', true, ['int']);
+            $url = '/secrets/{id}/update';
+            $url = str_replace('{id}', urlencode($id), $url);
+            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $body = $this->serializer->serialize($body, 'json');
+            $request = new \Amp\Artax\Request($url, 'POST');
+            $request = $request->withHeaders($headers);
+            $request = $request->withBody($body);
+            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
+            if (self::FETCH_OBJECT === $fetch) {
+                if (200 === $response->getStatus()) {
+                    return null;
+                }
+                if (404 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretUpdateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (500 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretUpdateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

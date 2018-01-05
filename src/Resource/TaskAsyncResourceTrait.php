@@ -24,6 +24,7 @@ trait TaskAsyncResourceTrait
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\TaskListInternalServerErrorException
+     * @throws \Docker\API\Exception\TaskListServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Task>
      */
@@ -47,6 +48,9 @@ trait TaskAsyncResourceTrait
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\TaskListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\TaskListServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
             }
 
             return $response;
@@ -61,6 +65,7 @@ trait TaskAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\TaskInspectNotFoundException
      * @throws \Docker\API\Exception\TaskInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\TaskInspectServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Task>
      */
@@ -86,6 +91,9 @@ trait TaskAsyncResourceTrait
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\TaskInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\TaskInspectServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

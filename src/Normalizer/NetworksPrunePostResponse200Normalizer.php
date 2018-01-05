@@ -38,12 +38,12 @@ class NetworksPrunePostResponse200Normalizer implements DenormalizerInterface, N
             return null;
         }
         $object = new \Docker\API\Model\NetworksPrunePostResponse200();
-        if (property_exists($data, 'VolumesDeleted') && $data->{'VolumesDeleted'} !== null) {
+        if (property_exists($data, 'NetworksDeleted') && $data->{'NetworksDeleted'} !== null) {
             $values = [];
-            foreach ($data->{'VolumesDeleted'} as $value) {
+            foreach ($data->{'NetworksDeleted'} as $value) {
                 $values[] = $value;
             }
-            $object->setVolumesDeleted($values);
+            $object->setNetworksDeleted($values);
         }
 
         return $object;
@@ -52,12 +52,12 @@ class NetworksPrunePostResponse200Normalizer implements DenormalizerInterface, N
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getVolumesDeleted()) {
+        if (null !== $object->getNetworksDeleted()) {
             $values = [];
-            foreach ($object->getVolumesDeleted() as $value) {
+            foreach ($object->getNetworksDeleted() as $value) {
                 $values[] = $value;
             }
-            $data->{'VolumesDeleted'} = $values;
+            $data->{'NetworksDeleted'} = $values;
         }
 
         return $data;

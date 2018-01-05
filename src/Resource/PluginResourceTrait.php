@@ -207,6 +207,7 @@ trait PluginResourceTrait
      *
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\PluginEnableNotFoundException
      * @throws \Docker\API\Exception\PluginEnableInternalServerErrorException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
@@ -226,6 +227,9 @@ trait PluginResourceTrait
             if (200 === $response->getStatusCode()) {
                 return null;
             }
+            if (404 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\PluginEnableNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\PluginEnableInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
@@ -239,6 +243,7 @@ trait PluginResourceTrait
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\PluginDisableNotFoundException
      * @throws \Docker\API\Exception\PluginDisableInternalServerErrorException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
@@ -257,8 +262,55 @@ trait PluginResourceTrait
             if (200 === $response->getStatusCode()) {
                 return null;
             }
+            if (404 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\PluginDisableNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\PluginDisableInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param array  $body
+     * @param array  $parameters {
+     *
+     *     @var string $remote remote reference to upgrade to
+
+     *     @var string $X-Registry-Auth A base64-encoded auth configuration to use when pulling a plugin from a registry. [See the authentication section for details.](#section/Authentication)
+     * }
+     *
+     * @param string $fetch Fetch mode (object or response)
+     *
+     * @throws \Docker\API\Exception\PluginUpgradeNotFoundException
+     * @throws \Docker\API\Exception\PluginUpgradeInternalServerErrorException
+     *
+     * @return \Psr\Http\Message\ResponseInterface|null
+     */
+    public function pluginUpgrade(string $name, array $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    {
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('remote', true, ['string']);
+        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
+        $url = '/plugins/{name}/upgrade';
+        $url = str_replace('{name}', urlencode($name), $url);
+        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $body = $body;
+        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
+        $response = $this->httpClient->sendRequest($request);
+        if (self::FETCH_OBJECT === $fetch) {
+            if (204 === $response->getStatusCode()) {
+                return null;
+            }
+            if (404 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\PluginUpgradeNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (500 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\PluginUpgradeInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 

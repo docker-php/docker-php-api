@@ -165,7 +165,7 @@ trait SystemAsyncResourceTrait
 
     Various objects within Docker report events when something happens to them.
 
-    Containers report these events: `attach, commit, copy, create, destroy, detach, die, exec_create, exec_detach, exec_start, export, kill, oom, pause, rename, resize, restart, start, stop, top, unpause, update`
+    Containers report these events: `attach, commit, copy, create, destroy, detach, die, exec_create, exec_detach, exec_start, export, health_status, kill, oom, pause, rename, resize, restart, start, stop, top, unpause, update`
 
     Images report these events: `delete, import, load, pull, push, save, tag, untag`
 
@@ -186,6 +186,7 @@ trait SystemAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\SystemEventsBadRequestException
      * @throws \Docker\API\Exception\SystemEventsInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\EventsGetResponse200>
@@ -208,6 +209,9 @@ trait SystemAsyncResourceTrait
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\EventsGetResponse200', 'json');
+                }
+                if (400 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SystemEventsBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SystemEventsInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));

@@ -23,6 +23,7 @@ trait ServiceResourceTrait
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\ServiceListInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceListServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Service
      */
@@ -43,6 +44,9 @@ trait ServiceResourceTrait
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ServiceListServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
         }
 
         return $response;
@@ -57,6 +61,7 @@ trait ServiceResourceTrait
      *
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\ServiceCreateBadRequestException
      * @throws \Docker\API\Exception\ServiceCreateForbiddenException
      * @throws \Docker\API\Exception\ServiceCreateConflictException
      * @throws \Docker\API\Exception\ServiceCreateInternalServerErrorException
@@ -77,6 +82,9 @@ trait ServiceResourceTrait
         if (self::FETCH_OBJECT === $fetch) {
             if (201 === $response->getStatusCode()) {
                 return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ServicesCreatePostResponse201', 'json');
+            }
+            if (400 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ServiceCreateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (403 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceCreateForbiddenException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -102,6 +110,7 @@ trait ServiceResourceTrait
      *
      * @throws \Docker\API\Exception\ServiceDeleteNotFoundException
      * @throws \Docker\API\Exception\ServiceDeleteInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceDeleteServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
@@ -125,6 +134,9 @@ trait ServiceResourceTrait
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ServiceDeleteServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
         }
 
         return $response;
@@ -137,6 +149,7 @@ trait ServiceResourceTrait
      *
      * @throws \Docker\API\Exception\ServiceInspectNotFoundException
      * @throws \Docker\API\Exception\ServiceInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceInspectServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Service
      */
@@ -160,6 +173,9 @@ trait ServiceResourceTrait
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ServiceInspectServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
         }
 
         return $response;
@@ -177,8 +193,10 @@ trait ServiceResourceTrait
      *
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\ServiceUpdateBadRequestException
      * @throws \Docker\API\Exception\ServiceUpdateNotFoundException
      * @throws \Docker\API\Exception\ServiceUpdateInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceUpdateServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImageDeleteResponse
      */
@@ -199,11 +217,17 @@ trait ServiceResourceTrait
             if (200 === $response->getStatusCode()) {
                 return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImageDeleteResponse', 'json');
             }
+            if (400 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ServiceUpdateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceUpdateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceUpdateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ServiceUpdateServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 
@@ -233,6 +257,7 @@ trait ServiceResourceTrait
      *
      * @throws \Docker\API\Exception\ServiceLogsNotFoundException
      * @throws \Docker\API\Exception\ServiceLogsInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceLogsServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
@@ -265,6 +290,9 @@ trait ServiceResourceTrait
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceLogsInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ServiceLogsServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 

@@ -20,7 +20,7 @@ trait ContainerResourceTrait
      *     @var bool $all Return all containers. By default, only running containers are shown
      *     @var int $limit return this number of most recently created containers, including non-running ones
      *     @var bool $size return the size of container as fields `SizeRw` and `SizeRootFs`
-     *     @var string $filters Filters to process on the container list, encoded as JSON (a `map[string][]string`). For example, `{"status": ["paused"]}` will only return paused containers.
+     *     @var string $filters Filters to process on the container list, encoded as JSON (a `map[string][]string`). For example, `{"status": ["paused"]}` will only return paused containers. Available filters:
 
      * }
      * @param string $fetch Fetch mode (object or response)
@@ -981,13 +981,15 @@ trait ContainerResourceTrait
      * @param array  $parameters {
      *
      *     @var bool $v remove the volumes associated with the container
-     *     @var bool $force If the container is running, kill it before removing it.
+     *     @var bool $force if the container is running, kill it before removing it
+     *     @var bool $link Remove the specified link associated with the container.
      * }
      *
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\ContainerDeleteBadRequestException
      * @throws \Docker\API\Exception\ContainerDeleteNotFoundException
+     * @throws \Docker\API\Exception\ContainerDeleteConflictException
      * @throws \Docker\API\Exception\ContainerDeleteInternalServerErrorException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
@@ -997,6 +999,7 @@ trait ContainerResourceTrait
         $queryParam = new QueryParam($this->streamFactory);
         $queryParam->addQueryParameter('v', false, ['bool'], false);
         $queryParam->addQueryParameter('force', false, ['bool'], false);
+        $queryParam->addQueryParameter('link', false, ['bool'], false);
         $url = '/containers/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -1013,6 +1016,9 @@ trait ContainerResourceTrait
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ContainerDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (409 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\ContainerDeleteConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ContainerDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

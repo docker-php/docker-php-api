@@ -50,6 +50,9 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         if (property_exists($data, 'Internal') && $data->{'Internal'} !== null) {
             $object->setInternal($data->{'Internal'});
         }
+        if (property_exists($data, 'Attachable') && $data->{'Attachable'} !== null) {
+            $object->setAttachable($data->{'Attachable'});
+        }
         if (property_exists($data, 'IPAM') && $data->{'IPAM'} !== null) {
             $object->setIPAM($this->denormalizer->denormalize($data->{'IPAM'}, 'Docker\\API\\Model\\IPAM', 'json', $context));
         }
@@ -88,6 +91,9 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         }
         if (null !== $object->getInternal()) {
             $data->{'Internal'} = $object->getInternal();
+        }
+        if (null !== $object->getAttachable()) {
+            $data->{'Attachable'} = $object->getAttachable();
         }
         if (null !== $object->getIPAM()) {
             $data->{'IPAM'} = $this->normalizer->normalize($object->getIPAM(), 'json', $context);

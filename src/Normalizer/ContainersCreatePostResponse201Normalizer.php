@@ -42,18 +42,11 @@ class ContainersCreatePostResponse201Normalizer implements DenormalizerInterface
             $object->setId($data->{'Id'});
         }
         if (property_exists($data, 'Warnings') && $data->{'Warnings'} !== null) {
-            $value = $data->{'Warnings'};
-            if (is_array($data->{'Warnings'})) {
-                $values = [];
-                foreach ($data->{'Warnings'} as $value_1) {
-                    $values[] = $value_1;
-                }
-                $value = $values;
+            $values = [];
+            foreach ($data->{'Warnings'} as $value) {
+                $values[] = $value;
             }
-            if (is_null($data->{'Warnings'})) {
-                $value = $data->{'Warnings'};
-            }
-            $object->setWarnings($value);
+            $object->setWarnings($values);
         }
 
         return $object;
@@ -65,18 +58,13 @@ class ContainersCreatePostResponse201Normalizer implements DenormalizerInterface
         if (null !== $object->getId()) {
             $data->{'Id'} = $object->getId();
         }
-        $value = $object->getWarnings();
-        if (is_array($object->getWarnings())) {
+        if (null !== $object->getWarnings()) {
             $values = [];
-            foreach ($object->getWarnings() as $value_1) {
-                $values[] = $value_1;
+            foreach ($object->getWarnings() as $value) {
+                $values[] = $value;
             }
-            $value = $values;
+            $data->{'Warnings'} = $values;
         }
-        if (is_null($object->getWarnings())) {
-            $value = $object->getWarnings();
-        }
-        $data->{'Warnings'} = $value;
 
         return $data;
     }

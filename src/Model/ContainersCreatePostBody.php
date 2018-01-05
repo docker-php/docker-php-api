@@ -90,7 +90,7 @@ class ContainersCreatePostBody
     /**
      * A test to perform to check that the container is healthy.
      *
-     * @var ConfigHealthcheck
+     * @var HealthConfig
      */
     protected $healthcheck;
     /**
@@ -478,9 +478,9 @@ class ContainersCreatePostBody
     /**
      * A test to perform to check that the container is healthy.
      *
-     * @return ConfigHealthcheck
+     * @return HealthConfig
      */
-    public function getHealthcheck(): ?ConfigHealthcheck
+    public function getHealthcheck(): ?HealthConfig
     {
         return $this->healthcheck;
     }
@@ -488,11 +488,11 @@ class ContainersCreatePostBody
     /**
      * A test to perform to check that the container is healthy.
      *
-     * @param ConfigHealthcheck $healthcheck
+     * @param HealthConfig $healthcheck
      *
      * @return self
      */
-    public function setHealthcheck(?ConfigHealthcheck $healthcheck): self
+    public function setHealthcheck(?HealthConfig $healthcheck): self
     {
         $this->healthcheck = $healthcheck;
 

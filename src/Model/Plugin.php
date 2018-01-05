@@ -33,6 +33,12 @@ class Plugin
      */
     protected $settings;
     /**
+     * plugin remote reference used to push/pull the plugin.
+     *
+     * @var string
+     */
+    protected $pluginReference;
+    /**
      * The config of a plugin.
      *
      * @var PluginConfig
@@ -123,6 +129,30 @@ class Plugin
     public function setSettings(?PluginSettings $settings): self
     {
         $this->settings = $settings;
+
+        return $this;
+    }
+
+    /**
+     * plugin remote reference used to push/pull the plugin.
+     *
+     * @return string
+     */
+    public function getPluginReference(): ?string
+    {
+        return $this->pluginReference;
+    }
+
+    /**
+     * plugin remote reference used to push/pull the plugin.
+     *
+     * @param string $pluginReference
+     *
+     * @return self
+     */
+    public function setPluginReference(?string $pluginReference): self
+    {
+        $this->pluginReference = $pluginReference;
 
         return $this;
     }

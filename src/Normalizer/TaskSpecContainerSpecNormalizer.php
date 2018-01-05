@@ -41,26 +41,36 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
         if (property_exists($data, 'Image') && $data->{'Image'} !== null) {
             $object->setImage($data->{'Image'});
         }
-        if (property_exists($data, 'Command') && $data->{'Command'} !== null) {
-            $values = [];
-            foreach ($data->{'Command'} as $value) {
-                $values[] = $value;
+        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
+            $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data->{'Labels'} as $key => $value) {
+                $values[$key] = $value;
             }
-            $object->setCommand($values);
+            $object->setLabels($values);
         }
-        if (property_exists($data, 'Args') && $data->{'Args'} !== null) {
+        if (property_exists($data, 'Command') && $data->{'Command'} !== null) {
             $values_1 = [];
-            foreach ($data->{'Args'} as $value_1) {
+            foreach ($data->{'Command'} as $value_1) {
                 $values_1[] = $value_1;
             }
-            $object->setArgs($values_1);
+            $object->setCommand($values_1);
         }
-        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
+        if (property_exists($data, 'Args') && $data->{'Args'} !== null) {
             $values_2 = [];
-            foreach ($data->{'Env'} as $value_2) {
+            foreach ($data->{'Args'} as $value_2) {
                 $values_2[] = $value_2;
             }
-            $object->setEnv($values_2);
+            $object->setArgs($values_2);
+        }
+        if (property_exists($data, 'Hostname') && $data->{'Hostname'} !== null) {
+            $object->setHostname($data->{'Hostname'});
+        }
+        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
+            $values_3 = [];
+            foreach ($data->{'Env'} as $value_3) {
+                $values_3[] = $value_3;
+            }
+            $object->setEnv($values_3);
         }
         if (property_exists($data, 'Dir') && $data->{'Dir'} !== null) {
             $object->setDir($data->{'Dir'});
@@ -68,28 +78,51 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
         if (property_exists($data, 'User') && $data->{'User'} !== null) {
             $object->setUser($data->{'User'});
         }
-        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
-            $values_3 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data->{'Labels'} as $key => $value_3) {
-                $values_3[$key] = $value_3;
+        if (property_exists($data, 'Groups') && $data->{'Groups'} !== null) {
+            $values_4 = [];
+            foreach ($data->{'Groups'} as $value_4) {
+                $values_4[] = $value_4;
             }
-            $object->setLabels($values_3);
+            $object->setGroups($values_4);
         }
         if (property_exists($data, 'TTY') && $data->{'TTY'} !== null) {
             $object->setTTY($data->{'TTY'});
         }
+        if (property_exists($data, 'OpenStdin') && $data->{'OpenStdin'} !== null) {
+            $object->setOpenStdin($data->{'OpenStdin'});
+        }
+        if (property_exists($data, 'ReadOnly') && $data->{'ReadOnly'} !== null) {
+            $object->setReadOnly($data->{'ReadOnly'});
+        }
         if (property_exists($data, 'Mounts') && $data->{'Mounts'} !== null) {
-            $values_4 = [];
-            foreach ($data->{'Mounts'} as $value_4) {
-                $values_4[] = $this->denormalizer->denormalize($value_4, 'Docker\\API\\Model\\Mount', 'json', $context);
+            $values_5 = [];
+            foreach ($data->{'Mounts'} as $value_5) {
+                $values_5[] = $this->denormalizer->denormalize($value_5, 'Docker\\API\\Model\\Mount', 'json', $context);
             }
-            $object->setMounts($values_4);
+            $object->setMounts($values_5);
         }
         if (property_exists($data, 'StopGracePeriod') && $data->{'StopGracePeriod'} !== null) {
             $object->setStopGracePeriod($data->{'StopGracePeriod'});
         }
+        if (property_exists($data, 'HealthCheck') && $data->{'HealthCheck'} !== null) {
+            $object->setHealthCheck($this->denormalizer->denormalize($data->{'HealthCheck'}, 'Docker\\API\\Model\\HealthConfig', 'json', $context));
+        }
+        if (property_exists($data, 'Hosts') && $data->{'Hosts'} !== null) {
+            $values_6 = [];
+            foreach ($data->{'Hosts'} as $value_6) {
+                $values_6[] = $value_6;
+            }
+            $object->setHosts($values_6);
+        }
         if (property_exists($data, 'DNSConfig') && $data->{'DNSConfig'} !== null) {
             $object->setDNSConfig($this->denormalizer->denormalize($data->{'DNSConfig'}, 'Docker\\API\\Model\\TaskSpecContainerSpecDNSConfig', 'json', $context));
+        }
+        if (property_exists($data, 'Secrets') && $data->{'Secrets'} !== null) {
+            $values_7 = [];
+            foreach ($data->{'Secrets'} as $value_7) {
+                $values_7[] = $this->denormalizer->denormalize($value_7, 'Docker\\API\\Model\\TaskSpecContainerSpecSecretsItem', 'json', $context);
+            }
+            $object->setSecrets($values_7);
         }
 
         return $object;
@@ -101,26 +134,36 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
         if (null !== $object->getImage()) {
             $data->{'Image'} = $object->getImage();
         }
-        if (null !== $object->getCommand()) {
-            $values = [];
-            foreach ($object->getCommand() as $value) {
-                $values[] = $value;
+        if (null !== $object->getLabels()) {
+            $values = new \stdClass();
+            foreach ($object->getLabels() as $key => $value) {
+                $values->{$key} = $value;
             }
-            $data->{'Command'} = $values;
+            $data->{'Labels'} = $values;
         }
-        if (null !== $object->getArgs()) {
+        if (null !== $object->getCommand()) {
             $values_1 = [];
-            foreach ($object->getArgs() as $value_1) {
+            foreach ($object->getCommand() as $value_1) {
                 $values_1[] = $value_1;
             }
-            $data->{'Args'} = $values_1;
+            $data->{'Command'} = $values_1;
         }
-        if (null !== $object->getEnv()) {
+        if (null !== $object->getArgs()) {
             $values_2 = [];
-            foreach ($object->getEnv() as $value_2) {
+            foreach ($object->getArgs() as $value_2) {
                 $values_2[] = $value_2;
             }
-            $data->{'Env'} = $values_2;
+            $data->{'Args'} = $values_2;
+        }
+        if (null !== $object->getHostname()) {
+            $data->{'Hostname'} = $object->getHostname();
+        }
+        if (null !== $object->getEnv()) {
+            $values_3 = [];
+            foreach ($object->getEnv() as $value_3) {
+                $values_3[] = $value_3;
+            }
+            $data->{'Env'} = $values_3;
         }
         if (null !== $object->getDir()) {
             $data->{'Dir'} = $object->getDir();
@@ -128,28 +171,51 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
         if (null !== $object->getUser()) {
             $data->{'User'} = $object->getUser();
         }
-        if (null !== $object->getLabels()) {
-            $values_3 = new \stdClass();
-            foreach ($object->getLabels() as $key => $value_3) {
-                $values_3->{$key} = $value_3;
+        if (null !== $object->getGroups()) {
+            $values_4 = [];
+            foreach ($object->getGroups() as $value_4) {
+                $values_4[] = $value_4;
             }
-            $data->{'Labels'} = $values_3;
+            $data->{'Groups'} = $values_4;
         }
         if (null !== $object->getTTY()) {
             $data->{'TTY'} = $object->getTTY();
         }
+        if (null !== $object->getOpenStdin()) {
+            $data->{'OpenStdin'} = $object->getOpenStdin();
+        }
+        if (null !== $object->getReadOnly()) {
+            $data->{'ReadOnly'} = $object->getReadOnly();
+        }
         if (null !== $object->getMounts()) {
-            $values_4 = [];
-            foreach ($object->getMounts() as $value_4) {
-                $values_4[] = $this->normalizer->normalize($value_4, 'json', $context);
+            $values_5 = [];
+            foreach ($object->getMounts() as $value_5) {
+                $values_5[] = $this->normalizer->normalize($value_5, 'json', $context);
             }
-            $data->{'Mounts'} = $values_4;
+            $data->{'Mounts'} = $values_5;
         }
         if (null !== $object->getStopGracePeriod()) {
             $data->{'StopGracePeriod'} = $object->getStopGracePeriod();
         }
+        if (null !== $object->getHealthCheck()) {
+            $data->{'HealthCheck'} = $this->normalizer->normalize($object->getHealthCheck(), 'json', $context);
+        }
+        if (null !== $object->getHosts()) {
+            $values_6 = [];
+            foreach ($object->getHosts() as $value_6) {
+                $values_6[] = $value_6;
+            }
+            $data->{'Hosts'} = $values_6;
+        }
         if (null !== $object->getDNSConfig()) {
             $data->{'DNSConfig'} = $this->normalizer->normalize($object->getDNSConfig(), 'json', $context);
+        }
+        if (null !== $object->getSecrets()) {
+            $values_7 = [];
+            foreach ($object->getSecrets() as $value_7) {
+                $values_7[] = $this->normalizer->normalize($value_7, 'json', $context);
+            }
+            $data->{'Secrets'} = $values_7;
         }
 
         return $data;

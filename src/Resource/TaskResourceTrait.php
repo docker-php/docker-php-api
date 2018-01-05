@@ -23,6 +23,7 @@ trait TaskResourceTrait
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\TaskListInternalServerErrorException
+     * @throws \Docker\API\Exception\TaskListServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Task
      */
@@ -43,6 +44,9 @@ trait TaskResourceTrait
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\TaskListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\TaskListServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
         }
 
         return $response;
@@ -55,6 +59,7 @@ trait TaskResourceTrait
      *
      * @throws \Docker\API\Exception\TaskInspectNotFoundException
      * @throws \Docker\API\Exception\TaskInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\TaskInspectServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Task
      */
@@ -77,6 +82,9 @@ trait TaskResourceTrait
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\TaskInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\TaskInspectServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 

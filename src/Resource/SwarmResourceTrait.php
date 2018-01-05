@@ -18,7 +18,9 @@ trait SwarmResourceTrait
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\SwarmInspectNotFoundException
      * @throws \Docker\API\Exception\SwarmInspectInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmInspectServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\SwarmGetResponse200
      */
@@ -35,8 +37,14 @@ trait SwarmResourceTrait
             if (200 === $response->getStatusCode()) {
                 return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\SwarmGetResponse200', 'json');
             }
+            if (404 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SwarmInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SwarmInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SwarmInspectServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 
@@ -49,8 +57,8 @@ trait SwarmResourceTrait
      * @param string                              $fetch      Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\SwarmInitBadRequestException
-     * @throws \Docker\API\Exception\SwarmInitNotAcceptableException
      * @throws \Docker\API\Exception\SwarmInitInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmInitServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
@@ -70,11 +78,11 @@ trait SwarmResourceTrait
             if (400 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SwarmInitBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
-            if (406 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\SwarmInitNotAcceptableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SwarmInitInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SwarmInitServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 
@@ -211,6 +219,7 @@ trait SwarmResourceTrait
      * @param string $fetch      Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\SwarmUnlockkeyInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmUnlockkeyServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\SwarmUnlockkeyGetResponse200
      */
@@ -230,6 +239,9 @@ trait SwarmResourceTrait
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SwarmUnlockkeyInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SwarmUnlockkeyServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
         }
 
         return $response;
@@ -241,6 +253,7 @@ trait SwarmResourceTrait
      * @param string                                $fetch      Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\SwarmUnlockInternalServerErrorException
+     * @throws \Docker\API\Exception\SwarmUnlockServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
@@ -259,6 +272,9 @@ trait SwarmResourceTrait
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SwarmUnlockInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SwarmUnlockServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 

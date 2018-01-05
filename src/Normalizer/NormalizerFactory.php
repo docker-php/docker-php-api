@@ -29,11 +29,11 @@ class NormalizerFactory
         $normalizers[] = new ResourcesNormalizer();
         $normalizers[] = new ResourcesBlkioWeightDeviceItemNormalizer();
         $normalizers[] = new ResourcesUlimitsItemNormalizer();
+        $normalizers[] = new HealthConfigNormalizer();
         $normalizers[] = new HostConfigNormalizer();
         $normalizers[] = new HostConfigLogConfigNormalizer();
         $normalizers[] = new HostConfigPortBindingsItemNormalizer();
         $normalizers[] = new ConfigNormalizer();
-        $normalizers[] = new ConfigHealthcheckNormalizer();
         $normalizers[] = new ConfigVolumesNormalizer();
         $normalizers[] = new NetworkConfigNormalizer();
         $normalizers[] = new GraphDriverNormalizer();
@@ -69,9 +69,9 @@ class NormalizerFactory
         $normalizers[] = new PluginConfigLinuxNormalizer();
         $normalizers[] = new PluginConfigArgsNormalizer();
         $normalizers[] = new PluginConfigRootfsNormalizer();
+        $normalizers[] = new ObjectVersionNormalizer();
         $normalizers[] = new NodeSpecNormalizer();
         $normalizers[] = new NodeNormalizer();
-        $normalizers[] = new NodeVersionNormalizer();
         $normalizers[] = new NodeDescriptionNormalizer();
         $normalizers[] = new NodeDescriptionPlatformNormalizer();
         $normalizers[] = new NodeDescriptionResourcesNormalizer();
@@ -87,10 +87,11 @@ class NormalizerFactory
         $normalizers[] = new SwarmSpecTaskDefaultsNormalizer();
         $normalizers[] = new SwarmSpecTaskDefaultsLogDriverNormalizer();
         $normalizers[] = new ClusterInfoNormalizer();
-        $normalizers[] = new ClusterInfoVersionNormalizer();
         $normalizers[] = new TaskSpecNormalizer();
         $normalizers[] = new TaskSpecContainerSpecNormalizer();
         $normalizers[] = new TaskSpecContainerSpecDNSConfigNormalizer();
+        $normalizers[] = new TaskSpecContainerSpecSecretsItemNormalizer();
+        $normalizers[] = new TaskSpecContainerSpecSecretsItemFileNormalizer();
         $normalizers[] = new TaskSpecResourcesNormalizer();
         $normalizers[] = new TaskSpecResourcesLimitsNormalizer();
         $normalizers[] = new TaskSpecResourcesReservationNormalizer();
@@ -99,7 +100,6 @@ class NormalizerFactory
         $normalizers[] = new TaskSpecNetworksItemNormalizer();
         $normalizers[] = new TaskSpecLogDriverNormalizer();
         $normalizers[] = new TaskNormalizer();
-        $normalizers[] = new TaskVersionNormalizer();
         $normalizers[] = new TaskStatusNormalizer();
         $normalizers[] = new TaskStatusContainerStatusNormalizer();
         $normalizers[] = new ServiceSpecNormalizer();
@@ -110,7 +110,6 @@ class NormalizerFactory
         $normalizers[] = new EndpointPortConfigNormalizer();
         $normalizers[] = new EndpointSpecNormalizer();
         $normalizers[] = new ServiceNormalizer();
-        $normalizers[] = new ServiceVersionNormalizer();
         $normalizers[] = new ServiceEndpointNormalizer();
         $normalizers[] = new ServiceEndpointVirtualIPsItemNormalizer();
         $normalizers[] = new ServiceUpdateStatusNormalizer();
@@ -121,7 +120,6 @@ class NormalizerFactory
         $normalizers[] = new ContainerSummaryItemNetworkSettingsNormalizer();
         $normalizers[] = new SecretSpecNormalizer();
         $normalizers[] = new SecretNormalizer();
-        $normalizers[] = new SecretVersionNormalizer();
         $normalizers[] = new ContainersCreatePostBodyNormalizer();
         $normalizers[] = new ContainersCreatePostBodyNetworkingConfigNormalizer();
         $normalizers[] = new ContainersCreatePostResponse201Normalizer();
@@ -160,6 +158,7 @@ class NormalizerFactory
         $normalizers[] = new NetworksPrunePostResponse200Normalizer();
         $normalizers[] = new PluginsPrivilegesGetResponse200ItemNormalizer();
         $normalizers[] = new PluginsPullPostBodyItemNormalizer();
+        $normalizers[] = new PluginsNameUpgradePostBodyItemNormalizer();
         $normalizers[] = new SwarmGetResponse200Normalizer();
         $normalizers[] = new SwarmGetResponse200JoinTokensNormalizer();
         $normalizers[] = new SwarmInitPostBodyNormalizer();

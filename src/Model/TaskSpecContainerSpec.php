@@ -19,6 +19,12 @@ class TaskSpecContainerSpec
      */
     protected $image;
     /**
+     * User-defined key/value data.
+     *
+     * @var string[]
+     */
+    protected $labels;
+    /**
      * The command to be run in the image.
      *
      * @var string[]
@@ -30,6 +36,12 @@ class TaskSpecContainerSpec
      * @var string[]
      */
     protected $args;
+    /**
+     * The hostname to use for the container, as a valid RFC 1123 hostname.
+     *
+     * @var string
+     */
+    protected $hostname;
     /**
      * A list of environment variables in the form `VAR=value`.
      *
@@ -49,17 +61,29 @@ class TaskSpecContainerSpec
      */
     protected $user;
     /**
-     * User-defined key/value data.
+     * A list of additional groups that the container process will run as.
      *
      * @var string[]
      */
-    protected $labels;
+    protected $groups;
     /**
      * Whether a pseudo-TTY should be allocated.
      *
      * @var bool
      */
     protected $tTY;
+    /**
+     * Open `stdin`.
+     *
+     * @var bool
+     */
+    protected $openStdin;
+    /**
+     * Mount the container's root filesystem as read only.
+     *
+     * @var bool
+     */
+    protected $readOnly;
     /**
      * Specification for mounts to be added to containers created as part of the service.
      *
@@ -73,11 +97,33 @@ class TaskSpecContainerSpec
      */
     protected $stopGracePeriod;
     /**
+     * A test to perform to check that the container is healthy.
+     *
+     * @var HealthConfig
+     */
+    protected $healthCheck;
+    /**
+     * A list of hostnames/IP mappings to add to the container's `/etc/hosts` file.
+    The format of extra hosts on swarmkit is specified in:
+    http://man7.org/linux/man-pages/man5/hosts.5.html
+     IP_address canonical_hostname [aliases...]
+
+     *
+     * @var string[]
+     */
+    protected $hosts;
+    /**
      * Specification for DNS related configurations in resolver configuration file (`resolv.conf`).
      *
      * @var TaskSpecContainerSpecDNSConfig
      */
     protected $dNSConfig;
+    /**
+     * Secrets contains references to zero or more secrets that will be exposed to the service.
+     *
+     * @var TaskSpecContainerSpecSecretsItem[]
+     */
+    protected $secrets;
 
     /**
      * The image name to use for the container.
@@ -99,6 +145,30 @@ class TaskSpecContainerSpec
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * User-defined key/value data.
+     *
+     * @return string[]
+     */
+    public function getLabels(): ?\ArrayObject
+    {
+        return $this->labels;
+    }
+
+    /**
+     * User-defined key/value data.
+     *
+     * @param string[] $labels
+     *
+     * @return self
+     */
+    public function setLabels(?\ArrayObject $labels): self
+    {
+        $this->labels = $labels;
 
         return $this;
     }
@@ -147,6 +217,30 @@ class TaskSpecContainerSpec
     public function setArgs(?array $args): self
     {
         $this->args = $args;
+
+        return $this;
+    }
+
+    /**
+     * The hostname to use for the container, as a valid RFC 1123 hostname.
+     *
+     * @return string
+     */
+    public function getHostname(): ?string
+    {
+        return $this->hostname;
+    }
+
+    /**
+     * The hostname to use for the container, as a valid RFC 1123 hostname.
+     *
+     * @param string $hostname
+     *
+     * @return self
+     */
+    public function setHostname(?string $hostname): self
+    {
+        $this->hostname = $hostname;
 
         return $this;
     }
@@ -224,25 +318,25 @@ class TaskSpecContainerSpec
     }
 
     /**
-     * User-defined key/value data.
+     * A list of additional groups that the container process will run as.
      *
      * @return string[]
      */
-    public function getLabels(): ?\ArrayObject
+    public function getGroups(): ?array
     {
-        return $this->labels;
+        return $this->groups;
     }
 
     /**
-     * User-defined key/value data.
+     * A list of additional groups that the container process will run as.
      *
-     * @param string[] $labels
+     * @param string[] $groups
      *
      * @return self
      */
-    public function setLabels(?\ArrayObject $labels): self
+    public function setGroups(?array $groups): self
     {
-        $this->labels = $labels;
+        $this->groups = $groups;
 
         return $this;
     }
@@ -267,6 +361,54 @@ class TaskSpecContainerSpec
     public function setTTY(?bool $tTY): self
     {
         $this->tTY = $tTY;
+
+        return $this;
+    }
+
+    /**
+     * Open `stdin`.
+     *
+     * @return bool
+     */
+    public function getOpenStdin(): ?bool
+    {
+        return $this->openStdin;
+    }
+
+    /**
+     * Open `stdin`.
+     *
+     * @param bool $openStdin
+     *
+     * @return self
+     */
+    public function setOpenStdin(?bool $openStdin): self
+    {
+        $this->openStdin = $openStdin;
+
+        return $this;
+    }
+
+    /**
+     * Mount the container's root filesystem as read only.
+     *
+     * @return bool
+     */
+    public function getReadOnly(): ?bool
+    {
+        return $this->readOnly;
+    }
+
+    /**
+     * Mount the container's root filesystem as read only.
+     *
+     * @param bool $readOnly
+     *
+     * @return self
+     */
+    public function setReadOnly(?bool $readOnly): self
+    {
+        $this->readOnly = $readOnly;
 
         return $this;
     }
@@ -320,6 +462,62 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * A test to perform to check that the container is healthy.
+     *
+     * @return HealthConfig
+     */
+    public function getHealthCheck(): ?HealthConfig
+    {
+        return $this->healthCheck;
+    }
+
+    /**
+     * A test to perform to check that the container is healthy.
+     *
+     * @param HealthConfig $healthCheck
+     *
+     * @return self
+     */
+    public function setHealthCheck(?HealthConfig $healthCheck): self
+    {
+        $this->healthCheck = $healthCheck;
+
+        return $this;
+    }
+
+    /**
+     * A list of hostnames/IP mappings to add to the container's `/etc/hosts` file.
+    The format of extra hosts on swarmkit is specified in:
+    http://man7.org/linux/man-pages/man5/hosts.5.html
+     IP_address canonical_hostname [aliases...]
+
+     *
+     * @return string[]
+     */
+    public function getHosts(): ?array
+    {
+        return $this->hosts;
+    }
+
+    /**
+     * A list of hostnames/IP mappings to add to the container's `/etc/hosts` file.
+    The format of extra hosts on swarmkit is specified in:
+    http://man7.org/linux/man-pages/man5/hosts.5.html
+     IP_address canonical_hostname [aliases...]
+
+     *
+     * @param string[] $hosts
+     *
+     * @return self
+     */
+    public function setHosts(?array $hosts): self
+    {
+        $this->hosts = $hosts;
+
+        return $this;
+    }
+
+    /**
      * Specification for DNS related configurations in resolver configuration file (`resolv.conf`).
      *
      * @return TaskSpecContainerSpecDNSConfig
@@ -339,6 +537,30 @@ class TaskSpecContainerSpec
     public function setDNSConfig(?TaskSpecContainerSpecDNSConfig $dNSConfig): self
     {
         $this->dNSConfig = $dNSConfig;
+
+        return $this;
+    }
+
+    /**
+     * Secrets contains references to zero or more secrets that will be exposed to the service.
+     *
+     * @return TaskSpecContainerSpecSecretsItem[]
+     */
+    public function getSecrets(): ?array
+    {
+        return $this->secrets;
+    }
+
+    /**
+     * Secrets contains references to zero or more secrets that will be exposed to the service.
+     *
+     * @param TaskSpecContainerSpecSecretsItem[] $secrets
+     *
+     * @return self
+     */
+    public function setSecrets(?array $secrets): self
+    {
+        $this->secrets = $secrets;
 
         return $this;
     }

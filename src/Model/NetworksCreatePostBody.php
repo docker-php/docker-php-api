@@ -37,6 +37,12 @@ class NetworksCreatePostBody
      */
     protected $internal;
     /**
+     * Globally scoped network is manually attachable by regular containers from workers in swarm mode.
+     *
+     * @var bool
+     */
+    protected $attachable;
+    /**
      * @var IPAM
      */
     protected $iPAM;
@@ -151,6 +157,30 @@ class NetworksCreatePostBody
     public function setInternal(?bool $internal): self
     {
         $this->internal = $internal;
+
+        return $this;
+    }
+
+    /**
+     * Globally scoped network is manually attachable by regular containers from workers in swarm mode.
+     *
+     * @return bool
+     */
+    public function getAttachable(): ?bool
+    {
+        return $this->attachable;
+    }
+
+    /**
+     * Globally scoped network is manually attachable by regular containers from workers in swarm mode.
+     *
+     * @param bool $attachable
+     *
+     * @return self
+     */
+    public function setAttachable(?bool $attachable): self
+    {
+        $this->attachable = $attachable;
 
         return $this;
     }
