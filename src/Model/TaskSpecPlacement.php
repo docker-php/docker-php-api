@@ -24,6 +24,12 @@ class TaskSpecPlacement
      * @var TaskSpecPlacementPreferencesItem[]
      */
     protected $preferences;
+    /**
+     * An array of supported platforms.
+     *
+     * @var TaskSpecPlacementPlatformsItem[]
+     */
+    protected $platforms;
 
     /**
      * An array of constraints.
@@ -69,6 +75,30 @@ class TaskSpecPlacement
     public function setPreferences(?array $preferences): self
     {
         $this->preferences = $preferences;
+
+        return $this;
+    }
+
+    /**
+     * An array of supported platforms.
+     *
+     * @return TaskSpecPlacementPlatformsItem[]
+     */
+    public function getPlatforms(): ?array
+    {
+        return $this->platforms;
+    }
+
+    /**
+     * An array of supported platforms.
+     *
+     * @param TaskSpecPlacementPlatformsItem[] $platforms
+     *
+     * @return self
+     */
+    public function setPlatforms(?array $platforms): self
+    {
+        $this->platforms = $platforms;
 
         return $this;
     }

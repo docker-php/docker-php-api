@@ -13,770 +13,149 @@ namespace Docker\API\Model;
 class Config
 {
     /**
-     * The hostname to use for the container, as a valid RFC 1123 hostname.
-     *
      * @var string
      */
-    protected $hostname;
+    protected $iD;
     /**
-     * The domain name to use for the container.
+     * The version number of the object such as node, service, etc. This is needed to avoid conflicting writes.
+    The client must send the version number along with the modified specification when updating these objects.
+    This approach ensures safe concurrency and determinism in that the change on the object
+    may not be applied if the version number has changed from the last read. In other words,
+    if two update requests specify the same base version, only one of the requests can succeed.
+    As a result, two separate update requests that happen at the same time will not
+    unintentially overwrite each other.
+
      *
+     * @var ObjectVersion
+     */
+    protected $version;
+    /**
      * @var string
      */
-    protected $domainname;
+    protected $createdAt;
     /**
-     * The user that commands are run as inside the container.
-     *
      * @var string
      */
-    protected $user;
+    protected $updatedAt;
     /**
-     * Whether to attach to `stdin`.
-     *
-     * @var bool
+     * @var ConfigSpec
      */
-    protected $attachStdin;
-    /**
-     * Whether to attach to `stdout`.
-     *
-     * @var bool
-     */
-    protected $attachStdout;
-    /**
-     * Whether to attach to `stderr`.
-     *
-     * @var bool
-     */
-    protected $attachStderr;
-    /**
-     * An object mapping ports to an empty object in the form:.
-
-    `{"<port>/<tcp|udp>": {}}`
-
-     *
-     * @var mixed[]
-     */
-    protected $exposedPorts;
-    /**
-     * Attach standard streams to a TTY, including `stdin` if it is not closed.
-     *
-     * @var bool
-     */
-    protected $tty;
-    /**
-     * Open `stdin`.
-     *
-     * @var bool
-     */
-    protected $openStdin;
-    /**
-     * Close `stdin` after one attached client disconnects.
-     *
-     * @var bool
-     */
-    protected $stdinOnce;
-    /**
-     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value.
-     *
-     * @var string[]
-     */
-    protected $env;
-    /**
-     * Command to run specified as a string or an array of strings.
-     *
-     * @var string[]|string
-     */
-    protected $cmd;
-    /**
-     * A test to perform to check that the container is healthy.
-     *
-     * @var HealthConfig
-     */
-    protected $healthcheck;
-    /**
-     * Command is already escaped (Windows only).
-     *
-     * @var bool
-     */
-    protected $argsEscaped;
-    /**
-     * The name of the image to use when creating the container.
-     *
-     * @var string
-     */
-    protected $image;
-    /**
-     * An object mapping mount point paths inside the container to empty objects.
-     *
-     * @var ConfigVolumes
-     */
-    protected $volumes;
-    /**
-     * The working directory for commands to run in.
-     *
-     * @var string
-     */
-    protected $workingDir;
-    /**
-     * The entry point for the container as a string or an array of strings.
-
-    If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
-
-     *
-     * @var string[]|string
-     */
-    protected $entrypoint;
-    /**
-     * Disable networking for the container.
-     *
-     * @var bool
-     */
-    protected $networkDisabled;
-    /**
-     * MAC address of the container.
-     *
-     * @var string
-     */
-    protected $macAddress;
-    /**
-     * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
-     *
-     * @var string[]
-     */
-    protected $onBuild;
-    /**
-     * User-defined key/value metadata.
-     *
-     * @var string[]
-     */
-    protected $labels;
-    /**
-     * Signal to stop a container as a string or unsigned integer.
-     *
-     * @var string
-     */
-    protected $stopSignal;
-    /**
-     * Timeout to stop a container in seconds.
-     *
-     * @var int
-     */
-    protected $stopTimeout;
-    /**
-     * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
-     *
-     * @var string[]
-     */
-    protected $shell;
+    protected $spec;
 
     /**
-     * The hostname to use for the container, as a valid RFC 1123 hostname.
-     *
      * @return string
      */
-    public function getHostname(): ?string
+    public function getID(): ?string
     {
-        return $this->hostname;
+        return $this->iD;
     }
 
     /**
-     * The hostname to use for the container, as a valid RFC 1123 hostname.
-     *
-     * @param string $hostname
+     * @param string $iD
      *
      * @return self
      */
-    public function setHostname(?string $hostname): self
+    public function setID(?string $iD): self
     {
-        $this->hostname = $hostname;
+        $this->iD = $iD;
 
         return $this;
     }
 
     /**
-     * The domain name to use for the container.
+     * The version number of the object such as node, service, etc. This is needed to avoid conflicting writes.
+    The client must send the version number along with the modified specification when updating these objects.
+    This approach ensures safe concurrency and determinism in that the change on the object
+    may not be applied if the version number has changed from the last read. In other words,
+    if two update requests specify the same base version, only one of the requests can succeed.
+    As a result, two separate update requests that happen at the same time will not
+    unintentially overwrite each other.
+
      *
+     * @return ObjectVersion
+     */
+    public function getVersion(): ?ObjectVersion
+    {
+        return $this->version;
+    }
+
+    /**
+     * The version number of the object such as node, service, etc. This is needed to avoid conflicting writes.
+    The client must send the version number along with the modified specification when updating these objects.
+    This approach ensures safe concurrency and determinism in that the change on the object
+    may not be applied if the version number has changed from the last read. In other words,
+    if two update requests specify the same base version, only one of the requests can succeed.
+    As a result, two separate update requests that happen at the same time will not
+    unintentially overwrite each other.
+
+     *
+     * @param ObjectVersion $version
+     *
+     * @return self
+     */
+    public function setVersion(?ObjectVersion $version): self
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
-    public function getDomainname(): ?string
+    public function getCreatedAt(): ?string
     {
-        return $this->domainname;
+        return $this->createdAt;
     }
 
     /**
-     * The domain name to use for the container.
-     *
-     * @param string $domainname
+     * @param string $createdAt
      *
      * @return self
      */
-    public function setDomainname(?string $domainname): self
+    public function setCreatedAt(?string $createdAt): self
     {
-        $this->domainname = $domainname;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * The user that commands are run as inside the container.
-     *
      * @return string
      */
-    public function getUser(): ?string
+    public function getUpdatedAt(): ?string
     {
-        return $this->user;
+        return $this->updatedAt;
     }
 
     /**
-     * The user that commands are run as inside the container.
-     *
-     * @param string $user
+     * @param string $updatedAt
      *
      * @return self
      */
-    public function setUser(?string $user): self
+    public function setUpdatedAt(?string $updatedAt): self
     {
-        $this->user = $user;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Whether to attach to `stdin`.
-     *
-     * @return bool
+     * @return ConfigSpec
      */
-    public function getAttachStdin(): ?bool
+    public function getSpec(): ?ConfigSpec
     {
-        return $this->attachStdin;
+        return $this->spec;
     }
 
     /**
-     * Whether to attach to `stdin`.
-     *
-     * @param bool $attachStdin
+     * @param ConfigSpec $spec
      *
      * @return self
      */
-    public function setAttachStdin(?bool $attachStdin): self
+    public function setSpec(?ConfigSpec $spec): self
     {
-        $this->attachStdin = $attachStdin;
-
-        return $this;
-    }
-
-    /**
-     * Whether to attach to `stdout`.
-     *
-     * @return bool
-     */
-    public function getAttachStdout(): ?bool
-    {
-        return $this->attachStdout;
-    }
-
-    /**
-     * Whether to attach to `stdout`.
-     *
-     * @param bool $attachStdout
-     *
-     * @return self
-     */
-    public function setAttachStdout(?bool $attachStdout): self
-    {
-        $this->attachStdout = $attachStdout;
-
-        return $this;
-    }
-
-    /**
-     * Whether to attach to `stderr`.
-     *
-     * @return bool
-     */
-    public function getAttachStderr(): ?bool
-    {
-        return $this->attachStderr;
-    }
-
-    /**
-     * Whether to attach to `stderr`.
-     *
-     * @param bool $attachStderr
-     *
-     * @return self
-     */
-    public function setAttachStderr(?bool $attachStderr): self
-    {
-        $this->attachStderr = $attachStderr;
-
-        return $this;
-    }
-
-    /**
-     * An object mapping ports to an empty object in the form:.
-
-    `{"<port>/<tcp|udp>": {}}`
-
-     *
-     * @return mixed[]
-     */
-    public function getExposedPorts(): ?\ArrayObject
-    {
-        return $this->exposedPorts;
-    }
-
-    /**
-     * An object mapping ports to an empty object in the form:.
-
-    `{"<port>/<tcp|udp>": {}}`
-
-     *
-     * @param mixed[] $exposedPorts
-     *
-     * @return self
-     */
-    public function setExposedPorts(?\ArrayObject $exposedPorts): self
-    {
-        $this->exposedPorts = $exposedPorts;
-
-        return $this;
-    }
-
-    /**
-     * Attach standard streams to a TTY, including `stdin` if it is not closed.
-     *
-     * @return bool
-     */
-    public function getTty(): ?bool
-    {
-        return $this->tty;
-    }
-
-    /**
-     * Attach standard streams to a TTY, including `stdin` if it is not closed.
-     *
-     * @param bool $tty
-     *
-     * @return self
-     */
-    public function setTty(?bool $tty): self
-    {
-        $this->tty = $tty;
-
-        return $this;
-    }
-
-    /**
-     * Open `stdin`.
-     *
-     * @return bool
-     */
-    public function getOpenStdin(): ?bool
-    {
-        return $this->openStdin;
-    }
-
-    /**
-     * Open `stdin`.
-     *
-     * @param bool $openStdin
-     *
-     * @return self
-     */
-    public function setOpenStdin(?bool $openStdin): self
-    {
-        $this->openStdin = $openStdin;
-
-        return $this;
-    }
-
-    /**
-     * Close `stdin` after one attached client disconnects.
-     *
-     * @return bool
-     */
-    public function getStdinOnce(): ?bool
-    {
-        return $this->stdinOnce;
-    }
-
-    /**
-     * Close `stdin` after one attached client disconnects.
-     *
-     * @param bool $stdinOnce
-     *
-     * @return self
-     */
-    public function setStdinOnce(?bool $stdinOnce): self
-    {
-        $this->stdinOnce = $stdinOnce;
-
-        return $this;
-    }
-
-    /**
-     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value.
-     *
-     * @return string[]
-     */
-    public function getEnv(): ?array
-    {
-        return $this->env;
-    }
-
-    /**
-     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value.
-     *
-     * @param string[] $env
-     *
-     * @return self
-     */
-    public function setEnv(?array $env): self
-    {
-        $this->env = $env;
-
-        return $this;
-    }
-
-    /**
-     * Command to run specified as a string or an array of strings.
-     *
-     * @return string[]|string
-     */
-    public function getCmd()
-    {
-        return $this->cmd;
-    }
-
-    /**
-     * Command to run specified as a string or an array of strings.
-     *
-     * @param string[]|string $cmd
-     *
-     * @return self
-     */
-    public function setCmd($cmd): self
-    {
-        $this->cmd = $cmd;
-
-        return $this;
-    }
-
-    /**
-     * A test to perform to check that the container is healthy.
-     *
-     * @return HealthConfig
-     */
-    public function getHealthcheck(): ?HealthConfig
-    {
-        return $this->healthcheck;
-    }
-
-    /**
-     * A test to perform to check that the container is healthy.
-     *
-     * @param HealthConfig $healthcheck
-     *
-     * @return self
-     */
-    public function setHealthcheck(?HealthConfig $healthcheck): self
-    {
-        $this->healthcheck = $healthcheck;
-
-        return $this;
-    }
-
-    /**
-     * Command is already escaped (Windows only).
-     *
-     * @return bool
-     */
-    public function getArgsEscaped(): ?bool
-    {
-        return $this->argsEscaped;
-    }
-
-    /**
-     * Command is already escaped (Windows only).
-     *
-     * @param bool $argsEscaped
-     *
-     * @return self
-     */
-    public function setArgsEscaped(?bool $argsEscaped): self
-    {
-        $this->argsEscaped = $argsEscaped;
-
-        return $this;
-    }
-
-    /**
-     * The name of the image to use when creating the container.
-     *
-     * @return string
-     */
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    /**
-     * The name of the image to use when creating the container.
-     *
-     * @param string $image
-     *
-     * @return self
-     */
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * An object mapping mount point paths inside the container to empty objects.
-     *
-     * @return ConfigVolumes
-     */
-    public function getVolumes(): ?ConfigVolumes
-    {
-        return $this->volumes;
-    }
-
-    /**
-     * An object mapping mount point paths inside the container to empty objects.
-     *
-     * @param ConfigVolumes $volumes
-     *
-     * @return self
-     */
-    public function setVolumes(?ConfigVolumes $volumes): self
-    {
-        $this->volumes = $volumes;
-
-        return $this;
-    }
-
-    /**
-     * The working directory for commands to run in.
-     *
-     * @return string
-     */
-    public function getWorkingDir(): ?string
-    {
-        return $this->workingDir;
-    }
-
-    /**
-     * The working directory for commands to run in.
-     *
-     * @param string $workingDir
-     *
-     * @return self
-     */
-    public function setWorkingDir(?string $workingDir): self
-    {
-        $this->workingDir = $workingDir;
-
-        return $this;
-    }
-
-    /**
-     * The entry point for the container as a string or an array of strings.
-
-    If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
-
-     *
-     * @return string[]|string
-     */
-    public function getEntrypoint()
-    {
-        return $this->entrypoint;
-    }
-
-    /**
-     * The entry point for the container as a string or an array of strings.
-
-    If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
-
-     *
-     * @param string[]|string $entrypoint
-     *
-     * @return self
-     */
-    public function setEntrypoint($entrypoint): self
-    {
-        $this->entrypoint = $entrypoint;
-
-        return $this;
-    }
-
-    /**
-     * Disable networking for the container.
-     *
-     * @return bool
-     */
-    public function getNetworkDisabled(): ?bool
-    {
-        return $this->networkDisabled;
-    }
-
-    /**
-     * Disable networking for the container.
-     *
-     * @param bool $networkDisabled
-     *
-     * @return self
-     */
-    public function setNetworkDisabled(?bool $networkDisabled): self
-    {
-        $this->networkDisabled = $networkDisabled;
-
-        return $this;
-    }
-
-    /**
-     * MAC address of the container.
-     *
-     * @return string
-     */
-    public function getMacAddress(): ?string
-    {
-        return $this->macAddress;
-    }
-
-    /**
-     * MAC address of the container.
-     *
-     * @param string $macAddress
-     *
-     * @return self
-     */
-    public function setMacAddress(?string $macAddress): self
-    {
-        $this->macAddress = $macAddress;
-
-        return $this;
-    }
-
-    /**
-     * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
-     *
-     * @return string[]
-     */
-    public function getOnBuild(): ?array
-    {
-        return $this->onBuild;
-    }
-
-    /**
-     * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
-     *
-     * @param string[] $onBuild
-     *
-     * @return self
-     */
-    public function setOnBuild(?array $onBuild): self
-    {
-        $this->onBuild = $onBuild;
-
-        return $this;
-    }
-
-    /**
-     * User-defined key/value metadata.
-     *
-     * @return string[]
-     */
-    public function getLabels(): ?\ArrayObject
-    {
-        return $this->labels;
-    }
-
-    /**
-     * User-defined key/value metadata.
-     *
-     * @param string[] $labels
-     *
-     * @return self
-     */
-    public function setLabels(?\ArrayObject $labels): self
-    {
-        $this->labels = $labels;
-
-        return $this;
-    }
-
-    /**
-     * Signal to stop a container as a string or unsigned integer.
-     *
-     * @return string
-     */
-    public function getStopSignal(): ?string
-    {
-        return $this->stopSignal;
-    }
-
-    /**
-     * Signal to stop a container as a string or unsigned integer.
-     *
-     * @param string $stopSignal
-     *
-     * @return self
-     */
-    public function setStopSignal(?string $stopSignal): self
-    {
-        $this->stopSignal = $stopSignal;
-
-        return $this;
-    }
-
-    /**
-     * Timeout to stop a container in seconds.
-     *
-     * @return int
-     */
-    public function getStopTimeout(): ?int
-    {
-        return $this->stopTimeout;
-    }
-
-    /**
-     * Timeout to stop a container in seconds.
-     *
-     * @param int $stopTimeout
-     *
-     * @return self
-     */
-    public function setStopTimeout(?int $stopTimeout): self
-    {
-        $this->stopTimeout = $stopTimeout;
-
-        return $this;
-    }
-
-    /**
-     * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
-     *
-     * @return string[]
-     */
-    public function getShell(): ?array
-    {
-        return $this->shell;
-    }
-
-    /**
-     * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
-     *
-     * @param string[] $shell
-     *
-     * @return self
-     */
-    public function setShell(?array $shell): self
-    {
-        $this->shell = $shell;
+        $this->spec = $spec;
 
         return $this;
     }

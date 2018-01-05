@@ -48,6 +48,15 @@ class SwarmSpecCAConfigNormalizer implements DenormalizerInterface, NormalizerIn
             }
             $object->setExternalCAs($values);
         }
+        if (property_exists($data, 'SigningCACert') && $data->{'SigningCACert'} !== null) {
+            $object->setSigningCACert($data->{'SigningCACert'});
+        }
+        if (property_exists($data, 'SigningCAKey') && $data->{'SigningCAKey'} !== null) {
+            $object->setSigningCAKey($data->{'SigningCAKey'});
+        }
+        if (property_exists($data, 'ForceRotate') && $data->{'ForceRotate'} !== null) {
+            $object->setForceRotate($data->{'ForceRotate'});
+        }
 
         return $object;
     }
@@ -64,6 +73,15 @@ class SwarmSpecCAConfigNormalizer implements DenormalizerInterface, NormalizerIn
                 $values[] = $this->normalizer->normalize($value, 'json', $context);
             }
             $data->{'ExternalCAs'} = $values;
+        }
+        if (null !== $object->getSigningCACert()) {
+            $data->{'SigningCACert'} = $object->getSigningCACert();
+        }
+        if (null !== $object->getSigningCAKey()) {
+            $data->{'SigningCAKey'} = $object->getSigningCAKey();
+        }
+        if (null !== $object->getForceRotate()) {
+            $data->{'ForceRotate'} = $object->getForceRotate();
         }
 
         return $data;

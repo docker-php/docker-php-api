@@ -52,6 +52,13 @@ class InfoGetResponse200PluginsNormalizer implements DenormalizerInterface, Norm
             }
             $object->setNetwork($values_1);
         }
+        if (property_exists($data, 'Log') && $data->{'Log'} !== null) {
+            $values_2 = [];
+            foreach ($data->{'Log'} as $value_2) {
+                $values_2[] = $value_2;
+            }
+            $object->setLog($values_2);
+        }
 
         return $object;
     }
@@ -72,6 +79,13 @@ class InfoGetResponse200PluginsNormalizer implements DenormalizerInterface, Norm
                 $values_1[] = $value_1;
             }
             $data->{'Network'} = $values_1;
+        }
+        if (null !== $object->getLog()) {
+            $values_2 = [];
+            foreach ($object->getLog() as $value_2) {
+                $values_2[] = $value_2;
+            }
+            $data->{'Log'} = $values_2;
         }
 
         return $data;

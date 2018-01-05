@@ -15,6 +15,10 @@ class NetworkContainer
     /**
      * @var string
      */
+    protected $name;
+    /**
+     * @var string
+     */
     protected $endpointID;
     /**
      * @var string
@@ -28,6 +32,26 @@ class NetworkContainer
      * @var string
      */
     protected $iPv6Address;
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
      * @return string

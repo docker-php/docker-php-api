@@ -67,6 +67,12 @@ class TaskSpecContainerSpec
      */
     protected $groups;
     /**
+     * Security options for the container.
+     *
+     * @var TaskSpecContainerSpecPrivileges
+     */
+    protected $privileges;
+    /**
      * Whether a pseudo-TTY should be allocated.
      *
      * @var bool
@@ -130,6 +136,12 @@ class TaskSpecContainerSpec
      * @var TaskSpecContainerSpecSecretsItem[]
      */
     protected $secrets;
+    /**
+     * Configs contains references to zero or more configs that will be exposed to the service.
+     *
+     * @var TaskSpecContainerSpecConfigsItem[]
+     */
+    protected $configs;
 
     /**
      * The image name to use for the container.
@@ -343,6 +355,30 @@ class TaskSpecContainerSpec
     public function setGroups(?array $groups): self
     {
         $this->groups = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Security options for the container.
+     *
+     * @return TaskSpecContainerSpecPrivileges
+     */
+    public function getPrivileges(): ?TaskSpecContainerSpecPrivileges
+    {
+        return $this->privileges;
+    }
+
+    /**
+     * Security options for the container.
+     *
+     * @param TaskSpecContainerSpecPrivileges $privileges
+     *
+     * @return self
+     */
+    public function setPrivileges(?TaskSpecContainerSpecPrivileges $privileges): self
+    {
+        $this->privileges = $privileges;
 
         return $this;
     }
@@ -591,6 +627,30 @@ class TaskSpecContainerSpec
     public function setSecrets(?array $secrets): self
     {
         $this->secrets = $secrets;
+
+        return $this;
+    }
+
+    /**
+     * Configs contains references to zero or more configs that will be exposed to the service.
+     *
+     * @return TaskSpecContainerSpecConfigsItem[]
+     */
+    public function getConfigs(): ?array
+    {
+        return $this->configs;
+    }
+
+    /**
+     * Configs contains references to zero or more configs that will be exposed to the service.
+     *
+     * @param TaskSpecContainerSpecConfigsItem[] $configs
+     *
+     * @return self
+     */
+    public function setConfigs(?array $configs): self
+    {
+        $this->configs = $configs;
 
         return $this;
     }

@@ -45,6 +45,18 @@ class ClusterInfo
      * @var SwarmSpec
      */
     protected $spec;
+    /**
+     * Information about the issuer of leaf TLS certificates and the trusted root CA certificate.
+     *
+     * @var TLSInfo
+     */
+    protected $tLSInfo;
+    /**
+     * Whether there is currently a root CA rotation in progress for the swarm.
+     *
+     * @var bool
+     */
+    protected $rootRotationInProgress;
 
     /**
      * The ID of the swarm.
@@ -168,6 +180,54 @@ class ClusterInfo
     public function setSpec(?SwarmSpec $spec): self
     {
         $this->spec = $spec;
+
+        return $this;
+    }
+
+    /**
+     * Information about the issuer of leaf TLS certificates and the trusted root CA certificate.
+     *
+     * @return TLSInfo
+     */
+    public function getTLSInfo(): ?TLSInfo
+    {
+        return $this->tLSInfo;
+    }
+
+    /**
+     * Information about the issuer of leaf TLS certificates and the trusted root CA certificate.
+     *
+     * @param TLSInfo $tLSInfo
+     *
+     * @return self
+     */
+    public function setTLSInfo(?TLSInfo $tLSInfo): self
+    {
+        $this->tLSInfo = $tLSInfo;
+
+        return $this;
+    }
+
+    /**
+     * Whether there is currently a root CA rotation in progress for the swarm.
+     *
+     * @return bool
+     */
+    public function getRootRotationInProgress(): ?bool
+    {
+        return $this->rootRotationInProgress;
+    }
+
+    /**
+     * Whether there is currently a root CA rotation in progress for the swarm.
+     *
+     * @param bool $rootRotationInProgress
+     *
+     * @return self
+     */
+    public function setRootRotationInProgress(?bool $rootRotationInProgress): self
+    {
+        $this->rootRotationInProgress = $rootRotationInProgress;
 
         return $this;
     }

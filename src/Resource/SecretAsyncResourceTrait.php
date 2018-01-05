@@ -199,6 +199,7 @@ trait SecretAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\SecretUpdateBadRequestException
      * @throws \Docker\API\Exception\SecretUpdateNotFoundException
      * @throws \Docker\API\Exception\SecretUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\SecretUpdateServiceUnavailableException
@@ -222,6 +223,9 @@ trait SecretAsyncResourceTrait
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
                     return null;
+                }
+                if (400 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretUpdateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretUpdateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));

@@ -13,13 +13,23 @@ namespace Docker\API\Model;
 class ContainersIdJsonGetResponse200State
 {
     /**
-     * The status of the container. For example, `running` or `exited`.
+     * The status of the container. For example, `"running"` or `"exited"`.
      *
      * @var string
      */
     protected $status;
     /**
      * Whether this container is running.
+
+    Note that a running container can be _paused_. The `Running` and `Paused`
+    booleans are not mutually exclusive:
+
+    When pausing a container (on Linux), the cgroups freezer is used to suspend
+    all processes in the container. Freezing the process requires the process to
+    be running. As a result, paused containers are both `Running` _and_ `Paused`.
+
+    Use the `Status` field instead to determine if a container's state is "running".
+
      *
      * @var bool
      */
@@ -76,7 +86,7 @@ class ContainersIdJsonGetResponse200State
     protected $finishedAt;
 
     /**
-     * The status of the container. For example, `running` or `exited`.
+     * The status of the container. For example, `"running"` or `"exited"`.
      *
      * @return string
      */
@@ -86,7 +96,7 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
-     * The status of the container. For example, `running` or `exited`.
+     * The status of the container. For example, `"running"` or `"exited"`.
      *
      * @param string $status
      *
@@ -101,6 +111,16 @@ class ContainersIdJsonGetResponse200State
 
     /**
      * Whether this container is running.
+
+    Note that a running container can be _paused_. The `Running` and `Paused`
+    booleans are not mutually exclusive:
+
+    When pausing a container (on Linux), the cgroups freezer is used to suspend
+    all processes in the container. Freezing the process requires the process to
+    be running. As a result, paused containers are both `Running` _and_ `Paused`.
+
+    Use the `Status` field instead to determine if a container's state is "running".
+
      *
      * @return bool
      */
@@ -111,6 +131,16 @@ class ContainersIdJsonGetResponse200State
 
     /**
      * Whether this container is running.
+
+    Note that a running container can be _paused_. The `Running` and `Paused`
+    booleans are not mutually exclusive:
+
+    When pausing a container (on Linux), the cgroups freezer is used to suspend
+    all processes in the container. Freezing the process requires the process to
+    be running. As a result, paused containers are both `Running` _and_ `Paused`.
+
+    Use the `Status` field instead to determine if a container's state is "running".
+
      *
      * @param bool $running
      *

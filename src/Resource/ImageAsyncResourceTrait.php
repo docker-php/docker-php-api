@@ -551,8 +551,8 @@ trait ImageAsyncResourceTrait
     }
 
     /**
-     * @param \Docker\API\Model\Config $containerConfig The container configuration
-     * @param array                    $parameters      {
+     * @param \Docker\API\Model\ContainerConfig $containerConfig The container configuration
+     * @param array                             $parameters      {
      *
      *     @var string $container The ID or name of the container to commit
      *     @var string $repo Repository name for the created image
@@ -571,7 +571,7 @@ trait ImageAsyncResourceTrait
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\IdResponse>
      */
-    public function imageCommit(\Docker\API\Model\Config $containerConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function imageCommit(\Docker\API\Model\ContainerConfig $containerConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
         return \Amp\call(function () use ($containerConfig, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();

@@ -51,7 +51,7 @@ class SecretNormalizer implements DenormalizerInterface, NormalizerInterface, De
             $object->setUpdatedAt($data->{'UpdatedAt'});
         }
         if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
-            $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\ServiceSpec', 'json', $context));
+            $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\SecretSpec', 'json', $context));
         }
 
         return $object;

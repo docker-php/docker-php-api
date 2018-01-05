@@ -15,6 +15,12 @@ use Jane\OpenApiRuntime\Client\QueryParam;
 trait NetworkAsyncResourceTrait
 {
     /**
+     * Returns a list of networks. For details on the format, see [the network inspect endpoint](#operation/NetworkInspect).
+
+    Note that it uses a different, smaller representation of a network than inspecting a single network. For example,
+    the list of containers attached to the network is not propagated in API versions 1.28 and up.
+
+     *
      * @param array $parameters {
      *
      *     @var string $filters JSON encoded value of the filters (a `map[string][]string`) to process on the networks list. Available filters:
@@ -59,6 +65,7 @@ trait NetworkAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\NetworkDeleteForbiddenException
      * @throws \Docker\API\Exception\NetworkDeleteNotFoundException
      * @throws \Docker\API\Exception\NetworkDeleteInternalServerErrorException
      *
@@ -80,6 +87,9 @@ trait NetworkAsyncResourceTrait
             if (self::FETCH_OBJECT === $fetch) {
                 if (204 === $response->getStatus()) {
                     return null;
+                }
+                if (403 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NetworkDeleteForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkDeleteNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -104,6 +114,7 @@ trait NetworkAsyncResourceTrait
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
      * @throws \Docker\API\Exception\NetworkInspectNotFoundException
+     * @throws \Docker\API\Exception\NetworkInspectInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Network>
      */
@@ -127,6 +138,9 @@ trait NetworkAsyncResourceTrait
                 }
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NetworkInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (500 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NetworkInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

@@ -38,6 +38,9 @@ class NetworkContainerNormalizer implements DenormalizerInterface, NormalizerInt
             return null;
         }
         $object = new \Docker\API\Model\NetworkContainer();
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
+            $object->setName($data->{'Name'});
+        }
         if (property_exists($data, 'EndpointID') && $data->{'EndpointID'} !== null) {
             $object->setEndpointID($data->{'EndpointID'});
         }
@@ -57,6 +60,9 @@ class NetworkContainerNormalizer implements DenormalizerInterface, NormalizerInt
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
+        if (null !== $object->getName()) {
+            $data->{'Name'} = $object->getName();
+        }
         if (null !== $object->getEndpointID()) {
             $data->{'EndpointID'} = $object->getEndpointID();
         }

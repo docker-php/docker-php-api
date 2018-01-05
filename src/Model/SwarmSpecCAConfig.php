@@ -24,6 +24,24 @@ class SwarmSpecCAConfig
      * @var SwarmSpecCAConfigExternalCAsItem[]
      */
     protected $externalCAs;
+    /**
+     * The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format.
+     *
+     * @var string
+     */
+    protected $signingCACert;
+    /**
+     * The desired signing CA key for all swarm node TLS leaf certificates, in PEM format.
+     *
+     * @var string
+     */
+    protected $signingCAKey;
+    /**
+     * An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey`.
+     *
+     * @var mixed
+     */
+    protected $forceRotate;
 
     /**
      * The duration node certificates are issued for.
@@ -69,6 +87,78 @@ class SwarmSpecCAConfig
     public function setExternalCAs(?array $externalCAs): self
     {
         $this->externalCAs = $externalCAs;
+
+        return $this;
+    }
+
+    /**
+     * The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format.
+     *
+     * @return string
+     */
+    public function getSigningCACert(): ?string
+    {
+        return $this->signingCACert;
+    }
+
+    /**
+     * The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format.
+     *
+     * @param string $signingCACert
+     *
+     * @return self
+     */
+    public function setSigningCACert(?string $signingCACert): self
+    {
+        $this->signingCACert = $signingCACert;
+
+        return $this;
+    }
+
+    /**
+     * The desired signing CA key for all swarm node TLS leaf certificates, in PEM format.
+     *
+     * @return string
+     */
+    public function getSigningCAKey(): ?string
+    {
+        return $this->signingCAKey;
+    }
+
+    /**
+     * The desired signing CA key for all swarm node TLS leaf certificates, in PEM format.
+     *
+     * @param string $signingCAKey
+     *
+     * @return self
+     */
+    public function setSigningCAKey(?string $signingCAKey): self
+    {
+        $this->signingCAKey = $signingCAKey;
+
+        return $this;
+    }
+
+    /**
+     * An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey`.
+     *
+     * @return mixed
+     */
+    public function getForceRotate()
+    {
+        return $this->forceRotate;
+    }
+
+    /**
+     * An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey`.
+     *
+     * @param mixed $forceRotate
+     *
+     * @return self
+     */
+    public function setForceRotate($forceRotate): self
+    {
+        $this->forceRotate = $forceRotate;
 
         return $this;
     }

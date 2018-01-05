@@ -129,7 +129,7 @@ class ContainersIdJsonGetResponse200
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @var Config
+     * @var ContainerConfig
      */
     protected $config;
     /**
@@ -646,9 +646,9 @@ class ContainersIdJsonGetResponse200
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @return Config
+     * @return ContainerConfig
      */
-    public function getConfig(): ?Config
+    public function getConfig(): ?ContainerConfig
     {
         return $this->config;
     }
@@ -656,11 +656,11 @@ class ContainersIdJsonGetResponse200
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @param Config $config
+     * @param ContainerConfig $config
      *
      * @return self
      */
-    public function setConfig(?Config $config): self
+    public function setConfig(?ContainerConfig $config): self
     {
         $this->config = $config;
 

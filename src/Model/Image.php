@@ -43,7 +43,7 @@ class Image
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @var Config
+     * @var ContainerConfig
      */
     protected $containerConfig;
     /**
@@ -57,7 +57,7 @@ class Image
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @var Config
+     * @var ContainerConfig
      */
     protected $config;
     /**
@@ -234,9 +234,9 @@ class Image
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @return Config
+     * @return ContainerConfig
      */
-    public function getContainerConfig(): ?Config
+    public function getContainerConfig(): ?ContainerConfig
     {
         return $this->containerConfig;
     }
@@ -244,11 +244,11 @@ class Image
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @param Config $containerConfig
+     * @param ContainerConfig $containerConfig
      *
      * @return self
      */
-    public function setContainerConfig(?Config $containerConfig): self
+    public function setContainerConfig(?ContainerConfig $containerConfig): self
     {
         $this->containerConfig = $containerConfig;
 
@@ -298,9 +298,9 @@ class Image
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @return Config
+     * @return ContainerConfig
      */
-    public function getConfig(): ?Config
+    public function getConfig(): ?ContainerConfig
     {
         return $this->config;
     }
@@ -308,11 +308,11 @@ class Image
     /**
      * Configuration for a container that is portable between hosts.
      *
-     * @param Config $config
+     * @param ContainerConfig $config
      *
      * @return self
      */
-    public function setConfig(?Config $config): self
+    public function setConfig(?ContainerConfig $config): self
     {
         $this->config = $config;
 

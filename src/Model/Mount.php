@@ -21,7 +21,7 @@ class Mount
     /**
      * Mount source (e.g. a volume name, a host path).
      *
-     * @var mixed
+     * @var string
      */
     protected $source;
     /**
@@ -93,9 +93,9 @@ class Mount
     /**
      * Mount source (e.g. a volume name, a host path).
      *
-     * @return mixed
+     * @return string
      */
-    public function getSource()
+    public function getSource(): ?string
     {
         return $this->source;
     }
@@ -103,11 +103,11 @@ class Mount
     /**
      * Mount source (e.g. a volume name, a host path).
      *
-     * @param mixed $source
+     * @param string $source
      *
      * @return self
      */
-    public function setSource($source): self
+    public function setSource(?string $source): self
     {
         $this->source = $source;
 

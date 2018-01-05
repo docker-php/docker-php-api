@@ -108,7 +108,7 @@ class ContainersCreatePostBody
     /**
      * An object mapping mount point paths inside the container to empty objects.
      *
-     * @var ConfigVolumes
+     * @var ContainerConfigVolumes
      */
     protected $volumes;
     /**
@@ -550,9 +550,9 @@ class ContainersCreatePostBody
     /**
      * An object mapping mount point paths inside the container to empty objects.
      *
-     * @return ConfigVolumes
+     * @return ContainerConfigVolumes
      */
-    public function getVolumes(): ?ConfigVolumes
+    public function getVolumes(): ?ContainerConfigVolumes
     {
         return $this->volumes;
     }
@@ -560,11 +560,11 @@ class ContainersCreatePostBody
     /**
      * An object mapping mount point paths inside the container to empty objects.
      *
-     * @param ConfigVolumes $volumes
+     * @param ContainerConfigVolumes $volumes
      *
      * @return self
      */
-    public function setVolumes(?ConfigVolumes $volumes): self
+    public function setVolumes(?ContainerConfigVolumes $volumes): self
     {
         $this->volumes = $volumes;
 

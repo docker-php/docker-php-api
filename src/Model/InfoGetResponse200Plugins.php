@@ -20,6 +20,10 @@ class InfoGetResponse200Plugins
      * @var string[]
      */
     protected $network;
+    /**
+     * @var string[]
+     */
+    protected $log;
 
     /**
      * @return string[]
@@ -57,6 +61,26 @@ class InfoGetResponse200Plugins
     public function setNetwork(?array $network): self
     {
         $this->network = $network;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getLog(): ?array
+    {
+        return $this->log;
+    }
+
+    /**
+     * @param string[] $log
+     *
+     * @return self
+     */
+    public function setLog(?array $log): self
+    {
+        $this->log = $log;
 
         return $this;
     }

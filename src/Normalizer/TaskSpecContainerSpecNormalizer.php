@@ -85,6 +85,9 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
             }
             $object->setGroups($values_4);
         }
+        if (property_exists($data, 'Privileges') && $data->{'Privileges'} !== null) {
+            $object->setPrivileges($this->denormalizer->denormalize($data->{'Privileges'}, 'Docker\\API\\Model\\TaskSpecContainerSpecPrivileges', 'json', $context));
+        }
         if (property_exists($data, 'TTY') && $data->{'TTY'} !== null) {
             $object->setTTY($data->{'TTY'});
         }
@@ -126,6 +129,13 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
                 $values_7[] = $this->denormalizer->denormalize($value_7, 'Docker\\API\\Model\\TaskSpecContainerSpecSecretsItem', 'json', $context);
             }
             $object->setSecrets($values_7);
+        }
+        if (property_exists($data, 'Configs') && $data->{'Configs'} !== null) {
+            $values_8 = [];
+            foreach ($data->{'Configs'} as $value_8) {
+                $values_8[] = $this->denormalizer->denormalize($value_8, 'Docker\\API\\Model\\TaskSpecContainerSpecConfigsItem', 'json', $context);
+            }
+            $object->setConfigs($values_8);
         }
 
         return $object;
@@ -181,6 +191,9 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
             }
             $data->{'Groups'} = $values_4;
         }
+        if (null !== $object->getPrivileges()) {
+            $data->{'Privileges'} = $this->normalizer->normalize($object->getPrivileges(), 'json', $context);
+        }
         if (null !== $object->getTTY()) {
             $data->{'TTY'} = $object->getTTY();
         }
@@ -222,6 +235,13 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
                 $values_7[] = $this->normalizer->normalize($value_7, 'json', $context);
             }
             $data->{'Secrets'} = $values_7;
+        }
+        if (null !== $object->getConfigs()) {
+            $values_8 = [];
+            foreach ($object->getConfigs() as $value_8) {
+                $values_8[] = $this->normalizer->normalize($value_8, 'json', $context);
+            }
+            $data->{'Configs'} = $values_8;
         }
 
         return $data;

@@ -13,7 +13,8 @@ namespace Docker\API\Model;
 class RestartPolicy
 {
     /**
-     * - `always` Always restart.
+     * - Empty string means not to restart.
+    - `always` Always restart
     - `unless-stopped` Restart always except when the user has manually stopped the container
     - `on-failure` Restart only when the container exit code is non-zero
 
@@ -29,7 +30,8 @@ class RestartPolicy
     protected $maximumRetryCount;
 
     /**
-     * - `always` Always restart.
+     * - Empty string means not to restart.
+    - `always` Always restart
     - `unless-stopped` Restart always except when the user has manually stopped the container
     - `on-failure` Restart only when the container exit code is non-zero
 
@@ -42,7 +44,8 @@ class RestartPolicy
     }
 
     /**
-     * - `always` Always restart.
+     * - Empty string means not to restart.
+    - `always` Always restart
     - `unless-stopped` Restart always except when the user has manually stopped the container
     - `on-failure` Restart only when the container exit code is non-zero
 

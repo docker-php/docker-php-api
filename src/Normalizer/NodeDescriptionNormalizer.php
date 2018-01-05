@@ -50,6 +50,9 @@ class NodeDescriptionNormalizer implements DenormalizerInterface, NormalizerInte
         if (property_exists($data, 'Engine') && $data->{'Engine'} !== null) {
             $object->setEngine($this->denormalizer->denormalize($data->{'Engine'}, 'Docker\\API\\Model\\NodeDescriptionEngine', 'json', $context));
         }
+        if (property_exists($data, 'TLSInfo') && $data->{'TLSInfo'} !== null) {
+            $object->setTLSInfo($this->denormalizer->denormalize($data->{'TLSInfo'}, 'Docker\\API\\Model\\SwarmSpec', 'json', $context));
+        }
 
         return $object;
     }
@@ -68,6 +71,9 @@ class NodeDescriptionNormalizer implements DenormalizerInterface, NormalizerInte
         }
         if (null !== $object->getEngine()) {
             $data->{'Engine'} = $this->normalizer->normalize($object->getEngine(), 'json', $context);
+        }
+        if (null !== $object->getTLSInfo()) {
+            $data->{'TLSInfo'} = $this->normalizer->normalize($object->getTLSInfo(), 'json', $context);
         }
 
         return $data;

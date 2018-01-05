@@ -165,15 +165,21 @@ trait SystemAsyncResourceTrait
 
     Various objects within Docker report events when something happens to them.
 
-    Containers report these events: `attach, commit, copy, create, destroy, detach, die, exec_create, exec_detach, exec_start, export, health_status, kill, oom, pause, rename, resize, restart, start, stop, top, unpause, update`
+    Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`
 
-    Images report these events: `delete, import, load, pull, push, save, tag, untag`
+    Images report these events: `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, and `untag`
 
-    Volumes report these events: `create, mount, unmount, destroy`
+    Volumes report these events: `create`, `mount`, `unmount`, and `destroy`
 
-    Networks report these events: `create, connect, disconnect, destroy`
+    Networks report these events: `create`, `connect`, `disconnect`, `destroy`, `update`, and `remove`
 
     The Docker daemon reports these events: `reload`
+
+    Services report these events: `create`, `update`, and `remove`
+
+    Nodes report these events: `create`, `update`, and `remove`
+
+    Secrets report these events: `create`, `update`, and `remove`
 
      *
      * @param array $parameters {

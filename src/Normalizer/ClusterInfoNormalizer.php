@@ -53,6 +53,12 @@ class ClusterInfoNormalizer implements DenormalizerInterface, NormalizerInterfac
         if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
             $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\SwarmSpec', 'json', $context));
         }
+        if (property_exists($data, 'TLSInfo') && $data->{'TLSInfo'} !== null) {
+            $object->setTLSInfo($this->denormalizer->denormalize($data->{'TLSInfo'}, 'Docker\\API\\Model\\TLSInfo', 'json', $context));
+        }
+        if (property_exists($data, 'RootRotationInProgress') && $data->{'RootRotationInProgress'} !== null) {
+            $object->setRootRotationInProgress($data->{'RootRotationInProgress'});
+        }
 
         return $object;
     }
@@ -74,6 +80,12 @@ class ClusterInfoNormalizer implements DenormalizerInterface, NormalizerInterfac
         }
         if (null !== $object->getSpec()) {
             $data->{'Spec'} = $this->normalizer->normalize($object->getSpec(), 'json', $context);
+        }
+        if (null !== $object->getTLSInfo()) {
+            $data->{'TLSInfo'} = $this->normalizer->normalize($object->getTLSInfo(), 'json', $context);
+        }
+        if (null !== $object->getRootRotationInProgress()) {
+            $data->{'RootRotationInProgress'} = $object->getRootRotationInProgress();
         }
 
         return $data;

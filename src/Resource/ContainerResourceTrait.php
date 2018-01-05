@@ -951,8 +951,12 @@ trait ContainerResourceTrait
      * Block until a container stops, then returns the exit code.
      *
      * @param string $id         ID or name of the container
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param array  $parameters {
+     *
+     *     @var string $condition Wait until a container state reaches the given condition, either 'not-running' (default), 'next-exit', or 'removed'.
+     * }
+     *
+     * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\ContainerWaitNotFoundException
      * @throws \Docker\API\Exception\ContainerWaitInternalServerErrorException
@@ -962,6 +966,7 @@ trait ContainerResourceTrait
     public function containerWait(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('condition', false, ['string'], 'not-running');
         $url = '/containers/{id}/wait';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));

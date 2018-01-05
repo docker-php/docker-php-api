@@ -68,7 +68,7 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             $object->setContainer($data->{'Container'});
         }
         if (property_exists($data, 'ContainerConfig') && $data->{'ContainerConfig'} !== null) {
-            $object->setContainerConfig($this->denormalizer->denormalize($data->{'ContainerConfig'}, 'Docker\\API\\Model\\Config', 'json', $context));
+            $object->setContainerConfig($this->denormalizer->denormalize($data->{'ContainerConfig'}, 'Docker\\API\\Model\\ContainerConfig', 'json', $context));
         }
         if (property_exists($data, 'DockerVersion') && $data->{'DockerVersion'} !== null) {
             $object->setDockerVersion($data->{'DockerVersion'});
@@ -77,7 +77,7 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             $object->setAuthor($data->{'Author'});
         }
         if (property_exists($data, 'Config') && $data->{'Config'} !== null) {
-            $object->setConfig($this->denormalizer->denormalize($data->{'Config'}, 'Docker\\API\\Model\\Config', 'json', $context));
+            $object->setConfig($this->denormalizer->denormalize($data->{'Config'}, 'Docker\\API\\Model\\ContainerConfig', 'json', $context));
         }
         if (property_exists($data, 'Architecture') && $data->{'Architecture'} !== null) {
             $object->setArchitecture($data->{'Architecture'});

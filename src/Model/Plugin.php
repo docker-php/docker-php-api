@@ -21,7 +21,7 @@ class Plugin
      */
     protected $name;
     /**
-     * True when the plugin is running. False when the plugin is not running, only installed.
+     * True if the plugin is running. False if the plugin is not running, only installed.
      *
      * @var bool
      */
@@ -86,7 +86,7 @@ class Plugin
     }
 
     /**
-     * True when the plugin is running. False when the plugin is not running, only installed.
+     * True if the plugin is running. False if the plugin is not running, only installed.
      *
      * @return bool
      */
@@ -96,7 +96,7 @@ class Plugin
     }
 
     /**
-     * True when the plugin is running. False when the plugin is not running, only installed.
+     * True if the plugin is running. False if the plugin is not running, only installed.
      *
      * @param bool $enabled
      *

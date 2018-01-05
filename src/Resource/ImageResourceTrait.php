@@ -501,8 +501,8 @@ trait ImageResourceTrait
     }
 
     /**
-     * @param \Docker\API\Model\Config $containerConfig The container configuration
-     * @param array                    $parameters      {
+     * @param \Docker\API\Model\ContainerConfig $containerConfig The container configuration
+     * @param array                             $parameters      {
      *
      *     @var string $container The ID or name of the container to commit
      *     @var string $repo Repository name for the created image
@@ -520,7 +520,7 @@ trait ImageResourceTrait
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\IdResponse
      */
-    public function imageCommit(\Docker\API\Model\Config $containerConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageCommit(\Docker\API\Model\ContainerConfig $containerConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam($this->streamFactory);
         $queryParam->addQueryParameter('container', false, ['string']);

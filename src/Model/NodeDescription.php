@@ -28,6 +28,12 @@ class NodeDescription
      * @var NodeDescriptionEngine
      */
     protected $engine;
+    /**
+     * User modifiable swarm configuration.
+     *
+     * @var SwarmSpec
+     */
+    protected $tLSInfo;
 
     /**
      * @return string
@@ -105,6 +111,30 @@ class NodeDescription
     public function setEngine(?NodeDescriptionEngine $engine): self
     {
         $this->engine = $engine;
+
+        return $this;
+    }
+
+    /**
+     * User modifiable swarm configuration.
+     *
+     * @return SwarmSpec
+     */
+    public function getTLSInfo(): ?SwarmSpec
+    {
+        return $this->tLSInfo;
+    }
+
+    /**
+     * User modifiable swarm configuration.
+     *
+     * @param SwarmSpec $tLSInfo
+     *
+     * @return self
+     */
+    public function setTLSInfo(?SwarmSpec $tLSInfo): self
+    {
+        $this->tLSInfo = $tLSInfo;
 
         return $this;
     }

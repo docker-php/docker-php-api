@@ -145,6 +145,7 @@ trait NodeResourceTrait
      *
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\NodeUpdateBadRequestException
      * @throws \Docker\API\Exception\NodeUpdateNotFoundException
      * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
@@ -165,6 +166,9 @@ trait NodeResourceTrait
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
                 return null;
+            }
+            if (400 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NodeUpdateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NodeUpdateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

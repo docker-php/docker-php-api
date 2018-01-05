@@ -51,6 +51,9 @@ class SwarmSpecCAConfigExternalCAsItemNormalizer implements DenormalizerInterfac
             }
             $object->setOptions($values);
         }
+        if (property_exists($data, 'CACert') && $data->{'CACert'} !== null) {
+            $object->setCACert($data->{'CACert'});
+        }
 
         return $object;
     }
@@ -70,6 +73,9 @@ class SwarmSpecCAConfigExternalCAsItemNormalizer implements DenormalizerInterfac
                 $values->{$key} = $value;
             }
             $data->{'Options'} = $values;
+        }
+        if (null !== $object->getCACert()) {
+            $data->{'CACert'} = $object->getCACert();
         }
 
         return $data;

@@ -1045,8 +1045,12 @@ trait ContainerAsyncResourceTrait
     /**
      * Block until a container stops, then returns the exit code.
      *
-     * @param string                 $id                ID or name of the container
-     * @param array                  $parameters        List of parameters
+     * @param string $id         ID or name of the container
+     * @param array  $parameters {
+     *
+     *     @var string $condition Wait until a container state reaches the given condition, either 'not-running' (default), 'next-exit', or 'removed'.
+     * }
+     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
@@ -1059,6 +1063,7 @@ trait ContainerAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
+            $queryParam->addQueryParameter('condition', false, ['string'], 'not-running');
             $url = '/containers/{id}/wait';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));

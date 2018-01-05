@@ -44,6 +44,9 @@ class SwarmJoinPostBodyNormalizer implements DenormalizerInterface, NormalizerIn
         if (property_exists($data, 'AdvertiseAddr') && $data->{'AdvertiseAddr'} !== null) {
             $object->setAdvertiseAddr($data->{'AdvertiseAddr'});
         }
+        if (property_exists($data, 'DataPathAddr') && $data->{'DataPathAddr'} !== null) {
+            $object->setDataPathAddr($data->{'DataPathAddr'});
+        }
         if (property_exists($data, 'RemoteAddrs') && $data->{'RemoteAddrs'} !== null) {
             $object->setRemoteAddrs($data->{'RemoteAddrs'});
         }
@@ -62,6 +65,9 @@ class SwarmJoinPostBodyNormalizer implements DenormalizerInterface, NormalizerIn
         }
         if (null !== $object->getAdvertiseAddr()) {
             $data->{'AdvertiseAddr'} = $object->getAdvertiseAddr();
+        }
+        if (null !== $object->getDataPathAddr()) {
+            $data->{'DataPathAddr'} = $object->getDataPathAddr();
         }
         if (null !== $object->getRemoteAddrs()) {
             $data->{'RemoteAddrs'} = $object->getRemoteAddrs();

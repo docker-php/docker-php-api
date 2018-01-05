@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Model;
 
-class ConfigVolumes
+class ContainerConfigVolumes
 {
     /**
      * @var mixed

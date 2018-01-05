@@ -178,6 +178,7 @@ trait SecretResourceTrait
      *
      * @param string $fetch Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\SecretUpdateBadRequestException
      * @throws \Docker\API\Exception\SecretUpdateNotFoundException
      * @throws \Docker\API\Exception\SecretUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\SecretUpdateServiceUnavailableException
@@ -198,6 +199,9 @@ trait SecretResourceTrait
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
                 return null;
+            }
+            if (400 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SecretUpdateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SecretUpdateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

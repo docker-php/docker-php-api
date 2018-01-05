@@ -39,6 +39,12 @@ class TaskSpec
      */
     protected $forceUpdate;
     /**
+     * Runtime is the type of runtime specified for the task executor.
+     *
+     * @var string
+     */
+    protected $runtime;
+    /**
      * @var TaskSpecNetworksItem[]
      */
     protected $networks;
@@ -157,6 +163,30 @@ class TaskSpec
     public function setForceUpdate(?int $forceUpdate): self
     {
         $this->forceUpdate = $forceUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Runtime is the type of runtime specified for the task executor.
+     *
+     * @return string
+     */
+    public function getRuntime(): ?string
+    {
+        return $this->runtime;
+    }
+
+    /**
+     * Runtime is the type of runtime specified for the task executor.
+     *
+     * @param string $runtime
+     *
+     * @return self
+     */
+    public function setRuntime(?string $runtime): self
+    {
+        $this->runtime = $runtime;
 
         return $this;
     }

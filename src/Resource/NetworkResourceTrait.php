@@ -15,6 +15,12 @@ use Jane\OpenApiRuntime\Client\QueryParam;
 trait NetworkResourceTrait
 {
     /**
+     * Returns a list of networks. For details on the format, see [the network inspect endpoint](#operation/NetworkInspect).
+
+    Note that it uses a different, smaller representation of a network than inspecting a single network. For example,
+    the list of containers attached to the network is not propagated in API versions 1.28 and up.
+
+     *
      * @param array $parameters {
      *
      *     @var string $filters JSON encoded value of the filters (a `map[string][]string`) to process on the networks list. Available filters:
@@ -53,6 +59,7 @@ trait NetworkResourceTrait
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
+     * @throws \Docker\API\Exception\NetworkDeleteForbiddenException
      * @throws \Docker\API\Exception\NetworkDeleteNotFoundException
      * @throws \Docker\API\Exception\NetworkDeleteInternalServerErrorException
      *
@@ -71,6 +78,9 @@ trait NetworkResourceTrait
         if (self::FETCH_OBJECT === $fetch) {
             if (204 === $response->getStatusCode()) {
                 return null;
+            }
+            if (403 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NetworkDeleteForbiddenException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NetworkDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -93,6 +103,7 @@ trait NetworkResourceTrait
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\NetworkInspectNotFoundException
+     * @throws \Docker\API\Exception\NetworkInspectInternalServerErrorException
      *
      * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Network
      */
@@ -113,6 +124,9 @@ trait NetworkResourceTrait
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NetworkInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (500 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\NetworkInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 

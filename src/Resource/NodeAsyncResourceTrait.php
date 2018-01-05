@@ -161,6 +161,7 @@ trait NodeAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
+     * @throws \Docker\API\Exception\NodeUpdateBadRequestException
      * @throws \Docker\API\Exception\NodeUpdateNotFoundException
      * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
@@ -184,6 +185,9 @@ trait NodeAsyncResourceTrait
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
                     return null;
+                }
+                if (400 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\NodeUpdateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NodeUpdateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));

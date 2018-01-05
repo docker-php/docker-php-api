@@ -25,13 +25,13 @@ class HealthConfig
      */
     protected $test;
     /**
-     * The time to wait between checks in nanoseconds. It should be 0 or not less than 1000000000(1s). 0 means inherit.
+     * The time to wait between checks in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @var int
      */
     protected $interval;
     /**
-     * The time to wait before considering the check to have hung. It should be 0 or not less than 1000000000(1s). 0 means inherit.
+     * The time to wait before considering the check to have hung. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @var int
      */
@@ -43,7 +43,7 @@ class HealthConfig
      */
     protected $retries;
     /**
-     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. 0 means inherit.
+     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @var int
      */
@@ -86,7 +86,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait between checks in nanoseconds. It should be 0 or not less than 1000000000(1s). 0 means inherit.
+     * The time to wait between checks in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @return int
      */
@@ -96,7 +96,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait between checks in nanoseconds. It should be 0 or not less than 1000000000(1s). 0 means inherit.
+     * The time to wait between checks in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @param int $interval
      *
@@ -110,7 +110,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait before considering the check to have hung. It should be 0 or not less than 1000000000(1s). 0 means inherit.
+     * The time to wait before considering the check to have hung. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @return int
      */
@@ -120,7 +120,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait before considering the check to have hung. It should be 0 or not less than 1000000000(1s). 0 means inherit.
+     * The time to wait before considering the check to have hung. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @param int $timeout
      *
@@ -158,7 +158,7 @@ class HealthConfig
     }
 
     /**
-     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. 0 means inherit.
+     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @return int
      */
@@ -168,7 +168,7 @@ class HealthConfig
     }
 
     /**
-     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. 0 means inherit.
+     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
      *
      * @param int $startPeriod
      *

@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ConfigVolumesNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class TaskSpecContainerSpecPrivilegesCredentialSpecNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\ConfigVolumes';
+        return $type === 'Docker\\API\\Model\\TaskSpecContainerSpecPrivilegesCredentialSpec';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\ConfigVolumes;
+        return $data instanceof \Docker\API\Model\TaskSpecContainerSpecPrivilegesCredentialSpec;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,9 +37,12 @@ class ConfigVolumesNormalizer implements DenormalizerInterface, NormalizerInterf
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\ConfigVolumes();
-        if (property_exists($data, 'additionalProperties') && $data->{'additionalProperties'} !== null) {
-            $object->setAdditionalProperties($data->{'additionalProperties'});
+        $object = new \Docker\API\Model\TaskSpecContainerSpecPrivilegesCredentialSpec();
+        if (property_exists($data, 'File') && $data->{'File'} !== null) {
+            $object->setFile($data->{'File'});
+        }
+        if (property_exists($data, 'Registry') && $data->{'Registry'} !== null) {
+            $object->setRegistry($data->{'Registry'});
         }
 
         return $object;
@@ -48,8 +51,11 @@ class ConfigVolumesNormalizer implements DenormalizerInterface, NormalizerInterf
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getAdditionalProperties()) {
-            $data->{'additionalProperties'} = $object->getAdditionalProperties();
+        if (null !== $object->getFile()) {
+            $data->{'File'} = $object->getFile();
+        }
+        if (null !== $object->getRegistry()) {
+            $data->{'Registry'} = $object->getRegistry();
         }
 
         return $data;

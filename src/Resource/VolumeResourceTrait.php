@@ -163,10 +163,7 @@ trait VolumeResourceTrait
      *
      *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
 
-    Available filters:
-
      * }
-     *
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\VolumePruneInternalServerErrorException

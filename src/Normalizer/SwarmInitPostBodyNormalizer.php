@@ -44,6 +44,9 @@ class SwarmInitPostBodyNormalizer implements DenormalizerInterface, NormalizerIn
         if (property_exists($data, 'AdvertiseAddr') && $data->{'AdvertiseAddr'} !== null) {
             $object->setAdvertiseAddr($data->{'AdvertiseAddr'});
         }
+        if (property_exists($data, 'DataPathAddr') && $data->{'DataPathAddr'} !== null) {
+            $object->setDataPathAddr($data->{'DataPathAddr'});
+        }
         if (property_exists($data, 'ForceNewCluster') && $data->{'ForceNewCluster'} !== null) {
             $object->setForceNewCluster($data->{'ForceNewCluster'});
         }
@@ -62,6 +65,9 @@ class SwarmInitPostBodyNormalizer implements DenormalizerInterface, NormalizerIn
         }
         if (null !== $object->getAdvertiseAddr()) {
             $data->{'AdvertiseAddr'} = $object->getAdvertiseAddr();
+        }
+        if (null !== $object->getDataPathAddr()) {
+            $data->{'DataPathAddr'} = $object->getDataPathAddr();
         }
         if (null !== $object->getForceNewCluster()) {
             $data->{'ForceNewCluster'} = $object->getForceNewCluster();

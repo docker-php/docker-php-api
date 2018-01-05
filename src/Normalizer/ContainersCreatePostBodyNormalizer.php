@@ -103,7 +103,7 @@ class ContainersCreatePostBodyNormalizer implements DenormalizerInterface, Norma
             $object->setImage($data->{'Image'});
         }
         if (property_exists($data, 'Volumes') && $data->{'Volumes'} !== null) {
-            $object->setVolumes($this->denormalizer->denormalize($data->{'Volumes'}, 'Docker\\API\\Model\\ConfigVolumes', 'json', $context));
+            $object->setVolumes($this->denormalizer->denormalize($data->{'Volumes'}, 'Docker\\API\\Model\\ContainerConfigVolumes', 'json', $context));
         }
         if (property_exists($data, 'WorkingDir') && $data->{'WorkingDir'} !== null) {
             $object->setWorkingDir($data->{'WorkingDir'});

@@ -52,6 +52,13 @@ class TaskSpecPlacementNormalizer implements DenormalizerInterface, NormalizerIn
             }
             $object->setPreferences($values_1);
         }
+        if (property_exists($data, 'Platforms') && $data->{'Platforms'} !== null) {
+            $values_2 = [];
+            foreach ($data->{'Platforms'} as $value_2) {
+                $values_2[] = $this->denormalizer->denormalize($value_2, 'Docker\\API\\Model\\TaskSpecPlacementPlatformsItem', 'json', $context);
+            }
+            $object->setPlatforms($values_2);
+        }
 
         return $object;
     }
@@ -72,6 +79,13 @@ class TaskSpecPlacementNormalizer implements DenormalizerInterface, NormalizerIn
                 $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
             }
             $data->{'Preferences'} = $values_1;
+        }
+        if (null !== $object->getPlatforms()) {
+            $values_2 = [];
+            foreach ($object->getPlatforms() as $value_2) {
+                $values_2[] = $this->normalizer->normalize($value_2, 'json', $context);
+            }
+            $data->{'Platforms'} = $values_2;
         }
 
         return $data;

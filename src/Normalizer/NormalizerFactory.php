@@ -33,8 +33,8 @@ class NormalizerFactory
         $normalizers[] = new HostConfigNormalizer();
         $normalizers[] = new HostConfigLogConfigNormalizer();
         $normalizers[] = new HostConfigPortBindingsItemNormalizer();
-        $normalizers[] = new ConfigNormalizer();
-        $normalizers[] = new ConfigVolumesNormalizer();
+        $normalizers[] = new ContainerConfigNormalizer();
+        $normalizers[] = new ContainerConfigVolumesNormalizer();
         $normalizers[] = new NetworkConfigNormalizer();
         $normalizers[] = new GraphDriverDataNormalizer();
         $normalizers[] = new ImageNormalizer();
@@ -77,6 +77,7 @@ class NormalizerFactory
         $normalizers[] = new NodeDescriptionResourcesNormalizer();
         $normalizers[] = new NodeDescriptionEngineNormalizer();
         $normalizers[] = new NodeDescriptionEnginePluginsItemNormalizer();
+        $normalizers[] = new TLSInfoNormalizer();
         $normalizers[] = new SwarmSpecNormalizer();
         $normalizers[] = new SwarmSpecOrchestrationNormalizer();
         $normalizers[] = new SwarmSpecRaftNormalizer();
@@ -89,9 +90,14 @@ class NormalizerFactory
         $normalizers[] = new ClusterInfoNormalizer();
         $normalizers[] = new TaskSpecNormalizer();
         $normalizers[] = new TaskSpecContainerSpecNormalizer();
+        $normalizers[] = new TaskSpecContainerSpecPrivilegesNormalizer();
+        $normalizers[] = new TaskSpecContainerSpecPrivilegesCredentialSpecNormalizer();
+        $normalizers[] = new TaskSpecContainerSpecPrivilegesSELinuxContextNormalizer();
         $normalizers[] = new TaskSpecContainerSpecDNSConfigNormalizer();
         $normalizers[] = new TaskSpecContainerSpecSecretsItemNormalizer();
         $normalizers[] = new TaskSpecContainerSpecSecretsItemFileNormalizer();
+        $normalizers[] = new TaskSpecContainerSpecConfigsItemNormalizer();
+        $normalizers[] = new TaskSpecContainerSpecConfigsItemFileNormalizer();
         $normalizers[] = new TaskSpecResourcesNormalizer();
         $normalizers[] = new TaskSpecResourcesLimitsNormalizer();
         $normalizers[] = new TaskSpecResourcesReservationNormalizer();
@@ -99,6 +105,7 @@ class NormalizerFactory
         $normalizers[] = new TaskSpecPlacementNormalizer();
         $normalizers[] = new TaskSpecPlacementPreferencesItemNormalizer();
         $normalizers[] = new TaskSpecPlacementPreferencesItemSpreadNormalizer();
+        $normalizers[] = new TaskSpecPlacementPlatformsItemNormalizer();
         $normalizers[] = new TaskSpecNetworksItemNormalizer();
         $normalizers[] = new TaskSpecLogDriverNormalizer();
         $normalizers[] = new TaskNormalizer();
@@ -123,6 +130,8 @@ class NormalizerFactory
         $normalizers[] = new ContainerSummaryItemNetworkSettingsNormalizer();
         $normalizers[] = new SecretSpecNormalizer();
         $normalizers[] = new SecretNormalizer();
+        $normalizers[] = new ConfigSpecNormalizer();
+        $normalizers[] = new ConfigNormalizer();
         $normalizers[] = new ContainersCreatePostBodyNormalizer();
         $normalizers[] = new ContainersCreatePostBodyNetworkingConfigNormalizer();
         $normalizers[] = new ContainersCreatePostResponse201Normalizer();
@@ -173,6 +182,11 @@ class NormalizerFactory
         $normalizers[] = new ServicesIdUpdatePostBodyNormalizer();
         $normalizers[] = new SecretsCreatePostBodyNormalizer();
         $normalizers[] = new SecretsCreatePostResponse201Normalizer();
+        $normalizers[] = new ConfigsCreatePostBodyNormalizer();
+        $normalizers[] = new ConfigsCreatePostResponse201Normalizer();
+        $normalizers[] = new DistributionNameJsonGetResponse200Normalizer();
+        $normalizers[] = new DistributionNameJsonGetResponse200DescriptorNormalizer();
+        $normalizers[] = new DistributionNameJsonGetResponse200PlatformsItemNormalizer();
 
         return $normalizers;
     }

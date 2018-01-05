@@ -53,6 +53,12 @@ class SwarmGetResponse200Normalizer implements DenormalizerInterface, Normalizer
         if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
             $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\SwarmSpec', 'json', $context));
         }
+        if (property_exists($data, 'TLSInfo') && $data->{'TLSInfo'} !== null) {
+            $object->setTLSInfo($this->denormalizer->denormalize($data->{'TLSInfo'}, 'Docker\\API\\Model\\TLSInfo', 'json', $context));
+        }
+        if (property_exists($data, 'RootRotationInProgress') && $data->{'RootRotationInProgress'} !== null) {
+            $object->setRootRotationInProgress($data->{'RootRotationInProgress'});
+        }
         if (property_exists($data, 'JoinTokens') && $data->{'JoinTokens'} !== null) {
             $object->setJoinTokens($this->denormalizer->denormalize($data->{'JoinTokens'}, 'Docker\\API\\Model\\SwarmGetResponse200JoinTokens', 'json', $context));
         }
@@ -77,6 +83,12 @@ class SwarmGetResponse200Normalizer implements DenormalizerInterface, Normalizer
         }
         if (null !== $object->getSpec()) {
             $data->{'Spec'} = $this->normalizer->normalize($object->getSpec(), 'json', $context);
+        }
+        if (null !== $object->getTLSInfo()) {
+            $data->{'TLSInfo'} = $this->normalizer->normalize($object->getTLSInfo(), 'json', $context);
+        }
+        if (null !== $object->getRootRotationInProgress()) {
+            $data->{'RootRotationInProgress'} = $object->getRootRotationInProgress();
         }
         if (null !== $object->getJoinTokens()) {
             $data->{'JoinTokens'} = $this->normalizer->normalize($object->getJoinTokens(), 'json', $context);

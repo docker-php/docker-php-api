@@ -38,122 +38,20 @@ class ConfigNormalizer implements DenormalizerInterface, NormalizerInterface, De
             return null;
         }
         $object = new \Docker\API\Model\Config();
-        if (property_exists($data, 'Hostname') && $data->{'Hostname'} !== null) {
-            $object->setHostname($data->{'Hostname'});
+        if (property_exists($data, 'ID') && $data->{'ID'} !== null) {
+            $object->setID($data->{'ID'});
         }
-        if (property_exists($data, 'Domainname') && $data->{'Domainname'} !== null) {
-            $object->setDomainname($data->{'Domainname'});
+        if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
+            $object->setVersion($this->denormalizer->denormalize($data->{'Version'}, 'Docker\\API\\Model\\ObjectVersion', 'json', $context));
         }
-        if (property_exists($data, 'User') && $data->{'User'} !== null) {
-            $object->setUser($data->{'User'});
+        if (property_exists($data, 'CreatedAt') && $data->{'CreatedAt'} !== null) {
+            $object->setCreatedAt($data->{'CreatedAt'});
         }
-        if (property_exists($data, 'AttachStdin') && $data->{'AttachStdin'} !== null) {
-            $object->setAttachStdin($data->{'AttachStdin'});
+        if (property_exists($data, 'UpdatedAt') && $data->{'UpdatedAt'} !== null) {
+            $object->setUpdatedAt($data->{'UpdatedAt'});
         }
-        if (property_exists($data, 'AttachStdout') && $data->{'AttachStdout'} !== null) {
-            $object->setAttachStdout($data->{'AttachStdout'});
-        }
-        if (property_exists($data, 'AttachStderr') && $data->{'AttachStderr'} !== null) {
-            $object->setAttachStderr($data->{'AttachStderr'});
-        }
-        if (property_exists($data, 'ExposedPorts') && $data->{'ExposedPorts'} !== null) {
-            $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data->{'ExposedPorts'} as $key => $value) {
-                $values[$key] = $value;
-            }
-            $object->setExposedPorts($values);
-        }
-        if (property_exists($data, 'Tty') && $data->{'Tty'} !== null) {
-            $object->setTty($data->{'Tty'});
-        }
-        if (property_exists($data, 'OpenStdin') && $data->{'OpenStdin'} !== null) {
-            $object->setOpenStdin($data->{'OpenStdin'});
-        }
-        if (property_exists($data, 'StdinOnce') && $data->{'StdinOnce'} !== null) {
-            $object->setStdinOnce($data->{'StdinOnce'});
-        }
-        if (property_exists($data, 'Env') && $data->{'Env'} !== null) {
-            $values_1 = [];
-            foreach ($data->{'Env'} as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $object->setEnv($values_1);
-        }
-        if (property_exists($data, 'Cmd') && $data->{'Cmd'} !== null) {
-            $value_2 = $data->{'Cmd'};
-            if (is_array($data->{'Cmd'})) {
-                $values_2 = [];
-                foreach ($data->{'Cmd'} as $value_3) {
-                    $values_2[] = $value_3;
-                }
-                $value_2 = $values_2;
-            }
-            if (is_string($data->{'Cmd'})) {
-                $value_2 = $data->{'Cmd'};
-            }
-            $object->setCmd($value_2);
-        }
-        if (property_exists($data, 'Healthcheck') && $data->{'Healthcheck'} !== null) {
-            $object->setHealthcheck($this->denormalizer->denormalize($data->{'Healthcheck'}, 'Docker\\API\\Model\\HealthConfig', 'json', $context));
-        }
-        if (property_exists($data, 'ArgsEscaped') && $data->{'ArgsEscaped'} !== null) {
-            $object->setArgsEscaped($data->{'ArgsEscaped'});
-        }
-        if (property_exists($data, 'Image') && $data->{'Image'} !== null) {
-            $object->setImage($data->{'Image'});
-        }
-        if (property_exists($data, 'Volumes') && $data->{'Volumes'} !== null) {
-            $object->setVolumes($this->denormalizer->denormalize($data->{'Volumes'}, 'Docker\\API\\Model\\ConfigVolumes', 'json', $context));
-        }
-        if (property_exists($data, 'WorkingDir') && $data->{'WorkingDir'} !== null) {
-            $object->setWorkingDir($data->{'WorkingDir'});
-        }
-        if (property_exists($data, 'Entrypoint') && $data->{'Entrypoint'} !== null) {
-            $value_4 = $data->{'Entrypoint'};
-            if (is_array($data->{'Entrypoint'})) {
-                $values_3 = [];
-                foreach ($data->{'Entrypoint'} as $value_5) {
-                    $values_3[] = $value_5;
-                }
-                $value_4 = $values_3;
-            }
-            if (is_string($data->{'Entrypoint'})) {
-                $value_4 = $data->{'Entrypoint'};
-            }
-            $object->setEntrypoint($value_4);
-        }
-        if (property_exists($data, 'NetworkDisabled') && $data->{'NetworkDisabled'} !== null) {
-            $object->setNetworkDisabled($data->{'NetworkDisabled'});
-        }
-        if (property_exists($data, 'MacAddress') && $data->{'MacAddress'} !== null) {
-            $object->setMacAddress($data->{'MacAddress'});
-        }
-        if (property_exists($data, 'OnBuild') && $data->{'OnBuild'} !== null) {
-            $values_4 = [];
-            foreach ($data->{'OnBuild'} as $value_6) {
-                $values_4[] = $value_6;
-            }
-            $object->setOnBuild($values_4);
-        }
-        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
-            $values_5 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data->{'Labels'} as $key_1 => $value_7) {
-                $values_5[$key_1] = $value_7;
-            }
-            $object->setLabels($values_5);
-        }
-        if (property_exists($data, 'StopSignal') && $data->{'StopSignal'} !== null) {
-            $object->setStopSignal($data->{'StopSignal'});
-        }
-        if (property_exists($data, 'StopTimeout') && $data->{'StopTimeout'} !== null) {
-            $object->setStopTimeout($data->{'StopTimeout'});
-        }
-        if (property_exists($data, 'Shell') && $data->{'Shell'} !== null) {
-            $values_6 = [];
-            foreach ($data->{'Shell'} as $value_8) {
-                $values_6[] = $value_8;
-            }
-            $object->setShell($values_6);
+        if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
+            $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\ConfigSpec', 'json', $context));
         }
 
         return $object;
@@ -162,122 +60,20 @@ class ConfigNormalizer implements DenormalizerInterface, NormalizerInterface, De
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getHostname()) {
-            $data->{'Hostname'} = $object->getHostname();
+        if (null !== $object->getID()) {
+            $data->{'ID'} = $object->getID();
         }
-        if (null !== $object->getDomainname()) {
-            $data->{'Domainname'} = $object->getDomainname();
+        if (null !== $object->getVersion()) {
+            $data->{'Version'} = $this->normalizer->normalize($object->getVersion(), 'json', $context);
         }
-        if (null !== $object->getUser()) {
-            $data->{'User'} = $object->getUser();
+        if (null !== $object->getCreatedAt()) {
+            $data->{'CreatedAt'} = $object->getCreatedAt();
         }
-        if (null !== $object->getAttachStdin()) {
-            $data->{'AttachStdin'} = $object->getAttachStdin();
+        if (null !== $object->getUpdatedAt()) {
+            $data->{'UpdatedAt'} = $object->getUpdatedAt();
         }
-        if (null !== $object->getAttachStdout()) {
-            $data->{'AttachStdout'} = $object->getAttachStdout();
-        }
-        if (null !== $object->getAttachStderr()) {
-            $data->{'AttachStderr'} = $object->getAttachStderr();
-        }
-        if (null !== $object->getExposedPorts()) {
-            $values = new \stdClass();
-            foreach ($object->getExposedPorts() as $key => $value) {
-                $values->{$key} = $value;
-            }
-            $data->{'ExposedPorts'} = $values;
-        }
-        if (null !== $object->getTty()) {
-            $data->{'Tty'} = $object->getTty();
-        }
-        if (null !== $object->getOpenStdin()) {
-            $data->{'OpenStdin'} = $object->getOpenStdin();
-        }
-        if (null !== $object->getStdinOnce()) {
-            $data->{'StdinOnce'} = $object->getStdinOnce();
-        }
-        if (null !== $object->getEnv()) {
-            $values_1 = [];
-            foreach ($object->getEnv() as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $data->{'Env'} = $values_1;
-        }
-        if (null !== $object->getCmd()) {
-            $value_2 = $object->getCmd();
-            if (is_array($object->getCmd())) {
-                $values_2 = [];
-                foreach ($object->getCmd() as $value_3) {
-                    $values_2[] = $value_3;
-                }
-                $value_2 = $values_2;
-            }
-            if (is_string($object->getCmd())) {
-                $value_2 = $object->getCmd();
-            }
-            $data->{'Cmd'} = $value_2;
-        }
-        if (null !== $object->getHealthcheck()) {
-            $data->{'Healthcheck'} = $this->normalizer->normalize($object->getHealthcheck(), 'json', $context);
-        }
-        if (null !== $object->getArgsEscaped()) {
-            $data->{'ArgsEscaped'} = $object->getArgsEscaped();
-        }
-        if (null !== $object->getImage()) {
-            $data->{'Image'} = $object->getImage();
-        }
-        if (null !== $object->getVolumes()) {
-            $data->{'Volumes'} = $this->normalizer->normalize($object->getVolumes(), 'json', $context);
-        }
-        if (null !== $object->getWorkingDir()) {
-            $data->{'WorkingDir'} = $object->getWorkingDir();
-        }
-        if (null !== $object->getEntrypoint()) {
-            $value_4 = $object->getEntrypoint();
-            if (is_array($object->getEntrypoint())) {
-                $values_3 = [];
-                foreach ($object->getEntrypoint() as $value_5) {
-                    $values_3[] = $value_5;
-                }
-                $value_4 = $values_3;
-            }
-            if (is_string($object->getEntrypoint())) {
-                $value_4 = $object->getEntrypoint();
-            }
-            $data->{'Entrypoint'} = $value_4;
-        }
-        if (null !== $object->getNetworkDisabled()) {
-            $data->{'NetworkDisabled'} = $object->getNetworkDisabled();
-        }
-        if (null !== $object->getMacAddress()) {
-            $data->{'MacAddress'} = $object->getMacAddress();
-        }
-        if (null !== $object->getOnBuild()) {
-            $values_4 = [];
-            foreach ($object->getOnBuild() as $value_6) {
-                $values_4[] = $value_6;
-            }
-            $data->{'OnBuild'} = $values_4;
-        }
-        if (null !== $object->getLabels()) {
-            $values_5 = new \stdClass();
-            foreach ($object->getLabels() as $key_1 => $value_7) {
-                $values_5->{$key_1} = $value_7;
-            }
-            $data->{'Labels'} = $values_5;
-        }
-        if (null !== $object->getStopSignal()) {
-            $data->{'StopSignal'} = $object->getStopSignal();
-        }
-        if (null !== $object->getStopTimeout()) {
-            $data->{'StopTimeout'} = $object->getStopTimeout();
-        }
-        if (null !== $object->getShell()) {
-            $values_6 = [];
-            foreach ($object->getShell() as $value_8) {
-                $values_6[] = $value_8;
-            }
-            $data->{'Shell'} = $values_6;
+        if (null !== $object->getSpec()) {
+            $data->{'Spec'} = $this->normalizer->normalize($object->getSpec(), 'json', $context);
         }
 
         return $data;

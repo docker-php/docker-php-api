@@ -53,6 +53,9 @@ class TaskSpecNormalizer implements DenormalizerInterface, NormalizerInterface, 
         if (property_exists($data, 'ForceUpdate') && $data->{'ForceUpdate'} !== null) {
             $object->setForceUpdate($data->{'ForceUpdate'});
         }
+        if (property_exists($data, 'Runtime') && $data->{'Runtime'} !== null) {
+            $object->setRuntime($data->{'Runtime'});
+        }
         if (property_exists($data, 'Networks') && $data->{'Networks'} !== null) {
             $values = [];
             foreach ($data->{'Networks'} as $value) {
@@ -84,6 +87,9 @@ class TaskSpecNormalizer implements DenormalizerInterface, NormalizerInterface, 
         }
         if (null !== $object->getForceUpdate()) {
             $data->{'ForceUpdate'} = $object->getForceUpdate();
+        }
+        if (null !== $object->getRuntime()) {
+            $data->{'Runtime'} = $object->getRuntime();
         }
         if (null !== $object->getNetworks()) {
             $values = [];
