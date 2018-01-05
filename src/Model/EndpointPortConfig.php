@@ -32,6 +32,21 @@ class EndpointPortConfig
      * @var int
      */
     protected $publishedPort;
+    /**
+     * The mode in which port is published.
+
+    <p><br /></p>
+
+    - "ingress" makes the target port accessible on on every node,
+     regardless of whether there is a task for the service running on
+     that node or not.
+    - "host" bypasses the routing mesh and publish the port directly on
+     the swarm node where that service is running.
+
+     *
+     * @var string
+     */
+    protected $publishMode;
 
     /**
      * @return string
@@ -117,6 +132,48 @@ class EndpointPortConfig
     public function setPublishedPort(?int $publishedPort): self
     {
         $this->publishedPort = $publishedPort;
+
+        return $this;
+    }
+
+    /**
+     * The mode in which port is published.
+
+    <p><br /></p>
+
+    - "ingress" makes the target port accessible on on every node,
+     regardless of whether there is a task for the service running on
+     that node or not.
+    - "host" bypasses the routing mesh and publish the port directly on
+     the swarm node where that service is running.
+
+     *
+     * @return string
+     */
+    public function getPublishMode(): ?string
+    {
+        return $this->publishMode;
+    }
+
+    /**
+     * The mode in which port is published.
+
+    <p><br /></p>
+
+    - "ingress" makes the target port accessible on on every node,
+     regardless of whether there is a task for the service running on
+     that node or not.
+    - "host" bypasses the routing mesh and publish the port directly on
+     the swarm node where that service is running.
+
+     *
+     * @param string $publishMode
+     *
+     * @return self
+     */
+    public function setPublishMode(?string $publishMode): self
+    {
+        $this->publishMode = $publishMode;
 
         return $this;
     }

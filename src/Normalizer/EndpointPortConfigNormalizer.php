@@ -50,6 +50,9 @@ class EndpointPortConfigNormalizer implements DenormalizerInterface, NormalizerI
         if (property_exists($data, 'PublishedPort') && $data->{'PublishedPort'} !== null) {
             $object->setPublishedPort($data->{'PublishedPort'});
         }
+        if (property_exists($data, 'PublishMode') && $data->{'PublishMode'} !== null) {
+            $object->setPublishMode($data->{'PublishMode'});
+        }
 
         return $object;
     }
@@ -68,6 +71,9 @@ class EndpointPortConfigNormalizer implements DenormalizerInterface, NormalizerI
         }
         if (null !== $object->getPublishedPort()) {
             $data->{'PublishedPort'} = $object->getPublishedPort();
+        }
+        if (null !== $object->getPublishMode()) {
+            $data->{'PublishMode'} = $object->getPublishMode();
         }
 
         return $data;

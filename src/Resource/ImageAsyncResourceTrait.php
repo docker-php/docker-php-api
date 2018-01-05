@@ -97,7 +97,9 @@ trait ImageAsyncResourceTrait
      *     @var string $Content-type
      *     @var string $X-Registry-Config This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to
 
+     *     @var string $platform Platform in the format os[/arch[/variant]]
      * }
+     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
@@ -133,6 +135,7 @@ trait ImageAsyncResourceTrait
             $queryParam->addQueryParameter('networkmode', false, ['string']);
             $queryParam->addHeaderParameter('Content-type', false, ['string'], 'application/x-tar');
             $queryParam->addHeaderParameter('X-Registry-Config', false, ['string']);
+            $queryParam->addQueryParameter('platform', false, ['string'], '');
             $url = '/build';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -202,6 +205,7 @@ trait ImageAsyncResourceTrait
      *     @var string $repo Repository name given to an image when it is imported. The repo may include a tag. This parameter may only be used when importing an image.
      *     @var string $tag Tag or digest. If empty when pulling an image, this causes all tags for the given image to be pulled.
      *     @var string $X-Registry-Auth A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)
+     *     @var string $platform Platform in the format os[/arch[/variant]]
      * }
      *
      * @param string                 $fetch             Fetch mode (object or response)
@@ -221,6 +225,7 @@ trait ImageAsyncResourceTrait
             $queryParam->addQueryParameter('repo', false, ['string']);
             $queryParam->addQueryParameter('tag', false, ['string']);
             $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
+            $queryParam->addQueryParameter('platform', false, ['string'], '');
             $url = '/images/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));

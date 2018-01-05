@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ContainersIdWaitPostResponse200Normalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class ContainersIdWaitPostResponse200ErrorNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\ContainersIdWaitPostResponse200';
+        return $type === 'Docker\\API\\Model\\ContainersIdWaitPostResponse200Error';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\ContainersIdWaitPostResponse200;
+        return $data instanceof \Docker\API\Model\ContainersIdWaitPostResponse200Error;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,12 +37,9 @@ class ContainersIdWaitPostResponse200Normalizer implements DenormalizerInterface
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\ContainersIdWaitPostResponse200();
-        if (property_exists($data, 'StatusCode') && $data->{'StatusCode'} !== null) {
-            $object->setStatusCode($data->{'StatusCode'});
-        }
-        if (property_exists($data, 'Error') && $data->{'Error'} !== null) {
-            $object->setError($this->denormalizer->denormalize($data->{'Error'}, 'Docker\\API\\Model\\ContainersIdWaitPostResponse200Error', 'json', $context));
+        $object = new \Docker\API\Model\ContainersIdWaitPostResponse200Error();
+        if (property_exists($data, 'Message') && $data->{'Message'} !== null) {
+            $object->setMessage($data->{'Message'});
         }
 
         return $object;
@@ -51,11 +48,8 @@ class ContainersIdWaitPostResponse200Normalizer implements DenormalizerInterface
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getStatusCode()) {
-            $data->{'StatusCode'} = $object->getStatusCode();
-        }
-        if (null !== $object->getError()) {
-            $data->{'Error'} = $this->normalizer->normalize($object->getError(), 'json', $context);
+        if (null !== $object->getMessage()) {
+            $data->{'Message'} = $object->getMessage();
         }
 
         return $data;

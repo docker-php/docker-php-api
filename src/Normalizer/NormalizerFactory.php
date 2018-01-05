@@ -160,6 +160,7 @@ class NormalizerFactory
         $normalizers[] = new ContainersIdUpdatePostBodyNormalizer();
         $normalizers[] = new ContainersIdUpdatePostResponse200Normalizer();
         $normalizers[] = new ContainersIdWaitPostResponse200Normalizer();
+        $normalizers[] = new ContainersIdWaitPostResponse200ErrorNormalizer();
         $normalizers[] = new ContainersIdArchiveGetResponse400Normalizer();
         $normalizers[] = new ContainersIdArchiveHeadResponse400Normalizer();
         $normalizers[] = new ContainersPrunePostResponse200Normalizer();

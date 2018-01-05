@@ -360,7 +360,15 @@ class HostConfig
      */
     protected $privileged;
     /**
-     * Allocates a random host port for all of a container's exposed ports.
+     * Allocates an ephemeral host port for all of a container's.
+    exposed ports.
+
+    Ports are de-allocated when the container stops and allocated when the container starts.
+    The allocated port might be changed when restarting the container.
+
+    The port is selected from the ephemeral port range that depends on the kernel.
+    For example, on Linux the range is defined by `/proc/sys/net/ipv4/ip_local_port_range`.
+
      *
      * @var bool
      */
@@ -1763,7 +1771,15 @@ class HostConfig
     }
 
     /**
-     * Allocates a random host port for all of a container's exposed ports.
+     * Allocates an ephemeral host port for all of a container's.
+    exposed ports.
+
+    Ports are de-allocated when the container stops and allocated when the container starts.
+    The allocated port might be changed when restarting the container.
+
+    The port is selected from the ephemeral port range that depends on the kernel.
+    For example, on Linux the range is defined by `/proc/sys/net/ipv4/ip_local_port_range`.
+
      *
      * @return bool
      */
@@ -1773,7 +1789,15 @@ class HostConfig
     }
 
     /**
-     * Allocates a random host port for all of a container's exposed ports.
+     * Allocates an ephemeral host port for all of a container's.
+    exposed ports.
+
+    Ports are de-allocated when the container stops and allocated when the container starts.
+    The allocated port might be changed when restarting the container.
+
+    The port is selected from the ephemeral port range that depends on the kernel.
+    For example, on Linux the range is defined by `/proc/sys/net/ipv4/ip_local_port_range`.
+
      *
      * @param bool $publishAllPorts
      *
