@@ -53,7 +53,7 @@ trait PluginAsyncResourceTrait
     /**
      * @param array $parameters {
      *
-     *     @var string $name The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     *     @var string $remote The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
      * }
      *
      * @param string                 $fetch             Fetch mode (object or response)
@@ -67,7 +67,7 @@ trait PluginAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('name', true, ['string']);
+            $queryParam->addQueryParameter('remote', true, ['string']);
             $url = '/plugins/privileges';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

@@ -22,8 +22,6 @@ trait NodeResourceTrait
      * }
      * @param string $fetch Fetch mode (object or response)
      *
-     * @throws \Docker\API\Exception\NodeListBadRequestException
-     * @throws \Docker\API\Exception\NodeListNotFoundException
      * @throws \Docker\API\Exception\NodeListInternalServerErrorException
      * @throws \Docker\API\Exception\NodeListServiceUnavailableException
      *
@@ -42,12 +40,6 @@ trait NodeResourceTrait
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
                 return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Node[]', 'json');
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeListBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeListNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\NodeListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

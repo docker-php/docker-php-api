@@ -204,6 +204,7 @@ trait SecretAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\SecretUpdateNotFoundException
      * @throws \Docker\API\Exception\SecretUpdateInternalServerErrorException
+     * @throws \Docker\API\Exception\SecretUpdateServiceUnavailableException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
@@ -230,6 +231,9 @@ trait SecretAsyncResourceTrait
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SecretUpdateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+                if (503 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\SecretUpdateServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 

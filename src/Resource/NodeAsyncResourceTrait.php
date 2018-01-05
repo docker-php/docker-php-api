@@ -23,8 +23,6 @@ trait NodeAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
-     * @throws \Docker\API\Exception\NodeListBadRequestException
-     * @throws \Docker\API\Exception\NodeListNotFoundException
      * @throws \Docker\API\Exception\NodeListInternalServerErrorException
      * @throws \Docker\API\Exception\NodeListServiceUnavailableException
      *
@@ -46,12 +44,6 @@ trait NodeAsyncResourceTrait
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
                     return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Node[]', 'json');
-                }
-                if (400 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeListBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeListNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\NodeListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));

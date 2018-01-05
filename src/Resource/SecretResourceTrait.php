@@ -183,6 +183,7 @@ trait SecretResourceTrait
      *
      * @throws \Docker\API\Exception\SecretUpdateNotFoundException
      * @throws \Docker\API\Exception\SecretUpdateInternalServerErrorException
+     * @throws \Docker\API\Exception\SecretUpdateServiceUnavailableException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
@@ -206,6 +207,9 @@ trait SecretResourceTrait
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SecretUpdateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+            if (503 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\SecretUpdateServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
         }
 
