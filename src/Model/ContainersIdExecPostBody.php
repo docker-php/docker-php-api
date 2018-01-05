@@ -66,6 +66,12 @@ class ContainersIdExecPostBody
      * @var string
      */
     protected $user;
+    /**
+     * The working directory for the exec process inside the container.
+     *
+     * @var string
+     */
+    protected $workingDir;
 
     /**
      * Attach to `stdin` of the exec command.
@@ -279,6 +285,30 @@ class ContainersIdExecPostBody
     public function setUser(?string $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * The working directory for the exec process inside the container.
+     *
+     * @return string
+     */
+    public function getWorkingDir(): ?string
+    {
+        return $this->workingDir;
+    }
+
+    /**
+     * The working directory for the exec process inside the container.
+     *
+     * @param string $workingDir
+     *
+     * @return self
+     */
+    public function setWorkingDir(?string $workingDir): self
+    {
+        $this->workingDir = $workingDir;
 
         return $this;
     }

@@ -80,18 +80,11 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
             $object->setEnv($values_1);
         }
         if (property_exists($data, 'Cmd') && $data->{'Cmd'} !== null) {
-            $value_2 = $data->{'Cmd'};
-            if (is_array($data->{'Cmd'})) {
-                $values_2 = [];
-                foreach ($data->{'Cmd'} as $value_3) {
-                    $values_2[] = $value_3;
-                }
-                $value_2 = $values_2;
+            $values_2 = [];
+            foreach ($data->{'Cmd'} as $value_2) {
+                $values_2[] = $value_2;
             }
-            if (is_string($data->{'Cmd'})) {
-                $value_2 = $data->{'Cmd'};
-            }
-            $object->setCmd($value_2);
+            $object->setCmd($values_2);
         }
         if (property_exists($data, 'Healthcheck') && $data->{'Healthcheck'} !== null) {
             $object->setHealthcheck($this->denormalizer->denormalize($data->{'Healthcheck'}, 'Docker\\API\\Model\\HealthConfig', 'json', $context));
@@ -109,18 +102,11 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
             $object->setWorkingDir($data->{'WorkingDir'});
         }
         if (property_exists($data, 'Entrypoint') && $data->{'Entrypoint'} !== null) {
-            $value_4 = $data->{'Entrypoint'};
-            if (is_array($data->{'Entrypoint'})) {
-                $values_3 = [];
-                foreach ($data->{'Entrypoint'} as $value_5) {
-                    $values_3[] = $value_5;
-                }
-                $value_4 = $values_3;
+            $values_3 = [];
+            foreach ($data->{'Entrypoint'} as $value_3) {
+                $values_3[] = $value_3;
             }
-            if (is_string($data->{'Entrypoint'})) {
-                $value_4 = $data->{'Entrypoint'};
-            }
-            $object->setEntrypoint($value_4);
+            $object->setEntrypoint($values_3);
         }
         if (property_exists($data, 'NetworkDisabled') && $data->{'NetworkDisabled'} !== null) {
             $object->setNetworkDisabled($data->{'NetworkDisabled'});
@@ -130,15 +116,15 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
         }
         if (property_exists($data, 'OnBuild') && $data->{'OnBuild'} !== null) {
             $values_4 = [];
-            foreach ($data->{'OnBuild'} as $value_6) {
-                $values_4[] = $value_6;
+            foreach ($data->{'OnBuild'} as $value_4) {
+                $values_4[] = $value_4;
             }
             $object->setOnBuild($values_4);
         }
         if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
             $values_5 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data->{'Labels'} as $key_1 => $value_7) {
-                $values_5[$key_1] = $value_7;
+            foreach ($data->{'Labels'} as $key_1 => $value_5) {
+                $values_5[$key_1] = $value_5;
             }
             $object->setLabels($values_5);
         }
@@ -150,8 +136,8 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
         }
         if (property_exists($data, 'Shell') && $data->{'Shell'} !== null) {
             $values_6 = [];
-            foreach ($data->{'Shell'} as $value_8) {
-                $values_6[] = $value_8;
+            foreach ($data->{'Shell'} as $value_6) {
+                $values_6[] = $value_6;
             }
             $object->setShell($values_6);
         }
@@ -204,18 +190,11 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
             $data->{'Env'} = $values_1;
         }
         if (null !== $object->getCmd()) {
-            $value_2 = $object->getCmd();
-            if (is_array($object->getCmd())) {
-                $values_2 = [];
-                foreach ($object->getCmd() as $value_3) {
-                    $values_2[] = $value_3;
-                }
-                $value_2 = $values_2;
+            $values_2 = [];
+            foreach ($object->getCmd() as $value_2) {
+                $values_2[] = $value_2;
             }
-            if (is_string($object->getCmd())) {
-                $value_2 = $object->getCmd();
-            }
-            $data->{'Cmd'} = $value_2;
+            $data->{'Cmd'} = $values_2;
         }
         if (null !== $object->getHealthcheck()) {
             $data->{'Healthcheck'} = $this->normalizer->normalize($object->getHealthcheck(), 'json', $context);
@@ -233,18 +212,11 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
             $data->{'WorkingDir'} = $object->getWorkingDir();
         }
         if (null !== $object->getEntrypoint()) {
-            $value_4 = $object->getEntrypoint();
-            if (is_array($object->getEntrypoint())) {
-                $values_3 = [];
-                foreach ($object->getEntrypoint() as $value_5) {
-                    $values_3[] = $value_5;
-                }
-                $value_4 = $values_3;
+            $values_3 = [];
+            foreach ($object->getEntrypoint() as $value_3) {
+                $values_3[] = $value_3;
             }
-            if (is_string($object->getEntrypoint())) {
-                $value_4 = $object->getEntrypoint();
-            }
-            $data->{'Entrypoint'} = $value_4;
+            $data->{'Entrypoint'} = $values_3;
         }
         if (null !== $object->getNetworkDisabled()) {
             $data->{'NetworkDisabled'} = $object->getNetworkDisabled();
@@ -254,15 +226,15 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
         }
         if (null !== $object->getOnBuild()) {
             $values_4 = [];
-            foreach ($object->getOnBuild() as $value_6) {
-                $values_4[] = $value_6;
+            foreach ($object->getOnBuild() as $value_4) {
+                $values_4[] = $value_4;
             }
             $data->{'OnBuild'} = $values_4;
         }
         if (null !== $object->getLabels()) {
             $values_5 = new \stdClass();
-            foreach ($object->getLabels() as $key_1 => $value_7) {
-                $values_5->{$key_1} = $value_7;
+            foreach ($object->getLabels() as $key_1 => $value_5) {
+                $values_5->{$key_1} = $value_5;
             }
             $data->{'Labels'} = $values_5;
         }
@@ -274,8 +246,8 @@ class ContainerConfigNormalizer implements DenormalizerInterface, NormalizerInte
         }
         if (null !== $object->getShell()) {
             $values_6 = [];
-            foreach ($object->getShell() as $value_8) {
-                $values_6[] = $value_8;
+            foreach ($object->getShell() as $value_6) {
+                $values_6[] = $value_6;
             }
             $data->{'Shell'} = $values_6;
         }

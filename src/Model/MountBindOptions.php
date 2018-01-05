@@ -15,16 +15,16 @@ class MountBindOptions
     /**
      * A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
      *
-     * @var mixed
+     * @var string
      */
     protected $propagation;
 
     /**
      * A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
      *
-     * @return mixed
+     * @return string
      */
-    public function getPropagation()
+    public function getPropagation(): ?string
     {
         return $this->propagation;
     }
@@ -32,11 +32,11 @@ class MountBindOptions
     /**
      * A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
      *
-     * @param mixed $propagation
+     * @param string $propagation
      *
      * @return self
      */
-    public function setPropagation($propagation): self
+    public function setPropagation(?string $propagation): self
     {
         $this->propagation = $propagation;
 

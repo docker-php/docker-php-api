@@ -144,6 +144,12 @@ class TaskSpecContainerSpec
      * @var TaskSpecContainerSpecConfigsItem[]
      */
     protected $configs;
+    /**
+     * Isolation technology of the containers running the service. (Windows only).
+     *
+     * @var string
+     */
+    protected $isolation;
 
     /**
      * The image name to use for the container.
@@ -657,6 +663,30 @@ class TaskSpecContainerSpec
     public function setConfigs(?array $configs): self
     {
         $this->configs = $configs;
+
+        return $this;
+    }
+
+    /**
+     * Isolation technology of the containers running the service. (Windows only).
+     *
+     * @return string
+     */
+    public function getIsolation(): ?string
+    {
+        return $this->isolation;
+    }
+
+    /**
+     * Isolation technology of the containers running the service. (Windows only).
+     *
+     * @param string $isolation
+     *
+     * @return self
+     */
+    public function setIsolation(?string $isolation): self
+    {
+        $this->isolation = $isolation;
 
         return $this;
     }

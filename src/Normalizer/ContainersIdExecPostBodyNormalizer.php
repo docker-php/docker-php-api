@@ -73,6 +73,9 @@ class ContainersIdExecPostBodyNormalizer implements DenormalizerInterface, Norma
         if (property_exists($data, 'User') && $data->{'User'} !== null) {
             $object->setUser($data->{'User'});
         }
+        if (property_exists($data, 'WorkingDir') && $data->{'WorkingDir'} !== null) {
+            $object->setWorkingDir($data->{'WorkingDir'});
+        }
 
         return $object;
     }
@@ -114,6 +117,9 @@ class ContainersIdExecPostBodyNormalizer implements DenormalizerInterface, Norma
         }
         if (null !== $object->getUser()) {
             $data->{'User'} = $object->getUser();
+        }
+        if (null !== $object->getWorkingDir()) {
+            $data->{'WorkingDir'} = $object->getWorkingDir();
         }
 
         return $data;

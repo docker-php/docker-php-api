@@ -229,9 +229,15 @@ class HostConfig
      */
     protected $networkMode;
     /**
-     * A map of exposed container ports and the host port they should map to.
+     * PortMap describes the mapping of container ports to host ports, using the.
+    container's port-number and protocol as key in the format `<port>/<protocol>`,
+    for example, `80/udp`.
+
+    If a container's port is mapped for both `tcp` and `udp`, two separate
+    entries are added to the mapping table.
+
      *
-     * @var HostConfigPortBindingsItem[]
+     * @var PortBinding[][]
      */
     protected $portBindings;
     /**
@@ -1281,9 +1287,15 @@ class HostConfig
     }
 
     /**
-     * A map of exposed container ports and the host port they should map to.
+     * PortMap describes the mapping of container ports to host ports, using the.
+    container's port-number and protocol as key in the format `<port>/<protocol>`,
+    for example, `80/udp`.
+
+    If a container's port is mapped for both `tcp` and `udp`, two separate
+    entries are added to the mapping table.
+
      *
-     * @return HostConfigPortBindingsItem[]
+     * @return PortBinding[][]
      */
     public function getPortBindings(): ?\ArrayObject
     {
@@ -1291,9 +1303,15 @@ class HostConfig
     }
 
     /**
-     * A map of exposed container ports and the host port they should map to.
+     * PortMap describes the mapping of container ports to host ports, using the.
+    container's port-number and protocol as key in the format `<port>/<protocol>`,
+    for example, `80/udp`.
+
+    If a container's port is mapped for both `tcp` and `udp`, two separate
+    entries are added to the mapping table.
+
      *
-     * @param HostConfigPortBindingsItem[] $portBindings
+     * @param PortBinding[][] $portBindings
      *
      * @return self
      */

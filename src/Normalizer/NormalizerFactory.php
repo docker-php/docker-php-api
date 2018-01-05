@@ -36,7 +36,6 @@ class NormalizerFactory
         $normalizers[] = new HealthConfigNormalizer();
         $normalizers[] = new HostConfigNormalizer();
         $normalizers[] = new HostConfigLogConfigNormalizer();
-        $normalizers[] = new HostConfigPortBindingsItemNormalizer();
         $normalizers[] = new ContainerConfigNormalizer();
         $normalizers[] = new ContainerConfigVolumesNormalizer();
         $normalizers[] = new NetworkSettingsNormalizer();
@@ -170,6 +169,8 @@ class NormalizerFactory
         $normalizers[] = new ImagesPrunePostResponse200Normalizer();
         $normalizers[] = new AuthPostResponse200Normalizer();
         $normalizers[] = new VersionGetResponse200Normalizer();
+        $normalizers[] = new VersionGetResponse200PlatformNormalizer();
+        $normalizers[] = new VersionGetResponse200ComponentsItemNormalizer();
         $normalizers[] = new EventsGetResponse200Normalizer();
         $normalizers[] = new EventsGetResponse200ActorNormalizer();
         $normalizers[] = new SystemDfGetResponse200Normalizer();

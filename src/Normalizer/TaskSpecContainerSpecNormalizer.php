@@ -137,6 +137,9 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
             }
             $object->setConfigs($values_8);
         }
+        if (property_exists($data, 'Isolation') && $data->{'Isolation'} !== null) {
+            $object->setIsolation($data->{'Isolation'});
+        }
 
         return $object;
     }
@@ -242,6 +245,9 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
                 $values_8[] = $this->normalizer->normalize($value_8, 'json', $context);
             }
             $data->{'Configs'} = $values_8;
+        }
+        if (null !== $object->getIsolation()) {
+            $data->{'Isolation'} = $object->getIsolation();
         }
 
         return $data;

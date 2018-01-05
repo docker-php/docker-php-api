@@ -84,7 +84,7 @@ class ContainerConfig
     /**
      * Command to run specified as a string or an array of strings.
      *
-     * @var string[]|string
+     * @var string[]
      */
     protected $cmd;
     /**
@@ -123,7 +123,7 @@ class ContainerConfig
     If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
 
      *
-     * @var string[]|string
+     * @var string[]
      */
     protected $entrypoint;
     /**
@@ -442,9 +442,9 @@ class ContainerConfig
     /**
      * Command to run specified as a string or an array of strings.
      *
-     * @return string[]|string
+     * @return string[]
      */
-    public function getCmd()
+    public function getCmd(): ?array
     {
         return $this->cmd;
     }
@@ -452,11 +452,11 @@ class ContainerConfig
     /**
      * Command to run specified as a string or an array of strings.
      *
-     * @param string[]|string $cmd
+     * @param string[] $cmd
      *
      * @return self
      */
-    public function setCmd($cmd): self
+    public function setCmd(?array $cmd): self
     {
         $this->cmd = $cmd;
 
@@ -589,9 +589,9 @@ class ContainerConfig
     If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
 
      *
-     * @return string[]|string
+     * @return string[]
      */
-    public function getEntrypoint()
+    public function getEntrypoint(): ?array
     {
         return $this->entrypoint;
     }
@@ -602,11 +602,11 @@ class ContainerConfig
     If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
 
      *
-     * @param string[]|string $entrypoint
+     * @param string[] $entrypoint
      *
      * @return self
      */
-    public function setEntrypoint($entrypoint): self
+    public function setEntrypoint(?array $entrypoint): self
     {
         $this->entrypoint = $entrypoint;
 

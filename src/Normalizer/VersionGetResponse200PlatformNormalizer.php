@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ContainersCreatePostResponse201Normalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class VersionGetResponse200PlatformNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\ContainersCreatePostResponse201';
+        return $type === 'Docker\\API\\Model\\VersionGetResponse200Platform';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\ContainersCreatePostResponse201;
+        return $data instanceof \Docker\API\Model\VersionGetResponse200Platform;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,16 +37,9 @@ class ContainersCreatePostResponse201Normalizer implements DenormalizerInterface
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\ContainersCreatePostResponse201();
-        if (property_exists($data, 'Id') && $data->{'Id'} !== null) {
-            $object->setId($data->{'Id'});
-        }
-        if (property_exists($data, 'Warnings') && $data->{'Warnings'} !== null) {
-            $values = [];
-            foreach ($data->{'Warnings'} as $value) {
-                $values[] = $value;
-            }
-            $object->setWarnings($values);
+        $object = new \Docker\API\Model\VersionGetResponse200Platform();
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
+            $object->setName($data->{'Name'});
         }
 
         return $object;
@@ -55,15 +48,8 @@ class ContainersCreatePostResponse201Normalizer implements DenormalizerInterface
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getId()) {
-            $data->{'Id'} = $object->getId();
-        }
-        if (null !== $object->getWarnings()) {
-            $values = [];
-            foreach ($object->getWarnings() as $value) {
-                $values[] = $value;
-            }
-            $data->{'Warnings'} = $values;
+        if (null !== $object->getName()) {
+            $data->{'Name'} = $object->getName();
         }
 
         return $data;

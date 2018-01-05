@@ -38,6 +38,16 @@ class VersionGetResponse200Normalizer implements DenormalizerInterface, Normaliz
             return null;
         }
         $object = new \Docker\API\Model\VersionGetResponse200();
+        if (property_exists($data, 'Platform') && $data->{'Platform'} !== null) {
+            $object->setPlatform($this->denormalizer->denormalize($data->{'Platform'}, 'Docker\\API\\Model\\VersionGetResponse200Platform', 'json', $context));
+        }
+        if (property_exists($data, 'Components') && $data->{'Components'} !== null) {
+            $values = [];
+            foreach ($data->{'Components'} as $value) {
+                $values[] = $this->denormalizer->denormalize($value, 'Docker\\API\\Model\\VersionGetResponse200ComponentsItem', 'json', $context);
+            }
+            $object->setComponents($values);
+        }
         if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
             $object->setVersion($data->{'Version'});
         }
@@ -75,6 +85,16 @@ class VersionGetResponse200Normalizer implements DenormalizerInterface, Normaliz
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
+        if (null !== $object->getPlatform()) {
+            $data->{'Platform'} = $this->normalizer->normalize($object->getPlatform(), 'json', $context);
+        }
+        if (null !== $object->getComponents()) {
+            $values = [];
+            foreach ($object->getComponents() as $value) {
+                $values[] = $this->normalizer->normalize($value, 'json', $context);
+            }
+            $data->{'Components'} = $values;
+        }
         if (null !== $object->getVersion()) {
             $data->{'Version'} = $object->getVersion();
         }

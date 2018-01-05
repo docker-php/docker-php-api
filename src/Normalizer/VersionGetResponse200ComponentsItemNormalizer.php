@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class HostConfigPortBindingsItemNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class VersionGetResponse200ComponentsItemNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\HostConfigPortBindingsItem';
+        return $type === 'Docker\\API\\Model\\VersionGetResponse200ComponentsItem';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\HostConfigPortBindingsItem;
+        return $data instanceof \Docker\API\Model\VersionGetResponse200ComponentsItem;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,12 +37,15 @@ class HostConfigPortBindingsItemNormalizer implements DenormalizerInterface, Nor
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\HostConfigPortBindingsItem();
-        if (property_exists($data, 'HostIp') && $data->{'HostIp'} !== null) {
-            $object->setHostIp($data->{'HostIp'});
+        $object = new \Docker\API\Model\VersionGetResponse200ComponentsItem();
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
+            $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'HostPort') && $data->{'HostPort'} !== null) {
-            $object->setHostPort($data->{'HostPort'});
+        if (property_exists($data, 'Version') && $data->{'Version'} !== null) {
+            $object->setVersion($data->{'Version'});
+        }
+        if (property_exists($data, 'Details') && $data->{'Details'} !== null) {
+            $object->setDetails($data->{'Details'});
         }
 
         return $object;
@@ -51,11 +54,14 @@ class HostConfigPortBindingsItemNormalizer implements DenormalizerInterface, Nor
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getHostIp()) {
-            $data->{'HostIp'} = $object->getHostIp();
+        if (null !== $object->getName()) {
+            $data->{'Name'} = $object->getName();
         }
-        if (null !== $object->getHostPort()) {
-            $data->{'HostPort'} = $object->getHostPort();
+        if (null !== $object->getVersion()) {
+            $data->{'Version'} = $object->getVersion();
+        }
+        if (null !== $object->getDetails()) {
+            $data->{'Details'} = $object->getDetails();
         }
 
         return $data;

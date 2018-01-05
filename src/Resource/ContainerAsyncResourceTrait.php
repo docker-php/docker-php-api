@@ -229,6 +229,7 @@ trait ContainerAsyncResourceTrait
      *     @var bool $stdout Return logs from `stdout`
      *     @var bool $stderr Return logs from `stderr`
      *     @var int $since Only return logs since this time, as a UNIX timestamp
+     *     @var int $until Only return logs before this time, as a UNIX timestamp
      *     @var bool $timestamps Add timestamps to every log line
      *     @var string $tail Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines.
      * }
@@ -249,6 +250,7 @@ trait ContainerAsyncResourceTrait
             $queryParam->addQueryParameter('stdout', false, ['bool'], false);
             $queryParam->addQueryParameter('stderr', false, ['bool'], false);
             $queryParam->addQueryParameter('since', false, ['int'], 0);
+            $queryParam->addQueryParameter('until', false, ['int'], 0);
             $queryParam->addQueryParameter('timestamps', false, ['bool'], false);
             $queryParam->addQueryParameter('tail', false, ['string'], 'all');
             $url = '/containers/{id}/logs';

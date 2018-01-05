@@ -13,6 +13,14 @@ namespace Docker\API\Model;
 class VersionGetResponse200
 {
     /**
+     * @var VersionGetResponse200Platform
+     */
+    protected $platform;
+    /**
+     * @var VersionGetResponse200ComponentsItem[]
+     */
+    protected $components;
+    /**
      * @var string
      */
     protected $version;
@@ -52,6 +60,46 @@ class VersionGetResponse200
      * @var string
      */
     protected $buildTime;
+
+    /**
+     * @return VersionGetResponse200Platform
+     */
+    public function getPlatform(): ?VersionGetResponse200Platform
+    {
+        return $this->platform;
+    }
+
+    /**
+     * @param VersionGetResponse200Platform $platform
+     *
+     * @return self
+     */
+    public function setPlatform(?VersionGetResponse200Platform $platform): self
+    {
+        $this->platform = $platform;
+
+        return $this;
+    }
+
+    /**
+     * @return VersionGetResponse200ComponentsItem[]
+     */
+    public function getComponents(): ?array
+    {
+        return $this->components;
+    }
+
+    /**
+     * @param VersionGetResponse200ComponentsItem[] $components
+     *
+     * @return self
+     */
+    public function setComponents(?array $components): self
+    {
+        $this->components = $components;
+
+        return $this;
+    }
 
     /**
      * @return string
