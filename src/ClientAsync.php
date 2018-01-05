@@ -27,6 +27,7 @@ class ClientAsync extends \Jane\OpenApiRuntime\Client\AmpArtaxResource
     use Resource\SecretAsyncResourceTrait;
     use Resource\ConfigAsyncResourceTrait;
     use Resource\DistributionAsyncResourceTrait;
+    use Resource\SessionExperimentalAsyncResourceTrait;
 
     public static function create($httpClient = null)
     {

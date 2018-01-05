@@ -148,6 +148,35 @@ trait ImageResourceTrait
     }
 
     /**
+     * @param array  $parameters List of parameters
+     * @param string $fetch      Fetch mode (object or response)
+     *
+     * @throws \Docker\API\Exception\BuildPruneInternalServerErrorException
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\BuildPrunePostResponse200
+     */
+    public function buildPrune(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    {
+        $queryParam = new QueryParam($this->streamFactory);
+        $url = '/build/prune';
+        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
+        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+        $body = $queryParam->buildFormDataString($parameters);
+        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
+        $response = $this->httpClient->sendRequest($request);
+        if (self::FETCH_OBJECT === $fetch) {
+            if (200 === $response->getStatusCode()) {
+                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\BuildPrunePostResponse200', 'json');
+            }
+            if (500 === $response->getStatusCode()) {
+                throw new \Docker\API\Exception\BuildPruneInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+            }
+        }
+
+        return $response;
+    }
+
+    /**
      * Create an image by either pulling it from a registry or importing it.
      *
      * @param string $inputImage Image content if the value `-` has been specified in fromSrc query parameter

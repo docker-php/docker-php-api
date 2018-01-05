@@ -27,13 +27,14 @@ class Client extends \Jane\OpenApiRuntime\Client\Psr7HttplugResource
     use Resource\SecretResourceTrait;
     use Resource\ConfigResourceTrait;
     use Resource\DistributionResourceTrait;
+    use Resource\SessionExperimentalResourceTrait;
 
     public static function create($httpClient = null)
     {
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\HttpClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\UriFactoryDiscovery::find()->createUri('v1.30');
+            $uri = \Http\Discovery\UriFactoryDiscovery::find()->createUri('v1.31');
             $plugins[] = new \Http\Client\Common\Plugin\AddPathPlugin($uri);
             $httpClient = new \Http\Client\Common\PluginClient($httpClient, $plugins);
         }

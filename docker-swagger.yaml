@@ -19,10 +19,10 @@ produces:
 consumes:
   - "application/json"
   - "text/plain"
-basePath: "/v1.30"
+basePath: "/v1.31"
 info:
   title: "Docker Engine API"
-  version: "1.30"
+  version: "1.31"
   x-logo:
     url: "https://docs.docker.com/images/logo-docker-main.png"
   description: |
@@ -52,10 +52,11 @@ info:
 
     The API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.
 
-    This documentation is for version 1.30 of the API, which was introduced with Docker 17.06. Use this table to find documentation for previous versions of the API:
+    This documentation is for version 1.31 of the API. Use this table to find documentation for previous versions of the API:
 
     Docker version  | API version | Changes
     ----------------|-------------|---------
+    17.06.x | [1.30](https://docs.docker.com/engine/api/v1.30/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-30-api-changes)
     17.05.x | [1.29](https://docs.docker.com/engine/api/v1.29/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-29-api-changes)
     17.04.x | [1.28](https://docs.docker.com/engine/api/v1.28/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-28-api-changes)
     17.03.1 | [1.27](https://docs.docker.com/engine/api/v1.27/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-27-api-changes)
@@ -947,6 +948,12 @@ definitions:
               type: "string"
           BaseLayer:
             type: "string"
+      Metadata:
+        type: "object"
+        properties:
+          LastTagTime:
+            type: "string"
+            format: "dateTime"
 
   ImageSummary:
     type: "object"
@@ -1047,6 +1054,10 @@ definitions:
         type: "string"
         description: "Mount path of the volume on the host."
         x-nullable: false
+      CreatedAt:
+        type: "string"
+        format: "dateTime"
+        description: "Date/Time the volume was created."
       Status:
         type: "object"
         description: |
@@ -1077,27 +1088,17 @@ definitions:
           type: "string"
       UsageData:
         type: "object"
-        x-nullable: true
         required: [Size, RefCount]
-        description: |
-          Usage details about the volume. This information is used by the
-          `GET /system/df` endpoint, and omitted in other endpoints.
         properties:
           Size:
             type: "integer"
+            description: "The disk space used by the volume (local driver only)"
             default: -1
-            description: |
-              Amount of disk space used by the volume (in bytes). This information
-              is only available for volumes created with the `"local"` volume
-              driver. For volumes created with other volume drivers, this field
-              is set to `-1` ("not available")
             x-nullable: false
           RefCount:
             type: "integer"
             default: -1
-            description: |
-              The number of containers referencing this volume. This field
-              is set to `-1` if the reference-count is not available.
+            description: "The number of containers referencing this volume."
             x-nullable: false
 
     example:
@@ -1110,6 +1111,7 @@ definitions:
         com.example.some-label: "some-value"
         com.example.some-other-label: "some-other-value"
       Scope: "local"
+      CreatedAt: "2016-06-07T20:31:11.853781916Z"
 
   Network:
     type: "object"
@@ -1639,7 +1641,7 @@ definitions:
       may not be applied if the version number has changed from the last read. In other words,
       if two update requests specify the same base version, only one of the requests can succeed.
       As a result, two separate update requests that happen at the same time will not
-      unintentially overwrite each other.
+      unintentionally overwrite each other.
     type: "object"
     properties:
       Index:
@@ -1977,11 +1979,39 @@ definitions:
     description: "User modifiable task configuration."
     type: "object"
     properties:
+      PluginSpec:
+        type: "object"
+        description: "Invalid when specified with `ContainerSpec`. *(Experimental release only.)*"
+        properties:
+          Name:
+            description: "The name or 'alias' to use for the plugin."
+            type: "string"
+          Remote:
+            description: "The plugin image reference to use."
+            type: "string"
+          Disabled:
+            description: "Disable the plugin once scheduled."
+            type: "boolean"
+          PluginPrivilege:
+            type: "array"
+            items:
+              description: "Describes a permission accepted by the user upon installing the plugin."
+              type: "object"
+              properties:
+                Name:
+                  type: "string"
+                Description:
+                  type: "string"
+                Value:
+                  type: "array"
+                  items:
+                    type: "string"
       ContainerSpec:
         type: "object"
+        description: "Invalid when specified with `PluginSpec`."
         properties:
           Image:
-            description: "The image name to use for the container."
+            description: "The image name to use for the container"
             type: "string"
           Labels:
             description: "User-defined key/value data."
@@ -2753,6 +2783,27 @@ definitions:
           type: "array"
           items:
             $ref: "#/definitions/Mount"
+
+  Driver:
+    description: "Driver represents a driver (network, logging, secrets)."
+    type: "object"
+    required: [Name]
+    properties:
+      Name:
+        description: "Name of the driver."
+        type: "string"
+        x-nullable: false
+        example: "some-driver"
+      Options:
+        description: "Key/value map of driver-specific options."
+        type: "object"
+        x-nullable: false
+        additionalProperties:
+          type: "string"
+        example:
+          OptionA: "value for driver-specific option A"
+          OptionB: "value for driver-specific option B"
+
   SecretSpec:
     type: "object"
     properties:
@@ -2764,24 +2815,38 @@ definitions:
         type: "object"
         additionalProperties:
           type: "string"
+        example:
+          com.example.some-label: "some-value"
+          com.example.some-other-label: "some-other-value"
       Data:
-        description: "Base64-url-safe-encoded secret data"
-        type: "array"
-        items:
-          type: "string"
+        description: |
+          Base64-url-safe-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-3.2))
+          data to store as secret.
+
+          This field is only used to _create_ a secret, and is not returned by
+          other endpoints.
+        type: "string"
+        example: ""
+      Driver:
+        description: "Name of the secrets driver used to fetch the secret's value from an external secret store"
+        $ref: "#/definitions/Driver"
+
   Secret:
     type: "object"
     properties:
       ID:
         type: "string"
+        example: "blt1owaxmitz71s9v5zh81zun"
       Version:
         $ref: "#/definitions/ObjectVersion"
       CreatedAt:
         type: "string"
         format: "dateTime"
+        example: "2017-07-20T13:55:28.678958722Z"
       UpdatedAt:
         type: "string"
         format: "dateTime"
+        example: "2017-07-20T13:55:28.678958722Z"
       Spec:
         $ref: "#/definitions/SecretSpec"
   ConfigSpec:
@@ -2796,10 +2861,10 @@ definitions:
         additionalProperties:
           type: "string"
       Data:
-        description: "Base64-url-safe-encoded config data"
-        type: "array"
-        items:
-          type: "string"
+        description: |
+          Base64-url-safe-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-3.2))
+          config data.
+        type: "string"
   Config:
     type: "object"
     properties:
@@ -2820,6 +2885,11 @@ paths:
   /containers/json:
     get:
       summary: "List containers"
+      description: |
+        Returns a list of containers. For details on the format, see [the inspect endpoint](#operation/ContainerInspect).
+
+        Note that it uses a different, smaller representation of a container than inspecting a single container. For example,
+        the list of linked containers is not propagated .
       operationId: "ContainerList"
       produces:
         - "application/json"
@@ -4858,6 +4928,27 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
       tags: ["Image"]
+  /build/prune:
+    post:
+      summary: "Delete builder cache"
+      produces:
+        - "application/json"
+      operationId: "BuildPrune"
+      responses:
+        200:
+          description: "No error"
+          schema:
+            type: "object"
+            properties:
+              SpaceReclaimed:
+                description: "Disk space reclaimed in bytes"
+                type: "integer"
+                format: "int64"
+        500:
+          description: "Server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      tags: ["Image"]
   /images/create:
     post:
       summary: "Create an image"
@@ -5736,6 +5827,8 @@ paths:
 
         Secrets report these events: `create`, `update`, and `remove`
 
+        Configs report these events: `create`, `update`, and `remove`
+
       operationId: "SystemEvents"
       produces:
         - "application/json"
@@ -5891,13 +5984,13 @@ paths:
                 -
                   Name: "my-volume"
                   Driver: "local"
-                  Mountpoint: "/var/lib/docker/volumes/my-volume/_data"
+                  Mountpoint: ""
                   Labels: null
-                  Scope: "local"
+                  Scope: ""
                   Options: null
                   UsageData:
-                    Size: 10920104
-                    RefCount: 2
+                    Size: 0
+                    RefCount: 0
         500:
           description: "server error"
           schema:
@@ -6262,7 +6355,8 @@ paths:
           examples:
             application/json:
               Volumes:
-                - Name: "tardis"
+                - CreatedAt: "2017-07-19T12:00:26Z"
+                  Name: "tardis"
                   Driver: "local"
                   Mountpoint: "/var/lib/docker/volumes/tardis"
                   Labels:
@@ -6557,6 +6651,10 @@ paths:
           description: "Detailed inspect output for troubleshooting"
           type: "boolean"
           default: false
+        - name: "scope"
+          in: "query"
+          description: "Filter the network by scope (swarm, global, or local)"
+          type: "string"
       tags: ["Network"]
 
     delete:
@@ -8309,6 +8407,20 @@ paths:
             items:
               $ref: "#/definitions/Secret"
             example:
+              - ID: "blt1owaxmitz71s9v5zh81zun"
+                Version:
+                  Index: 85
+                CreatedAt: "2017-07-20T13:55:28.678958722Z"
+                UpdatedAt: "2017-07-20T13:55:28.678958722Z"
+                Spec:
+                  Name: "mysql-passwd"
+                  Labels:
+                    some.label: "some.value"
+                  Driver:
+                    Name: "secret-bucket"
+                    Options:
+                      OptionA: "value for driver option A"
+                      OptionB: "value for driver option B"
               - ID: "ktnbjxoalbkvbvedmg1urrz8h"
                 Version:
                   Index: 11
@@ -8316,6 +8428,8 @@ paths:
                 UpdatedAt: "2016-11-05T01:20:17.327670065Z"
                 Spec:
                   Name: "app-dev.crt"
+                  Labels:
+                    foo: "bar"
         500:
           description: "server error"
           schema:
@@ -8379,6 +8493,11 @@ paths:
                   Labels:
                     foo: "bar"
                   Data: "VEhJUyBJUyBOT1QgQSBSRUFMIENFUlRJRklDQVRFCg=="
+                  Driver:
+                    Name: "secret-bucket"
+                    Options:
+                      OptionA: "value for driver option A"
+                      OptionB: "value for driver option B"
       tags: ["Secret"]
   /secrets/{id}:
     get:
@@ -8400,6 +8519,14 @@ paths:
               UpdatedAt: "2016-11-05T01:20:17.327670065Z"
               Spec:
                 Name: "app-dev.crt"
+                Labels:
+                  foo: "bar"
+                Driver:
+                  Name: "secret-bucket"
+                  Options:
+                    OptionA: "value for driver option A"
+                    OptionB: "value for driver option B"
+
         404:
           description: "secret not found"
           schema:
@@ -8766,3 +8893,46 @@ paths:
           type: "string"
           required: true
       tags: ["Distribution"]
+  /session:
+    post:
+      summary: "Initialize interactive session"
+      description: |
+        Start a new interactive session with a server. Session allows server to call back to the client for advanced capabilities.
+
+        > **Note**: This endpoint is *experimental* and only available if the daemon is started with experimental
+        > features enabled. The specifications for this endpoint may still change in a future version of the API.
+
+        ### Hijacking
+
+        This endpoint hijacks the HTTP connection to HTTP2 transport that allows the client to expose gPRC services on that connection.
+
+        For example, the client sends this request to upgrade the connection:
+
+        ```
+        POST /session HTTP/1.1
+        Upgrade: h2c
+        Connection: Upgrade
+        ```
+
+        The Docker daemon will respond with a `101 UPGRADED` response follow with the raw stream:
+
+        ```
+        HTTP/1.1 101 UPGRADED
+        Connection: Upgrade
+        Upgrade: h2c
+        ```
+      operationId: "Session"
+      produces:
+        - "application/vnd.docker.raw-stream"
+      responses:
+        101:
+          description: "no error, hijacking successful"
+        400:
+          description: "bad parameter"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      tags: ["Session (experimental)"]

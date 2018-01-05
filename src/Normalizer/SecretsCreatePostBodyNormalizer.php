@@ -49,11 +49,10 @@ class SecretsCreatePostBodyNormalizer implements DenormalizerInterface, Normaliz
             $object->setLabels($values);
         }
         if (property_exists($data, 'Data') && $data->{'Data'} !== null) {
-            $values_1 = [];
-            foreach ($data->{'Data'} as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $object->setData($values_1);
+            $object->setData($data->{'Data'});
+        }
+        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
+            $object->setDriver($this->denormalizer->denormalize($data->{'Driver'}, 'Docker\\API\\Model\\Driver', 'json', $context));
         }
 
         return $object;
@@ -73,11 +72,10 @@ class SecretsCreatePostBodyNormalizer implements DenormalizerInterface, Normaliz
             $data->{'Labels'} = $values;
         }
         if (null !== $object->getData()) {
-            $values_1 = [];
-            foreach ($object->getData() as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $data->{'Data'} = $values_1;
+            $data->{'Data'} = $object->getData();
+        }
+        if (null !== $object->getDriver()) {
+            $data->{'Driver'} = $this->normalizer->normalize($object->getDriver(), 'json', $context);
         }
 
         return $data;

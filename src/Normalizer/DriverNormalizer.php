@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class SecretSpecNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class DriverNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\SecretSpec';
+        return $type === 'Docker\\API\\Model\\Driver';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\SecretSpec;
+        return $data instanceof \Docker\API\Model\Driver;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,22 +37,16 @@ class SecretSpecNormalizer implements DenormalizerInterface, NormalizerInterface
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\SecretSpec();
+        $object = new \Docker\API\Model\Driver();
         if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
+        if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data->{'Labels'} as $key => $value) {
+            foreach ($data->{'Options'} as $key => $value) {
                 $values[$key] = $value;
             }
-            $object->setLabels($values);
-        }
-        if (property_exists($data, 'Data') && $data->{'Data'} !== null) {
-            $object->setData($data->{'Data'});
-        }
-        if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
-            $object->setDriver($this->denormalizer->denormalize($data->{'Driver'}, 'Docker\\API\\Model\\Driver', 'json', $context));
+            $object->setOptions($values);
         }
 
         return $object;
@@ -64,18 +58,12 @@ class SecretSpecNormalizer implements DenormalizerInterface, NormalizerInterface
         if (null !== $object->getName()) {
             $data->{'Name'} = $object->getName();
         }
-        if (null !== $object->getLabels()) {
+        if (null !== $object->getOptions()) {
             $values = new \stdClass();
-            foreach ($object->getLabels() as $key => $value) {
+            foreach ($object->getOptions() as $key => $value) {
                 $values->{$key} = $value;
             }
-            $data->{'Labels'} = $values;
-        }
-        if (null !== $object->getData()) {
-            $data->{'Data'} = $object->getData();
-        }
-        if (null !== $object->getDriver()) {
-            $data->{'Driver'} = $this->normalizer->normalize($object->getDriver(), 'json', $context);
+            $data->{'Options'} = $values;
         }
 
         return $data;

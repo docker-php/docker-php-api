@@ -100,6 +100,9 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         if (property_exists($data, 'RootFS') && $data->{'RootFS'} !== null) {
             $object->setRootFS($this->denormalizer->denormalize($data->{'RootFS'}, 'Docker\\API\\Model\\ImageRootFS', 'json', $context));
         }
+        if (property_exists($data, 'Metadata') && $data->{'Metadata'} !== null) {
+            $object->setMetadata($this->denormalizer->denormalize($data->{'Metadata'}, 'Docker\\API\\Model\\ImageMetadata', 'json', $context));
+        }
 
         return $object;
     }
@@ -168,6 +171,9 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         }
         if (null !== $object->getRootFS()) {
             $data->{'RootFS'} = $this->normalizer->normalize($object->getRootFS(), 'json', $context);
+        }
+        if (null !== $object->getMetadata()) {
+            $data->{'Metadata'} = $this->normalizer->normalize($object->getMetadata(), 'json', $context);
         }
 
         return $data;

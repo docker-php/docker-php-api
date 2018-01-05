@@ -49,11 +49,7 @@ class ConfigSpecNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setLabels($values);
         }
         if (property_exists($data, 'Data') && $data->{'Data'} !== null) {
-            $values_1 = [];
-            foreach ($data->{'Data'} as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $object->setData($values_1);
+            $object->setData($data->{'Data'});
         }
 
         return $object;
@@ -73,11 +69,7 @@ class ConfigSpecNormalizer implements DenormalizerInterface, NormalizerInterface
             $data->{'Labels'} = $values;
         }
         if (null !== $object->getData()) {
-            $values_1 = [];
-            foreach ($object->getData() as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $data->{'Data'} = $values_1;
+            $data->{'Data'} = $object->getData();
         }
 
         return $data;

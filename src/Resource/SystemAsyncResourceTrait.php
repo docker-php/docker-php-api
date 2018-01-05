@@ -181,6 +181,8 @@ trait SystemAsyncResourceTrait
 
     Secrets report these events: `create`, `update`, and `remove`
 
+    Configs report these events: `create`, `update`, and `remove`
+
      *
      * @param array $parameters {
      *

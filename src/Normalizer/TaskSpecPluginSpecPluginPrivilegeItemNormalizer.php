@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ConfigsCreatePostBodyNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class TaskSpecPluginSpecPluginPrivilegeItemNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\ConfigsCreatePostBody';
+        return $type === 'Docker\\API\\Model\\TaskSpecPluginSpecPluginPrivilegeItem';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\ConfigsCreatePostBody;
+        return $data instanceof \Docker\API\Model\TaskSpecPluginSpecPluginPrivilegeItem;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,19 +37,19 @@ class ConfigsCreatePostBodyNormalizer implements DenormalizerInterface, Normaliz
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\ConfigsCreatePostBody();
+        $object = new \Docker\API\Model\TaskSpecPluginSpecPluginPrivilegeItem();
         if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
             $object->setName($data->{'Name'});
         }
-        if (property_exists($data, 'Labels') && $data->{'Labels'} !== null) {
-            $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data->{'Labels'} as $key => $value) {
-                $values[$key] = $value;
-            }
-            $object->setLabels($values);
+        if (property_exists($data, 'Description') && $data->{'Description'} !== null) {
+            $object->setDescription($data->{'Description'});
         }
-        if (property_exists($data, 'Data') && $data->{'Data'} !== null) {
-            $object->setData($data->{'Data'});
+        if (property_exists($data, 'Value') && $data->{'Value'} !== null) {
+            $values = [];
+            foreach ($data->{'Value'} as $value) {
+                $values[] = $value;
+            }
+            $object->setValue($values);
         }
 
         return $object;
@@ -61,15 +61,15 @@ class ConfigsCreatePostBodyNormalizer implements DenormalizerInterface, Normaliz
         if (null !== $object->getName()) {
             $data->{'Name'} = $object->getName();
         }
-        if (null !== $object->getLabels()) {
-            $values = new \stdClass();
-            foreach ($object->getLabels() as $key => $value) {
-                $values->{$key} = $value;
-            }
-            $data->{'Labels'} = $values;
+        if (null !== $object->getDescription()) {
+            $data->{'Description'} = $object->getDescription();
         }
-        if (null !== $object->getData()) {
-            $data->{'Data'} = $object->getData();
+        if (null !== $object->getValue()) {
+            $values = [];
+            foreach ($object->getValue() as $value) {
+                $values[] = $value;
+            }
+            $data->{'Value'} = $values;
         }
 
         return $data;

@@ -158,6 +158,40 @@ trait ImageAsyncResourceTrait
     }
 
     /**
+     * @param array                  $parameters        List of parameters
+     * @param string                 $fetch             Fetch mode (object or response)
+     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     *
+     * @throws \Docker\API\Exception\BuildPruneInternalServerErrorException
+     *
+     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\BuildPrunePostResponse200>
+     */
+    public function buildPrune(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    {
+        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
+            $queryParam = new QueryParam();
+            $url = '/build/prune';
+            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
+            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
+            $body = $queryParam->buildFormDataString($parameters);
+            $request = new \Amp\Artax\Request($url, 'POST');
+            $request = $request->withHeaders($headers);
+            $request = $request->withBody($body);
+            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
+            if (self::FETCH_OBJECT === $fetch) {
+                if (200 === $response->getStatus()) {
+                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\BuildPrunePostResponse200', 'json');
+                }
+                if (500 === $response->getStatus()) {
+                    throw new \Docker\API\Exception\BuildPruneInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                }
+            }
+
+            return $response;
+        });
+    }
+
+    /**
      * Create an image by either pulling it from a registry or importing it.
      *
      * @param string $inputImage Image content if the value `-` has been specified in fromSrc query parameter

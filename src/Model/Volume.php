@@ -31,6 +31,12 @@ class Volume
      */
     protected $mountpoint;
     /**
+     * Date/Time the volume was created.
+     *
+     * @var string
+     */
+    protected $createdAt;
+    /**
      * Low-level details about the volume, provided by the volume driver.
     Details are returned as a map with key/value pairs:
     `{"key":"value","key2":"value2"}`.
@@ -61,10 +67,6 @@ class Volume
      */
     protected $options;
     /**
-     * Usage details about the volume. This information is used by the.
-    `GET /system/df` endpoint, and omitted in other endpoints.
-
-     *
      * @var VolumeUsageData
      */
     protected $usageData;
@@ -137,6 +139,30 @@ class Volume
     public function setMountpoint(?string $mountpoint): self
     {
         $this->mountpoint = $mountpoint;
+
+        return $this;
+    }
+
+    /**
+     * Date/Time the volume was created.
+     *
+     * @return string
+     */
+    public function getCreatedAt(): ?string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Date/Time the volume was created.
+     *
+     * @param string $createdAt
+     *
+     * @return self
+     */
+    public function setCreatedAt(?string $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -250,10 +276,6 @@ class Volume
     }
 
     /**
-     * Usage details about the volume. This information is used by the.
-    `GET /system/df` endpoint, and omitted in other endpoints.
-
-     *
      * @return VolumeUsageData
      */
     public function getUsageData(): ?VolumeUsageData
@@ -262,10 +284,6 @@ class Volume
     }
 
     /**
-     * Usage details about the volume. This information is used by the.
-    `GET /system/df` endpoint, and omitted in other endpoints.
-
-     *
      * @param VolumeUsageData $usageData
      *
      * @return self

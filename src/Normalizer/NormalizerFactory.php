@@ -39,6 +39,7 @@ class NormalizerFactory
         $normalizers[] = new GraphDriverDataNormalizer();
         $normalizers[] = new ImageNormalizer();
         $normalizers[] = new ImageRootFSNormalizer();
+        $normalizers[] = new ImageMetadataNormalizer();
         $normalizers[] = new ImageSummaryNormalizer();
         $normalizers[] = new AuthConfigNormalizer();
         $normalizers[] = new ProcessConfigNormalizer();
@@ -89,6 +90,8 @@ class NormalizerFactory
         $normalizers[] = new SwarmSpecTaskDefaultsLogDriverNormalizer();
         $normalizers[] = new ClusterInfoNormalizer();
         $normalizers[] = new TaskSpecNormalizer();
+        $normalizers[] = new TaskSpecPluginSpecNormalizer();
+        $normalizers[] = new TaskSpecPluginSpecPluginPrivilegeItemNormalizer();
         $normalizers[] = new TaskSpecContainerSpecNormalizer();
         $normalizers[] = new TaskSpecContainerSpecPrivilegesNormalizer();
         $normalizers[] = new TaskSpecContainerSpecPrivilegesCredentialSpecNormalizer();
@@ -128,6 +131,7 @@ class NormalizerFactory
         $normalizers[] = new ContainerSummaryItemNormalizer();
         $normalizers[] = new ContainerSummaryItemHostConfigNormalizer();
         $normalizers[] = new ContainerSummaryItemNetworkSettingsNormalizer();
+        $normalizers[] = new DriverNormalizer();
         $normalizers[] = new SecretSpecNormalizer();
         $normalizers[] = new SecretNormalizer();
         $normalizers[] = new ConfigSpecNormalizer();
@@ -145,6 +149,7 @@ class NormalizerFactory
         $normalizers[] = new ContainersIdArchiveGetResponse400Normalizer();
         $normalizers[] = new ContainersIdArchiveHeadResponse400Normalizer();
         $normalizers[] = new ContainersPrunePostResponse200Normalizer();
+        $normalizers[] = new BuildPrunePostResponse200Normalizer();
         $normalizers[] = new ImagesNameHistoryGetResponse200ItemNormalizer();
         $normalizers[] = new ImagesSearchGetResponse200ItemNormalizer();
         $normalizers[] = new ImagesPrunePostResponse200Normalizer();

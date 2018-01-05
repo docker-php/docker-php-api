@@ -47,6 +47,9 @@ class VolumeNormalizer implements DenormalizerInterface, NormalizerInterface, De
         if (property_exists($data, 'Mountpoint') && $data->{'Mountpoint'} !== null) {
             $object->setMountpoint($data->{'Mountpoint'});
         }
+        if (property_exists($data, 'CreatedAt') && $data->{'CreatedAt'} !== null) {
+            $object->setCreatedAt($data->{'CreatedAt'});
+        }
         if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
             $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             foreach ($data->{'Status'} as $key => $value) {
@@ -89,6 +92,9 @@ class VolumeNormalizer implements DenormalizerInterface, NormalizerInterface, De
         }
         if (null !== $object->getMountpoint()) {
             $data->{'Mountpoint'} = $object->getMountpoint();
+        }
+        if (null !== $object->getCreatedAt()) {
+            $data->{'CreatedAt'} = $object->getCreatedAt();
         }
         if (null !== $object->getStatus()) {
             $values = new \stdClass();

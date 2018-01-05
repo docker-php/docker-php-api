@@ -15,6 +15,12 @@ use Jane\OpenApiRuntime\Client\QueryParam;
 trait ContainerResourceTrait
 {
     /**
+     * Returns a list of containers. For details on the format, see [the inspect endpoint](#operation/ContainerInspect).
+
+    Note that it uses a different, smaller representation of a container than inspecting a single container. For example,
+    the list of linked containers is not propagated .
+
+     *
      * @param array $parameters {
      *
      *     @var bool $all Return all containers. By default, only running containers are shown

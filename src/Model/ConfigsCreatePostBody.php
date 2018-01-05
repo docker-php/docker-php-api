@@ -25,9 +25,11 @@ class ConfigsCreatePostBody
      */
     protected $labels;
     /**
-     * Base64-url-safe-encoded config data.
+     * Base64-url-safe-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-3.2)).
+    config data.
+
      *
-     * @var string[]
+     * @var string
      */
     protected $data;
 
@@ -80,23 +82,27 @@ class ConfigsCreatePostBody
     }
 
     /**
-     * Base64-url-safe-encoded config data.
+     * Base64-url-safe-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-3.2)).
+    config data.
+
      *
-     * @return string[]
+     * @return string
      */
-    public function getData(): ?array
+    public function getData(): ?string
     {
         return $this->data;
     }
 
     /**
-     * Base64-url-safe-encoded config data.
+     * Base64-url-safe-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-3.2)).
+    config data.
+
      *
-     * @param string[] $data
+     * @param string $data
      *
      * @return self
      */
-    public function setData(?array $data): self
+    public function setData(?string $data): self
     {
         $this->data = $data;
 

@@ -13,6 +13,14 @@ namespace Docker\API\Model;
 class TaskSpec
 {
     /**
+     * Invalid when specified with `ContainerSpec`. *(Experimental release only.)*.
+     *
+     * @var TaskSpecPluginSpec
+     */
+    protected $pluginSpec;
+    /**
+     * Invalid when specified with `PluginSpec`.
+     *
      * @var TaskSpecContainerSpec
      */
     protected $containerSpec;
@@ -56,6 +64,32 @@ class TaskSpec
     protected $logDriver;
 
     /**
+     * Invalid when specified with `ContainerSpec`. *(Experimental release only.)*.
+     *
+     * @return TaskSpecPluginSpec
+     */
+    public function getPluginSpec(): ?TaskSpecPluginSpec
+    {
+        return $this->pluginSpec;
+    }
+
+    /**
+     * Invalid when specified with `ContainerSpec`. *(Experimental release only.)*.
+     *
+     * @param TaskSpecPluginSpec $pluginSpec
+     *
+     * @return self
+     */
+    public function setPluginSpec(?TaskSpecPluginSpec $pluginSpec): self
+    {
+        $this->pluginSpec = $pluginSpec;
+
+        return $this;
+    }
+
+    /**
+     * Invalid when specified with `PluginSpec`.
+     *
      * @return TaskSpecContainerSpec
      */
     public function getContainerSpec(): ?TaskSpecContainerSpec
@@ -64,6 +98,8 @@ class TaskSpec
     }
 
     /**
+     * Invalid when specified with `PluginSpec`.
+     *
      * @param TaskSpecContainerSpec $containerSpec
      *
      * @return self

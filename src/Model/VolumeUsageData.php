@@ -13,30 +13,20 @@ namespace Docker\API\Model;
 class VolumeUsageData
 {
     /**
-     * Amount of disk space used by the volume (in bytes). This information.
-    is only available for volumes created with the `"local"` volume
-    driver. For volumes created with other volume drivers, this field
-    is set to `-1` ("not available")
-
+     * The disk space used by the volume (local driver only).
      *
      * @var int
      */
     protected $size;
     /**
-     * The number of containers referencing this volume. This field.
-    is set to `-1` if the reference-count is not available.
-
+     * The number of containers referencing this volume.
      *
      * @var int
      */
     protected $refCount;
 
     /**
-     * Amount of disk space used by the volume (in bytes). This information.
-    is only available for volumes created with the `"local"` volume
-    driver. For volumes created with other volume drivers, this field
-    is set to `-1` ("not available")
-
+     * The disk space used by the volume (local driver only).
      *
      * @return int
      */
@@ -46,11 +36,7 @@ class VolumeUsageData
     }
 
     /**
-     * Amount of disk space used by the volume (in bytes). This information.
-    is only available for volumes created with the `"local"` volume
-    driver. For volumes created with other volume drivers, this field
-    is set to `-1` ("not available")
-
+     * The disk space used by the volume (local driver only).
      *
      * @param int $size
      *
@@ -64,9 +50,7 @@ class VolumeUsageData
     }
 
     /**
-     * The number of containers referencing this volume. This field.
-    is set to `-1` if the reference-count is not available.
-
+     * The number of containers referencing this volume.
      *
      * @return int
      */
@@ -76,9 +60,7 @@ class VolumeUsageData
     }
 
     /**
-     * The number of containers referencing this volume. This field.
-    is set to `-1` if the reference-count is not available.
-
+     * The number of containers referencing this volume.
      *
      * @param int $refCount
      *

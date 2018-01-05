@@ -25,7 +25,7 @@ class SwarmGetResponse200
     may not be applied if the version number has changed from the last read. In other words,
     if two update requests specify the same base version, only one of the requests can succeed.
     As a result, two separate update requests that happen at the same time will not
-    unintentially overwrite each other.
+    unintentionally overwrite each other.
 
      *
      * @var ObjectVersion
@@ -95,7 +95,7 @@ class SwarmGetResponse200
     may not be applied if the version number has changed from the last read. In other words,
     if two update requests specify the same base version, only one of the requests can succeed.
     As a result, two separate update requests that happen at the same time will not
-    unintentially overwrite each other.
+    unintentionally overwrite each other.
 
      *
      * @return ObjectVersion
@@ -112,7 +112,7 @@ class SwarmGetResponse200
     may not be applied if the version number has changed from the last read. In other words,
     if two update requests specify the same base version, only one of the requests can succeed.
     As a result, two separate update requests that happen at the same time will not
-    unintentially overwrite each other.
+    unintentionally overwrite each other.
 
      *
      * @param ObjectVersion $version

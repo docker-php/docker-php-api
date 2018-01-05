@@ -108,6 +108,7 @@ trait NetworkAsyncResourceTrait
      * @param array  $parameters {
      *
      *     @var bool $verbose Detailed inspect output for troubleshooting
+     *     @var string $scope Filter the network by scope (swarm, global, or local)
      * }
      *
      * @param string                 $fetch             Fetch mode (object or response)
@@ -123,6 +124,7 @@ trait NetworkAsyncResourceTrait
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
             $queryParam->addQueryParameter('verbose', false, ['bool'], false);
+            $queryParam->addQueryParameter('scope', false, ['string']);
             $url = '/networks/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));

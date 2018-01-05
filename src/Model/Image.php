@@ -90,6 +90,10 @@ class Image
      * @var ImageRootFS
      */
     protected $rootFS;
+    /**
+     * @var ImageMetadata
+     */
+    protected $metadata;
 
     /**
      * @return string
@@ -459,6 +463,26 @@ class Image
     public function setRootFS(?ImageRootFS $rootFS): self
     {
         $this->rootFS = $rootFS;
+
+        return $this;
+    }
+
+    /**
+     * @return ImageMetadata
+     */
+    public function getMetadata(): ?ImageMetadata
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param ImageMetadata $metadata
+     *
+     * @return self
+     */
+    public function setMetadata(?ImageMetadata $metadata): self
+    {
+        $this->metadata = $metadata;
 
         return $this;
     }

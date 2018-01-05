@@ -38,6 +38,9 @@ class TaskSpecNormalizer implements DenormalizerInterface, NormalizerInterface, 
             return null;
         }
         $object = new \Docker\API\Model\TaskSpec();
+        if (property_exists($data, 'PluginSpec') && $data->{'PluginSpec'} !== null) {
+            $object->setPluginSpec($this->denormalizer->denormalize($data->{'PluginSpec'}, 'Docker\\API\\Model\\TaskSpecPluginSpec', 'json', $context));
+        }
         if (property_exists($data, 'ContainerSpec') && $data->{'ContainerSpec'} !== null) {
             $object->setContainerSpec($this->denormalizer->denormalize($data->{'ContainerSpec'}, 'Docker\\API\\Model\\TaskSpecContainerSpec', 'json', $context));
         }
@@ -73,6 +76,9 @@ class TaskSpecNormalizer implements DenormalizerInterface, NormalizerInterface, 
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
+        if (null !== $object->getPluginSpec()) {
+            $data->{'PluginSpec'} = $this->normalizer->normalize($object->getPluginSpec(), 'json', $context);
+        }
         if (null !== $object->getContainerSpec()) {
             $data->{'ContainerSpec'} = $this->normalizer->normalize($object->getContainerSpec(), 'json', $context);
         }
