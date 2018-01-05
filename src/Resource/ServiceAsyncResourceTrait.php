@@ -158,8 +158,12 @@ trait ServiceAsyncResourceTrait
     }
 
     /**
-     * @param string                 $id                ID or name of service
-     * @param array                  $parameters        List of parameters
+     * @param string $id         ID or name of service
+     * @param array  $parameters {
+     *
+     *     @var bool $insertDefaults Fill empty fields with default values.
+     * }
+     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
@@ -173,6 +177,7 @@ trait ServiceAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
+            $queryParam->addQueryParameter('insertDefaults', false, ['bool'], false);
             $url = '/services/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -267,10 +272,10 @@ trait ServiceAsyncResourceTrait
      **Note**: This endpoint works only for services with the `json-file` or `journald` logging drivers.
 
      *
-     * @param string $id         ID or name of the container
+     * @param string $id         ID or name of the service
      * @param array  $parameters {
      *
-     *     @var bool $details show extra details provided to logs
+     *     @var bool $details show service context and extra details provided to logs
      *     @var bool $follow return the logs as a stream
 
      *     @var bool $stdout Return logs from `stdout`

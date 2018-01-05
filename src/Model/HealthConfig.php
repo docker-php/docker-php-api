@@ -42,6 +42,12 @@ class HealthConfig
      * @var int
      */
     protected $retries;
+    /**
+     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. 0 means inherit.
+     *
+     * @var int
+     */
+    protected $startPeriod;
 
     /**
      * The test to perform. Possible values are:.
@@ -147,6 +153,30 @@ class HealthConfig
     public function setRetries(?int $retries): self
     {
         $this->retries = $retries;
+
+        return $this;
+    }
+
+    /**
+     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. 0 means inherit.
+     *
+     * @return int
+     */
+    public function getStartPeriod(): ?int
+    {
+        return $this->startPeriod;
+    }
+
+    /**
+     * Start period for the container to initialize before starting health-retries countdown in nanoseconds. 0 means inherit.
+     *
+     * @param int $startPeriod
+     *
+     * @return self
+     */
+    public function setStartPeriod(?int $startPeriod): self
+    {
+        $this->startPeriod = $startPeriod;
 
         return $this;
     }

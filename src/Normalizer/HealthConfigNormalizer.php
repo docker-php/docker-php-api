@@ -54,6 +54,9 @@ class HealthConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
         if (property_exists($data, 'Retries') && $data->{'Retries'} !== null) {
             $object->setRetries($data->{'Retries'});
         }
+        if (property_exists($data, 'StartPeriod') && $data->{'StartPeriod'} !== null) {
+            $object->setStartPeriod($data->{'StartPeriod'});
+        }
 
         return $object;
     }
@@ -76,6 +79,9 @@ class HealthConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
         }
         if (null !== $object->getRetries()) {
             $data->{'Retries'} = $object->getRetries();
+        }
+        if (null !== $object->getStartPeriod()) {
+            $data->{'StartPeriod'} = $object->getStartPeriod();
         }
 
         return $data;

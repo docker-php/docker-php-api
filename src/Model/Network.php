@@ -49,6 +49,10 @@ class Network
      */
     protected $attachable;
     /**
+     * @var bool
+     */
+    protected $ingress;
+    /**
      * @var NetworkContainer[]
      */
     protected $containers;
@@ -237,6 +241,26 @@ class Network
     public function setAttachable(?bool $attachable): self
     {
         $this->attachable = $attachable;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIngress(): ?bool
+    {
+        return $this->ingress;
+    }
+
+    /**
+     * @param bool $ingress
+     *
+     * @return self
+     */
+    public function setIngress(?bool $ingress): self
+    {
+        $this->ingress = $ingress;
 
         return $this;
     }

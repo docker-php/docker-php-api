@@ -53,6 +53,9 @@ class ServiceSpecUpdateConfigNormalizer implements DenormalizerInterface, Normal
         if (property_exists($data, 'MaxFailureRatio') && $data->{'MaxFailureRatio'} !== null) {
             $object->setMaxFailureRatio($data->{'MaxFailureRatio'});
         }
+        if (property_exists($data, 'Order') && $data->{'Order'} !== null) {
+            $object->setOrder($data->{'Order'});
+        }
 
         return $object;
     }
@@ -74,6 +77,9 @@ class ServiceSpecUpdateConfigNormalizer implements DenormalizerInterface, Normal
         }
         if (null !== $object->getMaxFailureRatio()) {
             $data->{'MaxFailureRatio'} = $object->getMaxFailureRatio();
+        }
+        if (null !== $object->getOrder()) {
+            $data->{'Order'} = $object->getOrder();
         }
 
         return $data;

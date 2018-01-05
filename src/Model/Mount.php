@@ -42,6 +42,12 @@ class Mount
      */
     protected $readOnly;
     /**
+     * The consistency requirement for the mount: `default`, `consistent`, `cached`, or `delegated`.
+     *
+     * @var string
+     */
+    protected $consistency;
+    /**
      * Optional configuration for the `bind` type.
      *
      * @var MountBindOptions
@@ -162,6 +168,30 @@ class Mount
     public function setReadOnly(?bool $readOnly): self
     {
         $this->readOnly = $readOnly;
+
+        return $this;
+    }
+
+    /**
+     * The consistency requirement for the mount: `default`, `consistent`, `cached`, or `delegated`.
+     *
+     * @return string
+     */
+    public function getConsistency(): ?string
+    {
+        return $this->consistency;
+    }
+
+    /**
+     * The consistency requirement for the mount: `default`, `consistent`, `cached`, or `delegated`.
+     *
+     * @param string $consistency
+     *
+     * @return self
+     */
+    public function setConsistency(?string $consistency): self
+    {
+        $this->consistency = $consistency;
 
         return $this;
     }

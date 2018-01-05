@@ -42,6 +42,12 @@ class ServiceSpecUpdateConfig
      * @var float
      */
     protected $maxFailureRatio;
+    /**
+     * The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down.
+     *
+     * @var string
+     */
+    protected $order;
 
     /**
      * Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism).
@@ -159,6 +165,30 @@ class ServiceSpecUpdateConfig
     public function setMaxFailureRatio(?float $maxFailureRatio): self
     {
         $this->maxFailureRatio = $maxFailureRatio;
+
+        return $this;
+    }
+
+    /**
+     * The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down.
+     *
+     * @return string
+     */
+    public function getOrder(): ?string
+    {
+        return $this->order;
+    }
+
+    /**
+     * The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down.
+     *
+     * @param string $order
+     *
+     * @return self
+     */
+    public function setOrder(?string $order): self
+    {
+        $this->order = $order;
 
         return $this;
     }

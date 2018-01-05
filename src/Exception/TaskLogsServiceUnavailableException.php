@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class ServiceLogsNotFoundException extends \RuntimeException implements ClientException
+class TaskLogsServiceUnavailableException extends \RuntimeException implements ServerException
 {
     private $errorResponse;
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse)
     {
-        parent::__construct('no such service', 404);
+        parent::__construct('node is not part of a swarm', 503);
         $this->errorResponse = $errorResponse;
     }
 

@@ -53,6 +53,9 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         if (property_exists($data, 'Attachable') && $data->{'Attachable'} !== null) {
             $object->setAttachable($data->{'Attachable'});
         }
+        if (property_exists($data, 'Ingress') && $data->{'Ingress'} !== null) {
+            $object->setIngress($data->{'Ingress'});
+        }
         if (property_exists($data, 'IPAM') && $data->{'IPAM'} !== null) {
             $object->setIPAM($this->denormalizer->denormalize($data->{'IPAM'}, 'Docker\\API\\Model\\IPAM', 'json', $context));
         }
@@ -94,6 +97,9 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         }
         if (null !== $object->getAttachable()) {
             $data->{'Attachable'} = $object->getAttachable();
+        }
+        if (null !== $object->getIngress()) {
+            $data->{'Ingress'} = $object->getIngress();
         }
         if (null !== $object->getIPAM()) {
             $data->{'IPAM'} = $this->normalizer->normalize($object->getIPAM(), 'json', $context);

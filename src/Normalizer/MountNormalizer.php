@@ -50,6 +50,9 @@ class MountNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         if (property_exists($data, 'ReadOnly') && $data->{'ReadOnly'} !== null) {
             $object->setReadOnly($data->{'ReadOnly'});
         }
+        if (property_exists($data, 'Consistency') && $data->{'Consistency'} !== null) {
+            $object->setConsistency($data->{'Consistency'});
+        }
         if (property_exists($data, 'BindOptions') && $data->{'BindOptions'} !== null) {
             $object->setBindOptions($this->denormalizer->denormalize($data->{'BindOptions'}, 'Docker\\API\\Model\\MountBindOptions', 'json', $context));
         }
@@ -77,6 +80,9 @@ class MountNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         }
         if (null !== $object->getReadOnly()) {
             $data->{'ReadOnly'} = $object->getReadOnly();
+        }
+        if (null !== $object->getConsistency()) {
+            $data->{'Consistency'} = $object->getConsistency();
         }
         if (null !== $object->getBindOptions()) {
             $data->{'BindOptions'} = $this->normalizer->normalize($object->getBindOptions(), 'json', $context);

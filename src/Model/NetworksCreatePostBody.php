@@ -43,6 +43,12 @@ class NetworksCreatePostBody
      */
     protected $attachable;
     /**
+     * Ingress network is the network which provides the routing-mesh in swarm mode.
+     *
+     * @var bool
+     */
+    protected $ingress;
+    /**
      * @var IPAM
      */
     protected $iPAM;
@@ -181,6 +187,30 @@ class NetworksCreatePostBody
     public function setAttachable(?bool $attachable): self
     {
         $this->attachable = $attachable;
+
+        return $this;
+    }
+
+    /**
+     * Ingress network is the network which provides the routing-mesh in swarm mode.
+     *
+     * @return bool
+     */
+    public function getIngress(): ?bool
+    {
+        return $this->ingress;
+    }
+
+    /**
+     * Ingress network is the network which provides the routing-mesh in swarm mode.
+     *
+     * @param bool $ingress
+     *
+     * @return self
+     */
+    public function setIngress(?bool $ingress): self
+    {
+        $this->ingress = $ingress;
 
         return $this;
     }

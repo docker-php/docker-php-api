@@ -76,7 +76,7 @@ class Config
      */
     protected $stdinOnce;
     /**
-     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`.
+     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value.
      *
      * @var string[]
      */
@@ -416,7 +416,7 @@ class Config
     }
 
     /**
-     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`.
+     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value.
      *
      * @return string[]
      */
@@ -426,7 +426,7 @@ class Config
     }
 
     /**
-     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`.
+     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value.
      *
      * @param string[] $env
      *

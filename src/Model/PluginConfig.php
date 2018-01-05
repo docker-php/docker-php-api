@@ -13,6 +13,12 @@ namespace Docker\API\Model;
 class PluginConfig
 {
     /**
+     * Docker Version used to create the plugin.
+     *
+     * @var string
+     */
+    protected $dockerVersion;
+    /**
      * @var string
      */
     protected $description;
@@ -51,6 +57,14 @@ class PluginConfig
      */
     protected $propagatedMount;
     /**
+     * @var bool
+     */
+    protected $ipcHost;
+    /**
+     * @var bool
+     */
+    protected $pidHost;
+    /**
      * @var PluginMount[]
      */
     protected $mounts;
@@ -66,6 +80,30 @@ class PluginConfig
      * @var PluginConfigRootfs
      */
     protected $rootfs;
+
+    /**
+     * Docker Version used to create the plugin.
+     *
+     * @return string
+     */
+    public function getDockerVersion(): ?string
+    {
+        return $this->dockerVersion;
+    }
+
+    /**
+     * Docker Version used to create the plugin.
+     *
+     * @param string $dockerVersion
+     *
+     * @return self
+     */
+    public function setDockerVersion(?string $dockerVersion): self
+    {
+        $this->dockerVersion = $dockerVersion;
+
+        return $this;
+    }
 
     /**
      * @return string
@@ -247,6 +285,46 @@ class PluginConfig
     public function setPropagatedMount(?string $propagatedMount): self
     {
         $this->propagatedMount = $propagatedMount;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIpcHost(): ?bool
+    {
+        return $this->ipcHost;
+    }
+
+    /**
+     * @param bool $ipcHost
+     *
+     * @return self
+     */
+    public function setIpcHost(?bool $ipcHost): self
+    {
+        $this->ipcHost = $ipcHost;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPidHost(): ?bool
+    {
+        return $this->pidHost;
+    }
+
+    /**
+     * @param bool $pidHost
+     *
+     * @return self
+     */
+    public function setPidHost(?bool $pidHost): self
+    {
+        $this->pidHost = $pidHost;
 
         return $this;
     }

@@ -38,6 +38,9 @@ class PluginConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
             return null;
         }
         $object = new \Docker\API\Model\PluginConfig();
+        if (property_exists($data, 'DockerVersion') && $data->{'DockerVersion'} !== null) {
+            $object->setDockerVersion($data->{'DockerVersion'});
+        }
         if (property_exists($data, 'Description') && $data->{'Description'} !== null) {
             $object->setDescription($data->{'Description'});
         }
@@ -69,6 +72,12 @@ class PluginConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
         if (property_exists($data, 'PropagatedMount') && $data->{'PropagatedMount'} !== null) {
             $object->setPropagatedMount($data->{'PropagatedMount'});
         }
+        if (property_exists($data, 'IpcHost') && $data->{'IpcHost'} !== null) {
+            $object->setIpcHost($data->{'IpcHost'});
+        }
+        if (property_exists($data, 'PidHost') && $data->{'PidHost'} !== null) {
+            $object->setPidHost($data->{'PidHost'});
+        }
         if (property_exists($data, 'Mounts') && $data->{'Mounts'} !== null) {
             $values_1 = [];
             foreach ($data->{'Mounts'} as $value_1) {
@@ -96,6 +105,9 @@ class PluginConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
+        if (null !== $object->getDockerVersion()) {
+            $data->{'DockerVersion'} = $object->getDockerVersion();
+        }
         if (null !== $object->getDescription()) {
             $data->{'Description'} = $object->getDescription();
         }
@@ -126,6 +138,12 @@ class PluginConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
         }
         if (null !== $object->getPropagatedMount()) {
             $data->{'PropagatedMount'} = $object->getPropagatedMount();
+        }
+        if (null !== $object->getIpcHost()) {
+            $data->{'IpcHost'} = $object->getIpcHost();
+        }
+        if (null !== $object->getPidHost()) {
+            $data->{'PidHost'} = $object->getPidHost();
         }
         if (null !== $object->getMounts()) {
             $values_1 = [];

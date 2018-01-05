@@ -19,10 +19,7 @@ trait SecretAsyncResourceTrait
      *
      *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the secrets list. Available filters:
 
-    - `names=<secret name>`
-
      * }
-     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
