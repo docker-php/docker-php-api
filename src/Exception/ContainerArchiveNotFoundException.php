@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class ContainerGetArchiveNotFoundException extends \RuntimeException implements ClientException
+class ContainerArchiveNotFoundException extends \RuntimeException implements ClientException
 {
     private $errorResponse;
 

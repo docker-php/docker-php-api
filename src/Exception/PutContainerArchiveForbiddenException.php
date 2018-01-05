@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class ContainerPutArchiveInternalServerErrorException extends \RuntimeException implements ServerException
+class PutContainerArchiveForbiddenException extends \RuntimeException implements ClientException
 {
     private $errorResponse;
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse)
     {
-        parent::__construct('Server error', 500);
+        parent::__construct('Permission denied, the volume or container rootfs is marked as read-only.', 403);
         $this->errorResponse = $errorResponse;
     }
 

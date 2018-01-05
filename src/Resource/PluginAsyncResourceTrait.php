@@ -17,7 +17,11 @@ trait PluginAsyncResourceTrait
     /**
      * Returns information about installed plugins.
      *
-     * @param array                  $parameters        List of parameters
+     * @param array $parameters {
+     *
+     *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the plugin list. Available filters:
+
+     * }
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
@@ -29,6 +33,7 @@ trait PluginAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/plugins';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

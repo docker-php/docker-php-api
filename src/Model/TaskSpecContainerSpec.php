@@ -91,6 +91,12 @@ class TaskSpecContainerSpec
      */
     protected $mounts;
     /**
+     * Signal to stop the container.
+     *
+     * @var string
+     */
+    protected $stopSignal;
+    /**
      * Amount of time to wait for the container to terminate before forcefully killing it.
      *
      * @var int
@@ -433,6 +439,30 @@ class TaskSpecContainerSpec
     public function setMounts(?array $mounts): self
     {
         $this->mounts = $mounts;
+
+        return $this;
+    }
+
+    /**
+     * Signal to stop the container.
+     *
+     * @return string
+     */
+    public function getStopSignal(): ?string
+    {
+        return $this->stopSignal;
+    }
+
+    /**
+     * Signal to stop the container.
+     *
+     * @param string $stopSignal
+     *
+     * @return self
+     */
+    public function setStopSignal(?string $stopSignal): self
+    {
+        $this->stopSignal = $stopSignal;
 
         return $this;
     }

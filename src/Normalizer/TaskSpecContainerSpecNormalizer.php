@@ -101,6 +101,9 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
             }
             $object->setMounts($values_5);
         }
+        if (property_exists($data, 'StopSignal') && $data->{'StopSignal'} !== null) {
+            $object->setStopSignal($data->{'StopSignal'});
+        }
         if (property_exists($data, 'StopGracePeriod') && $data->{'StopGracePeriod'} !== null) {
             $object->setStopGracePeriod($data->{'StopGracePeriod'});
         }
@@ -193,6 +196,9 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
                 $values_5[] = $this->normalizer->normalize($value_5, 'json', $context);
             }
             $data->{'Mounts'} = $values_5;
+        }
+        if (null !== $object->getStopSignal()) {
+            $data->{'StopSignal'} = $object->getStopSignal();
         }
         if (null !== $object->getStopGracePeriod()) {
             $data->{'StopGracePeriod'} = $object->getStopGracePeriod();

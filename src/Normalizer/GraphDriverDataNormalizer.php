@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class SecretVersionNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class GraphDriverDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\SecretVersion';
+        return $type === 'Docker\\API\\Model\\GraphDriverData';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\SecretVersion;
+        return $data instanceof \Docker\API\Model\GraphDriverData;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,9 +37,16 @@ class SecretVersionNormalizer implements DenormalizerInterface, NormalizerInterf
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\SecretVersion();
-        if (property_exists($data, 'Index') && $data->{'Index'} !== null) {
-            $object->setIndex($data->{'Index'});
+        $object = new \Docker\API\Model\GraphDriverData();
+        if (property_exists($data, 'Name') && $data->{'Name'} !== null) {
+            $object->setName($data->{'Name'});
+        }
+        if (property_exists($data, 'Data') && $data->{'Data'} !== null) {
+            $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data->{'Data'} as $key => $value) {
+                $values[$key] = $value;
+            }
+            $object->setData($values);
         }
 
         return $object;
@@ -48,8 +55,15 @@ class SecretVersionNormalizer implements DenormalizerInterface, NormalizerInterf
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getIndex()) {
-            $data->{'Index'} = $object->getIndex();
+        if (null !== $object->getName()) {
+            $data->{'Name'} = $object->getName();
+        }
+        if (null !== $object->getData()) {
+            $values = new \stdClass();
+            foreach ($object->getData() as $key => $value) {
+                $values->{$key} = $value;
+            }
+            $data->{'Data'} = $values;
         }
 
         return $data;

@@ -15,23 +15,23 @@ class HealthConfig
     /**
      * The test to perform. Possible values are:.
 
-    - `{}` inherit healthcheck from image or parent image
-    - `{"NONE"}` disable healthcheck
-    - `{"CMD", args...}` exec arguments directly
-    - `{"CMD-SHELL", command}` run command with system's default shell
+    - `[]` inherit healthcheck from image or parent image
+    - `["NONE"]` disable healthcheck
+    - `["CMD", args...]` exec arguments directly
+    - `["CMD-SHELL", command]` run command with system's default shell
 
      *
      * @var string[]
      */
     protected $test;
     /**
-     * The time to wait between checks in nanoseconds. 0 means inherit.
+     * The time to wait between checks in nanoseconds. It should be 0 or not less than 1000000000(1s). 0 means inherit.
      *
      * @var int
      */
     protected $interval;
     /**
-     * The time to wait before considering the check to have hung. 0 means inherit.
+     * The time to wait before considering the check to have hung. It should be 0 or not less than 1000000000(1s). 0 means inherit.
      *
      * @var int
      */
@@ -46,10 +46,10 @@ class HealthConfig
     /**
      * The test to perform. Possible values are:.
 
-    - `{}` inherit healthcheck from image or parent image
-    - `{"NONE"}` disable healthcheck
-    - `{"CMD", args...}` exec arguments directly
-    - `{"CMD-SHELL", command}` run command with system's default shell
+    - `[]` inherit healthcheck from image or parent image
+    - `["NONE"]` disable healthcheck
+    - `["CMD", args...]` exec arguments directly
+    - `["CMD-SHELL", command]` run command with system's default shell
 
      *
      * @return string[]
@@ -62,10 +62,10 @@ class HealthConfig
     /**
      * The test to perform. Possible values are:.
 
-    - `{}` inherit healthcheck from image or parent image
-    - `{"NONE"}` disable healthcheck
-    - `{"CMD", args...}` exec arguments directly
-    - `{"CMD-SHELL", command}` run command with system's default shell
+    - `[]` inherit healthcheck from image or parent image
+    - `["NONE"]` disable healthcheck
+    - `["CMD", args...]` exec arguments directly
+    - `["CMD-SHELL", command]` run command with system's default shell
 
      *
      * @param string[] $test
@@ -80,7 +80,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait between checks in nanoseconds. 0 means inherit.
+     * The time to wait between checks in nanoseconds. It should be 0 or not less than 1000000000(1s). 0 means inherit.
      *
      * @return int
      */
@@ -90,7 +90,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait between checks in nanoseconds. 0 means inherit.
+     * The time to wait between checks in nanoseconds. It should be 0 or not less than 1000000000(1s). 0 means inherit.
      *
      * @param int $interval
      *
@@ -104,7 +104,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait before considering the check to have hung. 0 means inherit.
+     * The time to wait before considering the check to have hung. It should be 0 or not less than 1000000000(1s). 0 means inherit.
      *
      * @return int
      */
@@ -114,7 +114,7 @@ class HealthConfig
     }
 
     /**
-     * The time to wait before considering the check to have hung. 0 means inherit.
+     * The time to wait before considering the check to have hung. It should be 0 or not less than 1000000000(1s). 0 means inherit.
      *
      * @param int $timeout
      *

@@ -278,7 +278,8 @@ trait ContainerAsyncResourceTrait
     }
 
     /**
-     * Returns which files in a container's filesystem have been added, deleted, or modified. The `Kind` of modification can be one of:.
+     * Returns which files in a container's filesystem have been added, deleted,.
+    or modified. The `Kind` of modification can be one of:
 
     - `0`: Modified
     - `1`: Added
@@ -367,7 +368,8 @@ trait ContainerAsyncResourceTrait
     }
 
     /**
-     * This endpoint returns a live stream of a container’s resource usage statistics.
+     * This endpoint returns a live stream of a container’s resource usage.
+    statistics.
 
     The `precpu_stats` is the CPU statistic of last read, which is used
     for calculating the CPU usage percentage. It is not the same as the
@@ -922,7 +924,7 @@ trait ContainerAsyncResourceTrait
      *     @var string $detachKeys Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
      *     @var bool $logs replay previous logs from the container
 
-     *     @var bool $stream Stream attached streams from the the time the request was made onwards
+     *     @var bool $stream Stream attached streams from the time the request was made onwards
      *     @var bool $stdin Attach to `stdin`
      *     @var bool $stdout Attach to `stdout`
      *     @var bool $stderr Attach to `stderr`
@@ -1140,7 +1142,7 @@ trait ContainerAsyncResourceTrait
     }
 
     /**
-     * Get an tar archive of a resource in the filesystem of container id.
+     * Get a tar archive of a resource in the filesystem of container id.
      *
      * @param string $id         ID or name of the container
      * @param array  $parameters {
@@ -1151,13 +1153,13 @@ trait ContainerAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
-     * @throws \Docker\API\Exception\ContainerGetArchiveBadRequestException
-     * @throws \Docker\API\Exception\ContainerGetArchiveNotFoundException
-     * @throws \Docker\API\Exception\ContainerGetArchiveInternalServerErrorException
+     * @throws \Docker\API\Exception\ContainerArchiveBadRequestException
+     * @throws \Docker\API\Exception\ContainerArchiveNotFoundException
+     * @throws \Docker\API\Exception\ContainerArchiveInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
-    public function containerGetArchive(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function containerArchive(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
@@ -1176,13 +1178,13 @@ trait ContainerAsyncResourceTrait
                     return null;
                 }
                 if (400 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerGetArchiveBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdArchiveGetResponse400', 'json'));
+                    throw new \Docker\API\Exception\ContainerArchiveBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdArchiveGetResponse400', 'json'));
                 }
                 if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerGetArchiveNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\ContainerArchiveNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerGetArchiveInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\ContainerArchiveInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -1202,13 +1204,13 @@ trait ContainerAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
-     * @throws \Docker\API\Exception\ContainerArchiveHeadBadRequestException
-     * @throws \Docker\API\Exception\ContainerArchiveHeadNotFoundException
-     * @throws \Docker\API\Exception\ContainerArchiveHeadInternalServerErrorException
+     * @throws \Docker\API\Exception\ContainerArchiveInfoBadRequestException
+     * @throws \Docker\API\Exception\ContainerArchiveInfoNotFoundException
+     * @throws \Docker\API\Exception\ContainerArchiveInfoInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
-    public function containerArchiveHead(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function containerArchiveInfo(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
@@ -1227,13 +1229,13 @@ trait ContainerAsyncResourceTrait
                     return null;
                 }
                 if (400 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerArchiveHeadBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdArchiveHeadResponse400', 'json'));
+                    throw new \Docker\API\Exception\ContainerArchiveInfoBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ContainersIdArchiveHeadResponse400', 'json'));
                 }
                 if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerArchiveHeadNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\ContainerArchiveInfoNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerArchiveHeadInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\ContainerArchiveInfoInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -1255,14 +1257,14 @@ trait ContainerAsyncResourceTrait
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
-     * @throws \Docker\API\Exception\ContainerPutArchiveBadRequestException
-     * @throws \Docker\API\Exception\ContainerPutArchiveForbiddenException
-     * @throws \Docker\API\Exception\ContainerPutArchiveNotFoundException
-     * @throws \Docker\API\Exception\ContainerPutArchiveInternalServerErrorException
+     * @throws \Docker\API\Exception\PutContainerArchiveBadRequestException
+     * @throws \Docker\API\Exception\PutContainerArchiveForbiddenException
+     * @throws \Docker\API\Exception\PutContainerArchiveNotFoundException
+     * @throws \Docker\API\Exception\PutContainerArchiveInternalServerErrorException
      *
      * @return \Amp\Promise<\Amp\Artax\Response|null>
      */
-    public function containerPutArchive(string $id, $inputStream, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function putContainerArchive(string $id, $inputStream, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
         return \Amp\call(function () use ($id, $inputStream, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
@@ -1282,16 +1284,16 @@ trait ContainerAsyncResourceTrait
                     return null;
                 }
                 if (400 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerPutArchiveBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\PutContainerArchiveBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (403 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerPutArchiveForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\PutContainerArchiveForbiddenException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerPutArchiveNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\PutContainerArchiveNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerPutArchiveInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
+                    throw new \Docker\API\Exception\PutContainerArchiveInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
             }
 
@@ -1304,10 +1306,7 @@ trait ContainerAsyncResourceTrait
      *
      *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
 
-    Available filters:
-
      * }
-     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *

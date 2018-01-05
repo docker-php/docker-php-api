@@ -70,6 +70,7 @@ trait ImageResourceTrait
      *
      *     @var string $dockerfile Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`.
      *     @var string $t A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters.
+     *     @var string $extrahosts Extra hosts to add to /etc/hosts
      *     @var string $remote A Git repository URI or HTTP/HTTPS context URI. If the URI points to a single text file, the file’s contents are placed into a file called `Dockerfile` and the image is built from that file. If the URI points to a tarball, the file is downloaded by the daemon and the contents therein used as the context for the build. If the URI points to a tarball and the `dockerfile` parameter is also specified, there must be a file with the corresponding path inside the tarball.
      *     @var bool $q suppress verbose build output
      *     @var bool $nocache do not use the cache when building the image
@@ -104,6 +105,7 @@ trait ImageResourceTrait
         $queryParam = new QueryParam($this->streamFactory);
         $queryParam->addQueryParameter('dockerfile', false, ['string'], 'Dockerfile');
         $queryParam->addQueryParameter('t', false, ['string']);
+        $queryParam->addQueryParameter('extrahosts', false, ['string']);
         $queryParam->addQueryParameter('remote', false, ['string']);
         $queryParam->addQueryParameter('q', false, ['bool'], false);
         $queryParam->addQueryParameter('nocache', false, ['bool'], false);
@@ -122,7 +124,7 @@ trait ImageResourceTrait
         $queryParam->addQueryParameter('squash', false, ['bool']);
         $queryParam->addQueryParameter('labels', false, ['string']);
         $queryParam->addQueryParameter('networkmode', false, ['string']);
-        $queryParam->addHeaderParameter('Content-type', false, ['string'], 'application/tar');
+        $queryParam->addHeaderParameter('Content-type', false, ['string'], 'application/x-tar');
         $queryParam->addHeaderParameter('X-Registry-Config', false, ['string']);
         $url = '/build';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -370,9 +372,11 @@ trait ImageResourceTrait
     }
 
     /**
-     * Remove an image, along with any untagged parent images that were referenced by that image.
+     * Remove an image, along with any untagged parent images that were.
+    referenced by that image.
 
-    Images can't be removed if they have descendant images, are being used by a running container or are being used by a build.
+    Images can't be removed if they have descendant images, are being
+    used by a running container or are being used by a build.
 
      *
      * @param string $name       Image name or ID
@@ -388,7 +392,7 @@ trait ImageResourceTrait
      * @throws \Docker\API\Exception\ImageDeleteConflictException
      * @throws \Docker\API\Exception\ImageDeleteInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImageDeleteResponse
+     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImageDeleteResponseItem
      */
     public function imageDelete(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
@@ -404,7 +408,7 @@ trait ImageResourceTrait
         $response = $this->httpClient->sendRequest($request);
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImageDeleteResponse[]', 'json');
+                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImageDeleteResponseItem[]', 'json');
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ImageDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
@@ -467,10 +471,7 @@ trait ImageResourceTrait
 
     - `dangling=<boolean>` When set to `true` (or `1`), prune only
       unused *and* untagged images. When set to `false`
-      (or `0`), all unused images are pruned.
-
      * }
-     *
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\ImagePruneInternalServerErrorException

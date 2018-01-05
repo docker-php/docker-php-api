@@ -109,6 +109,12 @@ class Resources
      */
     protected $devices;
     /**
+     * a list of cgroup rules to apply to the container.
+     *
+     * @var string[]
+     */
+    protected $deviceCgroupRules;
+    /**
      * Disk limit (in bytes).
      *
      * @var int
@@ -573,6 +579,30 @@ class Resources
     public function setDevices(?array $devices): self
     {
         $this->devices = $devices;
+
+        return $this;
+    }
+
+    /**
+     * a list of cgroup rules to apply to the container.
+     *
+     * @return string[]
+     */
+    public function getDeviceCgroupRules(): ?array
+    {
+        return $this->deviceCgroupRules;
+    }
+
+    /**
+     * a list of cgroup rules to apply to the container.
+     *
+     * @param string[] $deviceCgroupRules
+     *
+     * @return self
+     */
+    public function setDeviceCgroupRules(?array $deviceCgroupRules): self
+    {
+        $this->deviceCgroupRules = $deviceCgroupRules;
 
         return $this;
     }

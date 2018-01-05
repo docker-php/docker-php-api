@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ImageDeleteResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class TaskSpecPlacementPreferencesItemSpreadNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\ImageDeleteResponse';
+        return $type === 'Docker\\API\\Model\\TaskSpecPlacementPreferencesItemSpread';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\ImageDeleteResponse;
+        return $data instanceof \Docker\API\Model\TaskSpecPlacementPreferencesItemSpread;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,12 +37,9 @@ class ImageDeleteResponseNormalizer implements DenormalizerInterface, Normalizer
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\ImageDeleteResponse();
-        if (property_exists($data, 'Untagged') && $data->{'Untagged'} !== null) {
-            $object->setUntagged($data->{'Untagged'});
-        }
-        if (property_exists($data, 'Deleted') && $data->{'Deleted'} !== null) {
-            $object->setDeleted($data->{'Deleted'});
+        $object = new \Docker\API\Model\TaskSpecPlacementPreferencesItemSpread();
+        if (property_exists($data, 'SpreadDescriptor') && $data->{'SpreadDescriptor'} !== null) {
+            $object->setSpreadDescriptor($data->{'SpreadDescriptor'});
         }
 
         return $object;
@@ -51,11 +48,8 @@ class ImageDeleteResponseNormalizer implements DenormalizerInterface, Normalizer
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getUntagged()) {
-            $data->{'Untagged'} = $object->getUntagged();
-        }
-        if (null !== $object->getDeleted()) {
-            $data->{'Deleted'} = $object->getDeleted();
+        if (null !== $object->getSpreadDescriptor()) {
+            $data->{'SpreadDescriptor'} = $object->getSpreadDescriptor();
         }
 
         return $data;

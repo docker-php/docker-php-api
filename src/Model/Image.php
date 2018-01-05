@@ -69,6 +69,10 @@ class Image
      */
     protected $os;
     /**
+     * @var string
+     */
+    protected $osVersion;
+    /**
      * @var int
      */
     protected $size;
@@ -77,9 +81,9 @@ class Image
      */
     protected $virtualSize;
     /**
-     * Information about this container's graph driver.
+     * Information about a container's graph driver.
      *
-     * @var GraphDriver
+     * @var GraphDriverData
      */
     protected $graphDriver;
     /**
@@ -356,6 +360,26 @@ class Image
     }
 
     /**
+     * @return string
+     */
+    public function getOsVersion(): ?string
+    {
+        return $this->osVersion;
+    }
+
+    /**
+     * @param string $osVersion
+     *
+     * @return self
+     */
+    public function setOsVersion(?string $osVersion): self
+    {
+        $this->osVersion = $osVersion;
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getSize(): ?int
@@ -396,23 +420,23 @@ class Image
     }
 
     /**
-     * Information about this container's graph driver.
+     * Information about a container's graph driver.
      *
-     * @return GraphDriver
+     * @return GraphDriverData
      */
-    public function getGraphDriver(): ?GraphDriver
+    public function getGraphDriver(): ?GraphDriverData
     {
         return $this->graphDriver;
     }
 
     /**
-     * Information about this container's graph driver.
+     * Information about a container's graph driver.
      *
-     * @param GraphDriver $graphDriver
+     * @param GraphDriverData $graphDriver
      *
      * @return self
      */
-    public function setGraphDriver(?GraphDriver $graphDriver): self
+    public function setGraphDriver(?GraphDriverData $graphDriver): self
     {
         $this->graphDriver = $graphDriver;
 

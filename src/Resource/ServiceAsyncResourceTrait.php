@@ -208,6 +208,7 @@ trait ServiceAsyncResourceTrait
      *
      *     @var int $version The version number of the service object being updated. This is required to avoid conflicting writes.
      *     @var string $registryAuthFrom If the X-Registry-Auth header is not specified, this parameter indicates where to find registry authorization credentials. The valid values are `spec` and `previous-spec`.
+     *     @var string $rollback Set to this parameter to `previous` to cause a server-side rollback to the previous service spec. The supplied spec will be ignored in this case.
      *     @var string $X-Registry-Auth A base64-encoded auth configuration for pulling from private registries. [See the authentication section for details.](#section/Authentication)
      * }
      *
@@ -219,7 +220,7 @@ trait ServiceAsyncResourceTrait
      * @throws \Docker\API\Exception\ServiceUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\ServiceUpdateServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\ImageDeleteResponse>
+     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\ServiceUpdateResponse>
      */
     public function serviceUpdate(string $id, \Docker\API\Model\ServicesIdUpdatePostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
@@ -227,6 +228,7 @@ trait ServiceAsyncResourceTrait
             $queryParam = new QueryParam();
             $queryParam->addQueryParameter('version', true, ['int']);
             $queryParam->addQueryParameter('registryAuthFrom', false, ['string'], 'spec');
+            $queryParam->addQueryParameter('rollback', false, ['string']);
             $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
             $url = '/services/{id}/update';
             $url = str_replace('{id}', urlencode($id), $url);
@@ -239,7 +241,7 @@ trait ServiceAsyncResourceTrait
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ImageDeleteResponse', 'json');
+                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ServiceUpdateResponse', 'json');
                 }
                 if (400 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ServiceUpdateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));

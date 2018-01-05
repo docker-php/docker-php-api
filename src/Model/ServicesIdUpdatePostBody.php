@@ -43,6 +43,12 @@ class ServicesIdUpdatePostBody
      */
     protected $updateConfig;
     /**
+     * Specification for the rollback strategy of the service.
+     *
+     * @var ServiceSpecRollbackConfig
+     */
+    protected $rollbackConfig;
+    /**
      * Array of network names or IDs to attach the service to.
      *
      * @var ServiceSpecNetworksItem[]
@@ -171,6 +177,30 @@ class ServicesIdUpdatePostBody
     public function setUpdateConfig(?ServiceSpecUpdateConfig $updateConfig): self
     {
         $this->updateConfig = $updateConfig;
+
+        return $this;
+    }
+
+    /**
+     * Specification for the rollback strategy of the service.
+     *
+     * @return ServiceSpecRollbackConfig
+     */
+    public function getRollbackConfig(): ?ServiceSpecRollbackConfig
+    {
+        return $this->rollbackConfig;
+    }
+
+    /**
+     * Specification for the rollback strategy of the service.
+     *
+     * @param ServiceSpecRollbackConfig $rollbackConfig
+     *
+     * @return self
+     */
+    public function setRollbackConfig(?ServiceSpecRollbackConfig $rollbackConfig): self
+    {
+        $this->rollbackConfig = $rollbackConfig;
 
         return $this;
     }

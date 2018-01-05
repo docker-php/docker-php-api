@@ -36,7 +36,7 @@ class NormalizerFactory
         $normalizers[] = new ConfigNormalizer();
         $normalizers[] = new ConfigVolumesNormalizer();
         $normalizers[] = new NetworkConfigNormalizer();
-        $normalizers[] = new GraphDriverNormalizer();
+        $normalizers[] = new GraphDriverDataNormalizer();
         $normalizers[] = new ImageNormalizer();
         $normalizers[] = new ImageRootFSNormalizer();
         $normalizers[] = new ImageSummaryNormalizer();
@@ -97,6 +97,8 @@ class NormalizerFactory
         $normalizers[] = new TaskSpecResourcesReservationNormalizer();
         $normalizers[] = new TaskSpecRestartPolicyNormalizer();
         $normalizers[] = new TaskSpecPlacementNormalizer();
+        $normalizers[] = new TaskSpecPlacementPreferencesItemNormalizer();
+        $normalizers[] = new TaskSpecPlacementPreferencesItemSpreadNormalizer();
         $normalizers[] = new TaskSpecNetworksItemNormalizer();
         $normalizers[] = new TaskSpecLogDriverNormalizer();
         $normalizers[] = new TaskNormalizer();
@@ -106,6 +108,7 @@ class NormalizerFactory
         $normalizers[] = new ServiceSpecModeNormalizer();
         $normalizers[] = new ServiceSpecModeReplicatedNormalizer();
         $normalizers[] = new ServiceSpecUpdateConfigNormalizer();
+        $normalizers[] = new ServiceSpecRollbackConfigNormalizer();
         $normalizers[] = new ServiceSpecNetworksItemNormalizer();
         $normalizers[] = new EndpointPortConfigNormalizer();
         $normalizers[] = new EndpointSpecNormalizer();
@@ -113,7 +116,7 @@ class NormalizerFactory
         $normalizers[] = new ServiceEndpointNormalizer();
         $normalizers[] = new ServiceEndpointVirtualIPsItemNormalizer();
         $normalizers[] = new ServiceUpdateStatusNormalizer();
-        $normalizers[] = new ImageDeleteResponseNormalizer();
+        $normalizers[] = new ImageDeleteResponseItemNormalizer();
         $normalizers[] = new ServiceUpdateResponseNormalizer();
         $normalizers[] = new ContainerSummaryItemNormalizer();
         $normalizers[] = new ContainerSummaryItemHostConfigNormalizer();

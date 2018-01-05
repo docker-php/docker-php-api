@@ -85,6 +85,9 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         if (property_exists($data, 'Os') && $data->{'Os'} !== null) {
             $object->setOs($data->{'Os'});
         }
+        if (property_exists($data, 'OsVersion') && $data->{'OsVersion'} !== null) {
+            $object->setOsVersion($data->{'OsVersion'});
+        }
         if (property_exists($data, 'Size') && $data->{'Size'} !== null) {
             $object->setSize($data->{'Size'});
         }
@@ -92,7 +95,7 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             $object->setVirtualSize($data->{'VirtualSize'});
         }
         if (property_exists($data, 'GraphDriver') && $data->{'GraphDriver'} !== null) {
-            $object->setGraphDriver($this->denormalizer->denormalize($data->{'GraphDriver'}, 'Docker\\API\\Model\\GraphDriver', 'json', $context));
+            $object->setGraphDriver($this->denormalizer->denormalize($data->{'GraphDriver'}, 'Docker\\API\\Model\\GraphDriverData', 'json', $context));
         }
         if (property_exists($data, 'RootFS') && $data->{'RootFS'} !== null) {
             $object->setRootFS($this->denormalizer->denormalize($data->{'RootFS'}, 'Docker\\API\\Model\\ImageRootFS', 'json', $context));
@@ -150,6 +153,9 @@ class ImageNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         }
         if (null !== $object->getOs()) {
             $data->{'Os'} = $object->getOs();
+        }
+        if (null !== $object->getOsVersion()) {
+            $data->{'OsVersion'} = $object->getOsVersion();
         }
         if (null !== $object->getSize()) {
             $data->{'Size'} = $object->getSize();

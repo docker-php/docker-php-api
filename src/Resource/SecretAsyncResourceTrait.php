@@ -192,7 +192,7 @@ trait SecretAsyncResourceTrait
     }
 
     /**
-     * @param string                       $id         The ID of the secret
+     * @param string                       $id         The ID or name of the secret
      * @param \Docker\API\Model\SecretSpec $body       The spec of the secret to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [SecretInspect endpoint](#operation/SecretInspect) response values.
      * @param array                        $parameters {
      *

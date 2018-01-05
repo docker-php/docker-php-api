@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ServiceVersionNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class ImageDeleteResponseItemNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\ServiceVersion';
+        return $type === 'Docker\\API\\Model\\ImageDeleteResponseItem';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\ServiceVersion;
+        return $data instanceof \Docker\API\Model\ImageDeleteResponseItem;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,9 +37,12 @@ class ServiceVersionNormalizer implements DenormalizerInterface, NormalizerInter
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\ServiceVersion();
-        if (property_exists($data, 'Index') && $data->{'Index'} !== null) {
-            $object->setIndex($data->{'Index'});
+        $object = new \Docker\API\Model\ImageDeleteResponseItem();
+        if (property_exists($data, 'Untagged') && $data->{'Untagged'} !== null) {
+            $object->setUntagged($data->{'Untagged'});
+        }
+        if (property_exists($data, 'Deleted') && $data->{'Deleted'} !== null) {
+            $object->setDeleted($data->{'Deleted'});
         }
 
         return $object;
@@ -48,8 +51,11 @@ class ServiceVersionNormalizer implements DenormalizerInterface, NormalizerInter
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getIndex()) {
-            $data->{'Index'} = $object->getIndex();
+        if (null !== $object->getUntagged()) {
+            $data->{'Untagged'} = $object->getUntagged();
+        }
+        if (null !== $object->getDeleted()) {
+            $data->{'Deleted'} = $object->getDeleted();
         }
 
         return $data;

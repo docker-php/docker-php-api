@@ -18,6 +18,12 @@ class TaskSpecPlacement
      * @var string[]
      */
     protected $constraints;
+    /**
+     * Preferences provide a way to make the scheduler aware of factors such as topology. They are provided in order from highest to lowest precedence.
+     *
+     * @var TaskSpecPlacementPreferencesItem[]
+     */
+    protected $preferences;
 
     /**
      * An array of constraints.
@@ -39,6 +45,30 @@ class TaskSpecPlacement
     public function setConstraints(?array $constraints): self
     {
         $this->constraints = $constraints;
+
+        return $this;
+    }
+
+    /**
+     * Preferences provide a way to make the scheduler aware of factors such as topology. They are provided in order from highest to lowest precedence.
+     *
+     * @return TaskSpecPlacementPreferencesItem[]
+     */
+    public function getPreferences(): ?array
+    {
+        return $this->preferences;
+    }
+
+    /**
+     * Preferences provide a way to make the scheduler aware of factors such as topology. They are provided in order from highest to lowest precedence.
+     *
+     * @param TaskSpecPlacementPreferencesItem[] $preferences
+     *
+     * @return self
+     */
+    public function setPreferences(?array $preferences): self
+    {
+        $this->preferences = $preferences;
 
         return $this;
     }

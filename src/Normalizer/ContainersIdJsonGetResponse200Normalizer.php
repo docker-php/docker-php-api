@@ -100,7 +100,7 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
             $object->setHostConfig($this->denormalizer->denormalize($data->{'HostConfig'}, 'Docker\\API\\Model\\HostConfig', 'json', $context));
         }
         if (property_exists($data, 'GraphDriver') && $data->{'GraphDriver'} !== null) {
-            $object->setGraphDriver($this->denormalizer->denormalize($data->{'GraphDriver'}, 'Docker\\API\\Model\\GraphDriver', 'json', $context));
+            $object->setGraphDriver($this->denormalizer->denormalize($data->{'GraphDriver'}, 'Docker\\API\\Model\\GraphDriverData', 'json', $context));
         }
         if (property_exists($data, 'SizeRw') && $data->{'SizeRw'} !== null) {
             $object->setSizeRw($data->{'SizeRw'});

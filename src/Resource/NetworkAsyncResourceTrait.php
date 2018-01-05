@@ -94,8 +94,12 @@ trait NetworkAsyncResourceTrait
     }
 
     /**
-     * @param string                 $id                Network ID or name
-     * @param array                  $parameters        List of parameters
+     * @param string $id         Network ID or name
+     * @param array  $parameters {
+     *
+     *     @var bool $verbose Detailed inspect output for troubleshooting
+     * }
+     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *
@@ -107,6 +111,7 @@ trait NetworkAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
+            $queryParam->addQueryParameter('verbose', false, ['bool'], false);
             $url = '/networks/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -267,10 +272,7 @@ trait NetworkAsyncResourceTrait
      *
      *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
 
-    Available filters:
-
      * }
-     *
      * @param string                 $fetch             Fetch mode (object or response)
      * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
      *

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class ContainerArchiveHeadBadRequestException extends \RuntimeException implements ClientException
+class ContainerArchiveInfoBadRequestException extends \RuntimeException implements ClientException
 {
     private $containersIdArchiveHeadResponse400;
 

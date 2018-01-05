@@ -85,8 +85,12 @@ trait NetworkResourceTrait
 
     /**
      * @param string $id         Network ID or name
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param array  $parameters {
+     *
+     *     @var bool $verbose Detailed inspect output for troubleshooting
+     * }
+     *
+     * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\NetworkInspectNotFoundException
      *
@@ -95,6 +99,7 @@ trait NetworkResourceTrait
     public function networkInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('verbose', false, ['bool'], false);
         $url = '/networks/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -237,10 +242,7 @@ trait NetworkResourceTrait
      *
      *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
 
-    Available filters:
-
      * }
-     *
      * @param string $fetch Fetch mode (object or response)
      *
      * @throws \Docker\API\Exception\NetworkPruneInternalServerErrorException

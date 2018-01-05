@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class ContainerPutArchiveForbiddenException extends \RuntimeException implements ClientException
+class PutContainerArchiveNotFoundException extends \RuntimeException implements ClientException
 {
     private $errorResponse;
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse)
     {
-        parent::__construct('Permission denied, the volume or container rootfs is marked as read-only.', 403);
+        parent::__construct('No such container or path does not exist inside the container', 404);
         $this->errorResponse = $errorResponse;
     }
 

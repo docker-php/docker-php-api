@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class NodeVersionNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class TaskSpecPlacementPreferencesItemNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\NodeVersion';
+        return $type === 'Docker\\API\\Model\\TaskSpecPlacementPreferencesItem';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\NodeVersion;
+        return $data instanceof \Docker\API\Model\TaskSpecPlacementPreferencesItem;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,9 +37,9 @@ class NodeVersionNormalizer implements DenormalizerInterface, NormalizerInterfac
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\NodeVersion();
-        if (property_exists($data, 'Index') && $data->{'Index'} !== null) {
-            $object->setIndex($data->{'Index'});
+        $object = new \Docker\API\Model\TaskSpecPlacementPreferencesItem();
+        if (property_exists($data, 'Spread') && $data->{'Spread'} !== null) {
+            $object->setSpread($this->denormalizer->denormalize($data->{'Spread'}, 'Docker\\API\\Model\\TaskSpecPlacementPreferencesItemSpread', 'json', $context));
         }
 
         return $object;
@@ -48,8 +48,8 @@ class NodeVersionNormalizer implements DenormalizerInterface, NormalizerInterfac
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getIndex()) {
-            $data->{'Index'} = $object->getIndex();
+        if (null !== $object->getSpread()) {
+            $data->{'Spread'} = $this->normalizer->normalize($object->getSpread(), 'json', $context);
         }
 
         return $data;

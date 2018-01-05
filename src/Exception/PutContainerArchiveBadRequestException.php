@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class SecretInspectNotAcceptableException extends \RuntimeException implements ClientException
+class PutContainerArchiveBadRequestException extends \RuntimeException implements ClientException
 {
     private $errorResponse;
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse)
     {
-        parent::__construct('node is not part of a swarm', 406);
+        parent::__construct('Bad parameter', 400);
         $this->errorResponse = $errorResponse;
     }
 

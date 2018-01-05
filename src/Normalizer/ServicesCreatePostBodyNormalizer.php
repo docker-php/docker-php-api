@@ -57,6 +57,9 @@ class ServicesCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         if (property_exists($data, 'UpdateConfig') && $data->{'UpdateConfig'} !== null) {
             $object->setUpdateConfig($this->denormalizer->denormalize($data->{'UpdateConfig'}, 'Docker\\API\\Model\\ServiceSpecUpdateConfig', 'json', $context));
         }
+        if (property_exists($data, 'RollbackConfig') && $data->{'RollbackConfig'} !== null) {
+            $object->setRollbackConfig($this->denormalizer->denormalize($data->{'RollbackConfig'}, 'Docker\\API\\Model\\ServiceSpecRollbackConfig', 'json', $context));
+        }
         if (property_exists($data, 'Networks') && $data->{'Networks'} !== null) {
             $values_1 = [];
             foreach ($data->{'Networks'} as $value_1) {
@@ -92,6 +95,9 @@ class ServicesCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         }
         if (null !== $object->getUpdateConfig()) {
             $data->{'UpdateConfig'} = $this->normalizer->normalize($object->getUpdateConfig(), 'json', $context);
+        }
+        if (null !== $object->getRollbackConfig()) {
+            $data->{'RollbackConfig'} = $this->normalizer->normalize($object->getRollbackConfig(), 'json', $context);
         }
         if (null !== $object->getNetworks()) {
             $values_1 = [];

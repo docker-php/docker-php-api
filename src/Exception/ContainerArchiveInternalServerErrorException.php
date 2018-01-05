@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class SwarmInitNotAcceptableException extends \RuntimeException implements ClientException
+class ContainerArchiveInternalServerErrorException extends \RuntimeException implements ServerException
 {
     private $errorResponse;
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse)
     {
-        parent::__construct('node is already part of a swarm', 406);
+        parent::__construct('server error', 500);
         $this->errorResponse = $errorResponse;
     }
 

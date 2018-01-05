@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class ContainerArchiveHeadNotFoundException extends \RuntimeException implements ClientException
+class ContainerArchiveInfoInternalServerErrorException extends \RuntimeException implements ServerException
 {
     private $errorResponse;
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse)
     {
-        parent::__construct('Container or path does not exist', 404);
+        parent::__construct('Server error', 500);
         $this->errorResponse = $errorResponse;
     }
 

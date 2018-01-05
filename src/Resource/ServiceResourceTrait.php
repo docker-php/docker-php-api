@@ -188,6 +188,7 @@ trait ServiceResourceTrait
      *
      *     @var int $version The version number of the service object being updated. This is required to avoid conflicting writes.
      *     @var string $registryAuthFrom If the X-Registry-Auth header is not specified, this parameter indicates where to find registry authorization credentials. The valid values are `spec` and `previous-spec`.
+     *     @var string $rollback Set to this parameter to `previous` to cause a server-side rollback to the previous service spec. The supplied spec will be ignored in this case.
      *     @var string $X-Registry-Auth A base64-encoded auth configuration for pulling from private registries. [See the authentication section for details.](#section/Authentication)
      * }
      *
@@ -198,13 +199,14 @@ trait ServiceResourceTrait
      * @throws \Docker\API\Exception\ServiceUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\ServiceUpdateServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImageDeleteResponse
+     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ServiceUpdateResponse
      */
     public function serviceUpdate(string $id, \Docker\API\Model\ServicesIdUpdatePostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam($this->streamFactory);
         $queryParam->addQueryParameter('version', true, ['int']);
         $queryParam->addQueryParameter('registryAuthFrom', false, ['string'], 'spec');
+        $queryParam->addQueryParameter('rollback', false, ['string']);
         $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
         $url = '/services/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
@@ -215,7 +217,7 @@ trait ServiceResourceTrait
         $response = $this->httpClient->sendRequest($request);
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImageDeleteResponse', 'json');
+                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ServiceUpdateResponse', 'json');
             }
             if (400 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ServiceUpdateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

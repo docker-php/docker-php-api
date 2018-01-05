@@ -110,6 +110,13 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
             }
             $object->setDevices($values_5);
         }
+        if (property_exists($data, 'DeviceCgroupRules') && $data->{'DeviceCgroupRules'} !== null) {
+            $values_6 = [];
+            foreach ($data->{'DeviceCgroupRules'} as $value_6) {
+                $values_6[] = $value_6;
+            }
+            $object->setDeviceCgroupRules($values_6);
+        }
         if (property_exists($data, 'DiskQuota') && $data->{'DiskQuota'} !== null) {
             $object->setDiskQuota($data->{'DiskQuota'});
         }
@@ -135,11 +142,11 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
             $object->setPidsLimit($data->{'PidsLimit'});
         }
         if (property_exists($data, 'Ulimits') && $data->{'Ulimits'} !== null) {
-            $values_6 = [];
-            foreach ($data->{'Ulimits'} as $value_6) {
-                $values_6[] = $this->denormalizer->denormalize($value_6, 'Docker\\API\\Model\\ResourcesUlimitsItem', 'json', $context);
+            $values_7 = [];
+            foreach ($data->{'Ulimits'} as $value_7) {
+                $values_7[] = $this->denormalizer->denormalize($value_7, 'Docker\\API\\Model\\ResourcesUlimitsItem', 'json', $context);
             }
-            $object->setUlimits($values_6);
+            $object->setUlimits($values_7);
         }
         if (property_exists($data, 'CpuCount') && $data->{'CpuCount'} !== null) {
             $object->setCpuCount($data->{'CpuCount'});
@@ -232,6 +239,13 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
             }
             $data->{'Devices'} = $values_5;
         }
+        if (null !== $object->getDeviceCgroupRules()) {
+            $values_6 = [];
+            foreach ($object->getDeviceCgroupRules() as $value_6) {
+                $values_6[] = $value_6;
+            }
+            $data->{'DeviceCgroupRules'} = $values_6;
+        }
         if (null !== $object->getDiskQuota()) {
             $data->{'DiskQuota'} = $object->getDiskQuota();
         }
@@ -257,11 +271,11 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
             $data->{'PidsLimit'} = $object->getPidsLimit();
         }
         if (null !== $object->getUlimits()) {
-            $values_6 = [];
-            foreach ($object->getUlimits() as $value_6) {
-                $values_6[] = $this->normalizer->normalize($value_6, 'json', $context);
+            $values_7 = [];
+            foreach ($object->getUlimits() as $value_7) {
+                $values_7[] = $this->normalizer->normalize($value_7, 'json', $context);
             }
-            $data->{'Ulimits'} = $values_6;
+            $data->{'Ulimits'} = $values_7;
         }
         if (null !== $object->getCpuCount()) {
             $data->{'CpuCount'} = $object->getCpuCount();

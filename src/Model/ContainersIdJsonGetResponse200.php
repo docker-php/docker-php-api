@@ -105,9 +105,9 @@ class ContainersIdJsonGetResponse200
      */
     protected $hostConfig;
     /**
-     * Information about this container's graph driver.
+     * Information about a container's graph driver.
      *
-     * @var GraphDriver
+     * @var GraphDriverData
      */
     protected $graphDriver;
     /**
@@ -552,23 +552,23 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
-     * Information about this container's graph driver.
+     * Information about a container's graph driver.
      *
-     * @return GraphDriver
+     * @return GraphDriverData
      */
-    public function getGraphDriver(): ?GraphDriver
+    public function getGraphDriver(): ?GraphDriverData
     {
         return $this->graphDriver;
     }
 
     /**
-     * Information about this container's graph driver.
+     * Information about a container's graph driver.
      *
-     * @param GraphDriver $graphDriver
+     * @param GraphDriverData $graphDriver
      *
      * @return self
      */
-    public function setGraphDriver(?GraphDriver $graphDriver): self
+    public function setGraphDriver(?GraphDriverData $graphDriver): self
     {
         $this->graphDriver = $graphDriver;
 

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Model;
 
-class ImageDeleteResponse
+class ImageDeleteResponseItem
 {
     /**
      * The image ID of an image that was untagged.
