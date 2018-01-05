@@ -34,7 +34,7 @@ class Client extends \Jane\OpenApiRuntime\Client\Psr7HttplugResource
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\HttpClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\UriFactoryDiscovery::find()->createUri('v1.32');
+            $uri = \Http\Discovery\UriFactoryDiscovery::find()->createUri('v1.33');
             $plugins[] = new \Http\Client\Common\Plugin\AddPathPlugin($uri);
             $httpClient = new \Http\Client\Common\PluginClient($httpClient, $plugins);
         }
