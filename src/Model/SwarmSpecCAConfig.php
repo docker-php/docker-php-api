@@ -39,7 +39,7 @@ class SwarmSpecCAConfig
     /**
      * An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey`.
      *
-     * @var mixed
+     * @var int
      */
     protected $forceRotate;
 
@@ -142,9 +142,9 @@ class SwarmSpecCAConfig
     /**
      * An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey`.
      *
-     * @return mixed
+     * @return int
      */
-    public function getForceRotate()
+    public function getForceRotate(): ?int
     {
         return $this->forceRotate;
     }
@@ -152,11 +152,11 @@ class SwarmSpecCAConfig
     /**
      * An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey`.
      *
-     * @param mixed $forceRotate
+     * @param int $forceRotate
      *
      * @return self
      */
-    public function setForceRotate($forceRotate): self
+    public function setForceRotate(?int $forceRotate): self
     {
         $this->forceRotate = $forceRotate;
 

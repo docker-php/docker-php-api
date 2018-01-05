@@ -119,7 +119,7 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
             $object->setConfig($this->denormalizer->denormalize($data->{'Config'}, 'Docker\\API\\Model\\ContainerConfig', 'json', $context));
         }
         if (property_exists($data, 'NetworkSettings') && $data->{'NetworkSettings'} !== null) {
-            $object->setNetworkSettings($this->denormalizer->denormalize($data->{'NetworkSettings'}, 'Docker\\API\\Model\\NetworkConfig', 'json', $context));
+            $object->setNetworkSettings($this->denormalizer->denormalize($data->{'NetworkSettings'}, 'Docker\\API\\Model\\NetworkSettings', 'json', $context));
         }
 
         return $object;

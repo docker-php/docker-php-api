@@ -30,10 +30,18 @@ class Node
      */
     protected $version;
     /**
+     * Date and time at which the node was added to the swarm in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @var string
      */
     protected $createdAt;
     /**
+     * Date and time at which the node was last updated in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @var string
      */
     protected $updatedAt;
@@ -42,9 +50,32 @@ class Node
      */
     protected $spec;
     /**
+     * NodeDescription encapsulates the properties of the Node as reported by the.
+    agent.
+
+     *
      * @var NodeDescription
      */
     protected $description;
+    /**
+     * NodeStatus represents the status of a node.
+
+    It provides the current status of the node, as seen by the manager.
+
+     *
+     * @var NodeStatus
+     */
+    protected $status;
+    /**
+     * ManagerStatus represents the status of a manager.
+
+    It provides the current status of a node's manager component, if the node
+    is a manager.
+
+     *
+     * @var ManagerStatus
+     */
+    protected $managerStatus;
 
     /**
      * @return string
@@ -105,6 +136,10 @@ class Node
     }
 
     /**
+     * Date and time at which the node was added to the swarm in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @return string
      */
     public function getCreatedAt(): ?string
@@ -113,6 +148,10 @@ class Node
     }
 
     /**
+     * Date and time at which the node was added to the swarm in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @param string $createdAt
      *
      * @return self
@@ -125,6 +164,10 @@ class Node
     }
 
     /**
+     * Date and time at which the node was last updated in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @return string
      */
     public function getUpdatedAt(): ?string
@@ -133,6 +176,10 @@ class Node
     }
 
     /**
+     * Date and time at which the node was last updated in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @param string $updatedAt
      *
      * @return self
@@ -165,6 +212,10 @@ class Node
     }
 
     /**
+     * NodeDescription encapsulates the properties of the Node as reported by the.
+    agent.
+
+     *
      * @return NodeDescription
      */
     public function getDescription(): ?NodeDescription
@@ -173,6 +224,10 @@ class Node
     }
 
     /**
+     * NodeDescription encapsulates the properties of the Node as reported by the.
+    agent.
+
+     *
      * @param NodeDescription $description
      *
      * @return self
@@ -180,6 +235,68 @@ class Node
     public function setDescription(?NodeDescription $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * NodeStatus represents the status of a node.
+
+    It provides the current status of the node, as seen by the manager.
+
+     *
+     * @return NodeStatus
+     */
+    public function getStatus(): ?NodeStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * NodeStatus represents the status of a node.
+
+    It provides the current status of the node, as seen by the manager.
+
+     *
+     * @param NodeStatus $status
+     *
+     * @return self
+     */
+    public function setStatus(?NodeStatus $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * ManagerStatus represents the status of a manager.
+
+    It provides the current status of a node's manager component, if the node
+    is a manager.
+
+     *
+     * @return ManagerStatus
+     */
+    public function getManagerStatus(): ?ManagerStatus
+    {
+        return $this->managerStatus;
+    }
+
+    /**
+     * ManagerStatus represents the status of a manager.
+
+    It provides the current status of a node's manager component, if the node
+    is a manager.
+
+     *
+     * @param ManagerStatus $managerStatus
+     *
+     * @return self
+     */
+    public function setManagerStatus(?ManagerStatus $managerStatus): self
+    {
+        $this->managerStatus = $managerStatus;
 
         return $this;
     }

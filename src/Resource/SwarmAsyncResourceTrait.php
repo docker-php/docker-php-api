@@ -23,7 +23,7 @@ trait SwarmAsyncResourceTrait
      * @throws \Docker\API\Exception\SwarmInspectInternalServerErrorException
      * @throws \Docker\API\Exception\SwarmInspectServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\SwarmGetResponse200>
+     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Swarm>
      */
     public function swarmInspect(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
@@ -39,7 +39,7 @@ trait SwarmAsyncResourceTrait
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SwarmGetResponse200', 'json');
+                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Swarm', 'json');
                 }
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SwarmInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));

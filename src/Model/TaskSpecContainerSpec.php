@@ -115,10 +115,12 @@ class TaskSpecContainerSpec
      */
     protected $healthCheck;
     /**
-     * A list of hostnames/IP mappings to add to the container's `/etc/hosts` file.
-    The format of extra hosts on swarmkit is specified in:
-    http://man7.org/linux/man-pages/man5/hosts.5.html
-     IP_address canonical_hostname [aliases...]
+     * A list of hostname/IP mappings to add to the container's `hosts`.
+    file. The format of extra hosts is specified in the
+    [hosts(5)](http://man7.org/linux/man-pages/man5/hosts.5.html)
+    man page:
+
+       IP_address canonical_hostname [aliases...]
 
      *
      * @var string[]
@@ -552,10 +554,12 @@ class TaskSpecContainerSpec
     }
 
     /**
-     * A list of hostnames/IP mappings to add to the container's `/etc/hosts` file.
-    The format of extra hosts on swarmkit is specified in:
-    http://man7.org/linux/man-pages/man5/hosts.5.html
-     IP_address canonical_hostname [aliases...]
+     * A list of hostname/IP mappings to add to the container's `hosts`.
+    file. The format of extra hosts is specified in the
+    [hosts(5)](http://man7.org/linux/man-pages/man5/hosts.5.html)
+    man page:
+
+       IP_address canonical_hostname [aliases...]
 
      *
      * @return string[]
@@ -566,10 +570,12 @@ class TaskSpecContainerSpec
     }
 
     /**
-     * A list of hostnames/IP mappings to add to the container's `/etc/hosts` file.
-    The format of extra hosts on swarmkit is specified in:
-    http://man7.org/linux/man-pages/man5/hosts.5.html
-     IP_address canonical_hostname [aliases...]
+     * A list of hostname/IP mappings to add to the container's `hosts`.
+    file. The format of extra hosts is specified in the
+    [hosts(5)](http://man7.org/linux/man-pages/man5/hosts.5.html)
+    man page:
+
+       IP_address canonical_hostname [aliases...]
 
      *
      * @param string[] $hosts

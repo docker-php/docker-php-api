@@ -202,7 +202,7 @@ class HostConfig
      * A list of volume bindings for this container. Each volume binding is a string in one of these forms:.
 
     - `host-src:container-dest` to bind-mount a host path into the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
-    - `host-src:container-dest:ro` to make the bind-mount read-only inside the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
+    - `host-src:container-dest:ro` to make the bind mount read-only inside the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
     - `volume-name:container-dest` to bind-mount a volume managed by a volume driver into the container. `container-dest` must be an _absolute_ path.
     - `volume-name:container-dest:ro` to mount the volume read-only inside the container.  `container-dest` must be an _absolute_ path.
 
@@ -310,7 +310,17 @@ class HostConfig
      */
     protected $groupAdd;
     /**
-     * IPC namespace to use for the container.
+     * IPC sharing mode for the container. Possible values are:.
+
+    - `"none"`: own private IPC namespace, with /dev/shm not mounted
+    - `"private"`: own private IPC namespace
+    - `"shareable"`: own private IPC namespace, with a possibility to share it with other containers
+    - `"container:<name|id>"`: join another (shareable) container's IPC namespace
+    - `"host"`: use the host system's IPC namespace
+
+    If not specified, daemon default is used, which can either be `"private"`
+    or `"shareable"`, depending on daemon version and configuration.
+
      *
      * @var string
      */
@@ -1158,7 +1168,7 @@ class HostConfig
      * A list of volume bindings for this container. Each volume binding is a string in one of these forms:.
 
     - `host-src:container-dest` to bind-mount a host path into the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
-    - `host-src:container-dest:ro` to make the bind-mount read-only inside the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
+    - `host-src:container-dest:ro` to make the bind mount read-only inside the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
     - `volume-name:container-dest` to bind-mount a volume managed by a volume driver into the container. `container-dest` must be an _absolute_ path.
     - `volume-name:container-dest:ro` to mount the volume read-only inside the container.  `container-dest` must be an _absolute_ path.
 
@@ -1174,7 +1184,7 @@ class HostConfig
      * A list of volume bindings for this container. Each volume binding is a string in one of these forms:.
 
     - `host-src:container-dest` to bind-mount a host path into the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
-    - `host-src:container-dest:ro` to make the bind-mount read-only inside the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
+    - `host-src:container-dest:ro` to make the bind mount read-only inside the container. Both `host-src`, and `container-dest` must be an _absolute_ path.
     - `volume-name:container-dest` to bind-mount a volume managed by a volume driver into the container. `container-dest` must be an _absolute_ path.
     - `volume-name:container-dest:ro` to mount the volume read-only inside the container.  `container-dest` must be an _absolute_ path.
 
@@ -1581,7 +1591,17 @@ class HostConfig
     }
 
     /**
-     * IPC namespace to use for the container.
+     * IPC sharing mode for the container. Possible values are:.
+
+    - `"none"`: own private IPC namespace, with /dev/shm not mounted
+    - `"private"`: own private IPC namespace
+    - `"shareable"`: own private IPC namespace, with a possibility to share it with other containers
+    - `"container:<name|id>"`: join another (shareable) container's IPC namespace
+    - `"host"`: use the host system's IPC namespace
+
+    If not specified, daemon default is used, which can either be `"private"`
+    or `"shareable"`, depending on daemon version and configuration.
+
      *
      * @return string
      */
@@ -1591,7 +1611,17 @@ class HostConfig
     }
 
     /**
-     * IPC namespace to use for the container.
+     * IPC sharing mode for the container. Possible values are:.
+
+    - `"none"`: own private IPC namespace, with /dev/shm not mounted
+    - `"private"`: own private IPC namespace
+    - `"shareable"`: own private IPC namespace, with a possibility to share it with other containers
+    - `"container:<name|id>"`: join another (shareable) container's IPC namespace
+    - `"host"`: use the host system's IPC namespace
+
+    If not specified, daemon default is used, which can either be `"private"`
+    or `"shareable"`, depending on daemon version and configuration.
+
      *
      * @param string $ipcMode
      *

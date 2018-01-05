@@ -22,7 +22,7 @@ trait SwarmResourceTrait
      * @throws \Docker\API\Exception\SwarmInspectInternalServerErrorException
      * @throws \Docker\API\Exception\SwarmInspectServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\SwarmGetResponse200
+     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Swarm
      */
     public function swarmInspect(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
@@ -35,7 +35,7 @@ trait SwarmResourceTrait
         $response = $this->httpClient->sendRequest($request);
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\SwarmGetResponse200', 'json');
+                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Swarm', 'json');
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SwarmInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

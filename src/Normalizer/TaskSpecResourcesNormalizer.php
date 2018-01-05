@@ -39,10 +39,10 @@ class TaskSpecResourcesNormalizer implements DenormalizerInterface, NormalizerIn
         }
         $object = new \Docker\API\Model\TaskSpecResources();
         if (property_exists($data, 'Limits') && $data->{'Limits'} !== null) {
-            $object->setLimits($this->denormalizer->denormalize($data->{'Limits'}, 'Docker\\API\\Model\\TaskSpecResourcesLimits', 'json', $context));
+            $object->setLimits($this->denormalizer->denormalize($data->{'Limits'}, 'Docker\\API\\Model\\ResourceObject', 'json', $context));
         }
         if (property_exists($data, 'Reservation') && $data->{'Reservation'} !== null) {
-            $object->setReservation($this->denormalizer->denormalize($data->{'Reservation'}, 'Docker\\API\\Model\\TaskSpecResourcesReservation', 'json', $context));
+            $object->setReservation($this->denormalizer->denormalize($data->{'Reservation'}, 'Docker\\API\\Model\\ResourceObject', 'json', $context));
         }
 
         return $object;

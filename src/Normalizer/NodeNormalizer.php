@@ -56,6 +56,12 @@ class NodeNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
         if (property_exists($data, 'Description') && $data->{'Description'} !== null) {
             $object->setDescription($this->denormalizer->denormalize($data->{'Description'}, 'Docker\\API\\Model\\NodeDescription', 'json', $context));
         }
+        if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
+            $object->setStatus($this->denormalizer->denormalize($data->{'Status'}, 'Docker\\API\\Model\\NodeStatus', 'json', $context));
+        }
+        if (property_exists($data, 'ManagerStatus') && $data->{'ManagerStatus'} !== null) {
+            $object->setManagerStatus($this->denormalizer->denormalize($data->{'ManagerStatus'}, 'Docker\\API\\Model\\ManagerStatus', 'json', $context));
+        }
 
         return $object;
     }
@@ -80,6 +86,12 @@ class NodeNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
         }
         if (null !== $object->getDescription()) {
             $data->{'Description'} = $this->normalizer->normalize($object->getDescription(), 'json', $context);
+        }
+        if (null !== $object->getStatus()) {
+            $data->{'Status'} = $this->normalizer->normalize($object->getStatus(), 'json', $context);
+        }
+        if (null !== $object->getManagerStatus()) {
+            $data->{'ManagerStatus'} = $this->normalizer->normalize($object->getManagerStatus(), 'json', $context);
         }
 
         return $data;

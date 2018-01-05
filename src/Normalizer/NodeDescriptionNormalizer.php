@@ -42,16 +42,16 @@ class NodeDescriptionNormalizer implements DenormalizerInterface, NormalizerInte
             $object->setHostname($data->{'Hostname'});
         }
         if (property_exists($data, 'Platform') && $data->{'Platform'} !== null) {
-            $object->setPlatform($this->denormalizer->denormalize($data->{'Platform'}, 'Docker\\API\\Model\\NodeDescriptionPlatform', 'json', $context));
+            $object->setPlatform($this->denormalizer->denormalize($data->{'Platform'}, 'Docker\\API\\Model\\Platform', 'json', $context));
         }
         if (property_exists($data, 'Resources') && $data->{'Resources'} !== null) {
-            $object->setResources($this->denormalizer->denormalize($data->{'Resources'}, 'Docker\\API\\Model\\NodeDescriptionResources', 'json', $context));
+            $object->setResources($this->denormalizer->denormalize($data->{'Resources'}, 'Docker\\API\\Model\\ResourceObject', 'json', $context));
         }
         if (property_exists($data, 'Engine') && $data->{'Engine'} !== null) {
-            $object->setEngine($this->denormalizer->denormalize($data->{'Engine'}, 'Docker\\API\\Model\\NodeDescriptionEngine', 'json', $context));
+            $object->setEngine($this->denormalizer->denormalize($data->{'Engine'}, 'Docker\\API\\Model\\EngineDescription', 'json', $context));
         }
         if (property_exists($data, 'TLSInfo') && $data->{'TLSInfo'} !== null) {
-            $object->setTLSInfo($this->denormalizer->denormalize($data->{'TLSInfo'}, 'Docker\\API\\Model\\SwarmSpec', 'json', $context));
+            $object->setTLSInfo($this->denormalizer->denormalize($data->{'TLSInfo'}, 'Docker\\API\\Model\\TLSInfo', 'json', $context));
         }
 
         return $object;

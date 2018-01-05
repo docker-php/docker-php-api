@@ -21,7 +21,7 @@ class ContainersCreatePostResponse201
     /**
      * Warnings encountered when creating the container.
      *
-     * @var string[]
+     * @var string[]|null
      */
     protected $warnings;
 
@@ -52,7 +52,7 @@ class ContainersCreatePostResponse201
     /**
      * Warnings encountered when creating the container.
      *
-     * @return string[]
+     * @return string[]|null
      */
     public function getWarnings(): ?array
     {
@@ -62,7 +62,7 @@ class ContainersCreatePostResponse201
     /**
      * Warnings encountered when creating the container.
      *
-     * @param string[] $warnings
+     * @param string[]|null $warnings
      *
      * @return self
      */

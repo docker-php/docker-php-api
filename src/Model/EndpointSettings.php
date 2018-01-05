@@ -13,9 +13,9 @@ namespace Docker\API\Model;
 class EndpointSettings
 {
     /**
-     * IPAM configurations for the endpoint.
+     * EndpointIPAMConfig represents an endpoint's IPAM configuration.
      *
-     * @var EndpointSettingsIPAMConfig
+     * @var EndpointIPAMConfig
      */
     protected $iPAMConfig;
     /**
@@ -27,60 +27,86 @@ class EndpointSettings
      */
     protected $aliases;
     /**
+     * Unique ID of the network.
+     *
      * @var string
      */
     protected $networkID;
     /**
+     * Unique ID for the service endpoint in a Sandbox.
+     *
      * @var string
      */
     protected $endpointID;
     /**
+     * Gateway address for this network.
+     *
      * @var string
      */
     protected $gateway;
     /**
+     * IPv4 address.
+     *
      * @var string
      */
     protected $iPAddress;
     /**
+     * Mask length of the IPv4 address.
+     *
      * @var int
      */
     protected $iPPrefixLen;
     /**
+     * IPv6 gateway address.
+     *
      * @var string
      */
     protected $iPv6Gateway;
     /**
+     * Global IPv6 address.
+     *
      * @var string
      */
     protected $globalIPv6Address;
     /**
+     * Mask length of the global IPv6 address.
+     *
      * @var int
      */
     protected $globalIPv6PrefixLen;
     /**
+     * MAC address for the endpoint on this network.
+     *
      * @var string
      */
     protected $macAddress;
+    /**
+     * DriverOpts is a mapping of driver options and values. These options.
+    are passed directly to the driver and are driver specific.
+
+     *
+     * @var string[]
+     */
+    protected $driverOpts;
 
     /**
-     * IPAM configurations for the endpoint.
+     * EndpointIPAMConfig represents an endpoint's IPAM configuration.
      *
-     * @return EndpointSettingsIPAMConfig
+     * @return EndpointIPAMConfig
      */
-    public function getIPAMConfig(): ?EndpointSettingsIPAMConfig
+    public function getIPAMConfig(): ?EndpointIPAMConfig
     {
         return $this->iPAMConfig;
     }
 
     /**
-     * IPAM configurations for the endpoint.
+     * EndpointIPAMConfig represents an endpoint's IPAM configuration.
      *
-     * @param EndpointSettingsIPAMConfig $iPAMConfig
+     * @param EndpointIPAMConfig $iPAMConfig
      *
      * @return self
      */
-    public function setIPAMConfig(?EndpointSettingsIPAMConfig $iPAMConfig): self
+    public function setIPAMConfig(?EndpointIPAMConfig $iPAMConfig): self
     {
         $this->iPAMConfig = $iPAMConfig;
 
@@ -128,6 +154,8 @@ class EndpointSettings
     }
 
     /**
+     * Unique ID of the network.
+     *
      * @return string
      */
     public function getNetworkID(): ?string
@@ -136,6 +164,8 @@ class EndpointSettings
     }
 
     /**
+     * Unique ID of the network.
+     *
      * @param string $networkID
      *
      * @return self
@@ -148,6 +178,8 @@ class EndpointSettings
     }
 
     /**
+     * Unique ID for the service endpoint in a Sandbox.
+     *
      * @return string
      */
     public function getEndpointID(): ?string
@@ -156,6 +188,8 @@ class EndpointSettings
     }
 
     /**
+     * Unique ID for the service endpoint in a Sandbox.
+     *
      * @param string $endpointID
      *
      * @return self
@@ -168,6 +202,8 @@ class EndpointSettings
     }
 
     /**
+     * Gateway address for this network.
+     *
      * @return string
      */
     public function getGateway(): ?string
@@ -176,6 +212,8 @@ class EndpointSettings
     }
 
     /**
+     * Gateway address for this network.
+     *
      * @param string $gateway
      *
      * @return self
@@ -188,6 +226,8 @@ class EndpointSettings
     }
 
     /**
+     * IPv4 address.
+     *
      * @return string
      */
     public function getIPAddress(): ?string
@@ -196,6 +236,8 @@ class EndpointSettings
     }
 
     /**
+     * IPv4 address.
+     *
      * @param string $iPAddress
      *
      * @return self
@@ -208,6 +250,8 @@ class EndpointSettings
     }
 
     /**
+     * Mask length of the IPv4 address.
+     *
      * @return int
      */
     public function getIPPrefixLen(): ?int
@@ -216,6 +260,8 @@ class EndpointSettings
     }
 
     /**
+     * Mask length of the IPv4 address.
+     *
      * @param int $iPPrefixLen
      *
      * @return self
@@ -228,6 +274,8 @@ class EndpointSettings
     }
 
     /**
+     * IPv6 gateway address.
+     *
      * @return string
      */
     public function getIPv6Gateway(): ?string
@@ -236,6 +284,8 @@ class EndpointSettings
     }
 
     /**
+     * IPv6 gateway address.
+     *
      * @param string $iPv6Gateway
      *
      * @return self
@@ -248,6 +298,8 @@ class EndpointSettings
     }
 
     /**
+     * Global IPv6 address.
+     *
      * @return string
      */
     public function getGlobalIPv6Address(): ?string
@@ -256,6 +308,8 @@ class EndpointSettings
     }
 
     /**
+     * Global IPv6 address.
+     *
      * @param string $globalIPv6Address
      *
      * @return self
@@ -268,6 +322,8 @@ class EndpointSettings
     }
 
     /**
+     * Mask length of the global IPv6 address.
+     *
      * @return int
      */
     public function getGlobalIPv6PrefixLen(): ?int
@@ -276,6 +332,8 @@ class EndpointSettings
     }
 
     /**
+     * Mask length of the global IPv6 address.
+     *
      * @param int $globalIPv6PrefixLen
      *
      * @return self
@@ -288,6 +346,8 @@ class EndpointSettings
     }
 
     /**
+     * MAC address for the endpoint on this network.
+     *
      * @return string
      */
     public function getMacAddress(): ?string
@@ -296,6 +356,8 @@ class EndpointSettings
     }
 
     /**
+     * MAC address for the endpoint on this network.
+     *
      * @param string $macAddress
      *
      * @return self
@@ -303,6 +365,34 @@ class EndpointSettings
     public function setMacAddress(?string $macAddress): self
     {
         $this->macAddress = $macAddress;
+
+        return $this;
+    }
+
+    /**
+     * DriverOpts is a mapping of driver options and values. These options.
+    are passed directly to the driver and are driver specific.
+
+     *
+     * @return string[]
+     */
+    public function getDriverOpts(): ?\ArrayObject
+    {
+        return $this->driverOpts;
+    }
+
+    /**
+     * DriverOpts is a mapping of driver options and values. These options.
+    are passed directly to the driver and are driver specific.
+
+     *
+     * @param string[] $driverOpts
+     *
+     * @return self
+     */
+    public function setDriverOpts(?\ArrayObject $driverOpts): self
+    {
+        $this->driverOpts = $driverOpts;
 
         return $this;
     }

@@ -55,7 +55,7 @@ trait SystemResourceTrait
      *
      * @throws \Docker\API\Exception\SystemInfoInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\InfoGetResponse200
+     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\SystemInfo
      */
     public function systemInfo(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
@@ -68,7 +68,7 @@ trait SystemResourceTrait
         $response = $this->httpClient->sendRequest($request);
         if (self::FETCH_OBJECT === $fetch) {
             if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\InfoGetResponse200', 'json');
+                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\SystemInfo', 'json');
             }
             if (500 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\SystemInfoInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

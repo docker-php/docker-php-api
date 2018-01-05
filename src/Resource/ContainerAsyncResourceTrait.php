@@ -81,7 +81,6 @@ trait ContainerAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\ContainerCreateBadRequestException
      * @throws \Docker\API\Exception\ContainerCreateNotFoundException
-     * @throws \Docker\API\Exception\ContainerCreateNotAcceptableException
      * @throws \Docker\API\Exception\ContainerCreateConflictException
      * @throws \Docker\API\Exception\ContainerCreateInternalServerErrorException
      *
@@ -109,9 +108,6 @@ trait ContainerAsyncResourceTrait
                 }
                 if (404 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerCreateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (406 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\ContainerCreateNotAcceptableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
                 }
                 if (409 === $response->getStatus()) {
                     throw new \Docker\API\Exception\ContainerCreateConflictException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));

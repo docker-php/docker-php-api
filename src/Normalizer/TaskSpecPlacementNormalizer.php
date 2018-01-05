@@ -55,7 +55,7 @@ class TaskSpecPlacementNormalizer implements DenormalizerInterface, NormalizerIn
         if (property_exists($data, 'Platforms') && $data->{'Platforms'} !== null) {
             $values_2 = [];
             foreach ($data->{'Platforms'} as $value_2) {
-                $values_2[] = $this->denormalizer->denormalize($value_2, 'Docker\\API\\Model\\TaskSpecPlacementPlatformsItem', 'json', $context);
+                $values_2[] = $this->denormalizer->denormalize($value_2, 'Docker\\API\\Model\\Platform', 'json', $context);
             }
             $object->setPlatforms($values_2);
         }

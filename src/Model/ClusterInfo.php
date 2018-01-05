@@ -32,10 +32,18 @@ class ClusterInfo
      */
     protected $version;
     /**
+     * Date and time at which the swarm was initialised in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @var string
      */
     protected $createdAt;
     /**
+     * Date and time at which the swarm was last updated in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @var string
      */
     protected $updatedAt;
@@ -121,6 +129,10 @@ class ClusterInfo
     }
 
     /**
+     * Date and time at which the swarm was initialised in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @return string
      */
     public function getCreatedAt(): ?string
@@ -129,6 +141,10 @@ class ClusterInfo
     }
 
     /**
+     * Date and time at which the swarm was initialised in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @param string $createdAt
      *
      * @return self
@@ -141,6 +157,10 @@ class ClusterInfo
     }
 
     /**
+     * Date and time at which the swarm was last updated in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @return string
      */
     public function getUpdatedAt(): ?string
@@ -149,6 +169,10 @@ class ClusterInfo
     }
 
     /**
+     * Date and time at which the swarm was last updated in.
+    [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+     *
      * @param string $updatedAt
      *
      * @return self

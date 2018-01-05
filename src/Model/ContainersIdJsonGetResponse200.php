@@ -133,9 +133,9 @@ class ContainersIdJsonGetResponse200
      */
     protected $config;
     /**
-     * TODO: check is correct.
+     * NetworkSettings exposes the network settings in the API.
      *
-     * @var NetworkConfig
+     * @var NetworkSettings
      */
     protected $networkSettings;
 
@@ -668,23 +668,23 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
-     * TODO: check is correct.
+     * NetworkSettings exposes the network settings in the API.
      *
-     * @return NetworkConfig
+     * @return NetworkSettings
      */
-    public function getNetworkSettings(): ?NetworkConfig
+    public function getNetworkSettings(): ?NetworkSettings
     {
         return $this->networkSettings;
     }
 
     /**
-     * TODO: check is correct.
+     * NetworkSettings exposes the network settings in the API.
      *
-     * @param NetworkConfig $networkSettings
+     * @param NetworkSettings $networkSettings
      *
      * @return self
      */
-    public function setNetworkSettings(?NetworkConfig $networkSettings): self
+    public function setNetworkSettings(?NetworkSettings $networkSettings): self
     {
         $this->networkSettings = $networkSettings;
 

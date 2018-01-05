@@ -13,15 +13,23 @@ namespace Docker\API\Model;
 class SwarmSpecTaskDefaultsLogDriver
 {
     /**
+     * The log driver to use as a default for new tasks.
+     *
      * @var string
      */
     protected $name;
     /**
+     * Driver-specific options for the selectd log driver, specified.
+    as key/value pairs.
+
+     *
      * @var string[]
      */
     protected $options;
 
     /**
+     * The log driver to use as a default for new tasks.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -30,6 +38,8 @@ class SwarmSpecTaskDefaultsLogDriver
     }
 
     /**
+     * The log driver to use as a default for new tasks.
+     *
      * @param string $name
      *
      * @return self
@@ -42,6 +52,10 @@ class SwarmSpecTaskDefaultsLogDriver
     }
 
     /**
+     * Driver-specific options for the selectd log driver, specified.
+    as key/value pairs.
+
+     *
      * @return string[]
      */
     public function getOptions(): ?\ArrayObject
@@ -50,6 +64,10 @@ class SwarmSpecTaskDefaultsLogDriver
     }
 
     /**
+     * Driver-specific options for the selectd log driver, specified.
+    as key/value pairs.
+
+     *
      * @param string[] $options
      *
      * @return self

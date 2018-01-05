@@ -75,7 +75,6 @@ trait ContainerResourceTrait
      *
      * @throws \Docker\API\Exception\ContainerCreateBadRequestException
      * @throws \Docker\API\Exception\ContainerCreateNotFoundException
-     * @throws \Docker\API\Exception\ContainerCreateNotAcceptableException
      * @throws \Docker\API\Exception\ContainerCreateConflictException
      * @throws \Docker\API\Exception\ContainerCreateInternalServerErrorException
      *
@@ -100,9 +99,6 @@ trait ContainerResourceTrait
             }
             if (404 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ContainerCreateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (406 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerCreateNotAcceptableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
             }
             if (409 === $response->getStatusCode()) {
                 throw new \Docker\API\Exception\ContainerCreateConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));

@@ -72,6 +72,13 @@ class TaskNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
         if (property_exists($data, 'NodeID') && $data->{'NodeID'} !== null) {
             $object->setNodeID($data->{'NodeID'});
         }
+        if (property_exists($data, 'AssignedGenericResources') && $data->{'AssignedGenericResources'} !== null) {
+            $values_1 = [];
+            foreach ($data->{'AssignedGenericResources'} as $value_1) {
+                $values_1[] = $this->denormalizer->denormalize($value_1, 'Docker\\API\\Model\\GenericResourcesItem', 'json', $context);
+            }
+            $object->setAssignedGenericResources($values_1);
+        }
         if (property_exists($data, 'Status') && $data->{'Status'} !== null) {
             $object->setStatus($this->denormalizer->denormalize($data->{'Status'}, 'Docker\\API\\Model\\TaskStatus', 'json', $context));
         }
@@ -118,6 +125,13 @@ class TaskNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
         }
         if (null !== $object->getNodeID()) {
             $data->{'NodeID'} = $object->getNodeID();
+        }
+        if (null !== $object->getAssignedGenericResources()) {
+            $values_1 = [];
+            foreach ($object->getAssignedGenericResources() as $value_1) {
+                $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
+            }
+            $data->{'AssignedGenericResources'} = $values_1;
         }
         if (null !== $object->getStatus()) {
             $data->{'Status'} = $this->normalizer->normalize($object->getStatus(), 'json', $context);

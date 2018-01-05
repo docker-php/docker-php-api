@@ -74,6 +74,12 @@ class Task
      */
     protected $nodeID;
     /**
+     * User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`).
+     *
+     * @var GenericResourcesItem[]
+     */
+    protected $assignedGenericResources;
+    /**
      * @var TaskStatus
      */
     protected $status;
@@ -320,6 +326,30 @@ class Task
     public function setNodeID(?string $nodeID): self
     {
         $this->nodeID = $nodeID;
+
+        return $this;
+    }
+
+    /**
+     * User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`).
+     *
+     * @return GenericResourcesItem[]
+     */
+    public function getAssignedGenericResources(): ?array
+    {
+        return $this->assignedGenericResources;
+    }
+
+    /**
+     * User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`).
+     *
+     * @param GenericResourcesItem[] $assignedGenericResources
+     *
+     * @return self
+     */
+    public function setAssignedGenericResources(?array $assignedGenericResources): self
+    {
+        $this->assignedGenericResources = $assignedGenericResources;
 
         return $this;
     }

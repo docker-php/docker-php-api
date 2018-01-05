@@ -13,36 +13,36 @@ namespace Docker\API\Model;
 class TaskSpecResources
 {
     /**
-     * Define resources limits.
+     * An object describing the resources which can be advertised by a node and requested by a task.
      *
-     * @var TaskSpecResourcesLimits
+     * @var ResourceObject
      */
     protected $limits;
     /**
-     * Define resources reservation.
+     * An object describing the resources which can be advertised by a node and requested by a task.
      *
-     * @var TaskSpecResourcesReservation
+     * @var ResourceObject
      */
     protected $reservation;
 
     /**
-     * Define resources limits.
+     * An object describing the resources which can be advertised by a node and requested by a task.
      *
-     * @return TaskSpecResourcesLimits
+     * @return ResourceObject
      */
-    public function getLimits(): ?TaskSpecResourcesLimits
+    public function getLimits(): ?ResourceObject
     {
         return $this->limits;
     }
 
     /**
-     * Define resources limits.
+     * An object describing the resources which can be advertised by a node and requested by a task.
      *
-     * @param TaskSpecResourcesLimits $limits
+     * @param ResourceObject $limits
      *
      * @return self
      */
-    public function setLimits(?TaskSpecResourcesLimits $limits): self
+    public function setLimits(?ResourceObject $limits): self
     {
         $this->limits = $limits;
 
@@ -50,23 +50,23 @@ class TaskSpecResources
     }
 
     /**
-     * Define resources reservation.
+     * An object describing the resources which can be advertised by a node and requested by a task.
      *
-     * @return TaskSpecResourcesReservation
+     * @return ResourceObject
      */
-    public function getReservation(): ?TaskSpecResourcesReservation
+    public function getReservation(): ?ResourceObject
     {
         return $this->reservation;
     }
 
     /**
-     * Define resources reservation.
+     * An object describing the resources which can be advertised by a node and requested by a task.
      *
-     * @param TaskSpecResourcesReservation $reservation
+     * @param ResourceObject $reservation
      *
      * @return self
      */
-    public function setReservation(?TaskSpecResourcesReservation $reservation): self
+    public function setReservation(?ResourceObject $reservation): self
     {
         $this->reservation = $reservation;
 

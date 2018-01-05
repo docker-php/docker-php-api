@@ -67,6 +67,10 @@ class Volume
      */
     protected $options;
     /**
+     * Usage details about the volume. This information is used by the.
+    `GET /system/df` endpoint, and omitted in other endpoints.
+
+     *
      * @var VolumeUsageData
      */
     protected $usageData;
@@ -276,6 +280,10 @@ class Volume
     }
 
     /**
+     * Usage details about the volume. This information is used by the.
+    `GET /system/df` endpoint, and omitted in other endpoints.
+
+     *
      * @return VolumeUsageData
      */
     public function getUsageData(): ?VolumeUsageData
@@ -284,6 +292,10 @@ class Volume
     }
 
     /**
+     * Usage details about the volume. This information is used by the.
+    `GET /system/df` endpoint, and omitted in other endpoints.
+
+     *
      * @param VolumeUsageData $usageData
      *
      * @return self

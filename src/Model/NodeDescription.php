@@ -17,21 +17,27 @@ class NodeDescription
      */
     protected $hostname;
     /**
-     * @var NodeDescriptionPlatform
+     * Platform represents the platform (Arch/OS).
+     *
+     * @var Platform
      */
     protected $platform;
     /**
-     * @var NodeDescriptionResources
+     * An object describing the resources which can be advertised by a node and requested by a task.
+     *
+     * @var ResourceObject
      */
     protected $resources;
     /**
-     * @var NodeDescriptionEngine
+     * EngineDescription provides information about an engine.
+     *
+     * @var EngineDescription
      */
     protected $engine;
     /**
-     * User modifiable swarm configuration.
+     * Information about the issuer of leaf TLS certificates and the trusted root CA certificate.
      *
-     * @var SwarmSpec
+     * @var TLSInfo
      */
     protected $tLSInfo;
 
@@ -56,19 +62,23 @@ class NodeDescription
     }
 
     /**
-     * @return NodeDescriptionPlatform
+     * Platform represents the platform (Arch/OS).
+     *
+     * @return Platform
      */
-    public function getPlatform(): ?NodeDescriptionPlatform
+    public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
 
     /**
-     * @param NodeDescriptionPlatform $platform
+     * Platform represents the platform (Arch/OS).
+     *
+     * @param Platform $platform
      *
      * @return self
      */
-    public function setPlatform(?NodeDescriptionPlatform $platform): self
+    public function setPlatform(?Platform $platform): self
     {
         $this->platform = $platform;
 
@@ -76,19 +86,23 @@ class NodeDescription
     }
 
     /**
-     * @return NodeDescriptionResources
+     * An object describing the resources which can be advertised by a node and requested by a task.
+     *
+     * @return ResourceObject
      */
-    public function getResources(): ?NodeDescriptionResources
+    public function getResources(): ?ResourceObject
     {
         return $this->resources;
     }
 
     /**
-     * @param NodeDescriptionResources $resources
+     * An object describing the resources which can be advertised by a node and requested by a task.
+     *
+     * @param ResourceObject $resources
      *
      * @return self
      */
-    public function setResources(?NodeDescriptionResources $resources): self
+    public function setResources(?ResourceObject $resources): self
     {
         $this->resources = $resources;
 
@@ -96,19 +110,23 @@ class NodeDescription
     }
 
     /**
-     * @return NodeDescriptionEngine
+     * EngineDescription provides information about an engine.
+     *
+     * @return EngineDescription
      */
-    public function getEngine(): ?NodeDescriptionEngine
+    public function getEngine(): ?EngineDescription
     {
         return $this->engine;
     }
 
     /**
-     * @param NodeDescriptionEngine $engine
+     * EngineDescription provides information about an engine.
+     *
+     * @param EngineDescription $engine
      *
      * @return self
      */
-    public function setEngine(?NodeDescriptionEngine $engine): self
+    public function setEngine(?EngineDescription $engine): self
     {
         $this->engine = $engine;
 
@@ -116,23 +134,23 @@ class NodeDescription
     }
 
     /**
-     * User modifiable swarm configuration.
+     * Information about the issuer of leaf TLS certificates and the trusted root CA certificate.
      *
-     * @return SwarmSpec
+     * @return TLSInfo
      */
-    public function getTLSInfo(): ?SwarmSpec
+    public function getTLSInfo(): ?TLSInfo
     {
         return $this->tLSInfo;
     }
 
     /**
-     * User modifiable swarm configuration.
+     * Information about the issuer of leaf TLS certificates and the trusted root CA certificate.
      *
-     * @param SwarmSpec $tLSInfo
+     * @param TLSInfo $tLSInfo
      *
      * @return self
      */
-    public function setTLSInfo(?SwarmSpec $tLSInfo): self
+    public function setTLSInfo(?TLSInfo $tLSInfo): self
     {
         $this->tLSInfo = $tLSInfo;
 

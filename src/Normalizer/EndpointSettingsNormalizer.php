@@ -39,7 +39,7 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
         }
         $object = new \Docker\API\Model\EndpointSettings();
         if (property_exists($data, 'IPAMConfig') && $data->{'IPAMConfig'} !== null) {
-            $object->setIPAMConfig($this->denormalizer->denormalize($data->{'IPAMConfig'}, 'Docker\\API\\Model\\EndpointSettingsIPAMConfig', 'json', $context));
+            $object->setIPAMConfig($this->denormalizer->denormalize($data->{'IPAMConfig'}, 'Docker\\API\\Model\\EndpointIPAMConfig', 'json', $context));
         }
         if (property_exists($data, 'Links') && $data->{'Links'} !== null) {
             $values = [];
@@ -81,6 +81,13 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
         }
         if (property_exists($data, 'MacAddress') && $data->{'MacAddress'} !== null) {
             $object->setMacAddress($data->{'MacAddress'});
+        }
+        if (property_exists($data, 'DriverOpts') && $data->{'DriverOpts'} !== null) {
+            $values_2 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data->{'DriverOpts'} as $key => $value_2) {
+                $values_2[$key] = $value_2;
+            }
+            $object->setDriverOpts($values_2);
         }
 
         return $object;
@@ -132,6 +139,13 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
         }
         if (null !== $object->getMacAddress()) {
             $data->{'MacAddress'} = $object->getMacAddress();
+        }
+        if (null !== $object->getDriverOpts()) {
+            $values_2 = new \stdClass();
+            foreach ($object->getDriverOpts() as $key => $value_2) {
+                $values_2->{$key} = $value_2;
+            }
+            $data->{'DriverOpts'} = $values_2;
         }
 
         return $data;

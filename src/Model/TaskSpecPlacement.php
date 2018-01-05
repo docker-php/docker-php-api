@@ -25,9 +25,13 @@ class TaskSpecPlacement
      */
     protected $preferences;
     /**
-     * An array of supported platforms.
+     * Platforms stores all the platforms that the service's image can.
+    run on. This field is used in the platform filter for scheduling.
+    If empty, then the platform filter is off, meaning there are no
+    scheduling restrictions.
+
      *
-     * @var TaskSpecPlacementPlatformsItem[]
+     * @var Platform[]
      */
     protected $platforms;
 
@@ -80,9 +84,13 @@ class TaskSpecPlacement
     }
 
     /**
-     * An array of supported platforms.
+     * Platforms stores all the platforms that the service's image can.
+    run on. This field is used in the platform filter for scheduling.
+    If empty, then the platform filter is off, meaning there are no
+    scheduling restrictions.
+
      *
-     * @return TaskSpecPlacementPlatformsItem[]
+     * @return Platform[]
      */
     public function getPlatforms(): ?array
     {
@@ -90,9 +98,13 @@ class TaskSpecPlacement
     }
 
     /**
-     * An array of supported platforms.
+     * Platforms stores all the platforms that the service's image can.
+    run on. This field is used in the platform filter for scheduling.
+    If empty, then the platform filter is off, meaning there are no
+    scheduling restrictions.
+
      *
-     * @param TaskSpecPlacementPlatformsItem[] $platforms
+     * @param Platform[] $platforms
      *
      * @return self
      */

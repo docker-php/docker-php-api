@@ -61,7 +61,7 @@ trait SystemAsyncResourceTrait
      *
      * @throws \Docker\API\Exception\SystemInfoInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\InfoGetResponse200>
+     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\SystemInfo>
      */
     public function systemInfo(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
     {
@@ -77,7 +77,7 @@ trait SystemAsyncResourceTrait
             $response = (yield $this->httpClient->request($request, [], $cancellationToken));
             if (self::FETCH_OBJECT === $fetch) {
                 if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\InfoGetResponse200', 'json');
+                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SystemInfo', 'json');
                 }
                 if (500 === $response->getStatus()) {
                     throw new \Docker\API\Exception\SystemInfoInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
