@@ -13,35 +13,56 @@ namespace Docker\API\Model;
 class Mount
 {
     /**
+     * Container path.
+     *
      * @var string
      */
     protected $target;
     /**
+     * Mount source (e.g. a volume name, a host path).
+     *
      * @var mixed
      */
     protected $source;
     /**
+     * The mount type. Available types:.
+
+    - `bind` Mounts a file or directory from the host into the container. Must exist prior to creating the container.
+    - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed.
+    - `tmpfs` Create a tmpfs with the given options. The mount source cannot be specified for tmpfs.
+
+     *
      * @var string
      */
     protected $type;
     /**
+     * Whether the mount should be read-only.
+     *
      * @var bool
      */
     protected $readOnly;
     /**
+     * Optional configuration for the `bind` type.
+     *
      * @var MountBindOptions
      */
     protected $bindOptions;
     /**
+     * Optional configuration for the `volume` type.
+     *
      * @var MountVolumeOptions
      */
     protected $volumeOptions;
     /**
+     * Optional configuration for the `tmpfs` type.
+     *
      * @var MountTmpfsOptions
      */
     protected $tmpfsOptions;
 
     /**
+     * Container path.
+     *
      * @return string
      */
     public function getTarget(): ?string
@@ -50,6 +71,8 @@ class Mount
     }
 
     /**
+     * Container path.
+     *
      * @param string $target
      *
      * @return self
@@ -62,6 +85,8 @@ class Mount
     }
 
     /**
+     * Mount source (e.g. a volume name, a host path).
+     *
      * @return mixed
      */
     public function getSource()
@@ -70,6 +95,8 @@ class Mount
     }
 
     /**
+     * Mount source (e.g. a volume name, a host path).
+     *
      * @param mixed $source
      *
      * @return self
@@ -82,6 +109,13 @@ class Mount
     }
 
     /**
+     * The mount type. Available types:.
+
+    - `bind` Mounts a file or directory from the host into the container. Must exist prior to creating the container.
+    - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed.
+    - `tmpfs` Create a tmpfs with the given options. The mount source cannot be specified for tmpfs.
+
+     *
      * @return string
      */
     public function getType(): ?string
@@ -90,6 +124,13 @@ class Mount
     }
 
     /**
+     * The mount type. Available types:.
+
+    - `bind` Mounts a file or directory from the host into the container. Must exist prior to creating the container.
+    - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed.
+    - `tmpfs` Create a tmpfs with the given options. The mount source cannot be specified for tmpfs.
+
+     *
      * @param string $type
      *
      * @return self
@@ -102,6 +143,8 @@ class Mount
     }
 
     /**
+     * Whether the mount should be read-only.
+     *
      * @return bool
      */
     public function getReadOnly(): ?bool
@@ -110,6 +153,8 @@ class Mount
     }
 
     /**
+     * Whether the mount should be read-only.
+     *
      * @param bool $readOnly
      *
      * @return self
@@ -122,6 +167,8 @@ class Mount
     }
 
     /**
+     * Optional configuration for the `bind` type.
+     *
      * @return MountBindOptions
      */
     public function getBindOptions(): ?MountBindOptions
@@ -130,6 +177,8 @@ class Mount
     }
 
     /**
+     * Optional configuration for the `bind` type.
+     *
      * @param MountBindOptions $bindOptions
      *
      * @return self
@@ -142,6 +191,8 @@ class Mount
     }
 
     /**
+     * Optional configuration for the `volume` type.
+     *
      * @return MountVolumeOptions
      */
     public function getVolumeOptions(): ?MountVolumeOptions
@@ -150,6 +201,8 @@ class Mount
     }
 
     /**
+     * Optional configuration for the `volume` type.
+     *
      * @param MountVolumeOptions $volumeOptions
      *
      * @return self
@@ -162,6 +215,8 @@ class Mount
     }
 
     /**
+     * Optional configuration for the `tmpfs` type.
+     *
      * @return MountTmpfsOptions
      */
     public function getTmpfsOptions(): ?MountTmpfsOptions
@@ -170,6 +225,8 @@ class Mount
     }
 
     /**
+     * Optional configuration for the `tmpfs` type.
+     *
      * @param MountTmpfsOptions $tmpfsOptions
      *
      * @return self

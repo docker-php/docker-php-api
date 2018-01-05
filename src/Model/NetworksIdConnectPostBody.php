@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class NetworksIdConnectPostBody
 {
     /**
+     * The ID or name of the container to connect to the network.
+     *
      * @var string
      */
     protected $container;
     /**
+     * Configuration for a network endpoint.
+     *
      * @var EndpointSettings
      */
     protected $endpointConfig;
 
     /**
+     * The ID or name of the container to connect to the network.
+     *
      * @return string
      */
     public function getContainer(): ?string
@@ -30,6 +36,8 @@ class NetworksIdConnectPostBody
     }
 
     /**
+     * The ID or name of the container to connect to the network.
+     *
      * @param string $container
      *
      * @return self
@@ -42,6 +50,8 @@ class NetworksIdConnectPostBody
     }
 
     /**
+     * Configuration for a network endpoint.
+     *
      * @return EndpointSettings
      */
     public function getEndpointConfig(): ?EndpointSettings
@@ -50,6 +60,8 @@ class NetworksIdConnectPostBody
     }
 
     /**
+     * Configuration for a network endpoint.
+     *
      * @param EndpointSettings $endpointConfig
      *
      * @return self

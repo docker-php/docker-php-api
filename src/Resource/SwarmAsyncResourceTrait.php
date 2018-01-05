@@ -66,7 +66,7 @@ trait SwarmAsyncResourceTrait
             $queryParam = new QueryParam();
             $url = '/swarm/init';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -109,7 +109,7 @@ trait SwarmAsyncResourceTrait
             $queryParam = new QueryParam();
             $url = '/swarm/join';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -152,7 +152,7 @@ trait SwarmAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('force', false);
+            $queryParam->addQueryParameter('force', false, ['bool'], false);
             $url = '/swarm/leave';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -200,13 +200,13 @@ trait SwarmAsyncResourceTrait
     {
         return \Amp\call(function () use ($body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setRequired('version');
-            $queryParam->setDefault('rotateWorkerToken', false);
-            $queryParam->setDefault('rotateManagerToken', false);
-            $queryParam->setDefault('rotateManagerUnlockKey', false);
+            $queryParam->addQueryParameter('version', true, ['int']);
+            $queryParam->addQueryParameter('rotateWorkerToken', false, ['bool'], false);
+            $queryParam->addQueryParameter('rotateManagerToken', false, ['bool'], false);
+            $queryParam->addQueryParameter('rotateManagerUnlockKey', false, ['bool'], false);
             $url = '/swarm/update';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -281,7 +281,7 @@ trait SwarmAsyncResourceTrait
             $queryParam = new QueryParam();
             $url = '/swarm/unlock';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

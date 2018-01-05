@@ -29,6 +29,8 @@ class Service
      */
     protected $updatedAt;
     /**
+     * User modifiable configuration for a service.
+     *
      * @var ServiceSpec
      */
     protected $spec;
@@ -37,6 +39,8 @@ class Service
      */
     protected $endpoint;
     /**
+     * The status of a service update.
+     *
      * @var ServiceUpdateStatus
      */
     protected $updateStatus;
@@ -122,6 +126,8 @@ class Service
     }
 
     /**
+     * User modifiable configuration for a service.
+     *
      * @return ServiceSpec
      */
     public function getSpec(): ?ServiceSpec
@@ -130,6 +136,8 @@ class Service
     }
 
     /**
+     * User modifiable configuration for a service.
+     *
      * @param ServiceSpec $spec
      *
      * @return self
@@ -162,6 +170,8 @@ class Service
     }
 
     /**
+     * The status of a service update.
+     *
      * @return ServiceUpdateStatus
      */
     public function getUpdateStatus(): ?ServiceUpdateStatus
@@ -170,6 +180,8 @@ class Service
     }
 
     /**
+     * The status of a service update.
+     *
      * @param ServiceUpdateStatus $updateStatus
      *
      * @return self

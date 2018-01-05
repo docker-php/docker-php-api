@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class ErrorResponse
 {
     /**
+     * The error message.
+     *
      * @var string
      */
     protected $message;
 
     /**
+     * The error message.
+     *
      * @return string
      */
     public function getMessage(): ?string
@@ -26,6 +30,8 @@ class ErrorResponse
     }
 
     /**
+     * The error message.
+     *
      * @param string $message
      *
      * @return self

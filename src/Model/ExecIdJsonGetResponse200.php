@@ -45,6 +45,8 @@ class ExecIdJsonGetResponse200
      */
     protected $containerID;
     /**
+     * The system process ID for the exec process.
+     *
      * @var int
      */
     protected $pid;
@@ -210,6 +212,8 @@ class ExecIdJsonGetResponse200
     }
 
     /**
+     * The system process ID for the exec process.
+     *
      * @return int
      */
     public function getPid(): ?int
@@ -218,6 +222,8 @@ class ExecIdJsonGetResponse200
     }
 
     /**
+     * The system process ID for the exec process.
+     *
      * @param int $pid
      *
      * @return self

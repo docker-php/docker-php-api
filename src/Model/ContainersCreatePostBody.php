@@ -13,115 +13,177 @@ namespace Docker\API\Model;
 class ContainersCreatePostBody
 {
     /**
+     * The hostname to use for the container, as a valid RFC 1123 hostname.
+     *
      * @var string
      */
     protected $hostname;
     /**
+     * The domain name to use for the container.
+     *
      * @var string
      */
     protected $domainname;
     /**
+     * The user that commands are run as inside the container.
+     *
      * @var string
      */
     protected $user;
     /**
+     * Whether to attach to `stdin`.
+     *
      * @var bool
      */
     protected $attachStdin;
     /**
+     * Whether to attach to `stdout`.
+     *
      * @var bool
      */
     protected $attachStdout;
     /**
+     * Whether to attach to `stderr`.
+     *
      * @var bool
      */
     protected $attachStderr;
     /**
+     * An object mapping ports to an empty object in the form:.
+
+    `{"<port>/<tcp|udp>": {}}`
+
+     *
      * @var mixed[]
      */
     protected $exposedPorts;
     /**
+     * Attach standard streams to a TTY, including `stdin` if it is not closed.
+     *
      * @var bool
      */
     protected $tty;
     /**
+     * Open `stdin`.
+     *
      * @var bool
      */
     protected $openStdin;
     /**
+     * Close `stdin` after one attached client disconnects.
+     *
      * @var bool
      */
     protected $stdinOnce;
     /**
+     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`.
+     *
      * @var string[]
      */
     protected $env;
     /**
+     * Command to run specified as a string or an array of strings.
+     *
      * @var string[]|string
      */
     protected $cmd;
     /**
+     * A test to perform to check that the container is healthy.
+     *
      * @var ConfigHealthcheck
      */
     protected $healthcheck;
     /**
+     * Command is already escaped (Windows only).
+     *
      * @var bool
      */
     protected $argsEscaped;
     /**
+     * The name of the image to use when creating the container.
+     *
      * @var string
      */
     protected $image;
     /**
+     * An object mapping mount point paths inside the container to empty objects.
+     *
      * @var ConfigVolumes
      */
     protected $volumes;
     /**
+     * The working directory for commands to run in.
+     *
      * @var string
      */
     protected $workingDir;
     /**
+     * The entry point for the container as a string or an array of strings.
+
+    If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
+
+     *
      * @var string[]|string
      */
     protected $entrypoint;
     /**
+     * Disable networking for the container.
+     *
      * @var bool
      */
     protected $networkDisabled;
     /**
+     * MAC address of the container.
+     *
      * @var string
      */
     protected $macAddress;
     /**
+     * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
+     *
      * @var string[]
      */
     protected $onBuild;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * Signal to stop a container as a string or unsigned integer.
+     *
      * @var string
      */
     protected $stopSignal;
     /**
+     * Timeout to stop a container in seconds.
+     *
      * @var int
      */
     protected $stopTimeout;
     /**
+     * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
+     *
      * @var string[]
      */
     protected $shell;
     /**
+     * Container configuration that depends on the host we are running on.
+     *
      * @var HostConfig
      */
     protected $hostConfig;
     /**
+     * This container's networking configuration.
+     *
      * @var ContainersCreatePostBodyNetworkingConfig
      */
     protected $networkingConfig;
 
     /**
+     * The hostname to use for the container, as a valid RFC 1123 hostname.
+     *
      * @return string
      */
     public function getHostname(): ?string
@@ -130,6 +192,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The hostname to use for the container, as a valid RFC 1123 hostname.
+     *
      * @param string $hostname
      *
      * @return self
@@ -142,6 +206,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The domain name to use for the container.
+     *
      * @return string
      */
     public function getDomainname(): ?string
@@ -150,6 +216,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The domain name to use for the container.
+     *
      * @param string $domainname
      *
      * @return self
@@ -162,6 +230,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The user that commands are run as inside the container.
+     *
      * @return string
      */
     public function getUser(): ?string
@@ -170,6 +240,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The user that commands are run as inside the container.
+     *
      * @param string $user
      *
      * @return self
@@ -182,6 +254,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Whether to attach to `stdin`.
+     *
      * @return bool
      */
     public function getAttachStdin(): ?bool
@@ -190,6 +264,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Whether to attach to `stdin`.
+     *
      * @param bool $attachStdin
      *
      * @return self
@@ -202,6 +278,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Whether to attach to `stdout`.
+     *
      * @return bool
      */
     public function getAttachStdout(): ?bool
@@ -210,6 +288,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Whether to attach to `stdout`.
+     *
      * @param bool $attachStdout
      *
      * @return self
@@ -222,6 +302,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Whether to attach to `stderr`.
+     *
      * @return bool
      */
     public function getAttachStderr(): ?bool
@@ -230,6 +312,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Whether to attach to `stderr`.
+     *
      * @param bool $attachStderr
      *
      * @return self
@@ -242,6 +326,11 @@ class ContainersCreatePostBody
     }
 
     /**
+     * An object mapping ports to an empty object in the form:.
+
+    `{"<port>/<tcp|udp>": {}}`
+
+     *
      * @return mixed[]
      */
     public function getExposedPorts(): ?\ArrayObject
@@ -250,6 +339,11 @@ class ContainersCreatePostBody
     }
 
     /**
+     * An object mapping ports to an empty object in the form:.
+
+    `{"<port>/<tcp|udp>": {}}`
+
+     *
      * @param mixed[] $exposedPorts
      *
      * @return self
@@ -262,6 +356,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Attach standard streams to a TTY, including `stdin` if it is not closed.
+     *
      * @return bool
      */
     public function getTty(): ?bool
@@ -270,6 +366,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Attach standard streams to a TTY, including `stdin` if it is not closed.
+     *
      * @param bool $tty
      *
      * @return self
@@ -282,6 +380,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Open `stdin`.
+     *
      * @return bool
      */
     public function getOpenStdin(): ?bool
@@ -290,6 +390,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Open `stdin`.
+     *
      * @param bool $openStdin
      *
      * @return self
@@ -302,6 +404,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Close `stdin` after one attached client disconnects.
+     *
      * @return bool
      */
     public function getStdinOnce(): ?bool
@@ -310,6 +414,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Close `stdin` after one attached client disconnects.
+     *
      * @param bool $stdinOnce
      *
      * @return self
@@ -322,6 +428,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`.
+     *
      * @return string[]
      */
     public function getEnv(): ?array
@@ -330,6 +438,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * A list of environment variables to set inside the container in the form `["VAR=value", ...]`.
+     *
      * @param string[] $env
      *
      * @return self
@@ -342,6 +452,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Command to run specified as a string or an array of strings.
+     *
      * @return string[]|string
      */
     public function getCmd()
@@ -350,6 +462,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Command to run specified as a string or an array of strings.
+     *
      * @param string[]|string $cmd
      *
      * @return self
@@ -362,6 +476,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * A test to perform to check that the container is healthy.
+     *
      * @return ConfigHealthcheck
      */
     public function getHealthcheck(): ?ConfigHealthcheck
@@ -370,6 +486,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * A test to perform to check that the container is healthy.
+     *
      * @param ConfigHealthcheck $healthcheck
      *
      * @return self
@@ -382,6 +500,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Command is already escaped (Windows only).
+     *
      * @return bool
      */
     public function getArgsEscaped(): ?bool
@@ -390,6 +510,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Command is already escaped (Windows only).
+     *
      * @param bool $argsEscaped
      *
      * @return self
@@ -402,6 +524,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The name of the image to use when creating the container.
+     *
      * @return string
      */
     public function getImage(): ?string
@@ -410,6 +534,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The name of the image to use when creating the container.
+     *
      * @param string $image
      *
      * @return self
@@ -422,6 +548,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * An object mapping mount point paths inside the container to empty objects.
+     *
      * @return ConfigVolumes
      */
     public function getVolumes(): ?ConfigVolumes
@@ -430,6 +558,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * An object mapping mount point paths inside the container to empty objects.
+     *
      * @param ConfigVolumes $volumes
      *
      * @return self
@@ -442,6 +572,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The working directory for commands to run in.
+     *
      * @return string
      */
     public function getWorkingDir(): ?string
@@ -450,6 +582,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The working directory for commands to run in.
+     *
      * @param string $workingDir
      *
      * @return self
@@ -462,6 +596,11 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The entry point for the container as a string or an array of strings.
+
+    If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
+
+     *
      * @return string[]|string
      */
     public function getEntrypoint()
@@ -470,6 +609,11 @@ class ContainersCreatePostBody
     }
 
     /**
+     * The entry point for the container as a string or an array of strings.
+
+    If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
+
+     *
      * @param string[]|string $entrypoint
      *
      * @return self
@@ -482,6 +626,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Disable networking for the container.
+     *
      * @return bool
      */
     public function getNetworkDisabled(): ?bool
@@ -490,6 +636,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Disable networking for the container.
+     *
      * @param bool $networkDisabled
      *
      * @return self
@@ -502,6 +650,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * MAC address of the container.
+     *
      * @return string
      */
     public function getMacAddress(): ?string
@@ -510,6 +660,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * MAC address of the container.
+     *
      * @param string $macAddress
      *
      * @return self
@@ -522,6 +674,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
+     *
      * @return string[]
      */
     public function getOnBuild(): ?array
@@ -530,6 +684,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
+     *
      * @param string[] $onBuild
      *
      * @return self
@@ -542,6 +698,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -550,6 +708,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -562,6 +722,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Signal to stop a container as a string or unsigned integer.
+     *
      * @return string
      */
     public function getStopSignal(): ?string
@@ -570,6 +732,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Signal to stop a container as a string or unsigned integer.
+     *
      * @param string $stopSignal
      *
      * @return self
@@ -582,6 +746,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Timeout to stop a container in seconds.
+     *
      * @return int
      */
     public function getStopTimeout(): ?int
@@ -590,6 +756,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Timeout to stop a container in seconds.
+     *
      * @param int $stopTimeout
      *
      * @return self
@@ -602,6 +770,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
+     *
      * @return string[]
      */
     public function getShell(): ?array
@@ -610,6 +780,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
+     *
      * @param string[] $shell
      *
      * @return self
@@ -622,6 +794,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Container configuration that depends on the host we are running on.
+     *
      * @return HostConfig
      */
     public function getHostConfig(): ?HostConfig
@@ -630,6 +804,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * Container configuration that depends on the host we are running on.
+     *
      * @param HostConfig $hostConfig
      *
      * @return self
@@ -642,6 +818,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * This container's networking configuration.
+     *
      * @return ContainersCreatePostBodyNetworkingConfig
      */
     public function getNetworkingConfig(): ?ContainersCreatePostBodyNetworkingConfig
@@ -650,6 +828,8 @@ class ContainersCreatePostBody
     }
 
     /**
+     * This container's networking configuration.
+     *
      * @param ContainersCreatePostBodyNetworkingConfig $networkingConfig
      *
      * @return self

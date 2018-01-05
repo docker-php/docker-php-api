@@ -13,19 +13,27 @@ namespace Docker\API\Model;
 class IPAM
 {
     /**
+     * Name of the IPAM driver to use.
+     *
      * @var string
      */
     protected $driver;
     /**
+     * List of IPAM configuration options, specified as a map: `{"Subnet": <CIDR>, "IPRange": <CIDR>, "Gateway": <IP address>, "AuxAddress": <device_name:IP address>}`.
+     *
      * @var string[][]
      */
     protected $config;
     /**
+     * Driver-specific options, specified as a map.
+     *
      * @var string[][]
      */
     protected $options;
 
     /**
+     * Name of the IPAM driver to use.
+     *
      * @return string
      */
     public function getDriver(): ?string
@@ -34,6 +42,8 @@ class IPAM
     }
 
     /**
+     * Name of the IPAM driver to use.
+     *
      * @param string $driver
      *
      * @return self
@@ -46,6 +56,8 @@ class IPAM
     }
 
     /**
+     * List of IPAM configuration options, specified as a map: `{"Subnet": <CIDR>, "IPRange": <CIDR>, "Gateway": <IP address>, "AuxAddress": <device_name:IP address>}`.
+     *
      * @return string[][]
      */
     public function getConfig(): ?array
@@ -54,6 +66,8 @@ class IPAM
     }
 
     /**
+     * List of IPAM configuration options, specified as a map: `{"Subnet": <CIDR>, "IPRange": <CIDR>, "Gateway": <IP address>, "AuxAddress": <device_name:IP address>}`.
+     *
      * @param string[][] $config
      *
      * @return self
@@ -66,6 +80,8 @@ class IPAM
     }
 
     /**
+     * Driver-specific options, specified as a map.
+     *
      * @return string[][]
      */
     public function getOptions(): ?array
@@ -74,6 +90,8 @@ class IPAM
     }
 
     /**
+     * Driver-specific options, specified as a map.
+     *
      * @param string[][] $options
      *
      * @return self

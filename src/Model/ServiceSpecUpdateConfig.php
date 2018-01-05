@@ -13,27 +13,39 @@ namespace Docker\API\Model;
 class ServiceSpecUpdateConfig
 {
     /**
+     * Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism).
+     *
      * @var int
      */
     protected $parallelism;
     /**
+     * Amount of time between updates, in nanoseconds.
+     *
      * @var int
      */
     protected $delay;
     /**
+     * Action to take if an updated task fails to run, or stops running during the update.
+     *
      * @var string
      */
     protected $failureAction;
     /**
+     * Amount of time to monitor each updated task for failures, in nanoseconds.
+     *
      * @var int
      */
     protected $monitor;
     /**
+     * The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1.
+     *
      * @var float
      */
     protected $maxFailureRatio;
 
     /**
+     * Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism).
+     *
      * @return int
      */
     public function getParallelism(): ?int
@@ -42,6 +54,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism).
+     *
      * @param int $parallelism
      *
      * @return self
@@ -54,6 +68,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * Amount of time between updates, in nanoseconds.
+     *
      * @return int
      */
     public function getDelay(): ?int
@@ -62,6 +78,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * Amount of time between updates, in nanoseconds.
+     *
      * @param int $delay
      *
      * @return self
@@ -74,6 +92,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * Action to take if an updated task fails to run, or stops running during the update.
+     *
      * @return string
      */
     public function getFailureAction(): ?string
@@ -82,6 +102,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * Action to take if an updated task fails to run, or stops running during the update.
+     *
      * @param string $failureAction
      *
      * @return self
@@ -94,6 +116,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * Amount of time to monitor each updated task for failures, in nanoseconds.
+     *
      * @return int
      */
     public function getMonitor(): ?int
@@ -102,6 +126,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * Amount of time to monitor each updated task for failures, in nanoseconds.
+     *
      * @param int $monitor
      *
      * @return self
@@ -114,6 +140,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1.
+     *
      * @return float
      */
     public function getMaxFailureRatio(): ?float
@@ -122,6 +150,8 @@ class ServiceSpecUpdateConfig
     }
 
     /**
+     * The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1.
+     *
      * @param float $maxFailureRatio
      *
      * @return self

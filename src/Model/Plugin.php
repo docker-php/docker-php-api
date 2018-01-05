@@ -21,14 +21,20 @@ class Plugin
      */
     protected $name;
     /**
+     * True when the plugin is running. False when the plugin is not running, only installed.
+     *
      * @var bool
      */
     protected $enabled;
     /**
+     * Settings that can be modified by users.
+     *
      * @var PluginSettings
      */
     protected $settings;
     /**
+     * The config of a plugin.
+     *
      * @var PluginConfig
      */
     protected $config;
@@ -74,6 +80,8 @@ class Plugin
     }
 
     /**
+     * True when the plugin is running. False when the plugin is not running, only installed.
+     *
      * @return bool
      */
     public function getEnabled(): ?bool
@@ -82,6 +90,8 @@ class Plugin
     }
 
     /**
+     * True when the plugin is running. False when the plugin is not running, only installed.
+     *
      * @param bool $enabled
      *
      * @return self
@@ -94,6 +104,8 @@ class Plugin
     }
 
     /**
+     * Settings that can be modified by users.
+     *
      * @return PluginSettings
      */
     public function getSettings(): ?PluginSettings
@@ -102,6 +114,8 @@ class Plugin
     }
 
     /**
+     * Settings that can be modified by users.
+     *
      * @param PluginSettings $settings
      *
      * @return self
@@ -114,6 +128,8 @@ class Plugin
     }
 
     /**
+     * The config of a plugin.
+     *
      * @return PluginConfig
      */
     public function getConfig(): ?PluginConfig
@@ -122,6 +138,8 @@ class Plugin
     }
 
     /**
+     * The config of a plugin.
+     *
      * @param PluginConfig $config
      *
      * @return self

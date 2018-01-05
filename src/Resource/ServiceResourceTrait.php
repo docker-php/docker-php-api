@@ -28,8 +28,8 @@ trait ServiceResourceTrait
      */
     public function serviceList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/services';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -66,12 +66,11 @@ trait ServiceResourceTrait
      */
     public function serviceCreate(\Docker\API\Model\ServicesCreatePostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('X-Registry-Auth', null);
-        $queryParam->setHeaderParameters(['X-Registry-Auth']);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
         $url = '/services/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -108,7 +107,7 @@ trait ServiceResourceTrait
      */
     public function serviceDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/services/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -143,7 +142,7 @@ trait ServiceResourceTrait
      */
     public function serviceInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/services/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -185,15 +184,14 @@ trait ServiceResourceTrait
      */
     public function serviceUpdate(string $id, \Docker\API\Model\ServicesIdUpdatePostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('version');
-        $queryParam->setDefault('registryAuthFrom', 'spec');
-        $queryParam->setDefault('X-Registry-Auth', null);
-        $queryParam->setHeaderParameters(['X-Registry-Auth']);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('version', true, ['int']);
+        $queryParam->addQueryParameter('registryAuthFrom', false, ['string'], 'spec');
+        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
         $url = '/services/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -240,14 +238,14 @@ trait ServiceResourceTrait
      */
     public function serviceLogs(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('details', false);
-        $queryParam->setDefault('follow', false);
-        $queryParam->setDefault('stdout', false);
-        $queryParam->setDefault('stderr', false);
-        $queryParam->setDefault('since', 0);
-        $queryParam->setDefault('timestamps', false);
-        $queryParam->setDefault('tail', 'all');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('details', false, ['bool'], false);
+        $queryParam->addQueryParameter('follow', false, ['bool'], false);
+        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
+        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
+        $queryParam->addQueryParameter('since', false, ['int'], 0);
+        $queryParam->addQueryParameter('timestamps', false, ['bool'], false);
+        $queryParam->addQueryParameter('tail', false, ['string'], 'all');
         $url = '/services/{id}/logs';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));

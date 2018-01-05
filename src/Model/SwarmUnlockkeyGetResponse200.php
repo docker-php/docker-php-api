@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class SwarmUnlockkeyGetResponse200
 {
     /**
+     * The swarm's unlock key.
+     *
      * @var string
      */
     protected $unlockKey;
 
     /**
+     * The swarm's unlock key.
+     *
      * @return string
      */
     public function getUnlockKey(): ?string
@@ -26,6 +30,8 @@ class SwarmUnlockkeyGetResponse200
     }
 
     /**
+     * The swarm's unlock key.
+     *
      * @param string $unlockKey
      *
      * @return self

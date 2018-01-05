@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class NetworksPrunePostResponse200
 {
     /**
+     * Networks that were deleted.
+     *
      * @var string[]
      */
     protected $volumesDeleted;
 
     /**
+     * Networks that were deleted.
+     *
      * @return string[]
      */
     public function getVolumesDeleted(): ?array
@@ -26,6 +30,8 @@ class NetworksPrunePostResponse200
     }
 
     /**
+     * Networks that were deleted.
+     *
      * @param string[] $volumesDeleted
      *
      * @return self

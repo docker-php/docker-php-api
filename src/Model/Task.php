@@ -13,6 +13,8 @@ namespace Docker\API\Model;
 class Task
 {
     /**
+     * The ID of the task.
+     *
      * @var string
      */
     protected $iD;
@@ -29,18 +31,26 @@ class Task
      */
     protected $updatedAt;
     /**
+     * Name of the task.
+     *
      * @var string
      */
     protected $name;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * User modifiable task configuration.
+     *
      * @var TaskSpec
      */
     protected $spec;
     /**
+     * The ID of the service this task is part of.
+     *
      * @var string
      */
     protected $serviceID;
@@ -49,6 +59,8 @@ class Task
      */
     protected $slot;
     /**
+     * The ID of the node that this task is on.
+     *
      * @var string
      */
     protected $nodeID;
@@ -62,6 +74,8 @@ class Task
     protected $desiredState;
 
     /**
+     * The ID of the task.
+     *
      * @return string
      */
     public function getID(): ?string
@@ -70,6 +84,8 @@ class Task
     }
 
     /**
+     * The ID of the task.
+     *
      * @param string $iD
      *
      * @return self
@@ -142,6 +158,8 @@ class Task
     }
 
     /**
+     * Name of the task.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -150,6 +168,8 @@ class Task
     }
 
     /**
+     * Name of the task.
+     *
      * @param string $name
      *
      * @return self
@@ -162,6 +182,8 @@ class Task
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -170,6 +192,8 @@ class Task
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -182,6 +206,8 @@ class Task
     }
 
     /**
+     * User modifiable task configuration.
+     *
      * @return TaskSpec
      */
     public function getSpec(): ?TaskSpec
@@ -190,6 +216,8 @@ class Task
     }
 
     /**
+     * User modifiable task configuration.
+     *
      * @param TaskSpec $spec
      *
      * @return self
@@ -202,6 +230,8 @@ class Task
     }
 
     /**
+     * The ID of the service this task is part of.
+     *
      * @return string
      */
     public function getServiceID(): ?string
@@ -210,6 +240,8 @@ class Task
     }
 
     /**
+     * The ID of the service this task is part of.
+     *
      * @param string $serviceID
      *
      * @return self
@@ -242,6 +274,8 @@ class Task
     }
 
     /**
+     * The ID of the node that this task is on.
+     *
      * @return string
      */
     public function getNodeID(): ?string
@@ -250,6 +284,8 @@ class Task
     }
 
     /**
+     * The ID of the node that this task is on.
+     *
      * @param string $nodeID
      *
      * @return self

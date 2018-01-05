@@ -13,6 +13,8 @@ namespace Docker\API\Model;
 class ServiceEndpoint
 {
     /**
+     * Properties that can be configured to access and load balance a service.
+     *
      * @var EndpointSpec
      */
     protected $spec;
@@ -26,6 +28,8 @@ class ServiceEndpoint
     protected $virtualIPs;
 
     /**
+     * Properties that can be configured to access and load balance a service.
+     *
      * @return EndpointSpec
      */
     public function getSpec(): ?EndpointSpec
@@ -34,6 +38,8 @@ class ServiceEndpoint
     }
 
     /**
+     * Properties that can be configured to access and load balance a service.
+     *
      * @param EndpointSpec $spec
      *
      * @return self

@@ -32,11 +32,11 @@ trait ContainerResourceTrait
      */
     public function containerList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('all', false);
-        $queryParam->setDefault('limit', null);
-        $queryParam->setDefault('size', false);
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('all', false, ['bool'], false);
+        $queryParam->addQueryParameter('limit', false, ['int']);
+        $queryParam->addQueryParameter('size', false, ['bool'], false);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/containers/json';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -77,11 +77,11 @@ trait ContainerResourceTrait
      */
     public function containerCreate(\Docker\API\Model\ContainersCreatePostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('name', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('name', false, ['string']);
         $url = '/containers/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -127,8 +127,8 @@ trait ContainerResourceTrait
      */
     public function containerInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('size', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('size', false, ['bool'], false);
         $url = '/containers/{id}/json';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -169,8 +169,8 @@ trait ContainerResourceTrait
      */
     public function containerTop(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('ps_args', '-ef');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('ps_args', false, ['string'], '-ef');
         $url = '/containers/{id}/top';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -220,13 +220,13 @@ trait ContainerResourceTrait
      */
     public function containerLogs(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('follow', false);
-        $queryParam->setDefault('stdout', false);
-        $queryParam->setDefault('stderr', false);
-        $queryParam->setDefault('since', 0);
-        $queryParam->setDefault('timestamps', false);
-        $queryParam->setDefault('tail', 'all');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('follow', false, ['bool'], false);
+        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
+        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
+        $queryParam->addQueryParameter('since', false, ['int'], 0);
+        $queryParam->addQueryParameter('timestamps', false, ['bool'], false);
+        $queryParam->addQueryParameter('tail', false, ['string'], 'all');
         $url = '/containers/{id}/logs';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -271,7 +271,7 @@ trait ContainerResourceTrait
      */
     public function containerChanges(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/containers/{id}/changes';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -308,7 +308,7 @@ trait ContainerResourceTrait
      */
     public function containerExport(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/containers/{id}/export';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -352,8 +352,8 @@ trait ContainerResourceTrait
      */
     public function containerStats(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('stream', true);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('stream', false, ['bool'], true);
         $url = '/containers/{id}/stats';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -395,9 +395,9 @@ trait ContainerResourceTrait
      */
     public function containerResize(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('h', null);
-        $queryParam->setDefault('w', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('h', false, ['int']);
+        $queryParam->addQueryParameter('w', false, ['int']);
         $url = '/containers/{id}/resize';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -436,8 +436,8 @@ trait ContainerResourceTrait
      */
     public function containerStart(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('detachKeys', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('detachKeys', false, ['string']);
         $url = '/containers/{id}/start';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -479,8 +479,8 @@ trait ContainerResourceTrait
      */
     public function containerStop(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('t', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('t', false, ['int']);
         $url = '/containers/{id}/stop';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -522,8 +522,8 @@ trait ContainerResourceTrait
      */
     public function containerRestart(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('t', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('t', false, ['int']);
         $url = '/containers/{id}/restart';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -564,8 +564,8 @@ trait ContainerResourceTrait
      */
     public function containerKill(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('signal', 'SIGKILL');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('signal', false, ['string'], 'SIGKILL');
         $url = '/containers/{id}/kill';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -603,11 +603,11 @@ trait ContainerResourceTrait
      */
     public function containerUpdate(string $id, \Docker\API\Model\ContainersIdUpdatePostBody $update, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/containers/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($update, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -643,8 +643,8 @@ trait ContainerResourceTrait
      */
     public function containerRename(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('name');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('name', true, ['string']);
         $url = '/containers/{id}/rename';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -687,7 +687,7 @@ trait ContainerResourceTrait
      */
     public function containerPause(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/containers/{id}/pause';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -724,7 +724,7 @@ trait ContainerResourceTrait
      */
     public function containerUnpause(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/containers/{id}/unpause';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -847,13 +847,13 @@ trait ContainerResourceTrait
      */
     public function containerAttach(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('detachKeys', null);
-        $queryParam->setDefault('logs', false);
-        $queryParam->setDefault('stream', false);
-        $queryParam->setDefault('stdin', false);
-        $queryParam->setDefault('stdout', false);
-        $queryParam->setDefault('stderr', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('detachKeys', false, ['string']);
+        $queryParam->addQueryParameter('logs', false, ['bool'], false);
+        $queryParam->addQueryParameter('stream', false, ['bool'], false);
+        $queryParam->addQueryParameter('stdin', false, ['bool'], false);
+        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
+        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
         $url = '/containers/{id}/attach';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -904,13 +904,13 @@ trait ContainerResourceTrait
      */
     public function containerAttachWebsocket(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('detachKeys', null);
-        $queryParam->setDefault('logs', false);
-        $queryParam->setDefault('stream', false);
-        $queryParam->setDefault('stdin', false);
-        $queryParam->setDefault('stdout', false);
-        $queryParam->setDefault('stderr', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('detachKeys', false, ['string']);
+        $queryParam->addQueryParameter('logs', false, ['bool'], false);
+        $queryParam->addQueryParameter('stream', false, ['bool'], false);
+        $queryParam->addQueryParameter('stdin', false, ['bool'], false);
+        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
+        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
         $url = '/containers/{id}/attach/ws';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -953,7 +953,7 @@ trait ContainerResourceTrait
      */
     public function containerWait(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/containers/{id}/wait';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -994,9 +994,9 @@ trait ContainerResourceTrait
      */
     public function containerDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('v', false);
-        $queryParam->setDefault('force', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('v', false, ['bool'], false);
+        $queryParam->addQueryParameter('force', false, ['bool'], false);
         $url = '/containers/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -1041,8 +1041,8 @@ trait ContainerResourceTrait
      */
     public function containerGetArchive(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('path');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('path', true, ['string']);
         $url = '/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -1087,8 +1087,8 @@ trait ContainerResourceTrait
      */
     public function containerArchiveHead(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('path');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('path', true, ['string']);
         $url = '/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -1136,13 +1136,13 @@ trait ContainerResourceTrait
      */
     public function containerPutArchive(string $id, $inputStream, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('path');
-        $queryParam->setDefault('noOverwriteDirNonDir', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('path', true, ['string']);
+        $queryParam->addQueryParameter('noOverwriteDirNonDir', false, ['string']);
         $url = '/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $inputStream;
         $request = $this->messageFactory->createRequest('PUT', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -1184,8 +1184,8 @@ trait ContainerResourceTrait
      */
     public function containerPrune(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/containers/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

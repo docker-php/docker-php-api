@@ -32,7 +32,7 @@ trait SystemAsyncResourceTrait
             $queryParam = new QueryParam();
             $url = '/auth';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($authConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -194,9 +194,9 @@ trait SystemAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('since', null);
-            $queryParam->setDefault('until', null);
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('since', false, ['string']);
+            $queryParam->addQueryParameter('until', false, ['string']);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/events';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

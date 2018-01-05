@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class MountBindOptions
 {
     /**
+     * A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
+     *
      * @var mixed
      */
     protected $propagation;
 
     /**
+     * A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
+     *
      * @return mixed
      */
     public function getPropagation()
@@ -26,6 +30,8 @@ class MountBindOptions
     }
 
     /**
+     * A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
+     *
      * @param mixed $propagation
      *
      * @return self

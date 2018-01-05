@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class TaskSpecPlacement
 {
     /**
+     * An array of constraints.
+     *
      * @var string[]
      */
     protected $constraints;
 
     /**
+     * An array of constraints.
+     *
      * @return string[]
      */
     public function getConstraints(): ?array
@@ -26,6 +30,8 @@ class TaskSpecPlacement
     }
 
     /**
+     * An array of constraints.
+     *
      * @param string[] $constraints
      *
      * @return self

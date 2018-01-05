@@ -13,19 +13,27 @@ namespace Docker\API\Model;
 class SecretsCreatePostBody
 {
     /**
+     * User-defined name of the secret.
+     *
      * @var string
      */
     protected $name;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * Base64-url-safe-encoded secret data.
+     *
      * @var string[]
      */
     protected $data;
 
     /**
+     * User-defined name of the secret.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -34,6 +42,8 @@ class SecretsCreatePostBody
     }
 
     /**
+     * User-defined name of the secret.
+     *
      * @param string $name
      *
      * @return self
@@ -46,6 +56,8 @@ class SecretsCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -54,6 +66,8 @@ class SecretsCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -66,6 +80,8 @@ class SecretsCreatePostBody
     }
 
     /**
+     * Base64-url-safe-encoded secret data.
+     *
      * @return string[]
      */
     public function getData(): ?array
@@ -74,6 +90,8 @@ class SecretsCreatePostBody
     }
 
     /**
+     * Base64-url-safe-encoded secret data.
+     *
      * @param string[] $data
      *
      * @return self

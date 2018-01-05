@@ -13,6 +13,8 @@ namespace Docker\API\Model;
 class NetworksCreatePostResponse201
 {
     /**
+     * The ID of the created network.
+     *
      * @var string
      */
     protected $id;
@@ -22,6 +24,8 @@ class NetworksCreatePostResponse201
     protected $warning;
 
     /**
+     * The ID of the created network.
+     *
      * @return string
      */
     public function getId(): ?string
@@ -30,6 +34,8 @@ class NetworksCreatePostResponse201
     }
 
     /**
+     * The ID of the created network.
+     *
      * @param string $id
      *
      * @return self

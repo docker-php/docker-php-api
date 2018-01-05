@@ -28,8 +28,8 @@ trait TaskResourceTrait
      */
     public function taskList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/tasks';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -60,7 +60,7 @@ trait TaskResourceTrait
      */
     public function taskInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/tasks/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));

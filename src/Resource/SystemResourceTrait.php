@@ -27,10 +27,10 @@ trait SystemResourceTrait
      */
     public function systemAuth(\Docker\API\Model\AuthConfig $authConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/auth';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($authConfig, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -59,7 +59,7 @@ trait SystemResourceTrait
      */
     public function systemInfo(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/info';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -90,7 +90,7 @@ trait SystemResourceTrait
      */
     public function systemVersion(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/version';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -121,7 +121,7 @@ trait SystemResourceTrait
      */
     public function systemPing(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/_ping';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -171,10 +171,10 @@ trait SystemResourceTrait
      */
     public function systemEvents(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('since', null);
-        $queryParam->setDefault('until', null);
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('since', false, ['string']);
+        $queryParam->addQueryParameter('until', false, ['string']);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/events';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -203,7 +203,7 @@ trait SystemResourceTrait
      */
     public function systemDataUsage(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/system/df';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

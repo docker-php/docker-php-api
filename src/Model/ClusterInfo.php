@@ -13,6 +13,8 @@ namespace Docker\API\Model;
 class ClusterInfo
 {
     /**
+     * The ID of the swarm.
+     *
      * @var string
      */
     protected $iD;
@@ -29,11 +31,15 @@ class ClusterInfo
      */
     protected $updatedAt;
     /**
+     * User modifiable swarm configuration.
+     *
      * @var SwarmSpec
      */
     protected $spec;
 
     /**
+     * The ID of the swarm.
+     *
      * @return string
      */
     public function getID(): ?string
@@ -42,6 +48,8 @@ class ClusterInfo
     }
 
     /**
+     * The ID of the swarm.
+     *
      * @param string $iD
      *
      * @return self
@@ -114,6 +122,8 @@ class ClusterInfo
     }
 
     /**
+     * User modifiable swarm configuration.
+     *
      * @return SwarmSpec
      */
     public function getSpec(): ?SwarmSpec
@@ -122,6 +132,8 @@ class ClusterInfo
     }
 
     /**
+     * User modifiable swarm configuration.
+     *
      * @param SwarmSpec $spec
      *
      * @return self

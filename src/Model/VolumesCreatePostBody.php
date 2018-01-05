@@ -13,23 +13,33 @@ namespace Docker\API\Model;
 class VolumesCreatePostBody
 {
     /**
+     * The new volume's name. If not specified, Docker generates a name.
+     *
      * @var string
      */
     protected $name;
     /**
+     * Name of the volume driver to use.
+     *
      * @var string
      */
     protected $driver;
     /**
+     * A mapping of driver options and values. These options are passed directly to the driver and are driver specific.
+     *
      * @var string[]
      */
     protected $driverOpts;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
 
     /**
+     * The new volume's name. If not specified, Docker generates a name.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -38,6 +48,8 @@ class VolumesCreatePostBody
     }
 
     /**
+     * The new volume's name. If not specified, Docker generates a name.
+     *
      * @param string $name
      *
      * @return self
@@ -50,6 +62,8 @@ class VolumesCreatePostBody
     }
 
     /**
+     * Name of the volume driver to use.
+     *
      * @return string
      */
     public function getDriver(): ?string
@@ -58,6 +72,8 @@ class VolumesCreatePostBody
     }
 
     /**
+     * Name of the volume driver to use.
+     *
      * @param string $driver
      *
      * @return self
@@ -70,6 +86,8 @@ class VolumesCreatePostBody
     }
 
     /**
+     * A mapping of driver options and values. These options are passed directly to the driver and are driver specific.
+     *
      * @return string[]
      */
     public function getDriverOpts(): ?\ArrayObject
@@ -78,6 +96,8 @@ class VolumesCreatePostBody
     }
 
     /**
+     * A mapping of driver options and values. These options are passed directly to the driver and are driver specific.
+     *
      * @param string[] $driverOpts
      *
      * @return self
@@ -90,6 +110,8 @@ class VolumesCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -98,6 +120,8 @@ class VolumesCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self

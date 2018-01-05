@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class ImageDeleteResponse
 {
     /**
+     * The image ID of an image that was untagged.
+     *
      * @var string
      */
     protected $untagged;
     /**
+     * The image ID of an image that was deleted.
+     *
      * @var string
      */
     protected $deleted;
 
     /**
+     * The image ID of an image that was untagged.
+     *
      * @return string
      */
     public function getUntagged(): ?string
@@ -30,6 +36,8 @@ class ImageDeleteResponse
     }
 
     /**
+     * The image ID of an image that was untagged.
+     *
      * @param string $untagged
      *
      * @return self
@@ -42,6 +50,8 @@ class ImageDeleteResponse
     }
 
     /**
+     * The image ID of an image that was deleted.
+     *
      * @return string
      */
     public function getDeleted(): ?string
@@ -50,6 +60,8 @@ class ImageDeleteResponse
     }
 
     /**
+     * The image ID of an image that was deleted.
+     *
      * @param string $deleted
      *
      * @return self

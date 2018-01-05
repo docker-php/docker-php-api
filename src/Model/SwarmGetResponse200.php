@@ -13,6 +13,8 @@ namespace Docker\API\Model;
 class SwarmGetResponse200
 {
     /**
+     * The ID of the swarm.
+     *
      * @var string
      */
     protected $iD;
@@ -29,15 +31,21 @@ class SwarmGetResponse200
      */
     protected $updatedAt;
     /**
+     * User modifiable swarm configuration.
+     *
      * @var SwarmSpec
      */
     protected $spec;
     /**
+     * The tokens workers and managers need to join the swarm.
+     *
      * @var SwarmGetResponse200JoinTokens
      */
     protected $joinTokens;
 
     /**
+     * The ID of the swarm.
+     *
      * @return string
      */
     public function getID(): ?string
@@ -46,6 +54,8 @@ class SwarmGetResponse200
     }
 
     /**
+     * The ID of the swarm.
+     *
      * @param string $iD
      *
      * @return self
@@ -118,6 +128,8 @@ class SwarmGetResponse200
     }
 
     /**
+     * User modifiable swarm configuration.
+     *
      * @return SwarmSpec
      */
     public function getSpec(): ?SwarmSpec
@@ -126,6 +138,8 @@ class SwarmGetResponse200
     }
 
     /**
+     * User modifiable swarm configuration.
+     *
      * @param SwarmSpec $spec
      *
      * @return self
@@ -138,6 +152,8 @@ class SwarmGetResponse200
     }
 
     /**
+     * The tokens workers and managers need to join the swarm.
+     *
      * @return SwarmGetResponse200JoinTokens
      */
     public function getJoinTokens(): ?SwarmGetResponse200JoinTokens
@@ -146,6 +162,8 @@ class SwarmGetResponse200
     }
 
     /**
+     * The tokens workers and managers need to join the swarm.
+     *
      * @param SwarmGetResponse200JoinTokens $joinTokens
      *
      * @return self

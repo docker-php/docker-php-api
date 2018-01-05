@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class ContainersPrunePostResponse200
 {
     /**
+     * Container IDs that were deleted.
+     *
      * @var string[]
      */
     protected $containersDeleted;
     /**
+     * Disk space reclaimed in bytes.
+     *
      * @var int
      */
     protected $spaceReclaimed;
 
     /**
+     * Container IDs that were deleted.
+     *
      * @return string[]
      */
     public function getContainersDeleted(): ?array
@@ -30,6 +36,8 @@ class ContainersPrunePostResponse200
     }
 
     /**
+     * Container IDs that were deleted.
+     *
      * @param string[] $containersDeleted
      *
      * @return self
@@ -42,6 +50,8 @@ class ContainersPrunePostResponse200
     }
 
     /**
+     * Disk space reclaimed in bytes.
+     *
      * @return int
      */
     public function getSpaceReclaimed(): ?int
@@ -50,6 +60,8 @@ class ContainersPrunePostResponse200
     }
 
     /**
+     * Disk space reclaimed in bytes.
+     *
      * @param int $spaceReclaimed
      *
      * @return self

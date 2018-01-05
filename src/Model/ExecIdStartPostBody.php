@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class ExecIdStartPostBody
 {
     /**
+     * Detach from the command.
+     *
      * @var bool
      */
     protected $detach;
     /**
+     * Allocate a pseudo-TTY.
+     *
      * @var bool
      */
     protected $tty;
 
     /**
+     * Detach from the command.
+     *
      * @return bool
      */
     public function getDetach(): ?bool
@@ -30,6 +36,8 @@ class ExecIdStartPostBody
     }
 
     /**
+     * Detach from the command.
+     *
      * @param bool $detach
      *
      * @return self
@@ -42,6 +50,8 @@ class ExecIdStartPostBody
     }
 
     /**
+     * Allocate a pseudo-TTY.
+     *
      * @return bool
      */
     public function getTty(): ?bool
@@ -50,6 +60,8 @@ class ExecIdStartPostBody
     }
 
     /**
+     * Allocate a pseudo-TTY.
+     *
      * @param bool $tty
      *
      * @return self

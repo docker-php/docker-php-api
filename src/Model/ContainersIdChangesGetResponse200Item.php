@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class ContainersIdChangesGetResponse200Item
 {
     /**
+     * Path to file that has changed.
+     *
      * @var string
      */
     protected $path;
     /**
+     * Kind of change.
+     *
      * @var int
      */
     protected $kind;
 
     /**
+     * Path to file that has changed.
+     *
      * @return string
      */
     public function getPath(): ?string
@@ -30,6 +36,8 @@ class ContainersIdChangesGetResponse200Item
     }
 
     /**
+     * Path to file that has changed.
+     *
      * @param string $path
      *
      * @return self
@@ -42,6 +50,8 @@ class ContainersIdChangesGetResponse200Item
     }
 
     /**
+     * Kind of change.
+     *
      * @return int
      */
     public function getKind(): ?int
@@ -50,6 +60,8 @@ class ContainersIdChangesGetResponse200Item
     }
 
     /**
+     * Kind of change.
+     *
      * @param int $kind
      *
      * @return self

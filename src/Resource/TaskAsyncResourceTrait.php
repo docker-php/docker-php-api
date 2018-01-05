@@ -31,7 +31,7 @@ trait TaskAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/tasks';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

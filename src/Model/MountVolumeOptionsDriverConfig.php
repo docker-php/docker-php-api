@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class MountVolumeOptionsDriverConfig
 {
     /**
+     * Name of the driver to use to create the volume.
+     *
      * @var string
      */
     protected $name;
     /**
+     * key/value map of driver specific options.
+     *
      * @var string[]
      */
     protected $options;
 
     /**
+     * Name of the driver to use to create the volume.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -30,6 +36,8 @@ class MountVolumeOptionsDriverConfig
     }
 
     /**
+     * Name of the driver to use to create the volume.
+     *
      * @param string $name
      *
      * @return self
@@ -42,6 +50,8 @@ class MountVolumeOptionsDriverConfig
     }
 
     /**
+     * key/value map of driver specific options.
+     *
      * @return string[]
      */
     public function getOptions(): ?\ArrayObject
@@ -50,6 +60,8 @@ class MountVolumeOptionsDriverConfig
     }
 
     /**
+     * key/value map of driver specific options.
+     *
      * @param string[] $options
      *
      * @return self

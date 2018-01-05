@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class VolumesGetResponse200
 {
     /**
+     * List of volumes.
+     *
      * @var Volume[]
      */
     protected $volumes;
     /**
+     * Warnings that occurred when fetching the list of volumes.
+     *
      * @var string[]
      */
     protected $warnings;
 
     /**
+     * List of volumes.
+     *
      * @return Volume[]
      */
     public function getVolumes(): ?array
@@ -30,6 +36,8 @@ class VolumesGetResponse200
     }
 
     /**
+     * List of volumes.
+     *
      * @param Volume[] $volumes
      *
      * @return self
@@ -42,6 +50,8 @@ class VolumesGetResponse200
     }
 
     /**
+     * Warnings that occurred when fetching the list of volumes.
+     *
      * @return string[]
      */
     public function getWarnings(): ?array
@@ -50,6 +60,8 @@ class VolumesGetResponse200
     }
 
     /**
+     * Warnings that occurred when fetching the list of volumes.
+     *
      * @param string[] $warnings
      *
      * @return self

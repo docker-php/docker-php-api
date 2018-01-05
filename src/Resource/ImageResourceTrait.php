@@ -33,10 +33,10 @@ trait ImageResourceTrait
      */
     public function imageList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('all', false);
-        $queryParam->setDefault('filters', null);
-        $queryParam->setDefault('digests', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('all', false, ['bool'], false);
+        $queryParam->addQueryParameter('filters', false, ['string']);
+        $queryParam->addQueryParameter('digests', false, ['bool'], false);
         $url = '/images/json';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -100,34 +100,32 @@ trait ImageResourceTrait
      */
     public function imageBuild($inputStream, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('dockerfile', 'Dockerfile');
-        $queryParam->setDefault('t', null);
-        $queryParam->setDefault('remote', null);
-        $queryParam->setDefault('q', false);
-        $queryParam->setDefault('nocache', false);
-        $queryParam->setDefault('cachefrom', null);
-        $queryParam->setDefault('pull', null);
-        $queryParam->setDefault('rm', true);
-        $queryParam->setDefault('forcerm', false);
-        $queryParam->setDefault('memory', null);
-        $queryParam->setDefault('memswap', null);
-        $queryParam->setDefault('cpushares', null);
-        $queryParam->setDefault('cpusetcpus', null);
-        $queryParam->setDefault('cpuperiod', null);
-        $queryParam->setDefault('cpuquota', null);
-        $queryParam->setDefault('buildargs', null);
-        $queryParam->setDefault('shmsize', null);
-        $queryParam->setDefault('squash', null);
-        $queryParam->setDefault('labels', null);
-        $queryParam->setDefault('networkmode', null);
-        $queryParam->setDefault('Content-type', 'application/tar');
-        $queryParam->setHeaderParameters(['Content-type']);
-        $queryParam->setDefault('X-Registry-Config', null);
-        $queryParam->setHeaderParameters(['X-Registry-Config']);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('dockerfile', false, ['string'], 'Dockerfile');
+        $queryParam->addQueryParameter('t', false, ['string']);
+        $queryParam->addQueryParameter('remote', false, ['string']);
+        $queryParam->addQueryParameter('q', false, ['bool'], false);
+        $queryParam->addQueryParameter('nocache', false, ['bool'], false);
+        $queryParam->addQueryParameter('cachefrom', false, ['string']);
+        $queryParam->addQueryParameter('pull', false, ['string']);
+        $queryParam->addQueryParameter('rm', false, ['bool'], true);
+        $queryParam->addQueryParameter('forcerm', false, ['bool'], false);
+        $queryParam->addQueryParameter('memory', false, ['int']);
+        $queryParam->addQueryParameter('memswap', false, ['int']);
+        $queryParam->addQueryParameter('cpushares', false, ['int']);
+        $queryParam->addQueryParameter('cpusetcpus', false, ['string']);
+        $queryParam->addQueryParameter('cpuperiod', false, ['int']);
+        $queryParam->addQueryParameter('cpuquota', false, ['int']);
+        $queryParam->addQueryParameter('buildargs', false, ['int']);
+        $queryParam->addQueryParameter('shmsize', false, ['int']);
+        $queryParam->addQueryParameter('squash', false, ['bool']);
+        $queryParam->addQueryParameter('labels', false, ['string']);
+        $queryParam->addQueryParameter('networkmode', false, ['string']);
+        $queryParam->addHeaderParameter('Content-type', false, ['string'], 'application/tar');
+        $queryParam->addHeaderParameter('X-Registry-Config', false, ['string']);
         $url = '/build';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $inputStream;
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -165,16 +163,15 @@ trait ImageResourceTrait
      */
     public function imageCreate($inputImage, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('fromImage', null);
-        $queryParam->setDefault('fromSrc', null);
-        $queryParam->setDefault('repo', null);
-        $queryParam->setDefault('tag', null);
-        $queryParam->setDefault('X-Registry-Auth', null);
-        $queryParam->setHeaderParameters(['X-Registry-Auth']);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('fromImage', false, ['string']);
+        $queryParam->addQueryParameter('fromSrc', false, ['string']);
+        $queryParam->addQueryParameter('repo', false, ['string']);
+        $queryParam->addQueryParameter('tag', false, ['string']);
+        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
         $url = '/images/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $inputImage;
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -207,7 +204,7 @@ trait ImageResourceTrait
      */
     public function imageInspect(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/images/{name}/json';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -244,7 +241,7 @@ trait ImageResourceTrait
      */
     public function imageHistory(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/images/{name}/history';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -291,10 +288,9 @@ trait ImageResourceTrait
      */
     public function imagePush(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('tag', null);
-        $queryParam->setRequired('X-Registry-Auth');
-        $queryParam->setHeaderParameters(['X-Registry-Auth']);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('tag', false, ['string']);
+        $queryParam->addHeaderParameter('X-Registry-Auth', true, ['string']);
         $url = '/images/{name}/push';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -338,9 +334,9 @@ trait ImageResourceTrait
      */
     public function imageTag(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('repo', null);
-        $queryParam->setDefault('tag', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('repo', false, ['string']);
+        $queryParam->addQueryParameter('tag', false, ['string']);
         $url = '/images/{name}/tag';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -392,9 +388,9 @@ trait ImageResourceTrait
      */
     public function imageDelete(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('force', false);
-        $queryParam->setDefault('noprune', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('force', false, ['bool'], false);
+        $queryParam->addQueryParameter('noprune', false, ['bool'], false);
         $url = '/images/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -438,10 +434,10 @@ trait ImageResourceTrait
      */
     public function imageSearch(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('term');
-        $queryParam->setDefault('limit', null);
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('term', true, ['string']);
+        $queryParam->addQueryParameter('limit', false, ['int']);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/images/search';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -474,8 +470,8 @@ trait ImageResourceTrait
      */
     public function imagePrune(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/images/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -516,17 +512,17 @@ trait ImageResourceTrait
      */
     public function imageCommit(\Docker\API\Model\Config $containerConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('container', null);
-        $queryParam->setDefault('repo', null);
-        $queryParam->setDefault('tag', null);
-        $queryParam->setDefault('comment', null);
-        $queryParam->setDefault('author', null);
-        $queryParam->setDefault('pause', true);
-        $queryParam->setDefault('changes', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('container', false, ['string']);
+        $queryParam->addQueryParameter('repo', false, ['string']);
+        $queryParam->addQueryParameter('tag', false, ['string']);
+        $queryParam->addQueryParameter('comment', false, ['string']);
+        $queryParam->addQueryParameter('author', false, ['string']);
+        $queryParam->addQueryParameter('pause', false, ['bool'], true);
+        $queryParam->addQueryParameter('changes', false, ['string']);
         $url = '/commit';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($containerConfig, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -581,7 +577,7 @@ trait ImageResourceTrait
      */
     public function imageGet(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/images/{name}/get';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -622,8 +618,8 @@ trait ImageResourceTrait
      */
     public function imageGetAll(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('names', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('names', false, ['array']);
         $url = '/images/get';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -662,11 +658,11 @@ trait ImageResourceTrait
      */
     public function imageLoad($imagesTarball, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('quiet', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('quiet', false, ['bool'], false);
         $url = '/images/load';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $imagesTarball;
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);

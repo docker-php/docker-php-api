@@ -31,7 +31,7 @@ trait ServiceAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/services';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -74,11 +74,10 @@ trait ServiceAsyncResourceTrait
     {
         return \Amp\call(function () use ($body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('X-Registry-Auth', null);
-            $queryParam->setHeaderParameters(['X-Registry-Auth']);
+            $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
             $url = '/services/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -208,14 +207,13 @@ trait ServiceAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setRequired('version');
-            $queryParam->setDefault('registryAuthFrom', 'spec');
-            $queryParam->setDefault('X-Registry-Auth', null);
-            $queryParam->setHeaderParameters(['X-Registry-Auth']);
+            $queryParam->addQueryParameter('version', true, ['int']);
+            $queryParam->addQueryParameter('registryAuthFrom', false, ['string'], 'spec');
+            $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
             $url = '/services/{id}/update';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -268,13 +266,13 @@ trait ServiceAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('details', false);
-            $queryParam->setDefault('follow', false);
-            $queryParam->setDefault('stdout', false);
-            $queryParam->setDefault('stderr', false);
-            $queryParam->setDefault('since', 0);
-            $queryParam->setDefault('timestamps', false);
-            $queryParam->setDefault('tail', 'all');
+            $queryParam->addQueryParameter('details', false, ['bool'], false);
+            $queryParam->addQueryParameter('follow', false, ['bool'], false);
+            $queryParam->addQueryParameter('stdout', false, ['bool'], false);
+            $queryParam->addQueryParameter('stderr', false, ['bool'], false);
+            $queryParam->addQueryParameter('since', false, ['int'], 0);
+            $queryParam->addQueryParameter('timestamps', false, ['bool'], false);
+            $queryParam->addQueryParameter('tail', false, ['string'], 'all');
             $url = '/services/{id}/logs';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));

@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class HostConfigPortBindingsItem
 {
     /**
+     * The host IP address.
+     *
      * @var string
      */
     protected $hostIp;
     /**
+     * The host port number, as a string.
+     *
      * @var string
      */
     protected $hostPort;
 
     /**
+     * The host IP address.
+     *
      * @return string
      */
     public function getHostIp(): ?string
@@ -30,6 +36,8 @@ class HostConfigPortBindingsItem
     }
 
     /**
+     * The host IP address.
+     *
      * @param string $hostIp
      *
      * @return self
@@ -42,6 +50,8 @@ class HostConfigPortBindingsItem
     }
 
     /**
+     * The host port number, as a string.
+     *
      * @return string
      */
     public function getHostPort(): ?string
@@ -50,6 +60,8 @@ class HostConfigPortBindingsItem
     }
 
     /**
+     * The host port number, as a string.
+     *
      * @param string $hostPort
      *
      * @return self

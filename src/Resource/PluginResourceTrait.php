@@ -26,7 +26,7 @@ trait PluginResourceTrait
      */
     public function pluginList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/plugins';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -59,8 +59,8 @@ trait PluginResourceTrait
      */
     public function getPluginPrivileges(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('name');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('name', true, ['string']);
         $url = '/plugins/privileges';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -101,14 +101,13 @@ trait PluginResourceTrait
      */
     public function pluginPull(array $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('remote');
-        $queryParam->setDefault('name', null);
-        $queryParam->setDefault('X-Registry-Auth', null);
-        $queryParam->setHeaderParameters(['X-Registry-Auth']);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('remote', true, ['string']);
+        $queryParam->addQueryParameter('name', false, ['string']);
+        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
         $url = '/plugins/pull';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $body;
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -136,7 +135,7 @@ trait PluginResourceTrait
      */
     public function pluginInspect(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/plugins/{name}/json';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -175,8 +174,8 @@ trait PluginResourceTrait
      */
     public function pluginDelete(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('force', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('force', false, ['bool'], false);
         $url = '/plugins/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -214,8 +213,8 @@ trait PluginResourceTrait
      */
     public function pluginEnable(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('timeout', 0);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('timeout', false, ['int'], 0);
         $url = '/plugins/{name}/enable';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -246,7 +245,7 @@ trait PluginResourceTrait
      */
     public function pluginDisable(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/plugins/{name}/disable';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -281,11 +280,11 @@ trait PluginResourceTrait
      */
     public function pluginCreate($tarContext, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('name');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('name', true, ['string']);
         $url = '/plugins/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $tarContext;
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -315,7 +314,7 @@ trait PluginResourceTrait
      */
     public function pluginPush(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/plugins/{name}/push';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -351,11 +350,11 @@ trait PluginResourceTrait
      */
     public function pluginSet(string $name, array $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/plugins/{name}/set';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $body;
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);

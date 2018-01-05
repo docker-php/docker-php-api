@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class ContainersIdWaitPostResponse200
 {
     /**
+     * Exit code of the container.
+     *
      * @var int
      */
     protected $statusCode;
 
     /**
+     * Exit code of the container.
+     *
      * @return int
      */
     public function getStatusCode(): ?int
@@ -26,6 +30,8 @@ class ContainersIdWaitPostResponse200
     }
 
     /**
+     * Exit code of the container.
+     *
      * @param int $statusCode
      *
      * @return self

@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class VolumeUsageData
 {
     /**
+     * The disk space used by the volume (local driver only).
+     *
      * @var int
      */
     protected $size;
     /**
+     * The number of containers referencing this volume.
+     *
      * @var int
      */
     protected $refCount;
 
     /**
+     * The disk space used by the volume (local driver only).
+     *
      * @return int
      */
     public function getSize(): ?int
@@ -30,6 +36,8 @@ class VolumeUsageData
     }
 
     /**
+     * The disk space used by the volume (local driver only).
+     *
      * @param int $size
      *
      * @return self
@@ -42,6 +50,8 @@ class VolumeUsageData
     }
 
     /**
+     * The number of containers referencing this volume.
+     *
      * @return int
      */
     public function getRefCount(): ?int
@@ -50,6 +60,8 @@ class VolumeUsageData
     }
 
     /**
+     * The number of containers referencing this volume.
+     *
      * @param int $refCount
      *
      * @return self

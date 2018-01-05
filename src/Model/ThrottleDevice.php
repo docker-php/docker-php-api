@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class ThrottleDevice
 {
     /**
+     * Device path.
+     *
      * @var string
      */
     protected $path;
     /**
+     * Rate.
+     *
      * @var int
      */
     protected $rate;
 
     /**
+     * Device path.
+     *
      * @return string
      */
     public function getPath(): ?string
@@ -30,6 +36,8 @@ class ThrottleDevice
     }
 
     /**
+     * Device path.
+     *
      * @param string $path
      *
      * @return self
@@ -42,6 +50,8 @@ class ThrottleDevice
     }
 
     /**
+     * Rate.
+     *
      * @return int
      */
     public function getRate(): ?int
@@ -50,6 +60,8 @@ class ThrottleDevice
     }
 
     /**
+     * Rate.
+     *
      * @param int $rate
      *
      * @return self

@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class TaskSpecResourcesReservation
 {
     /**
+     * CPU reservation in units of 10<sup>-9</sup> CPU shares.
+     *
      * @var int
      */
     protected $nanoCPUs;
     /**
+     * Memory reservation in Bytes.
+     *
      * @var int
      */
     protected $memoryBytes;
 
     /**
+     * CPU reservation in units of 10<sup>-9</sup> CPU shares.
+     *
      * @return int
      */
     public function getNanoCPUs(): ?int
@@ -30,6 +36,8 @@ class TaskSpecResourcesReservation
     }
 
     /**
+     * CPU reservation in units of 10<sup>-9</sup> CPU shares.
+     *
      * @param int $nanoCPUs
      *
      * @return self
@@ -42,6 +50,8 @@ class TaskSpecResourcesReservation
     }
 
     /**
+     * Memory reservation in Bytes.
+     *
      * @return int
      */
     public function getMemoryBytes(): ?int
@@ -50,6 +60,8 @@ class TaskSpecResourcesReservation
     }
 
     /**
+     * Memory reservation in Bytes.
+     *
      * @param int $memoryBytes
      *
      * @return self

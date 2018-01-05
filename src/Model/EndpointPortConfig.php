@@ -21,10 +21,14 @@ class EndpointPortConfig
      */
     protected $protocol;
     /**
+     * The port inside the container.
+     *
      * @var int
      */
     protected $targetPort;
     /**
+     * The port on the swarm hosts.
+     *
      * @var int
      */
     protected $publishedPort;
@@ -70,6 +74,8 @@ class EndpointPortConfig
     }
 
     /**
+     * The port inside the container.
+     *
      * @return int
      */
     public function getTargetPort(): ?int
@@ -78,6 +84,8 @@ class EndpointPortConfig
     }
 
     /**
+     * The port inside the container.
+     *
      * @param int $targetPort
      *
      * @return self
@@ -90,6 +98,8 @@ class EndpointPortConfig
     }
 
     /**
+     * The port on the swarm hosts.
+     *
      * @return int
      */
     public function getPublishedPort(): ?int
@@ -98,6 +108,8 @@ class EndpointPortConfig
     }
 
     /**
+     * The port on the swarm hosts.
+     *
      * @param int $publishedPort
      *
      * @return self

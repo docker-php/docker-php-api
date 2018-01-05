@@ -29,6 +29,8 @@ class Secret
      */
     protected $updatedAt;
     /**
+     * User modifiable configuration for a service.
+     *
      * @var ServiceSpec
      */
     protected $spec;
@@ -114,6 +116,8 @@ class Secret
     }
 
     /**
+     * User modifiable configuration for a service.
+     *
      * @return ServiceSpec
      */
     public function getSpec(): ?ServiceSpec
@@ -122,6 +126,8 @@ class Secret
     }
 
     /**
+     * User modifiable configuration for a service.
+     *
      * @param ServiceSpec $spec
      *
      * @return self

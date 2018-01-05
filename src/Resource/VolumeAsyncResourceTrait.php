@@ -30,7 +30,7 @@ trait VolumeAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/volumes';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -68,7 +68,7 @@ trait VolumeAsyncResourceTrait
             $queryParam = new QueryParam();
             $url = '/volumes/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($volumeConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -109,7 +109,7 @@ trait VolumeAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('force', false);
+            $queryParam->addQueryParameter('force', false, ['bool'], false);
             $url = '/volumes/{name}';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -198,7 +198,7 @@ trait VolumeAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/volumes/prune';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

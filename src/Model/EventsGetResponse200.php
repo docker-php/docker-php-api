@@ -13,10 +13,14 @@ namespace Docker\API\Model;
 class EventsGetResponse200
 {
     /**
+     * The type of object emitting the event.
+     *
      * @var string
      */
     protected $type;
     /**
+     * The type of event.
+     *
      * @var string
      */
     protected $action;
@@ -25,15 +29,21 @@ class EventsGetResponse200
      */
     protected $actor;
     /**
+     * Timestamp of event.
+     *
      * @var int
      */
     protected $time;
     /**
+     * Timestamp of event, with nanosecond accuracy.
+     *
      * @var int
      */
     protected $timeNano;
 
     /**
+     * The type of object emitting the event.
+     *
      * @return string
      */
     public function getType(): ?string
@@ -42,6 +52,8 @@ class EventsGetResponse200
     }
 
     /**
+     * The type of object emitting the event.
+     *
      * @param string $type
      *
      * @return self
@@ -54,6 +66,8 @@ class EventsGetResponse200
     }
 
     /**
+     * The type of event.
+     *
      * @return string
      */
     public function getAction(): ?string
@@ -62,6 +76,8 @@ class EventsGetResponse200
     }
 
     /**
+     * The type of event.
+     *
      * @param string $action
      *
      * @return self
@@ -94,6 +110,8 @@ class EventsGetResponse200
     }
 
     /**
+     * Timestamp of event.
+     *
      * @return int
      */
     public function getTime(): ?int
@@ -102,6 +120,8 @@ class EventsGetResponse200
     }
 
     /**
+     * Timestamp of event.
+     *
      * @param int $time
      *
      * @return self
@@ -114,6 +134,8 @@ class EventsGetResponse200
     }
 
     /**
+     * Timestamp of event, with nanosecond accuracy.
+     *
      * @return int
      */
     public function getTimeNano(): ?int
@@ -122,6 +144,8 @@ class EventsGetResponse200
     }
 
     /**
+     * Timestamp of event, with nanosecond accuracy.
+     *
      * @param int $timeNano
      *
      * @return self

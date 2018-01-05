@@ -13,35 +13,51 @@ namespace Docker\API\Model;
 class ServicesIdUpdatePostBody
 {
     /**
+     * Name of the service.
+     *
      * @var string
      */
     protected $name;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * User modifiable task configuration.
+     *
      * @var TaskSpec
      */
     protected $taskTemplate;
     /**
+     * Scheduling mode for the service.
+     *
      * @var ServiceSpecMode
      */
     protected $mode;
     /**
+     * Specification for the update strategy of the service.
+     *
      * @var ServiceSpecUpdateConfig
      */
     protected $updateConfig;
     /**
+     * Array of network names or IDs to attach the service to.
+     *
      * @var ServiceSpecNetworksItem[]
      */
     protected $networks;
     /**
+     * Properties that can be configured to access and load balance a service.
+     *
      * @var EndpointSpec
      */
     protected $endpointSpec;
 
     /**
+     * Name of the service.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -50,6 +66,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Name of the service.
+     *
      * @param string $name
      *
      * @return self
@@ -62,6 +80,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -70,6 +90,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -82,6 +104,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * User modifiable task configuration.
+     *
      * @return TaskSpec
      */
     public function getTaskTemplate(): ?TaskSpec
@@ -90,6 +114,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * User modifiable task configuration.
+     *
      * @param TaskSpec $taskTemplate
      *
      * @return self
@@ -102,6 +128,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Scheduling mode for the service.
+     *
      * @return ServiceSpecMode
      */
     public function getMode(): ?ServiceSpecMode
@@ -110,6 +138,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Scheduling mode for the service.
+     *
      * @param ServiceSpecMode $mode
      *
      * @return self
@@ -122,6 +152,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Specification for the update strategy of the service.
+     *
      * @return ServiceSpecUpdateConfig
      */
     public function getUpdateConfig(): ?ServiceSpecUpdateConfig
@@ -130,6 +162,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Specification for the update strategy of the service.
+     *
      * @param ServiceSpecUpdateConfig $updateConfig
      *
      * @return self
@@ -142,6 +176,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Array of network names or IDs to attach the service to.
+     *
      * @return ServiceSpecNetworksItem[]
      */
     public function getNetworks(): ?array
@@ -150,6 +186,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Array of network names or IDs to attach the service to.
+     *
      * @param ServiceSpecNetworksItem[] $networks
      *
      * @return self
@@ -162,6 +200,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Properties that can be configured to access and load balance a service.
+     *
      * @return EndpointSpec
      */
     public function getEndpointSpec(): ?EndpointSpec
@@ -170,6 +210,8 @@ class ServicesIdUpdatePostBody
     }
 
     /**
+     * Properties that can be configured to access and load balance a service.
+     *
      * @param EndpointSpec $endpointSpec
      *
      * @return self

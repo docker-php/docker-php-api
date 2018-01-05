@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class TaskSpecResourcesLimits
 {
     /**
+     * CPU limit in units of 10<sup>-9</sup> CPU shares.
+     *
      * @var int
      */
     protected $nanoCPUs;
     /**
+     * Memory limit in Bytes.
+     *
      * @var int
      */
     protected $memoryBytes;
 
     /**
+     * CPU limit in units of 10<sup>-9</sup> CPU shares.
+     *
      * @return int
      */
     public function getNanoCPUs(): ?int
@@ -30,6 +36,8 @@ class TaskSpecResourcesLimits
     }
 
     /**
+     * CPU limit in units of 10<sup>-9</sup> CPU shares.
+     *
      * @param int $nanoCPUs
      *
      * @return self
@@ -42,6 +50,8 @@ class TaskSpecResourcesLimits
     }
 
     /**
+     * Memory limit in Bytes.
+     *
      * @return int
      */
     public function getMemoryBytes(): ?int
@@ -50,6 +60,8 @@ class TaskSpecResourcesLimits
     }
 
     /**
+     * Memory limit in Bytes.
+     *
      * @param int $memoryBytes
      *
      * @return self

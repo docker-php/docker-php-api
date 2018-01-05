@@ -67,7 +67,7 @@ trait PluginAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setRequired('name');
+            $queryParam->addQueryParameter('name', true, ['string']);
             $url = '/plugins/privileges';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -114,13 +114,12 @@ trait PluginAsyncResourceTrait
     {
         return \Amp\call(function () use ($body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setRequired('remote');
-            $queryParam->setDefault('name', null);
-            $queryParam->setDefault('X-Registry-Auth', null);
-            $queryParam->setHeaderParameters(['X-Registry-Auth']);
+            $queryParam->addQueryParameter('remote', true, ['string']);
+            $queryParam->addQueryParameter('name', false, ['string']);
+            $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
             $url = '/plugins/pull';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $body;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -198,7 +197,7 @@ trait PluginAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('force', false);
+            $queryParam->addQueryParameter('force', false, ['bool'], false);
             $url = '/plugins/{name}';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -242,7 +241,7 @@ trait PluginAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('timeout', 0);
+            $queryParam->addQueryParameter('timeout', false, ['int'], 0);
             $url = '/plugins/{name}/enable';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -319,10 +318,10 @@ trait PluginAsyncResourceTrait
     {
         return \Amp\call(function () use ($tarContext, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setRequired('name');
+            $queryParam->addQueryParameter('name', true, ['string']);
             $url = '/plugins/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $tarContext;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -402,7 +401,7 @@ trait PluginAsyncResourceTrait
             $url = '/plugins/{name}/set';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $body;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

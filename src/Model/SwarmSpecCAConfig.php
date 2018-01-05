@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class SwarmSpecCAConfig
 {
     /**
+     * The duration node certificates are issued for.
+     *
      * @var int
      */
     protected $nodeCertExpiry;
     /**
+     * Configuration for forwarding signing requests to an external certificate authority.
+     *
      * @var SwarmSpecCAConfigExternalCAsItem[]
      */
     protected $externalCAs;
 
     /**
+     * The duration node certificates are issued for.
+     *
      * @return int
      */
     public function getNodeCertExpiry(): ?int
@@ -30,6 +36,8 @@ class SwarmSpecCAConfig
     }
 
     /**
+     * The duration node certificates are issued for.
+     *
      * @param int $nodeCertExpiry
      *
      * @return self
@@ -42,6 +50,8 @@ class SwarmSpecCAConfig
     }
 
     /**
+     * Configuration for forwarding signing requests to an external certificate authority.
+     *
      * @return SwarmSpecCAConfigExternalCAsItem[]
      */
     public function getExternalCAs(): ?array
@@ -50,6 +60,8 @@ class SwarmSpecCAConfig
     }
 
     /**
+     * Configuration for forwarding signing requests to an external certificate authority.
+     *
      * @param SwarmSpecCAConfigExternalCAsItem[] $externalCAs
      *
      * @return self

@@ -41,9 +41,6 @@ class ContainersIdArchiveGetResponse400Normalizer implements DenormalizerInterfa
         if (property_exists($data, 'message') && $data->{'message'} !== null) {
             $object->setMessage($data->{'message'});
         }
-        if (property_exists($data, 'message') && $data->{'message'} !== null) {
-            $object->setMessage($data->{'message'});
-        }
 
         return $object;
     }
@@ -51,9 +48,6 @@ class ContainersIdArchiveGetResponse400Normalizer implements DenormalizerInterfa
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getMessage()) {
-            $data->{'message'} = $object->getMessage();
-        }
         if (null !== $object->getMessage()) {
             $data->{'message'} = $object->getMessage();
         }

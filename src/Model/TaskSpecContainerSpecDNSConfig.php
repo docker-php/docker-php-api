@@ -13,19 +13,27 @@ namespace Docker\API\Model;
 class TaskSpecContainerSpecDNSConfig
 {
     /**
+     * The IP addresses of the name servers.
+     *
      * @var string[]
      */
     protected $nameservers;
     /**
+     * A search list for host-name lookup.
+     *
      * @var string[]
      */
     protected $search;
     /**
+     * A list of internal resolver variables to be modified (e.g., `debug`, `ndots:3`, etc.).
+     *
      * @var string[]
      */
     protected $options;
 
     /**
+     * The IP addresses of the name servers.
+     *
      * @return string[]
      */
     public function getNameservers(): ?array
@@ -34,6 +42,8 @@ class TaskSpecContainerSpecDNSConfig
     }
 
     /**
+     * The IP addresses of the name servers.
+     *
      * @param string[] $nameservers
      *
      * @return self
@@ -46,6 +56,8 @@ class TaskSpecContainerSpecDNSConfig
     }
 
     /**
+     * A search list for host-name lookup.
+     *
      * @return string[]
      */
     public function getSearch(): ?array
@@ -54,6 +66,8 @@ class TaskSpecContainerSpecDNSConfig
     }
 
     /**
+     * A search list for host-name lookup.
+     *
      * @param string[] $search
      *
      * @return self
@@ -66,6 +80,8 @@ class TaskSpecContainerSpecDNSConfig
     }
 
     /**
+     * A list of internal resolver variables to be modified (e.g., `debug`, `ndots:3`, etc.).
+     *
      * @return string[]
      */
     public function getOptions(): ?array
@@ -74,6 +90,8 @@ class TaskSpecContainerSpecDNSConfig
     }
 
     /**
+     * A list of internal resolver variables to be modified (e.g., `debug`, `ndots:3`, etc.).
+     *
      * @param string[] $options
      *
      * @return self

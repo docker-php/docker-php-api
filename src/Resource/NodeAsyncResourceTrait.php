@@ -31,7 +31,7 @@ trait NodeAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/nodes';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -72,7 +72,7 @@ trait NodeAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('force', false);
+            $queryParam->addQueryParameter('force', false, ['bool'], false);
             $url = '/nodes/{id}';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -158,11 +158,11 @@ trait NodeAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $body, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setRequired('version');
+            $queryParam->addQueryParameter('version', true, ['int']);
             $url = '/nodes/{id}/update';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($body, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

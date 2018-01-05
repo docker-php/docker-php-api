@@ -21,6 +21,8 @@ class PluginConfig
      */
     protected $documentation;
     /**
+     * The interface between Docker and the plugin.
+     *
      * @var PluginConfigInterface
      */
     protected $interface;
@@ -106,6 +108,8 @@ class PluginConfig
     }
 
     /**
+     * The interface between Docker and the plugin.
+     *
      * @return PluginConfigInterface
      */
     public function getInterface(): ?PluginConfigInterface
@@ -114,6 +118,8 @@ class PluginConfig
     }
 
     /**
+     * The interface between Docker and the plugin.
+     *
      * @param PluginConfigInterface $interface
      *
      * @return self

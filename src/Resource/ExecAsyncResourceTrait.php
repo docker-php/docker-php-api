@@ -36,7 +36,7 @@ trait ExecAsyncResourceTrait
             $url = '/containers/{id}/exec';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($execConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -82,7 +82,7 @@ trait ExecAsyncResourceTrait
             $url = '/exec/{id}/start';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($execStartConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -125,8 +125,8 @@ trait ExecAsyncResourceTrait
     {
         return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('h', null);
-            $queryParam->setDefault('w', null);
+            $queryParam->addQueryParameter('h', false, ['int']);
+            $queryParam->addQueryParameter('w', false, ['int']);
             $url = '/exec/{id}/resize';
             $url = str_replace('{id}', urlencode($id), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));

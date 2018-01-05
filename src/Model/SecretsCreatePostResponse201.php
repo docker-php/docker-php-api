@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class SecretsCreatePostResponse201
 {
     /**
+     * The ID of the created secret.
+     *
      * @var string
      */
     protected $iD;
 
     /**
+     * The ID of the created secret.
+     *
      * @return string
      */
     public function getID(): ?string
@@ -26,6 +30,8 @@ class SecretsCreatePostResponse201
     }
 
     /**
+     * The ID of the created secret.
+     *
      * @param string $iD
      *
      * @return self

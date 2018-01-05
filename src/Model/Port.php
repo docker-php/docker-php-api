@@ -17,10 +17,14 @@ class Port
      */
     protected $iP;
     /**
+     * Port on the container.
+     *
      * @var int
      */
     protected $privatePort;
     /**
+     * Port exposed on the host.
+     *
      * @var int
      */
     protected $publicPort;
@@ -50,6 +54,8 @@ class Port
     }
 
     /**
+     * Port on the container.
+     *
      * @return int
      */
     public function getPrivatePort(): ?int
@@ -58,6 +64,8 @@ class Port
     }
 
     /**
+     * Port on the container.
+     *
      * @param int $privatePort
      *
      * @return self
@@ -70,6 +78,8 @@ class Port
     }
 
     /**
+     * Port exposed on the host.
+     *
      * @return int
      */
     public function getPublicPort(): ?int
@@ -78,6 +88,8 @@ class Port
     }
 
     /**
+     * Port exposed on the host.
+     *
      * @param int $publicPort
      *
      * @return self

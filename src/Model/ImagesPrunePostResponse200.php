@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class ImagesPrunePostResponse200
 {
     /**
+     * Images that were deleted.
+     *
      * @var ImageDeleteResponse[]
      */
     protected $imagesDeleted;
     /**
+     * Disk space reclaimed in bytes.
+     *
      * @var int
      */
     protected $spaceReclaimed;
 
     /**
+     * Images that were deleted.
+     *
      * @return ImageDeleteResponse[]
      */
     public function getImagesDeleted(): ?array
@@ -30,6 +36,8 @@ class ImagesPrunePostResponse200
     }
 
     /**
+     * Images that were deleted.
+     *
      * @param ImageDeleteResponse[] $imagesDeleted
      *
      * @return self
@@ -42,6 +50,8 @@ class ImagesPrunePostResponse200
     }
 
     /**
+     * Disk space reclaimed in bytes.
+     *
      * @return int
      */
     public function getSpaceReclaimed(): ?int
@@ -50,6 +60,8 @@ class ImagesPrunePostResponse200
     }
 
     /**
+     * Disk space reclaimed in bytes.
+     *
      * @param int $spaceReclaimed
      *
      * @return self

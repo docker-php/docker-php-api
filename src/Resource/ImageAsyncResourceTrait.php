@@ -36,9 +36,9 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('all', false);
-            $queryParam->setDefault('filters', null);
-            $queryParam->setDefault('digests', false);
+            $queryParam->addQueryParameter('all', false, ['bool'], false);
+            $queryParam->addQueryParameter('filters', false, ['string']);
+            $queryParam->addQueryParameter('digests', false, ['bool'], false);
             $url = '/images/json';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -108,33 +108,31 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($inputStream, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('dockerfile', 'Dockerfile');
-            $queryParam->setDefault('t', null);
-            $queryParam->setDefault('remote', null);
-            $queryParam->setDefault('q', false);
-            $queryParam->setDefault('nocache', false);
-            $queryParam->setDefault('cachefrom', null);
-            $queryParam->setDefault('pull', null);
-            $queryParam->setDefault('rm', true);
-            $queryParam->setDefault('forcerm', false);
-            $queryParam->setDefault('memory', null);
-            $queryParam->setDefault('memswap', null);
-            $queryParam->setDefault('cpushares', null);
-            $queryParam->setDefault('cpusetcpus', null);
-            $queryParam->setDefault('cpuperiod', null);
-            $queryParam->setDefault('cpuquota', null);
-            $queryParam->setDefault('buildargs', null);
-            $queryParam->setDefault('shmsize', null);
-            $queryParam->setDefault('squash', null);
-            $queryParam->setDefault('labels', null);
-            $queryParam->setDefault('networkmode', null);
-            $queryParam->setDefault('Content-type', 'application/tar');
-            $queryParam->setHeaderParameters(['Content-type']);
-            $queryParam->setDefault('X-Registry-Config', null);
-            $queryParam->setHeaderParameters(['X-Registry-Config']);
+            $queryParam->addQueryParameter('dockerfile', false, ['string'], 'Dockerfile');
+            $queryParam->addQueryParameter('t', false, ['string']);
+            $queryParam->addQueryParameter('remote', false, ['string']);
+            $queryParam->addQueryParameter('q', false, ['bool'], false);
+            $queryParam->addQueryParameter('nocache', false, ['bool'], false);
+            $queryParam->addQueryParameter('cachefrom', false, ['string']);
+            $queryParam->addQueryParameter('pull', false, ['string']);
+            $queryParam->addQueryParameter('rm', false, ['bool'], true);
+            $queryParam->addQueryParameter('forcerm', false, ['bool'], false);
+            $queryParam->addQueryParameter('memory', false, ['int']);
+            $queryParam->addQueryParameter('memswap', false, ['int']);
+            $queryParam->addQueryParameter('cpushares', false, ['int']);
+            $queryParam->addQueryParameter('cpusetcpus', false, ['string']);
+            $queryParam->addQueryParameter('cpuperiod', false, ['int']);
+            $queryParam->addQueryParameter('cpuquota', false, ['int']);
+            $queryParam->addQueryParameter('buildargs', false, ['int']);
+            $queryParam->addQueryParameter('shmsize', false, ['int']);
+            $queryParam->addQueryParameter('squash', false, ['bool']);
+            $queryParam->addQueryParameter('labels', false, ['string']);
+            $queryParam->addQueryParameter('networkmode', false, ['string']);
+            $queryParam->addHeaderParameter('Content-type', false, ['string'], 'application/tar');
+            $queryParam->addHeaderParameter('X-Registry-Config', false, ['string']);
             $url = '/build';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $inputStream;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -178,15 +176,14 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($inputImage, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('fromImage', null);
-            $queryParam->setDefault('fromSrc', null);
-            $queryParam->setDefault('repo', null);
-            $queryParam->setDefault('tag', null);
-            $queryParam->setDefault('X-Registry-Auth', null);
-            $queryParam->setHeaderParameters(['X-Registry-Auth']);
+            $queryParam->addQueryParameter('fromImage', false, ['string']);
+            $queryParam->addQueryParameter('fromSrc', false, ['string']);
+            $queryParam->addQueryParameter('repo', false, ['string']);
+            $queryParam->addQueryParameter('tag', false, ['string']);
+            $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
             $url = '/images/create';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $inputImage;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -319,9 +316,8 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('tag', null);
-            $queryParam->setRequired('X-Registry-Auth');
-            $queryParam->setHeaderParameters(['X-Registry-Auth']);
+            $queryParam->addQueryParameter('tag', false, ['string']);
+            $queryParam->addHeaderParameter('X-Registry-Auth', true, ['string']);
             $url = '/images/{name}/push';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -371,8 +367,8 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('repo', null);
-            $queryParam->setDefault('tag', null);
+            $queryParam->addQueryParameter('repo', false, ['string']);
+            $queryParam->addQueryParameter('tag', false, ['string']);
             $url = '/images/{name}/tag';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -430,8 +426,8 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('force', false);
-            $queryParam->setDefault('noprune', false);
+            $queryParam->addQueryParameter('force', false, ['bool'], false);
+            $queryParam->addQueryParameter('noprune', false, ['bool'], false);
             $url = '/images/{name}';
             $url = str_replace('{name}', urlencode($name), $url);
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -481,9 +477,9 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setRequired('term');
-            $queryParam->setDefault('limit', null);
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('term', true, ['string']);
+            $queryParam->addQueryParameter('limit', false, ['int']);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/images/search';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -522,7 +518,7 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('filters', null);
+            $queryParam->addQueryParameter('filters', false, ['string']);
             $url = '/images/prune';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -569,16 +565,16 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($containerConfig, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('container', null);
-            $queryParam->setDefault('repo', null);
-            $queryParam->setDefault('tag', null);
-            $queryParam->setDefault('comment', null);
-            $queryParam->setDefault('author', null);
-            $queryParam->setDefault('pause', true);
-            $queryParam->setDefault('changes', null);
+            $queryParam->addQueryParameter('container', false, ['string']);
+            $queryParam->addQueryParameter('repo', false, ['string']);
+            $queryParam->addQueryParameter('tag', false, ['string']);
+            $queryParam->addQueryParameter('comment', false, ['string']);
+            $queryParam->addQueryParameter('author', false, ['string']);
+            $queryParam->addQueryParameter('pause', false, ['bool'], true);
+            $queryParam->addQueryParameter('changes', false, ['string']);
             $url = '/commit';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $this->serializer->serialize($containerConfig, 'json');
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);
@@ -685,7 +681,7 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('names', null);
+            $queryParam->addQueryParameter('names', false, ['array']);
             $url = '/images/get';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
             $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -730,10 +726,10 @@ trait ImageAsyncResourceTrait
     {
         return \Amp\call(function () use ($imagesTarball, $parameters, $fetch, $cancellationToken) {
             $queryParam = new QueryParam();
-            $queryParam->setDefault('quiet', false);
+            $queryParam->addQueryParameter('quiet', false, ['bool'], false);
             $url = '/images/load';
             $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
             $body = $imagesTarball;
             $request = new \Amp\Artax\Request($url, 'POST');
             $request = $request->withHeaders($headers);

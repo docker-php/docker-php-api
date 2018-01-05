@@ -13,23 +13,33 @@ namespace Docker\API\Model;
 class SwarmJoinPostBody
 {
     /**
+     * Listen address used for inter-manager communication if the node gets promoted to manager, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP).
+     *
      * @var string
      */
     protected $listenAddr;
     /**
+     * Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible.
+     *
      * @var string
      */
     protected $advertiseAddr;
     /**
+     * Addresses of manager nodes already participating in the swarm.
+     *
      * @var string
      */
     protected $remoteAddrs;
     /**
+     * Secret token for joining this swarm.
+     *
      * @var string
      */
     protected $joinToken;
 
     /**
+     * Listen address used for inter-manager communication if the node gets promoted to manager, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP).
+     *
      * @return string
      */
     public function getListenAddr(): ?string
@@ -38,6 +48,8 @@ class SwarmJoinPostBody
     }
 
     /**
+     * Listen address used for inter-manager communication if the node gets promoted to manager, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP).
+     *
      * @param string $listenAddr
      *
      * @return self
@@ -50,6 +62,8 @@ class SwarmJoinPostBody
     }
 
     /**
+     * Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible.
+     *
      * @return string
      */
     public function getAdvertiseAddr(): ?string
@@ -58,6 +72,8 @@ class SwarmJoinPostBody
     }
 
     /**
+     * Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible.
+     *
      * @param string $advertiseAddr
      *
      * @return self
@@ -70,6 +86,8 @@ class SwarmJoinPostBody
     }
 
     /**
+     * Addresses of manager nodes already participating in the swarm.
+     *
      * @return string
      */
     public function getRemoteAddrs(): ?string
@@ -78,6 +96,8 @@ class SwarmJoinPostBody
     }
 
     /**
+     * Addresses of manager nodes already participating in the swarm.
+     *
      * @param string $remoteAddrs
      *
      * @return self
@@ -90,6 +110,8 @@ class SwarmJoinPostBody
     }
 
     /**
+     * Secret token for joining this swarm.
+     *
      * @return string
      */
     public function getJoinToken(): ?string
@@ -98,6 +120,8 @@ class SwarmJoinPostBody
     }
 
     /**
+     * Secret token for joining this swarm.
+     *
      * @param string $joinToken
      *
      * @return self

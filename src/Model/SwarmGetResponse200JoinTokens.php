@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class SwarmGetResponse200JoinTokens
 {
     /**
+     * The token workers can use to join the swarm.
+     *
      * @var string
      */
     protected $worker;
     /**
+     * The token managers can use to join the swarm.
+     *
      * @var string
      */
     protected $manager;
 
     /**
+     * The token workers can use to join the swarm.
+     *
      * @return string
      */
     public function getWorker(): ?string
@@ -30,6 +36,8 @@ class SwarmGetResponse200JoinTokens
     }
 
     /**
+     * The token workers can use to join the swarm.
+     *
      * @param string $worker
      *
      * @return self
@@ -42,6 +50,8 @@ class SwarmGetResponse200JoinTokens
     }
 
     /**
+     * The token managers can use to join the swarm.
+     *
      * @return string
      */
     public function getManager(): ?string
@@ -50,6 +60,8 @@ class SwarmGetResponse200JoinTokens
     }
 
     /**
+     * The token managers can use to join the swarm.
+     *
      * @param string $manager
      *
      * @return self

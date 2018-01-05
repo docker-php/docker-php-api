@@ -27,8 +27,8 @@ trait VolumeResourceTrait
      */
     public function volumeList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/volumes';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -58,10 +58,10 @@ trait VolumeResourceTrait
      */
     public function volumeCreate(\Docker\API\Model\VolumesCreatePostBody $volumeConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/volumes/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($volumeConfig, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -96,8 +96,8 @@ trait VolumeResourceTrait
      */
     public function volumeDelete(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('force', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('force', false, ['bool'], false);
         $url = '/volumes/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -135,7 +135,7 @@ trait VolumeResourceTrait
      */
     public function volumeInspect(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/volumes/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -175,8 +175,8 @@ trait VolumeResourceTrait
      */
     public function volumePrune(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/volumes/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));

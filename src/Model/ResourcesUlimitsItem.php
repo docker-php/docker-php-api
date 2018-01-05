@@ -13,19 +13,27 @@ namespace Docker\API\Model;
 class ResourcesUlimitsItem
 {
     /**
+     * Name of ulimit.
+     *
      * @var string
      */
     protected $name;
     /**
+     * Soft limit.
+     *
      * @var int
      */
     protected $soft;
     /**
+     * Hard limit.
+     *
      * @var int
      */
     protected $hard;
 
     /**
+     * Name of ulimit.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -34,6 +42,8 @@ class ResourcesUlimitsItem
     }
 
     /**
+     * Name of ulimit.
+     *
      * @param string $name
      *
      * @return self
@@ -46,6 +56,8 @@ class ResourcesUlimitsItem
     }
 
     /**
+     * Soft limit.
+     *
      * @return int
      */
     public function getSoft(): ?int
@@ -54,6 +66,8 @@ class ResourcesUlimitsItem
     }
 
     /**
+     * Soft limit.
+     *
      * @param int $soft
      *
      * @return self
@@ -66,6 +80,8 @@ class ResourcesUlimitsItem
     }
 
     /**
+     * Hard limit.
+     *
      * @return int
      */
     public function getHard(): ?int
@@ -74,6 +90,8 @@ class ResourcesUlimitsItem
     }
 
     /**
+     * Hard limit.
+     *
      * @param int $hard
      *
      * @return self

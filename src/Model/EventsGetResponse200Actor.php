@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class EventsGetResponse200Actor
 {
     /**
+     * The ID of the object emitting the event.
+     *
      * @var string
      */
     protected $iD;
     /**
+     * Various key/value attributes of the object, depending on its type.
+     *
      * @var string[]
      */
     protected $attributes;
 
     /**
+     * The ID of the object emitting the event.
+     *
      * @return string
      */
     public function getID(): ?string
@@ -30,6 +36,8 @@ class EventsGetResponse200Actor
     }
 
     /**
+     * The ID of the object emitting the event.
+     *
      * @param string $iD
      *
      * @return self
@@ -42,6 +50,8 @@ class EventsGetResponse200Actor
     }
 
     /**
+     * Various key/value attributes of the object, depending on its type.
+     *
      * @return string[]
      */
     public function getAttributes(): ?\ArrayObject
@@ -50,6 +60,8 @@ class EventsGetResponse200Actor
     }
 
     /**
+     * Various key/value attributes of the object, depending on its type.
+     *
      * @param string[] $attributes
      *
      * @return self

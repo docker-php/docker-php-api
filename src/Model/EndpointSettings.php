@@ -13,6 +13,8 @@ namespace Docker\API\Model;
 class EndpointSettings
 {
     /**
+     * IPAM configurations for the endpoint.
+     *
      * @var EndpointSettingsIPAMConfig
      */
     protected $iPAMConfig;
@@ -62,6 +64,8 @@ class EndpointSettings
     protected $macAddress;
 
     /**
+     * IPAM configurations for the endpoint.
+     *
      * @return EndpointSettingsIPAMConfig
      */
     public function getIPAMConfig(): ?EndpointSettingsIPAMConfig
@@ -70,6 +74,8 @@ class EndpointSettings
     }
 
     /**
+     * IPAM configurations for the endpoint.
+     *
      * @param EndpointSettingsIPAMConfig $iPAMConfig
      *
      * @return self

@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class EndpointSpec
 {
     /**
+     * The mode of resolution to use for internal load balancing between tasks.
+     *
      * @var string
      */
     protected $mode;
     /**
+     * List of exposed ports that this service is accessible on from the outside. Ports can only be provided if `vip` resolution mode is used.
+     *
      * @var EndpointPortConfig[]
      */
     protected $ports;
 
     /**
+     * The mode of resolution to use for internal load balancing between tasks.
+     *
      * @return string
      */
     public function getMode(): ?string
@@ -30,6 +36,8 @@ class EndpointSpec
     }
 
     /**
+     * The mode of resolution to use for internal load balancing between tasks.
+     *
      * @param string $mode
      *
      * @return self
@@ -42,6 +50,8 @@ class EndpointSpec
     }
 
     /**
+     * List of exposed ports that this service is accessible on from the outside. Ports can only be provided if `vip` resolution mode is used.
+     *
      * @return EndpointPortConfig[]
      */
     public function getPorts(): ?array
@@ -50,6 +60,8 @@ class EndpointSpec
     }
 
     /**
+     * List of exposed ports that this service is accessible on from the outside. Ports can only be provided if `vip` resolution mode is used.
+     *
      * @param EndpointPortConfig[] $ports
      *
      * @return self

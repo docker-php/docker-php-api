@@ -13,19 +13,27 @@ namespace Docker\API\Model;
 class MountVolumeOptions
 {
     /**
+     * Populate volume with data from the target.
+     *
      * @var bool
      */
     protected $noCopy;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * Map of driver specific options.
+     *
      * @var MountVolumeOptionsDriverConfig
      */
     protected $driverConfig;
 
     /**
+     * Populate volume with data from the target.
+     *
      * @return bool
      */
     public function getNoCopy(): ?bool
@@ -34,6 +42,8 @@ class MountVolumeOptions
     }
 
     /**
+     * Populate volume with data from the target.
+     *
      * @param bool $noCopy
      *
      * @return self
@@ -46,6 +56,8 @@ class MountVolumeOptions
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -54,6 +66,8 @@ class MountVolumeOptions
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -66,6 +80,8 @@ class MountVolumeOptions
     }
 
     /**
+     * Map of driver specific options.
+     *
      * @return MountVolumeOptionsDriverConfig
      */
     public function getDriverConfig(): ?MountVolumeOptionsDriverConfig
@@ -74,6 +90,8 @@ class MountVolumeOptions
     }
 
     /**
+     * Map of driver specific options.
+     *
      * @param MountVolumeOptionsDriverConfig $driverConfig
      *
      * @return self

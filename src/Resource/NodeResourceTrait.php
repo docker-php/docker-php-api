@@ -28,8 +28,8 @@ trait NodeResourceTrait
      */
     public function nodeList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('filters', null);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('filters', false, ['string']);
         $url = '/nodes';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -64,8 +64,8 @@ trait NodeResourceTrait
      */
     public function nodeDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('force', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('force', false, ['bool'], false);
         $url = '/nodes/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -100,7 +100,7 @@ trait NodeResourceTrait
      */
     public function nodeInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/nodes/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
@@ -140,12 +140,12 @@ trait NodeResourceTrait
      */
     public function nodeUpdate(string $id, \Docker\API\Model\NodeSpec $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('version');
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('version', true, ['int']);
         $url = '/nodes/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);

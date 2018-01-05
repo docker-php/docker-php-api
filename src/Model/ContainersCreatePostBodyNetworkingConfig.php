@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class ContainersCreatePostBodyNetworkingConfig
 {
     /**
+     * A mapping of network name to endpoint configuration for that network.
+     *
      * @var EndpointSettings[]
      */
     protected $endpointsConfig;
 
     /**
+     * A mapping of network name to endpoint configuration for that network.
+     *
      * @return EndpointSettings[]
      */
     public function getEndpointsConfig(): ?\ArrayObject
@@ -26,6 +30,8 @@ class ContainersCreatePostBodyNetworkingConfig
     }
 
     /**
+     * A mapping of network name to endpoint configuration for that network.
+     *
      * @param EndpointSettings[] $endpointsConfig
      *
      * @return self

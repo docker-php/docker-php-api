@@ -13,22 +13,32 @@ namespace Docker\API\Model;
 class ContainersIdJsonGetResponse200State
 {
     /**
+     * The status of the container. For example, `running` or `exited`.
+     *
      * @var string
      */
     protected $status;
     /**
+     * Whether this container is running.
+     *
      * @var bool
      */
     protected $running;
     /**
+     * Whether this container is paused.
+     *
      * @var bool
      */
     protected $paused;
     /**
+     * Whether this container is restarting.
+     *
      * @var bool
      */
     protected $restarting;
     /**
+     * Whether this container has been killed because it ran out of memory.
+     *
      * @var bool
      */
     protected $oOMKilled;
@@ -37,10 +47,14 @@ class ContainersIdJsonGetResponse200State
      */
     protected $dead;
     /**
+     * The process ID of this container.
+     *
      * @var int
      */
     protected $pid;
     /**
+     * The last exit code of this container.
+     *
      * @var int
      */
     protected $exitCode;
@@ -49,15 +63,21 @@ class ContainersIdJsonGetResponse200State
      */
     protected $error;
     /**
+     * The time when this container was last started.
+     *
      * @var string
      */
     protected $startedAt;
     /**
+     * The time when this container last exited.
+     *
      * @var string
      */
     protected $finishedAt;
 
     /**
+     * The status of the container. For example, `running` or `exited`.
+     *
      * @return string
      */
     public function getStatus(): ?string
@@ -66,6 +86,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The status of the container. For example, `running` or `exited`.
+     *
      * @param string $status
      *
      * @return self
@@ -78,6 +100,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container is running.
+     *
      * @return bool
      */
     public function getRunning(): ?bool
@@ -86,6 +110,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container is running.
+     *
      * @param bool $running
      *
      * @return self
@@ -98,6 +124,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container is paused.
+     *
      * @return bool
      */
     public function getPaused(): ?bool
@@ -106,6 +134,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container is paused.
+     *
      * @param bool $paused
      *
      * @return self
@@ -118,6 +148,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container is restarting.
+     *
      * @return bool
      */
     public function getRestarting(): ?bool
@@ -126,6 +158,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container is restarting.
+     *
      * @param bool $restarting
      *
      * @return self
@@ -138,6 +172,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container has been killed because it ran out of memory.
+     *
      * @return bool
      */
     public function getOOMKilled(): ?bool
@@ -146,6 +182,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * Whether this container has been killed because it ran out of memory.
+     *
      * @param bool $oOMKilled
      *
      * @return self
@@ -178,6 +216,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The process ID of this container.
+     *
      * @return int
      */
     public function getPid(): ?int
@@ -186,6 +226,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The process ID of this container.
+     *
      * @param int $pid
      *
      * @return self
@@ -198,6 +240,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The last exit code of this container.
+     *
      * @return int
      */
     public function getExitCode(): ?int
@@ -206,6 +250,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The last exit code of this container.
+     *
      * @param int $exitCode
      *
      * @return self
@@ -238,6 +284,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The time when this container was last started.
+     *
      * @return string
      */
     public function getStartedAt(): ?string
@@ -246,6 +294,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The time when this container was last started.
+     *
      * @param string $startedAt
      *
      * @return self
@@ -258,6 +308,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The time when this container last exited.
+     *
      * @return string
      */
     public function getFinishedAt(): ?string
@@ -266,6 +318,8 @@ class ContainersIdJsonGetResponse200State
     }
 
     /**
+     * The time when this container last exited.
+     *
      * @param string $finishedAt
      *
      * @return self

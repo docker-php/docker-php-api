@@ -17,10 +17,14 @@ class TaskSpec
      */
     protected $containerSpec;
     /**
+     * Resource requirements which apply to each individual container created as part of the service.
+     *
      * @var TaskSpecResources
      */
     protected $resources;
     /**
+     * Specification for the restart policy which applies to containers created as part of this service.
+     *
      * @var TaskSpecRestartPolicy
      */
     protected $restartPolicy;
@@ -29,6 +33,8 @@ class TaskSpec
      */
     protected $placement;
     /**
+     * A counter that triggers an update even if no relevant parameters have been changed.
+     *
      * @var int
      */
     protected $forceUpdate;
@@ -37,6 +43,8 @@ class TaskSpec
      */
     protected $networks;
     /**
+     * Specifies the log driver to use for tasks created from this spec. If not present, the default one for the swarm will be used, finally falling back to the engine default if not specified.
+     *
      * @var TaskSpecLogDriver
      */
     protected $logDriver;
@@ -62,6 +70,8 @@ class TaskSpec
     }
 
     /**
+     * Resource requirements which apply to each individual container created as part of the service.
+     *
      * @return TaskSpecResources
      */
     public function getResources(): ?TaskSpecResources
@@ -70,6 +80,8 @@ class TaskSpec
     }
 
     /**
+     * Resource requirements which apply to each individual container created as part of the service.
+     *
      * @param TaskSpecResources $resources
      *
      * @return self
@@ -82,6 +94,8 @@ class TaskSpec
     }
 
     /**
+     * Specification for the restart policy which applies to containers created as part of this service.
+     *
      * @return TaskSpecRestartPolicy
      */
     public function getRestartPolicy(): ?TaskSpecRestartPolicy
@@ -90,6 +104,8 @@ class TaskSpec
     }
 
     /**
+     * Specification for the restart policy which applies to containers created as part of this service.
+     *
      * @param TaskSpecRestartPolicy $restartPolicy
      *
      * @return self
@@ -122,6 +138,8 @@ class TaskSpec
     }
 
     /**
+     * A counter that triggers an update even if no relevant parameters have been changed.
+     *
      * @return int
      */
     public function getForceUpdate(): ?int
@@ -130,6 +148,8 @@ class TaskSpec
     }
 
     /**
+     * A counter that triggers an update even if no relevant parameters have been changed.
+     *
      * @param int $forceUpdate
      *
      * @return self
@@ -162,6 +182,8 @@ class TaskSpec
     }
 
     /**
+     * Specifies the log driver to use for tasks created from this spec. If not present, the default one for the swarm will be used, finally falling back to the engine default if not specified.
+     *
      * @return TaskSpecLogDriver
      */
     public function getLogDriver(): ?TaskSpecLogDriver
@@ -170,6 +192,8 @@ class TaskSpec
     }
 
     /**
+     * Specifies the log driver to use for tasks created from this spec. If not present, the default one for the swarm will be used, finally falling back to the engine default if not specified.
+     *
      * @param TaskSpecLogDriver $logDriver
      *
      * @return self

@@ -13,15 +13,27 @@ namespace Docker\API\Model;
 class RestartPolicy
 {
     /**
+     * - `always` Always restart.
+    - `unless-stopped` Restart always except when the user has manually stopped the container
+    - `on-failure` Restart only when the container exit code is non-zero
+
+     *
      * @var string
      */
     protected $name;
     /**
+     * If `on-failure` is used, the number of times to retry before giving up.
+     *
      * @var int
      */
     protected $maximumRetryCount;
 
     /**
+     * - `always` Always restart.
+    - `unless-stopped` Restart always except when the user has manually stopped the container
+    - `on-failure` Restart only when the container exit code is non-zero
+
+     *
      * @return string
      */
     public function getName(): ?string
@@ -30,6 +42,11 @@ class RestartPolicy
     }
 
     /**
+     * - `always` Always restart.
+    - `unless-stopped` Restart always except when the user has manually stopped the container
+    - `on-failure` Restart only when the container exit code is non-zero
+
+     *
      * @param string $name
      *
      * @return self
@@ -42,6 +59,8 @@ class RestartPolicy
     }
 
     /**
+     * If `on-failure` is used, the number of times to retry before giving up.
+     *
      * @return int
      */
     public function getMaximumRetryCount(): ?int
@@ -50,6 +69,8 @@ class RestartPolicy
     }
 
     /**
+     * If `on-failure` is used, the number of times to retry before giving up.
+     *
      * @param int $maximumRetryCount
      *
      * @return self

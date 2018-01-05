@@ -13,51 +13,75 @@ namespace Docker\API\Model;
 class TaskSpecContainerSpec
 {
     /**
+     * The image name to use for the container.
+     *
      * @var string
      */
     protected $image;
     /**
+     * The command to be run in the image.
+     *
      * @var string[]
      */
     protected $command;
     /**
+     * Arguments to the command.
+     *
      * @var string[]
      */
     protected $args;
     /**
+     * A list of environment variables in the form `VAR=value`.
+     *
      * @var string[]
      */
     protected $env;
     /**
+     * The working directory for commands to run in.
+     *
      * @var string
      */
     protected $dir;
     /**
+     * The user inside the container.
+     *
      * @var string
      */
     protected $user;
     /**
+     * User-defined key/value data.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * Whether a pseudo-TTY should be allocated.
+     *
      * @var bool
      */
     protected $tTY;
     /**
+     * Specification for mounts to be added to containers created as part of the service.
+     *
      * @var Mount[]
      */
     protected $mounts;
     /**
+     * Amount of time to wait for the container to terminate before forcefully killing it.
+     *
      * @var int
      */
     protected $stopGracePeriod;
     /**
+     * Specification for DNS related configurations in resolver configuration file (`resolv.conf`).
+     *
      * @var TaskSpecContainerSpecDNSConfig
      */
     protected $dNSConfig;
 
     /**
+     * The image name to use for the container.
+     *
      * @return string
      */
     public function getImage(): ?string
@@ -66,6 +90,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * The image name to use for the container.
+     *
      * @param string $image
      *
      * @return self
@@ -78,6 +104,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * The command to be run in the image.
+     *
      * @return string[]
      */
     public function getCommand(): ?array
@@ -86,6 +114,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * The command to be run in the image.
+     *
      * @param string[] $command
      *
      * @return self
@@ -98,6 +128,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Arguments to the command.
+     *
      * @return string[]
      */
     public function getArgs(): ?array
@@ -106,6 +138,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Arguments to the command.
+     *
      * @param string[] $args
      *
      * @return self
@@ -118,6 +152,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * A list of environment variables in the form `VAR=value`.
+     *
      * @return string[]
      */
     public function getEnv(): ?array
@@ -126,6 +162,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * A list of environment variables in the form `VAR=value`.
+     *
      * @param string[] $env
      *
      * @return self
@@ -138,6 +176,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * The working directory for commands to run in.
+     *
      * @return string
      */
     public function getDir(): ?string
@@ -146,6 +186,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * The working directory for commands to run in.
+     *
      * @param string $dir
      *
      * @return self
@@ -158,6 +200,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * The user inside the container.
+     *
      * @return string
      */
     public function getUser(): ?string
@@ -166,6 +210,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * The user inside the container.
+     *
      * @param string $user
      *
      * @return self
@@ -178,6 +224,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * User-defined key/value data.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -186,6 +234,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * User-defined key/value data.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -198,6 +248,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Whether a pseudo-TTY should be allocated.
+     *
      * @return bool
      */
     public function getTTY(): ?bool
@@ -206,6 +258,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Whether a pseudo-TTY should be allocated.
+     *
      * @param bool $tTY
      *
      * @return self
@@ -218,6 +272,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Specification for mounts to be added to containers created as part of the service.
+     *
      * @return Mount[]
      */
     public function getMounts(): ?array
@@ -226,6 +282,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Specification for mounts to be added to containers created as part of the service.
+     *
      * @param Mount[] $mounts
      *
      * @return self
@@ -238,6 +296,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Amount of time to wait for the container to terminate before forcefully killing it.
+     *
      * @return int
      */
     public function getStopGracePeriod(): ?int
@@ -246,6 +306,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Amount of time to wait for the container to terminate before forcefully killing it.
+     *
      * @param int $stopGracePeriod
      *
      * @return self
@@ -258,6 +320,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Specification for DNS related configurations in resolver configuration file (`resolv.conf`).
+     *
      * @return TaskSpecContainerSpecDNSConfig
      */
     public function getDNSConfig(): ?TaskSpecContainerSpecDNSConfig
@@ -266,6 +330,8 @@ class TaskSpecContainerSpec
     }
 
     /**
+     * Specification for DNS related configurations in resolver configuration file (`resolv.conf`).
+     *
      * @param TaskSpecContainerSpecDNSConfig $dNSConfig
      *
      * @return self

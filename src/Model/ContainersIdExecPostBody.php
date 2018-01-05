@@ -13,43 +13,63 @@ namespace Docker\API\Model;
 class ContainersIdExecPostBody
 {
     /**
+     * Attach to `stdin` of the exec command.
+     *
      * @var bool
      */
     protected $attachStdin;
     /**
+     * Attach to `stdout` of the exec command.
+     *
      * @var bool
      */
     protected $attachStdout;
     /**
+     * Attach to `stderr` of the exec command.
+     *
      * @var bool
      */
     protected $attachStderr;
     /**
+     * Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
+     *
      * @var string
      */
     protected $detachKeys;
     /**
+     * Allocate a pseudo-TTY.
+     *
      * @var bool
      */
     protected $tty;
     /**
+     * A list of environment variables in the form `["VAR=value", ...]`.
+     *
      * @var string[]
      */
     protected $env;
     /**
+     * Command to run, as a string or array of strings.
+     *
      * @var string[]
      */
     protected $cmd;
     /**
+     * Runs the exec process with extended privileges.
+     *
      * @var bool
      */
     protected $privileged;
     /**
+     * The user, and optionally, group to run the exec process inside the container. Format is one of: `user`, `user:group`, `uid`, or `uid:gid`.
+     *
      * @var string
      */
     protected $user;
 
     /**
+     * Attach to `stdin` of the exec command.
+     *
      * @return bool
      */
     public function getAttachStdin(): ?bool
@@ -58,6 +78,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Attach to `stdin` of the exec command.
+     *
      * @param bool $attachStdin
      *
      * @return self
@@ -70,6 +92,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Attach to `stdout` of the exec command.
+     *
      * @return bool
      */
     public function getAttachStdout(): ?bool
@@ -78,6 +102,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Attach to `stdout` of the exec command.
+     *
      * @param bool $attachStdout
      *
      * @return self
@@ -90,6 +116,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Attach to `stderr` of the exec command.
+     *
      * @return bool
      */
     public function getAttachStderr(): ?bool
@@ -98,6 +126,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Attach to `stderr` of the exec command.
+     *
      * @param bool $attachStderr
      *
      * @return self
@@ -110,6 +140,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
+     *
      * @return string
      */
     public function getDetachKeys(): ?string
@@ -118,6 +150,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
+     *
      * @param string $detachKeys
      *
      * @return self
@@ -130,6 +164,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Allocate a pseudo-TTY.
+     *
      * @return bool
      */
     public function getTty(): ?bool
@@ -138,6 +174,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Allocate a pseudo-TTY.
+     *
      * @param bool $tty
      *
      * @return self
@@ -150,6 +188,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * A list of environment variables in the form `["VAR=value", ...]`.
+     *
      * @return string[]
      */
     public function getEnv(): ?array
@@ -158,6 +198,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * A list of environment variables in the form `["VAR=value", ...]`.
+     *
      * @param string[] $env
      *
      * @return self
@@ -170,6 +212,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Command to run, as a string or array of strings.
+     *
      * @return string[]
      */
     public function getCmd(): ?array
@@ -178,6 +222,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Command to run, as a string or array of strings.
+     *
      * @param string[] $cmd
      *
      * @return self
@@ -190,6 +236,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Runs the exec process with extended privileges.
+     *
      * @return bool
      */
     public function getPrivileged(): ?bool
@@ -198,6 +246,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * Runs the exec process with extended privileges.
+     *
      * @param bool $privileged
      *
      * @return self
@@ -210,6 +260,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * The user, and optionally, group to run the exec process inside the container. Format is one of: `user`, `user:group`, `uid`, or `uid:gid`.
+     *
      * @return string
      */
     public function getUser(): ?string
@@ -218,6 +270,8 @@ class ContainersIdExecPostBody
     }
 
     /**
+     * The user, and optionally, group to run the exec process inside the container. Format is one of: `user`, `user:group`, `uid`, or `uid:gid`.
+     *
      * @param string $user
      *
      * @return self

@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class TaskSpecResources
 {
     /**
+     * Define resources limits.
+     *
      * @var TaskSpecResourcesLimits
      */
     protected $limits;
     /**
+     * Define resources reservation.
+     *
      * @var TaskSpecResourcesReservation
      */
     protected $reservation;
 
     /**
+     * Define resources limits.
+     *
      * @return TaskSpecResourcesLimits
      */
     public function getLimits(): ?TaskSpecResourcesLimits
@@ -30,6 +36,8 @@ class TaskSpecResources
     }
 
     /**
+     * Define resources limits.
+     *
      * @param TaskSpecResourcesLimits $limits
      *
      * @return self
@@ -42,6 +50,8 @@ class TaskSpecResources
     }
 
     /**
+     * Define resources reservation.
+     *
      * @return TaskSpecResourcesReservation
      */
     public function getReservation(): ?TaskSpecResourcesReservation
@@ -50,6 +60,8 @@ class TaskSpecResources
     }
 
     /**
+     * Define resources reservation.
+     *
      * @param TaskSpecResourcesReservation $reservation
      *
      * @return self

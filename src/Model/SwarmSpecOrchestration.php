@@ -13,11 +13,15 @@ namespace Docker\API\Model;
 class SwarmSpecOrchestration
 {
     /**
+     * The number of historic tasks to keep per instance or node. If negative, never remove completed or failed tasks.
+     *
      * @var int
      */
     protected $taskHistoryRetentionLimit;
 
     /**
+     * The number of historic tasks to keep per instance or node. If negative, never remove completed or failed tasks.
+     *
      * @return int
      */
     public function getTaskHistoryRetentionLimit(): ?int
@@ -26,6 +30,8 @@ class SwarmSpecOrchestration
     }
 
     /**
+     * The number of historic tasks to keep per instance or node. If negative, never remove completed or failed tasks.
+     *
      * @param int $taskHistoryRetentionLimit
      *
      * @return self

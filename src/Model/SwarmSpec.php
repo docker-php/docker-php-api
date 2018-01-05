@@ -13,39 +13,57 @@ namespace Docker\API\Model;
 class SwarmSpec
 {
     /**
+     * Name of the swarm.
+     *
      * @var string
      */
     protected $name;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * Orchestration configuration.
+     *
      * @var SwarmSpecOrchestration
      */
     protected $orchestration;
     /**
+     * Raft configuration.
+     *
      * @var SwarmSpecRaft
      */
     protected $raft;
     /**
+     * Dispatcher configuration.
+     *
      * @var SwarmSpecDispatcher
      */
     protected $dispatcher;
     /**
+     * CA configuration.
+     *
      * @var SwarmSpecCAConfig
      */
     protected $cAConfig;
     /**
+     * Parameters related to encryption-at-rest.
+     *
      * @var SwarmSpecEncryptionConfig
      */
     protected $encryptionConfig;
     /**
+     * Defaults for creating tasks in this cluster.
+     *
      * @var SwarmSpecTaskDefaults
      */
     protected $taskDefaults;
 
     /**
+     * Name of the swarm.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -54,6 +72,8 @@ class SwarmSpec
     }
 
     /**
+     * Name of the swarm.
+     *
      * @param string $name
      *
      * @return self
@@ -66,6 +86,8 @@ class SwarmSpec
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -74,6 +96,8 @@ class SwarmSpec
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -86,6 +110,8 @@ class SwarmSpec
     }
 
     /**
+     * Orchestration configuration.
+     *
      * @return SwarmSpecOrchestration
      */
     public function getOrchestration(): ?SwarmSpecOrchestration
@@ -94,6 +120,8 @@ class SwarmSpec
     }
 
     /**
+     * Orchestration configuration.
+     *
      * @param SwarmSpecOrchestration $orchestration
      *
      * @return self
@@ -106,6 +134,8 @@ class SwarmSpec
     }
 
     /**
+     * Raft configuration.
+     *
      * @return SwarmSpecRaft
      */
     public function getRaft(): ?SwarmSpecRaft
@@ -114,6 +144,8 @@ class SwarmSpec
     }
 
     /**
+     * Raft configuration.
+     *
      * @param SwarmSpecRaft $raft
      *
      * @return self
@@ -126,6 +158,8 @@ class SwarmSpec
     }
 
     /**
+     * Dispatcher configuration.
+     *
      * @return SwarmSpecDispatcher
      */
     public function getDispatcher(): ?SwarmSpecDispatcher
@@ -134,6 +168,8 @@ class SwarmSpec
     }
 
     /**
+     * Dispatcher configuration.
+     *
      * @param SwarmSpecDispatcher $dispatcher
      *
      * @return self
@@ -146,6 +182,8 @@ class SwarmSpec
     }
 
     /**
+     * CA configuration.
+     *
      * @return SwarmSpecCAConfig
      */
     public function getCAConfig(): ?SwarmSpecCAConfig
@@ -154,6 +192,8 @@ class SwarmSpec
     }
 
     /**
+     * CA configuration.
+     *
      * @param SwarmSpecCAConfig $cAConfig
      *
      * @return self
@@ -166,6 +206,8 @@ class SwarmSpec
     }
 
     /**
+     * Parameters related to encryption-at-rest.
+     *
      * @return SwarmSpecEncryptionConfig
      */
     public function getEncryptionConfig(): ?SwarmSpecEncryptionConfig
@@ -174,6 +216,8 @@ class SwarmSpec
     }
 
     /**
+     * Parameters related to encryption-at-rest.
+     *
      * @param SwarmSpecEncryptionConfig $encryptionConfig
      *
      * @return self
@@ -186,6 +230,8 @@ class SwarmSpec
     }
 
     /**
+     * Defaults for creating tasks in this cluster.
+     *
      * @return SwarmSpecTaskDefaults
      */
     public function getTaskDefaults(): ?SwarmSpecTaskDefaults
@@ -194,6 +240,8 @@ class SwarmSpec
     }
 
     /**
+     * Defaults for creating tasks in this cluster.
+     *
      * @param SwarmSpecTaskDefaults $taskDefaults
      *
      * @return self

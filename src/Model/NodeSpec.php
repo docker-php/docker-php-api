@@ -13,23 +13,33 @@ namespace Docker\API\Model;
 class NodeSpec
 {
     /**
+     * Name for the node.
+     *
      * @var string
      */
     protected $name;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
     /**
+     * Role of the node.
+     *
      * @var string
      */
     protected $role;
     /**
+     * Availability of the node.
+     *
      * @var string
      */
     protected $availability;
 
     /**
+     * Name for the node.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -38,6 +48,8 @@ class NodeSpec
     }
 
     /**
+     * Name for the node.
+     *
      * @param string $name
      *
      * @return self
@@ -50,6 +62,8 @@ class NodeSpec
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -58,6 +72,8 @@ class NodeSpec
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self
@@ -70,6 +86,8 @@ class NodeSpec
     }
 
     /**
+     * Role of the node.
+     *
      * @return string
      */
     public function getRole(): ?string
@@ -78,6 +96,8 @@ class NodeSpec
     }
 
     /**
+     * Role of the node.
+     *
      * @param string $role
      *
      * @return self
@@ -90,6 +110,8 @@ class NodeSpec
     }
 
     /**
+     * Availability of the node.
+     *
      * @return string
      */
     public function getAvailability(): ?string
@@ -98,6 +120,8 @@ class NodeSpec
     }
 
     /**
+     * Availability of the node.
+     *
      * @param string $availability
      *
      * @return self

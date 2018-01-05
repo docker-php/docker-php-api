@@ -13,15 +13,21 @@ namespace Docker\API\Model;
 class ContainersCreatePostResponse201
 {
     /**
+     * The ID of the created container.
+     *
      * @var string
      */
     protected $id;
     /**
+     * Warnings encountered when creating the container.
+     *
      * @var string[]|null
      */
     protected $warnings;
 
     /**
+     * The ID of the created container.
+     *
      * @return string
      */
     public function getId(): ?string
@@ -30,6 +36,8 @@ class ContainersCreatePostResponse201
     }
 
     /**
+     * The ID of the created container.
+     *
      * @param string $id
      *
      * @return self
@@ -42,6 +50,8 @@ class ContainersCreatePostResponse201
     }
 
     /**
+     * Warnings encountered when creating the container.
+     *
      * @return string[]|null
      */
     public function getWarnings(): ?array
@@ -50,6 +60,8 @@ class ContainersCreatePostResponse201
     }
 
     /**
+     * Warnings encountered when creating the container.
+     *
      * @param string[]|null $warnings
      *
      * @return self

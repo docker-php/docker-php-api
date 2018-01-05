@@ -24,7 +24,7 @@ trait SwarmResourceTrait
      */
     public function swarmInspect(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/swarm';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -56,10 +56,10 @@ trait SwarmResourceTrait
      */
     public function swarmInit(\Docker\API\Model\SwarmInitPostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/swarm/init';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -94,10 +94,10 @@ trait SwarmResourceTrait
      */
     public function swarmJoin(\Docker\API\Model\SwarmJoinPostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/swarm/join';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -134,8 +134,8 @@ trait SwarmResourceTrait
      */
     public function swarmLeave(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setDefault('force', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('force', false, ['bool'], false);
         $url = '/swarm/leave';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -177,14 +177,14 @@ trait SwarmResourceTrait
      */
     public function swarmUpdate(\Docker\API\Model\SwarmSpec $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
-        $queryParam->setRequired('version');
-        $queryParam->setDefault('rotateWorkerToken', false);
-        $queryParam->setDefault('rotateManagerToken', false);
-        $queryParam->setDefault('rotateManagerUnlockKey', false);
+        $queryParam = new QueryParam($this->streamFactory);
+        $queryParam->addQueryParameter('version', true, ['int']);
+        $queryParam->addQueryParameter('rotateWorkerToken', false, ['bool'], false);
+        $queryParam->addQueryParameter('rotateManagerToken', false, ['bool'], false);
+        $queryParam->addQueryParameter('rotateManagerUnlockKey', false, ['bool'], false);
         $url = '/swarm/update';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);
@@ -216,7 +216,7 @@ trait SwarmResourceTrait
      */
     public function swarmUnlockkey(array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/swarm/unlockkey';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
@@ -246,10 +246,10 @@ trait SwarmResourceTrait
      */
     public function swarmUnlock(\Docker\API\Model\SwarmUnlockPostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam();
+        $queryParam = new QueryParam($this->streamFactory);
         $url = '/swarm/unlock';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => 'application/json'], $queryParam->buildHeaders($parameters));
+        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
         $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
         $response = $this->httpClient->sendRequest($request);

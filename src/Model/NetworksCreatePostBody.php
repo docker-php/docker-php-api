@@ -13,18 +13,26 @@ namespace Docker\API\Model;
 class NetworksCreatePostBody
 {
     /**
+     * The network's name.
+     *
      * @var string
      */
     protected $name;
     /**
+     * Check for networks with duplicate names.
+     *
      * @var bool
      */
     protected $checkDuplicate;
     /**
+     * Name of the network driver plugin to use.
+     *
      * @var string
      */
     protected $driver;
     /**
+     * Restrict external access to the network.
+     *
      * @var bool
      */
     protected $internal;
@@ -33,19 +41,27 @@ class NetworksCreatePostBody
      */
     protected $iPAM;
     /**
+     * Enable IPv6 on the network.
+     *
      * @var bool
      */
     protected $enableIPv6;
     /**
+     * Network specific options to be used by the drivers.
+     *
      * @var string[]
      */
     protected $options;
     /**
+     * User-defined key/value metadata.
+     *
      * @var string[]
      */
     protected $labels;
 
     /**
+     * The network's name.
+     *
      * @return string
      */
     public function getName(): ?string
@@ -54,6 +70,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * The network's name.
+     *
      * @param string $name
      *
      * @return self
@@ -66,6 +84,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Check for networks with duplicate names.
+     *
      * @return bool
      */
     public function getCheckDuplicate(): ?bool
@@ -74,6 +94,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Check for networks with duplicate names.
+     *
      * @param bool $checkDuplicate
      *
      * @return self
@@ -86,6 +108,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Name of the network driver plugin to use.
+     *
      * @return string
      */
     public function getDriver(): ?string
@@ -94,6 +118,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Name of the network driver plugin to use.
+     *
      * @param string $driver
      *
      * @return self
@@ -106,6 +132,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Restrict external access to the network.
+     *
      * @return bool
      */
     public function getInternal(): ?bool
@@ -114,6 +142,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Restrict external access to the network.
+     *
      * @param bool $internal
      *
      * @return self
@@ -146,6 +176,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Enable IPv6 on the network.
+     *
      * @return bool
      */
     public function getEnableIPv6(): ?bool
@@ -154,6 +186,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Enable IPv6 on the network.
+     *
      * @param bool $enableIPv6
      *
      * @return self
@@ -166,6 +200,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Network specific options to be used by the drivers.
+     *
      * @return string[]
      */
     public function getOptions(): ?\ArrayObject
@@ -174,6 +210,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * Network specific options to be used by the drivers.
+     *
      * @param string[] $options
      *
      * @return self
@@ -186,6 +224,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @return string[]
      */
     public function getLabels(): ?\ArrayObject
@@ -194,6 +234,8 @@ class NetworksCreatePostBody
     }
 
     /**
+     * User-defined key/value metadata.
+     *
      * @param string[] $labels
      *
      * @return self

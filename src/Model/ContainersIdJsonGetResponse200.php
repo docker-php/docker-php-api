@@ -13,26 +13,38 @@ namespace Docker\API\Model;
 class ContainersIdJsonGetResponse200
 {
     /**
+     * The ID of the container.
+     *
      * @var string
      */
     protected $id;
     /**
+     * The time the container was created.
+     *
      * @var string
      */
     protected $created;
     /**
+     * The path to the command being run.
+     *
      * @var string
      */
     protected $path;
     /**
+     * The arguments to the command being run.
+     *
      * @var string[]
      */
     protected $args;
     /**
+     * The state of the container.
+     *
      * @var ContainersIdJsonGetResponse200State
      */
     protected $state;
     /**
+     * The container's image.
+     *
      * @var string
      */
     protected $image;
@@ -53,6 +65,8 @@ class ContainersIdJsonGetResponse200
      */
     protected $logPath;
     /**
+     * TODO.
+     *
      * @var mixed
      */
     protected $node;
@@ -85,18 +99,26 @@ class ContainersIdJsonGetResponse200
      */
     protected $execIDs;
     /**
+     * Container configuration that depends on the host we are running on.
+     *
      * @var HostConfig
      */
     protected $hostConfig;
     /**
+     * Information about this container's graph driver.
+     *
      * @var GraphDriver
      */
     protected $graphDriver;
     /**
+     * The size of files that have been created or changed by this container.
+     *
      * @var int
      */
     protected $sizeRw;
     /**
+     * The total size of all the files in this container.
+     *
      * @var int
      */
     protected $sizeRootFs;
@@ -105,15 +127,21 @@ class ContainersIdJsonGetResponse200
      */
     protected $mounts;
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @var Config
      */
     protected $config;
     /**
+     * TODO: check is correct.
+     *
      * @var NetworkConfig
      */
     protected $networkSettings;
 
     /**
+     * The ID of the container.
+     *
      * @return string
      */
     public function getId(): ?string
@@ -122,6 +150,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The ID of the container.
+     *
      * @param string $id
      *
      * @return self
@@ -134,6 +164,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The time the container was created.
+     *
      * @return string
      */
     public function getCreated(): ?string
@@ -142,6 +174,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The time the container was created.
+     *
      * @param string $created
      *
      * @return self
@@ -154,6 +188,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The path to the command being run.
+     *
      * @return string
      */
     public function getPath(): ?string
@@ -162,6 +198,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The path to the command being run.
+     *
      * @param string $path
      *
      * @return self
@@ -174,6 +212,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The arguments to the command being run.
+     *
      * @return string[]
      */
     public function getArgs(): ?array
@@ -182,6 +222,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The arguments to the command being run.
+     *
      * @param string[] $args
      *
      * @return self
@@ -194,6 +236,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The state of the container.
+     *
      * @return ContainersIdJsonGetResponse200State
      */
     public function getState(): ?ContainersIdJsonGetResponse200State
@@ -202,6 +246,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The state of the container.
+     *
      * @param ContainersIdJsonGetResponse200State $state
      *
      * @return self
@@ -214,6 +260,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The container's image.
+     *
      * @return string
      */
     public function getImage(): ?string
@@ -222,6 +270,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The container's image.
+     *
      * @param string $image
      *
      * @return self
@@ -314,6 +364,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * TODO.
+     *
      * @return mixed
      */
     public function getNode()
@@ -322,6 +374,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * TODO.
+     *
      * @param mixed $node
      *
      * @return self
@@ -474,6 +528,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * Container configuration that depends on the host we are running on.
+     *
      * @return HostConfig
      */
     public function getHostConfig(): ?HostConfig
@@ -482,6 +538,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * Container configuration that depends on the host we are running on.
+     *
      * @param HostConfig $hostConfig
      *
      * @return self
@@ -494,6 +552,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * Information about this container's graph driver.
+     *
      * @return GraphDriver
      */
     public function getGraphDriver(): ?GraphDriver
@@ -502,6 +562,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * Information about this container's graph driver.
+     *
      * @param GraphDriver $graphDriver
      *
      * @return self
@@ -514,6 +576,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The size of files that have been created or changed by this container.
+     *
      * @return int
      */
     public function getSizeRw(): ?int
@@ -522,6 +586,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The size of files that have been created or changed by this container.
+     *
      * @param int $sizeRw
      *
      * @return self
@@ -534,6 +600,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The total size of all the files in this container.
+     *
      * @return int
      */
     public function getSizeRootFs(): ?int
@@ -542,6 +610,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * The total size of all the files in this container.
+     *
      * @param int $sizeRootFs
      *
      * @return self
@@ -574,6 +644,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @return Config
      */
     public function getConfig(): ?Config
@@ -582,6 +654,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @param Config $config
      *
      * @return self
@@ -594,6 +668,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * TODO: check is correct.
+     *
      * @return NetworkConfig
      */
     public function getNetworkSettings(): ?NetworkConfig
@@ -602,6 +678,8 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
+     * TODO: check is correct.
+     *
      * @param NetworkConfig $networkSettings
      *
      * @return self

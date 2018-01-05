@@ -13,23 +13,33 @@ namespace Docker\API\Model;
 class SwarmInitPostBody
 {
     /**
+     * Listen address used for inter-manager communication, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP). This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the default swarm listening port is used.
+     *
      * @var string
      */
     protected $listenAddr;
     /**
+     * Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible.
+     *
      * @var string
      */
     protected $advertiseAddr;
     /**
+     * Force creation of a new swarm.
+     *
      * @var bool
      */
     protected $forceNewCluster;
     /**
+     * User modifiable swarm configuration.
+     *
      * @var SwarmSpec
      */
     protected $spec;
 
     /**
+     * Listen address used for inter-manager communication, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP). This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the default swarm listening port is used.
+     *
      * @return string
      */
     public function getListenAddr(): ?string
@@ -38,6 +48,8 @@ class SwarmInitPostBody
     }
 
     /**
+     * Listen address used for inter-manager communication, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP). This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the default swarm listening port is used.
+     *
      * @param string $listenAddr
      *
      * @return self
@@ -50,6 +62,8 @@ class SwarmInitPostBody
     }
 
     /**
+     * Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible.
+     *
      * @return string
      */
     public function getAdvertiseAddr(): ?string
@@ -58,6 +72,8 @@ class SwarmInitPostBody
     }
 
     /**
+     * Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible.
+     *
      * @param string $advertiseAddr
      *
      * @return self
@@ -70,6 +86,8 @@ class SwarmInitPostBody
     }
 
     /**
+     * Force creation of a new swarm.
+     *
      * @return bool
      */
     public function getForceNewCluster(): ?bool
@@ -78,6 +96,8 @@ class SwarmInitPostBody
     }
 
     /**
+     * Force creation of a new swarm.
+     *
      * @param bool $forceNewCluster
      *
      * @return self
@@ -90,6 +110,8 @@ class SwarmInitPostBody
     }
 
     /**
+     * User modifiable swarm configuration.
+     *
      * @return SwarmSpec
      */
     public function getSpec(): ?SwarmSpec
@@ -98,6 +120,8 @@ class SwarmInitPostBody
     }
 
     /**
+     * User modifiable swarm configuration.
+     *
      * @param SwarmSpec $spec
      *
      * @return self

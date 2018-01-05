@@ -41,6 +41,8 @@ class Image
      */
     protected $container;
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @var Config
      */
     protected $containerConfig;
@@ -53,6 +55,8 @@ class Image
      */
     protected $author;
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @var Config
      */
     protected $config;
@@ -73,6 +77,8 @@ class Image
      */
     protected $virtualSize;
     /**
+     * Information about this container's graph driver.
+     *
      * @var GraphDriver
      */
     protected $graphDriver;
@@ -222,6 +228,8 @@ class Image
     }
 
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @return Config
      */
     public function getContainerConfig(): ?Config
@@ -230,6 +238,8 @@ class Image
     }
 
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @param Config $containerConfig
      *
      * @return self
@@ -282,6 +292,8 @@ class Image
     }
 
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @return Config
      */
     public function getConfig(): ?Config
@@ -290,6 +302,8 @@ class Image
     }
 
     /**
+     * Configuration for a container that is portable between hosts.
+     *
      * @param Config $config
      *
      * @return self
@@ -382,6 +396,8 @@ class Image
     }
 
     /**
+     * Information about this container's graph driver.
+     *
      * @return GraphDriver
      */
     public function getGraphDriver(): ?GraphDriver
@@ -390,6 +406,8 @@ class Image
     }
 
     /**
+     * Information about this container's graph driver.
+     *
      * @param GraphDriver $graphDriver
      *
      * @return self

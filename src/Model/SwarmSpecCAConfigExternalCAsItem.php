@@ -13,19 +13,27 @@ namespace Docker\API\Model;
 class SwarmSpecCAConfigExternalCAsItem
 {
     /**
+     * Protocol for communication with the external CA (currently only `cfssl` is supported).
+     *
      * @var string
      */
     protected $protocol;
     /**
+     * URL where certificate signing requests should be sent.
+     *
      * @var string
      */
     protected $uRL;
     /**
+     * An object with key/value pairs that are interpreted as protocol-specific options for the external CA driver.
+     *
      * @var string[]
      */
     protected $options;
 
     /**
+     * Protocol for communication with the external CA (currently only `cfssl` is supported).
+     *
      * @return string
      */
     public function getProtocol(): ?string
@@ -34,6 +42,8 @@ class SwarmSpecCAConfigExternalCAsItem
     }
 
     /**
+     * Protocol for communication with the external CA (currently only `cfssl` is supported).
+     *
      * @param string $protocol
      *
      * @return self
@@ -46,6 +56,8 @@ class SwarmSpecCAConfigExternalCAsItem
     }
 
     /**
+     * URL where certificate signing requests should be sent.
+     *
      * @return string
      */
     public function getURL(): ?string
@@ -54,6 +66,8 @@ class SwarmSpecCAConfigExternalCAsItem
     }
 
     /**
+     * URL where certificate signing requests should be sent.
+     *
      * @param string $uRL
      *
      * @return self
@@ -66,6 +80,8 @@ class SwarmSpecCAConfigExternalCAsItem
     }
 
     /**
+     * An object with key/value pairs that are interpreted as protocol-specific options for the external CA driver.
+     *
      * @return string[]
      */
     public function getOptions(): ?\ArrayObject
@@ -74,6 +90,8 @@ class SwarmSpecCAConfigExternalCAsItem
     }
 
     /**
+     * An object with key/value pairs that are interpreted as protocol-specific options for the external CA driver.
+     *
      * @param string[] $options
      *
      * @return self
