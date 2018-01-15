@@ -10,210 +10,100 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait ConfigResourceTrait
 {
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the configs list. Available filters:
 
      * }
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ConfigListInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigListServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Config
+     * @return null|\Docker\API\Model\Config[]|\Psr\Http\Message\ResponseInterface
      */
-    public function configList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function configList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $url = '/configs';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Config[]', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigListServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ConfigList($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * @param \Docker\API\Model\ConfigsCreatePostBody $body
-     * @param array                                   $parameters List of parameters
-     * @param string                                  $fetch      Fetch mode (object or response)
+     * @param string                                  $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ConfigCreateConflictException
      * @throws \Docker\API\Exception\ConfigCreateInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigCreateServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ConfigsCreatePostResponse201
+     * @return null|\Docker\API\Model\ConfigsCreatePostResponse201|\Psr\Http\Message\ResponseInterface
      */
-    public function configCreate(\Docker\API\Model\ConfigsCreatePostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function configCreate(\Docker\API\Model\ConfigsCreatePostBody $body, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/configs/create';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($body, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (201 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ConfigsCreatePostResponse201', 'json');
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigCreateConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigCreateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigCreateServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ConfigCreate($body);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID of the config
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    ID of the config
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ConfigDeleteNotFoundException
      * @throws \Docker\API\Exception\ConfigDeleteInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigDeleteServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function configDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function configDelete(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/configs/{id}';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('DELETE', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigDeleteServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ConfigDelete($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID of the config
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    ID of the config
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ConfigInspectNotFoundException
      * @throws \Docker\API\Exception\ConfigInspectInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigInspectServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Config
+     * @return null|\Docker\API\Model\Config|\Psr\Http\Message\ResponseInterface
      */
-    public function configInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function configInspect(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/configs/{id}';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Config', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigInspectServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ConfigInspect($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string                       $id         The ID or name of the config
-     * @param \Docker\API\Model\ConfigSpec $body       The spec of the config to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [ConfigInspect endpoint](#operation/ConfigInspect) response values.
-     * @param array                        $parameters {
+     * @param string                       $id              The ID or name of the config
+     * @param \Docker\API\Model\ConfigSpec $body            The spec of the config to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [ConfigInspect endpoint](#operation/ConfigInspect) response values.
+     * @param array                        $queryParameters {
      *
      *     @var int $version The version number of the config object being updated. This is required to avoid conflicting writes.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ConfigUpdateBadRequestException
      * @throws \Docker\API\Exception\ConfigUpdateNotFoundException
      * @throws \Docker\API\Exception\ConfigUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigUpdateServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function configUpdate(string $id, \Docker\API\Model\ConfigSpec $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function configUpdate(string $id, \Docker\API\Model\ConfigSpec $body, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('version', true, ['int']);
-        $url = '/configs/{id}/update';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($body, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigUpdateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigUpdateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigUpdateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ConfigUpdateServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ConfigUpdate($id, $body, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }

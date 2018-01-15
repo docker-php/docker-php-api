@@ -10,49 +10,23 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait DistributionAsyncResourceTrait
 {
     /**
      * Return image digest and platform information by contacting the registry.
      *
-     * @param string                 $name              Image name or id
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $name  Image name or id
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\DistributionInspectUnauthorizedException
      * @throws \Docker\API\Exception\DistributionInspectInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\DistributionNameJsonGetResponse200>
+     * @return null|\Docker\API\Model\DistributionNameJsonGetResponse200|\Amp\Artax\Response
      */
-    public function distributionInspect(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function distributionInspect(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/distribution/{name}/json';
-            $url = str_replace('{name}', urlencode($name), $url);
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\DistributionNameJsonGetResponse200', 'json');
-                }
-                if (401 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\DistributionInspectUnauthorizedException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\DistributionInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\DistributionInspect($name);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 }

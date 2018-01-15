@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait ContainerResourceTrait
 {
     /**
@@ -21,7 +19,7 @@ trait ContainerResourceTrait
     the list of linked containers is not propagated .
 
      *
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var bool $all Return all containers. By default, only running containers are shown
      *     @var int $limit return this number of most recently created containers, including non-running ones
@@ -29,170 +27,87 @@ trait ContainerResourceTrait
      *     @var string $filters Filters to process on the container list, encoded as JSON (a `map[string][]string`). For example, `{"status": ["paused"]}` will only return paused containers. Available filters:
 
      * }
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerListBadRequestException
      * @throws \Docker\API\Exception\ContainerListInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainerSummaryItem
+     * @return null|\Docker\API\Model\ContainerSummaryItem[]|\Psr\Http\Message\ResponseInterface
      */
-    public function containerList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('all', false, ['bool'], false);
-        $queryParam->addQueryParameter('limit', false, ['int']);
-        $queryParam->addQueryParameter('size', false, ['bool'], false);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $url = '/containers/json';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainerSummaryItem[]', 'json');
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerListBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerList($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param \Docker\API\Model\ContainersCreatePostBody $body       Container to create
-     * @param array                                      $parameters {
+     * @param \Docker\API\Model\ContainersCreatePostBody $body            Container to create
+     * @param array                                      $queryParameters {
      *
      *     @var string $name Assign the specified name to the container. Must match `/?[a-zA-Z0-9_-]+`.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerCreateBadRequestException
      * @throws \Docker\API\Exception\ContainerCreateNotFoundException
      * @throws \Docker\API\Exception\ContainerCreateConflictException
      * @throws \Docker\API\Exception\ContainerCreateInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainersCreatePostResponse201
+     * @return null|\Docker\API\Model\ContainersCreatePostResponse201|\Psr\Http\Message\ResponseInterface
      */
-    public function containerCreate(\Docker\API\Model\ContainersCreatePostBody $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerCreate(\Docker\API\Model\ContainersCreatePostBody $body, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('name', false, ['string']);
-        $url = '/containers/create';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($body, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (201 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersCreatePostResponse201', 'json');
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerCreateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerCreateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerCreateConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerCreateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerCreate($body, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Return low-level information about a container.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var bool $size Return the size of container as fields `SizeRw` and `SizeRootFs`
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerInspectNotFoundException
      * @throws \Docker\API\Exception\ContainerInspectInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainersIdJsonGetResponse200
+     * @return null|\Docker\API\Model\ContainersIdJsonGetResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function containerInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerInspect(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('size', false, ['bool'], false);
-        $url = '/containers/{id}/json';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersIdJsonGetResponse200', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerInspect($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * On Unix systems, this is done by running the `ps` command. This endpoint is not supported on Windows.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $ps_args The arguments to pass to `ps`. For example, `aux`
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerTopNotFoundException
      * @throws \Docker\API\Exception\ContainerTopInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainersIdTopGetResponse200
+     * @return null|\Docker\API\Model\ContainersIdTopGetResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function containerTop(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerTop(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('ps_args', false, ['string'], '-ef');
-        $url = '/containers/{id}/top';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersIdTopGetResponse200', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerTopNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerTopInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerTop($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -201,8 +116,8 @@ trait ContainerResourceTrait
     Note: This endpoint works only for containers with the `json-file` or `journald` logging driver.
 
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var bool $follow return the logs as a stream
 
@@ -214,46 +129,18 @@ trait ContainerResourceTrait
      *     @var string $tail Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerLogsNotFoundException
      * @throws \Docker\API\Exception\ContainerLogsInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerLogs(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerLogs(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('follow', false, ['bool'], false);
-        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
-        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
-        $queryParam->addQueryParameter('since', false, ['int'], 0);
-        $queryParam->addQueryParameter('until', false, ['int'], 0);
-        $queryParam->addQueryParameter('timestamps', false, ['bool'], false);
-        $queryParam->addQueryParameter('tail', false, ['string'], 'all');
-        $url = '/containers/{id}/logs';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (101 === $response->getStatusCode()) {
-                return json_decode((string) $response->getBody());
-            }
-            if (200 === $response->getStatusCode()) {
-                return json_decode((string) $response->getBody());
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerLogsNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerLogsInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerLogs($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -265,75 +152,37 @@ trait ContainerResourceTrait
     - `2`: Deleted
 
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    ID or name of the container
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerChangesNotFoundException
      * @throws \Docker\API\Exception\ContainerChangesInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainersIdChangesGetResponse200Item
+     * @return null|\Docker\API\Model\ContainersIdChangesGetResponse200Item[]|\Psr\Http\Message\ResponseInterface
      */
-    public function containerChanges(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerChanges(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/containers/{id}/changes';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersIdChangesGetResponse200Item[]', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerChangesNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerChangesInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerChanges($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Export the contents of a container as a tarball.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    ID or name of the container
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerExportNotFoundException
      * @throws \Docker\API\Exception\ContainerExportInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerExport(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerExport(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/containers/{id}/export';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerExportNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerExportInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerExport($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -349,337 +198,175 @@ trait ContainerResourceTrait
     corresponding `cpu_usage.percpu_usage` array should be used.
 
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var bool $stream Stream the output. If false, the stats will be output once and then it will disconnect.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerStatsNotFoundException
      * @throws \Docker\API\Exception\ContainerStatsInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerStats(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerStats(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('stream', false, ['bool'], true);
-        $url = '/containers/{id}/stats';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return json_decode((string) $response->getBody());
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerStatsNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerStatsInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerStats($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Resize the TTY for a container. You must restart the container for the resize to take effect.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var int $h Height of the tty session in characters
      *     @var int $w Width of the tty session in characters
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerResizeNotFoundException
      * @throws \Docker\API\Exception\ContainerResizeInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerResize(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerResize(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('h', false, ['int']);
-        $queryParam->addQueryParameter('w', false, ['int']);
-        $url = '/containers/{id}/resize';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerResizeNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerResizeInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerResize($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $detachKeys Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerStartNotFoundException
      * @throws \Docker\API\Exception\ContainerStartInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null|\Docker\API\Model\ErrorResponse
+     * @return null|\Docker\API\Model\ErrorResponse|\Psr\Http\Message\ResponseInterface
      */
-    public function containerStart(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerStart(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('detachKeys', false, ['string']);
-        $url = '/containers/{id}/start';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (304 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerStartNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerStartInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerStart($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var int $t Number of seconds to wait before killing the container
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerStopNotFoundException
      * @throws \Docker\API\Exception\ContainerStopInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null|\Docker\API\Model\ErrorResponse
+     * @return null|\Docker\API\Model\ErrorResponse|\Psr\Http\Message\ResponseInterface
      */
-    public function containerStop(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerStop(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('t', false, ['int']);
-        $url = '/containers/{id}/stop';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (304 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerStopNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerStopInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerStop($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var int $t Number of seconds to wait before killing the container
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerRestartNotFoundException
      * @throws \Docker\API\Exception\ContainerRestartInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerRestart(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerRestart(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('t', false, ['int']);
-        $url = '/containers/{id}/restart';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerRestartNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerRestartInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerRestart($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Send a POSIX signal to a container, defaulting to killing to the container.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $signal Signal to send to the container as an integer or string (e.g. `SIGINT`)
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerKillNotFoundException
      * @throws \Docker\API\Exception\ContainerKillInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerKill(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerKill(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('signal', false, ['string'], 'SIGKILL');
-        $url = '/containers/{id}/kill';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerKillNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerKillInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerKill($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Change various configuration options of a container without having to recreate it.
      *
-     * @param string                                       $id         ID or name of the container
+     * @param string                                       $id     ID or name of the container
      * @param \Docker\API\Model\ContainersIdUpdatePostBody $update
-     * @param array                                        $parameters List of parameters
-     * @param string                                       $fetch      Fetch mode (object or response)
+     * @param string                                       $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerUpdateNotFoundException
      * @throws \Docker\API\Exception\ContainerUpdateInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainersIdUpdatePostResponse200
+     * @return null|\Docker\API\Model\ContainersIdUpdatePostResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function containerUpdate(string $id, \Docker\API\Model\ContainersIdUpdatePostBody $update, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerUpdate(string $id, \Docker\API\Model\ContainersIdUpdatePostBody $update, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/containers/{id}/update';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($update, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersIdUpdatePostResponse200', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerUpdateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerUpdateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerUpdate($id, $update);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $name New name for the container
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerRenameNotFoundException
      * @throws \Docker\API\Exception\ContainerRenameConflictException
      * @throws \Docker\API\Exception\ContainerRenameInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerRename(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerRename(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('name', true, ['string']);
-        $url = '/containers/{id}/rename';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerRenameNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerRenameConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerRenameInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerRename($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -688,75 +375,37 @@ trait ContainerResourceTrait
     Traditionally, when suspending a process the `SIGSTOP` signal is used, which is observable by the process being suspended. With the cgroups freezer the process is unaware, and unable to capture, that it is being suspended, and subsequently resumed.
 
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    ID or name of the container
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerPauseNotFoundException
      * @throws \Docker\API\Exception\ContainerPauseInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerPause(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerPause(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/containers/{id}/pause';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerPauseNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerPauseInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerPause($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Resume a container which has been paused.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    ID or name of the container
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerUnpauseNotFoundException
      * @throws \Docker\API\Exception\ContainerUnpauseInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerUnpause(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerUnpause(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/containers/{id}/unpause';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerUnpauseNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerUnpauseInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerUnpause($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -837,8 +486,8 @@ trait ContainerResourceTrait
     When the TTY setting is enabled in [`POST /containers/create`](#operation/ContainerCreate), the stream is not multiplexed. The data exchanged over the hijacked connection is simply the raw data from the process PTY and client's `stdin`.
 
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $detachKeys Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
      *     @var bool $logs replay previous logs from the container
@@ -849,54 +498,24 @@ trait ContainerResourceTrait
      *     @var bool $stderr Attach to `stderr`
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerAttachBadRequestException
      * @throws \Docker\API\Exception\ContainerAttachNotFoundException
      * @throws \Docker\API\Exception\ContainerAttachInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerAttach(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerAttach(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('detachKeys', false, ['string']);
-        $queryParam->addQueryParameter('logs', false, ['bool'], false);
-        $queryParam->addQueryParameter('stream', false, ['bool'], false);
-        $queryParam->addQueryParameter('stdin', false, ['bool'], false);
-        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
-        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
-        $url = '/containers/{id}/attach';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (101 === $response->getStatusCode()) {
-                return null;
-            }
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerAttachBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerAttachNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerAttachInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerAttach($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $detachKeys Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,`, or `_`.
      *     @var bool $logs Return logs
@@ -906,321 +525,160 @@ trait ContainerResourceTrait
      *     @var bool $stderr Attach to `stderr`
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerAttachWebsocketBadRequestException
      * @throws \Docker\API\Exception\ContainerAttachWebsocketNotFoundException
      * @throws \Docker\API\Exception\ContainerAttachWebsocketInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerAttachWebsocket(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerAttachWebsocket(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('detachKeys', false, ['string']);
-        $queryParam->addQueryParameter('logs', false, ['bool'], false);
-        $queryParam->addQueryParameter('stream', false, ['bool'], false);
-        $queryParam->addQueryParameter('stdin', false, ['bool'], false);
-        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
-        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
-        $url = '/containers/{id}/attach/ws';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (101 === $response->getStatusCode()) {
-                return null;
-            }
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerAttachWebsocketBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerAttachWebsocketNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerAttachWebsocketInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerAttachWebsocket($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Block until a container stops, then returns the exit code.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $condition Wait until a container state reaches the given condition, either 'not-running' (default), 'next-exit', or 'removed'.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerWaitNotFoundException
      * @throws \Docker\API\Exception\ContainerWaitInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainersIdWaitPostResponse200
+     * @return null|\Docker\API\Model\ContainersIdWaitPostResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function containerWait(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerWait(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('condition', false, ['string'], 'not-running');
-        $url = '/containers/{id}/wait';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersIdWaitPostResponse200', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerWaitNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerWaitInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerWait($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var bool $v remove the volumes associated with the container
      *     @var bool $force if the container is running, kill it before removing it
      *     @var bool $link Remove the specified link associated with the container.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerDeleteBadRequestException
      * @throws \Docker\API\Exception\ContainerDeleteNotFoundException
      * @throws \Docker\API\Exception\ContainerDeleteConflictException
      * @throws \Docker\API\Exception\ContainerDeleteInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerDelete(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('v', false, ['bool'], false);
-        $queryParam->addQueryParameter('force', false, ['bool'], false);
-        $queryParam->addQueryParameter('link', false, ['bool'], false);
-        $url = '/containers/{id}';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('DELETE', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerDeleteBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerDeleteConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerDelete($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Get a tar archive of a resource in the filesystem of container id.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $path Resource in the container’s filesystem to archive.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerArchiveBadRequestException
      * @throws \Docker\API\Exception\ContainerArchiveNotFoundException
      * @throws \Docker\API\Exception\ContainerArchiveInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerArchive(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerArchive(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('path', true, ['string']);
-        $url = '/containers/{id}/archive';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerArchiveBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersIdArchiveGetResponse400', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerArchiveNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerArchiveInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerArchive($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * A response header `X-Docker-Container-Path-Stat` is return containing a base64 - encoded JSON object with some filesystem header information about the path.
      *
-     * @param string $id         ID or name of the container
-     * @param array  $parameters {
+     * @param string $id              ID or name of the container
+     * @param array  $queryParameters {
      *
      *     @var string $path Resource in the container’s filesystem to archive.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerArchiveInfoBadRequestException
      * @throws \Docker\API\Exception\ContainerArchiveInfoNotFoundException
      * @throws \Docker\API\Exception\ContainerArchiveInfoInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function containerArchiveInfo(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerArchiveInfo(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('path', true, ['string']);
-        $url = '/containers/{id}/archive';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('HEAD', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerArchiveInfoBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersIdArchiveHeadResponse400', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerArchiveInfoNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerArchiveInfoInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerArchiveInfo($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Upload a tar archive to be extracted to a path in the filesystem of container id.
      *
-     * @param string $id          ID or name of the container
-     * @param string $inputStream the input stream must be a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz
-     * @param array  $parameters  {
+     * @param string $id              ID or name of the container
+     * @param string $inputStream     the input stream must be a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz
+     * @param array  $queryParameters {
      *
      *     @var string $path Path to a directory in the container to extract the archive’s contents into.
      *     @var string $noOverwriteDirNonDir If “1”, “true”, or “True” then it will be an error if unpacking the given content would cause an existing directory to be replaced with a non-directory and vice versa.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PutContainerArchiveBadRequestException
      * @throws \Docker\API\Exception\PutContainerArchiveForbiddenException
      * @throws \Docker\API\Exception\PutContainerArchiveNotFoundException
      * @throws \Docker\API\Exception\PutContainerArchiveInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function putContainerArchive(string $id, $inputStream, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function putContainerArchive(string $id, string $inputStream, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('path', true, ['string']);
-        $queryParam->addQueryParameter('noOverwriteDirNonDir', false, ['string']);
-        $url = '/containers/{id}/archive';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $inputStream;
-        $request = $this->messageFactory->createRequest('PUT', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PutContainerArchiveBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (403 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PutContainerArchiveForbiddenException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PutContainerArchiveNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PutContainerArchiveInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PutContainerArchive($id, $inputStream, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
 
      * }
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerPruneInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ContainersPrunePostResponse200
+     * @return null|\Docker\API\Model\ContainersPrunePostResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function containerPrune(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerPrune(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $url = '/containers/prune';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ContainersPrunePostResponse200', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerPruneInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerPrune($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }

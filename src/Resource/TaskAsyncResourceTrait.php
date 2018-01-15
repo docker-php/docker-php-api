@@ -10,94 +10,42 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait TaskAsyncResourceTrait
 {
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the tasks list. Available filters:
 
      * }
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\TaskListInternalServerErrorException
      * @throws \Docker\API\Exception\TaskListServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Task>
+     * @return null|\Docker\API\Model\Task[]|\Amp\Artax\Response
      */
-    public function taskList(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function taskList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('filters', false, ['string']);
-            $url = '/tasks';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Task[]', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\TaskListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (503 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\TaskListServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\TaskList($queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string                 $id                ID of the task
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $id    ID of the task
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\TaskInspectNotFoundException
      * @throws \Docker\API\Exception\TaskInspectInternalServerErrorException
      * @throws \Docker\API\Exception\TaskInspectServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Task>
+     * @return null|\Docker\API\Model\Task|\Amp\Artax\Response
      */
-    public function taskInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function taskInspect(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/tasks/{id}';
-            $url = str_replace('{id}', urlencode($id), $url);
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Task', 'json');
-                }
-                if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\TaskInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\TaskInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (503 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\TaskInspectServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\TaskInspect($id);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 }

@@ -10,78 +10,46 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait PluginResourceTrait
 {
     /**
      * Returns information about installed plugins.
      *
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the plugin list. Available filters:
 
      * }
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginListInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Plugin
+     * @return null|\Docker\API\Model\Plugin[]|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $url = '/plugins';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Plugin[]', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginList($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $remote The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\GetPluginPrivilegesInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\PluginsPrivilegesGetResponse200Item
+     * @return null|\Docker\API\Model\PluginsPrivilegesGetResponse200Item[]|\Psr\Http\Message\ResponseInterface
      */
-    public function getPluginPrivileges(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function getPluginPrivileges(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('remote', true, ['string']);
-        $url = '/plugins/privileges';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\PluginsPrivilegesGetResponse200Item[]', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\GetPluginPrivilegesInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\GetPluginPrivileges($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -89,344 +57,190 @@ trait PluginResourceTrait
 
      *
      * @param array $body
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $remote remote reference for plugin to install
 
      *     @var string $name local name for the pulled plugin
 
+    The `:latest` tag is optional, and is used as the default if omitted.
+
+     * }
+     *
+     * @param array $headerParameters {
+     *
      *     @var string $X-Registry-Auth A base64-encoded auth configuration to use when pulling a plugin from a registry. [See the authentication section for details.](#section/Authentication)
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginPullInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginPull(array $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginPull(array $body, array $queryParameters = [], array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('remote', true, ['string']);
-        $queryParam->addQueryParameter('name', false, ['string']);
-        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
-        $url = '/plugins/pull';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $body;
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginPullInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginPull($body, $queryParameters, $headerParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $name  The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginInspectNotFoundException
      * @throws \Docker\API\Exception\PluginInspectInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Plugin
+     * @return null|\Docker\API\Model\Plugin|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginInspect(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginInspect(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/plugins/{name}/json';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Plugin', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginInspect($name);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
-     * @param array  $parameters {
+     * @param string $name            The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param array  $queryParameters {
      *
      *     @var bool $force Disable the plugin before removing. This may result in issues if the plugin is in use by a container.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginDeleteNotFoundException
      * @throws \Docker\API\Exception\PluginDeleteInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Plugin
+     * @return null|\Docker\API\Model\Plugin|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginDelete(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginDelete(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('force', false, ['bool'], false);
-        $url = '/plugins/{name}';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('DELETE', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Plugin', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginDelete($name, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
-     * @param array  $parameters {
+     * @param string $name            The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param array  $queryParameters {
      *
      *     @var int $timeout Set the HTTP client timeout (in seconds)
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginEnableNotFoundException
      * @throws \Docker\API\Exception\PluginEnableInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginEnable(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginEnable(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('timeout', false, ['int'], 0);
-        $url = '/plugins/{name}/enable';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginEnableNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginEnableInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginEnable($name, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $name  The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginDisableNotFoundException
      * @throws \Docker\API\Exception\PluginDisableInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginDisable(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginDisable(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/plugins/{name}/disable';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginDisableNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginDisableInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginDisable($name);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param string $name            The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
      * @param array  $body
-     * @param array  $parameters {
+     * @param array  $queryParameters {
      *
      *     @var string $remote remote reference to upgrade to
 
+    The `:latest` tag is optional, and is used as the default if omitted.
+
+     * }
+     *
+     * @param array $headerParameters {
+     *
      *     @var string $X-Registry-Auth A base64-encoded auth configuration to use when pulling a plugin from a registry. [See the authentication section for details.](#section/Authentication)
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginUpgradeNotFoundException
      * @throws \Docker\API\Exception\PluginUpgradeInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginUpgrade(string $name, array $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginUpgrade(string $name, array $body, array $queryParameters = [], array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('remote', true, ['string']);
-        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
-        $url = '/plugins/{name}/upgrade';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $body;
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginUpgradeNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginUpgradeInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginUpgrade($name, $body, $queryParameters, $headerParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $tarContext Path to tar containing plugin rootfs and manifest
-     * @param array  $parameters {
+     * @param string $tarContext      Path to tar containing plugin rootfs and manifest
+     * @param array  $queryParameters {
      *
      *     @var string $name The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginCreateInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginCreate($tarContext, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginCreate(string $tarContext, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('name', true, ['string']);
-        $url = '/plugins/create';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $tarContext;
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginCreateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginCreate($tarContext, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Push a plugin to the registry.
      *
-     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $name  The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginPushNotFoundException
      * @throws \Docker\API\Exception\PluginPushInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginPush(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginPush(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/plugins/{name}/push';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginPushNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginPushInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginPush($name);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $name       The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
+     * @param string $name  The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
      * @param array  $body
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\PluginSetNotFoundException
      * @throws \Docker\API\Exception\PluginSetInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function pluginSet(string $name, array $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function pluginSet(string $name, array $body, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/plugins/{name}/set';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $body;
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (204 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginSetNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\PluginSetInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\PluginSet($name, $body);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }

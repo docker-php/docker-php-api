@@ -10,197 +10,88 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait NodeAsyncResourceTrait
 {
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters filters to process on the nodes list, encoded as JSON (a `map[string][]string`)
 
      * }
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeListInternalServerErrorException
      * @throws \Docker\API\Exception\NodeListServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Node>
+     * @return null|\Docker\API\Model\Node[]|\Amp\Artax\Response
      */
-    public function nodeList(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function nodeList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('filters', false, ['string']);
-            $url = '/nodes';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Node[]', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (503 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeListServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\NodeList($queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         The ID or name of the node
-     * @param array  $parameters {
+     * @param string $id              The ID or name of the node
+     * @param array  $queryParameters {
      *
      *     @var bool $force Force remove a node from the swarm
      * }
      *
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeDeleteNotFoundException
      * @throws \Docker\API\Exception\NodeDeleteInternalServerErrorException
      * @throws \Docker\API\Exception\NodeDeleteServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|null>
+     * @return null|\Amp\Artax\Response
      */
-    public function nodeDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function nodeDelete(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('force', false, ['bool'], false);
-            $url = '/nodes/{id}';
-            $url = str_replace('{id}', urlencode($id), $url);
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'DELETE');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return null;
-                }
-                if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeDeleteNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (503 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeDeleteServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\NodeDelete($id, $queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string                 $id                The ID or name of the node
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $id    The ID or name of the node
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeInspectNotFoundException
      * @throws \Docker\API\Exception\NodeInspectInternalServerErrorException
      * @throws \Docker\API\Exception\NodeInspectServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Node>
+     * @return null|\Docker\API\Model\Node|\Amp\Artax\Response
      */
-    public function nodeInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function nodeInspect(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($id, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/nodes/{id}';
-            $url = str_replace('{id}', urlencode($id), $url);
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Node', 'json');
-                }
-                if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (503 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeInspectServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\NodeInspect($id);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string                     $id         The ID of the node
+     * @param string                     $id              The ID of the node
      * @param \Docker\API\Model\NodeSpec $body
-     * @param array                      $parameters {
+     * @param array                      $queryParameters {
      *
      *     @var int $version The version number of the node object being updated. This is required to avoid conflicting writes.
      * }
      *
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeUpdateBadRequestException
      * @throws \Docker\API\Exception\NodeUpdateNotFoundException
      * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|null>
+     * @return null|\Amp\Artax\Response
      */
-    public function nodeUpdate(string $id, \Docker\API\Model\NodeSpec $body, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function nodeUpdate(string $id, \Docker\API\Model\NodeSpec $body, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($id, $body, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('version', true, ['int']);
-            $url = '/nodes/{id}/update';
-            $url = str_replace('{id}', urlencode($id), $url);
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $this->serializer->serialize($body, 'json');
-            $request = new \Amp\Artax\Request($url, 'POST');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return null;
-                }
-                if (400 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeUpdateBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeUpdateNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeUpdateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (503 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\NodeUpdateServiceUnavailableException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\NodeUpdate($id, $body, $queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 }

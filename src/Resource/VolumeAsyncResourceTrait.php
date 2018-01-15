@@ -10,210 +10,97 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait VolumeAsyncResourceTrait
 {
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters JSON encoded value of the filters (a `map[string][]string`) to
      * }
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\VolumeListInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\VolumesGetResponse200>
+     * @return null|\Docker\API\Model\VolumesGetResponse200|\Amp\Artax\Response
      */
-    public function volumeList(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function volumeList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('filters', false, ['string']);
-            $url = '/volumes';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\VolumesGetResponse200', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumeListInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\VolumeList($queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param \Docker\API\Model\VolumesCreatePostBody $volumeConfig      Volume configuration
-     * @param array                                   $parameters        List of parameters
-     * @param string                                  $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken                  $cancellationToken Token to cancel the request
+     * @param \Docker\API\Model\VolumesCreatePostBody $volumeConfig Volume configuration
+     * @param string                                  $fetch        Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\VolumeCreateInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Volume>
+     * @return null|\Docker\API\Model\Volume|\Amp\Artax\Response
      */
-    public function volumeCreate(\Docker\API\Model\VolumesCreatePostBody $volumeConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function volumeCreate(\Docker\API\Model\VolumesCreatePostBody $volumeConfig, string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($volumeConfig, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/volumes/create';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $this->serializer->serialize($volumeConfig, 'json');
-            $request = new \Amp\Artax\Request($url, 'POST');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (201 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Volume', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumeCreateInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\VolumeCreate($volumeConfig);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
      * Instruct the driver to remove the volume.
      *
-     * @param string $name       Volume name or ID
-     * @param array  $parameters {
+     * @param string $name            Volume name or ID
+     * @param array  $queryParameters {
      *
      *     @var bool $force Force the removal of the volume
      * }
      *
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\VolumeDeleteNotFoundException
      * @throws \Docker\API\Exception\VolumeDeleteConflictException
      * @throws \Docker\API\Exception\VolumeDeleteInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|null>
+     * @return null|\Amp\Artax\Response
      */
-    public function volumeDelete(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function volumeDelete(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('force', false, ['bool'], false);
-            $url = '/volumes/{name}';
-            $url = str_replace('{name}', urlencode($name), $url);
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'DELETE');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (204 === $response->getStatus()) {
-                    return null;
-                }
-                if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumeDeleteNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (409 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumeDeleteConflictException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumeDeleteInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\VolumeDelete($name, $queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string                 $name              Volume name or ID
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $name  Volume name or ID
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\VolumeInspectNotFoundException
      * @throws \Docker\API\Exception\VolumeInspectInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\Volume>
+     * @return null|\Docker\API\Model\Volume|\Amp\Artax\Response
      */
-    public function volumeInspect(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function volumeInspect(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($name, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/volumes/{name}';
-            $url = str_replace('{name}', urlencode($name), $url);
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\Volume', 'json');
-                }
-                if (404 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumeInspectNotFoundException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumeInspectInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\VolumeInspect($name);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
 
      * }
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\VolumePruneInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\VolumesPrunePostResponse200>
+     * @return null|\Docker\API\Model\VolumesPrunePostResponse200|\Amp\Artax\Response
      */
-    public function volumePrune(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function volumePrune(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('filters', false, ['string']);
-            $url = '/volumes/prune';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'POST');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\VolumesPrunePostResponse200', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\VolumePruneInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\VolumePrune($queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 }

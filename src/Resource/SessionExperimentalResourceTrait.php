@@ -10,66 +10,20 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait SessionExperimentalResourceTrait
 {
     /**
-     * Start a new interactive session with a server. Session allows server to call back to the client for advanced capabilities.
-
-    > **Note**: This endpoint is *experimental* and only available if the daemon is started with experimental
-    > features enabled. The specifications for this endpoint may still change in a future version of the API.
-
-    ### Hijacking
-
-    This endpoint hijacks the HTTP connection to HTTP2 transport that allows the client to expose gPRC services on that connection.
-
-    For example, the client sends this request to upgrade the connection:
-
-    ```
-    POST /session HTTP/1.1
-    Upgrade: h2c
-    Connection: Upgrade
-    ```
-
-    The Docker daemon will respond with a `101 UPGRADED` response follow with the raw stream:
-
-    ```
-    HTTP/1.1 101 UPGRADED
-    Connection: Upgrade
-    Upgrade: h2c
-    ```
-
-     *
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\SessionBadRequestException
      * @throws \Docker\API\Exception\SessionInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function session(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function session(string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/session';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (101 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\SessionBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\SessionInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\Session();
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }

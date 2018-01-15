@@ -10,154 +10,65 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait SystemAsyncResourceTrait
 {
     /**
      * Validate credentials for a registry and, if available, get an identity token for accessing the registry without password.
      *
-     * @param \Docker\API\Model\AuthConfig $authConfig        Authentication to check
-     * @param array                        $parameters        List of parameters
-     * @param string                       $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken       $cancellationToken Token to cancel the request
+     * @param \Docker\API\Model\AuthConfig $authConfig Authentication to check
+     * @param string                       $fetch      Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\SystemAuthInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\AuthPostResponse200|null>
+     * @return null|\Docker\API\Model\AuthPostResponse200|\Amp\Artax\Response
      */
-    public function systemAuth(\Docker\API\Model\AuthConfig $authConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function systemAuth(\Docker\API\Model\AuthConfig $authConfig, string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($authConfig, $parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/auth';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $this->serializer->serialize($authConfig, 'json');
-            $request = new \Amp\Artax\Request($url, 'POST');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\AuthPostResponse200', 'json');
-                }
-                if (204 === $response->getStatus()) {
-                    return null;
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SystemAuthInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\SystemAuth($authConfig);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\SystemInfoInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\SystemInfo>
+     * @return null|\Docker\API\Model\SystemInfo|\Amp\Artax\Response
      */
-    public function systemInfo(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function systemInfo(string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/info';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SystemInfo', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SystemInfoInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\SystemInfo();
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * Returns the version of Docker that is running and various information about the system that Docker is running on.
-     *
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\SystemVersionInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\VersionGetResponse200>
+     * @return null|\Docker\API\Model\VersionGetResponse200|\Amp\Artax\Response
      */
-    public function systemVersion(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function systemVersion(string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/version';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\VersionGetResponse200', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SystemVersionInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\SystemVersion();
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * This is a dummy endpoint you can use to test if the server is accessible.
-     *
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\SystemPingInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|null>
+     * @return null|\Amp\Artax\Response
      */
-    public function systemPing(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function systemPing(string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/_ping';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return json_decode((yield $response->getBody()));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SystemPingInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\SystemPing();
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
@@ -184,83 +95,38 @@ trait SystemAsyncResourceTrait
     Configs report these events: `create`, `update`, and `remove`
 
      *
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $since show events created since this timestamp then stream new events
      *     @var string $until show events created until this timestamp then stop streaming
      *     @var string $filters A JSON encoded value of filters (a `map[string][]string`) to process on the event list. Available filters:
 
      * }
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\SystemEventsBadRequestException
      * @throws \Docker\API\Exception\SystemEventsInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\EventsGetResponse200>
+     * @return null|\Docker\API\Model\EventsGetResponse200|\Amp\Artax\Response
      */
-    public function systemEvents(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function systemEvents(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $queryParam->addQueryParameter('since', false, ['string']);
-            $queryParam->addQueryParameter('until', false, ['string']);
-            $queryParam->addQueryParameter('filters', false, ['string']);
-            $url = '/events';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\EventsGetResponse200', 'json');
-                }
-                if (400 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SystemEventsBadRequestException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SystemEventsInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\SystemEvents($queryParameters);
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 
     /**
-     * @param array                  $parameters        List of parameters
-     * @param string                 $fetch             Fetch mode (object or response)
-     * @param \Amp\CancellationToken $cancellationToken Token to cancel the request
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\SystemDataUsageInternalServerErrorException
      *
-     * @return \Amp\Promise<\Amp\Artax\Response|\Docker\API\Model\SystemDfGetResponse200>
+     * @return null|\Docker\API\Model\SystemDfGetResponse200|\Amp\Artax\Response
      */
-    public function systemDataUsage(array $parameters = [], string $fetch = self::FETCH_OBJECT, \Amp\CancellationToken $cancellationToken = null): \Amp\Promise
+    public function systemDataUsage(string $fetch = self::FETCH_OBJECT)
     {
-        return \Amp\call(function () use ($parameters, $fetch, $cancellationToken) {
-            $queryParam = new QueryParam();
-            $url = '/system/df';
-            $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-            $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-            $body = $queryParam->buildFormDataString($parameters);
-            $request = new \Amp\Artax\Request($url, 'GET');
-            $request = $request->withHeaders($headers);
-            $request = $request->withBody($body);
-            $response = (yield $this->httpClient->request($request, [], $cancellationToken));
-            if (self::FETCH_OBJECT === $fetch) {
-                if (200 === $response->getStatus()) {
-                    return $this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\SystemDfGetResponse200', 'json');
-                }
-                if (500 === $response->getStatus()) {
-                    throw new \Docker\API\Exception\SystemDataUsageInternalServerErrorException($this->serializer->deserialize((yield $response->getBody()), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-                }
-            }
+        $endpoint = new \Docker\API\Endpoint\SystemDataUsage();
 
-            return $response;
-        });
+        return $this->executeArtaxEndpoint($endpoint, $fetch);
     }
 }

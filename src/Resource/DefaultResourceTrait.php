@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait DefaultResourceTrait
 {
     /**
@@ -20,8 +18,8 @@ trait DefaultResourceTrait
      **Note**: This endpoint works only for services with the `json-file` or `journald` logging drivers.
 
      *
-     * @param string $id         ID of the task
-     * @param array  $parameters {
+     * @param string $id              ID of the task
+     * @param array  $queryParameters {
      *
      *     @var bool $details show task context and extra details provided to logs
      *     @var bool $follow return the logs as a stream
@@ -33,49 +31,18 @@ trait DefaultResourceTrait
      *     @var string $tail Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\TaskLogsNotFoundException
      * @throws \Docker\API\Exception\TaskLogsInternalServerErrorException
      * @throws \Docker\API\Exception\TaskLogsServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function taskLogs(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function taskLogs(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('details', false, ['bool'], false);
-        $queryParam->addQueryParameter('follow', false, ['bool'], false);
-        $queryParam->addQueryParameter('stdout', false, ['bool'], false);
-        $queryParam->addQueryParameter('stderr', false, ['bool'], false);
-        $queryParam->addQueryParameter('since', false, ['int'], 0);
-        $queryParam->addQueryParameter('timestamps', false, ['bool'], false);
-        $queryParam->addQueryParameter('tail', false, ['string'], 'all');
-        $url = '/tasks/{id}/logs';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (101 === $response->getStatusCode()) {
-                return json_decode((string) $response->getBody());
-            }
-            if (200 === $response->getStatusCode()) {
-                return json_decode((string) $response->getBody());
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\TaskLogsNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\TaskLogsInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\TaskLogsServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\TaskLogs($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }

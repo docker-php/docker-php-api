@@ -10,14 +10,12 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait ImageResourceTrait
 {
     /**
      * Returns a list of images on the server. Note that it uses a different, smaller representation of an image than inspecting a single image.
      *
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var bool $all Show all images. Only images from a final layer (no children) are shown by default.
      *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters:
@@ -25,34 +23,17 @@ trait ImageResourceTrait
      *     @var bool $digests Show digest information as a `RepoDigests` field on each image.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageListInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImageSummary
+     * @return null|\Docker\API\Model\ImageSummary[]|\Psr\Http\Message\ResponseInterface
      */
-    public function imageList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('all', false, ['bool'], false);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $queryParam->addQueryParameter('digests', false, ['bool'], false);
-        $url = '/images/json';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImageSummary[]', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageList($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -65,8 +46,8 @@ trait ImageResourceTrait
     The build is canceled if the client drops the connection by quitting or being killed.
 
      *
-     * @param string $inputStream a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz
-     * @param array  $parameters  {
+     * @param string $inputStream     a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz
+     * @param array  $queryParameters {
      *
      *     @var string $dockerfile Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`.
      *     @var string $t A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters.
@@ -89,219 +70,109 @@ trait ImageResourceTrait
      *     @var bool $squash Squash the resulting images layers into a single layer. *(Experimental release only.)*
      *     @var string $labels arbitrary key/value labels to set on the image, as a JSON map of string pairs
      *     @var string $networkmode Sets the networking mode for the run commands during build. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name to which this container should connect to.
-     *     @var string $Content-type
-     *     @var string $X-Registry-Config This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to
-
      *     @var string $platform Platform in the format os[/arch[/variant]]
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param array $headerParameters {
+     *
+     *     @var string $Content-type
+     *     @var string $X-Registry-Config This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to
+
+     * }
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageBuildBadRequestException
      * @throws \Docker\API\Exception\ImageBuildInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function imageBuild($inputStream, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageBuild(string $inputStream, array $queryParameters = [], array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('dockerfile', false, ['string'], 'Dockerfile');
-        $queryParam->addQueryParameter('t', false, ['string']);
-        $queryParam->addQueryParameter('extrahosts', false, ['string']);
-        $queryParam->addQueryParameter('remote', false, ['string']);
-        $queryParam->addQueryParameter('q', false, ['bool'], false);
-        $queryParam->addQueryParameter('nocache', false, ['bool'], false);
-        $queryParam->addQueryParameter('cachefrom', false, ['string']);
-        $queryParam->addQueryParameter('pull', false, ['string']);
-        $queryParam->addQueryParameter('rm', false, ['bool'], true);
-        $queryParam->addQueryParameter('forcerm', false, ['bool'], false);
-        $queryParam->addQueryParameter('memory', false, ['int']);
-        $queryParam->addQueryParameter('memswap', false, ['int']);
-        $queryParam->addQueryParameter('cpushares', false, ['int']);
-        $queryParam->addQueryParameter('cpusetcpus', false, ['string']);
-        $queryParam->addQueryParameter('cpuperiod', false, ['int']);
-        $queryParam->addQueryParameter('cpuquota', false, ['int']);
-        $queryParam->addQueryParameter('buildargs', false, ['int']);
-        $queryParam->addQueryParameter('shmsize', false, ['int']);
-        $queryParam->addQueryParameter('squash', false, ['bool']);
-        $queryParam->addQueryParameter('labels', false, ['string']);
-        $queryParam->addQueryParameter('networkmode', false, ['string']);
-        $queryParam->addHeaderParameter('Content-type', false, ['string'], 'application/x-tar');
-        $queryParam->addHeaderParameter('X-Registry-Config', false, ['string']);
-        $queryParam->addQueryParameter('platform', false, ['string'], '');
-        $url = '/build';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $inputStream;
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageBuildBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageBuildInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageBuild($inputStream, $queryParameters, $headerParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\BuildPruneInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\BuildPrunePostResponse200
+     * @return null|\Docker\API\Model\BuildPrunePostResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function buildPrune(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function buildPrune(string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/build/prune';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\BuildPrunePostResponse200', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\BuildPruneInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\BuildPrune();
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Create an image by either pulling it from a registry or importing it.
      *
-     * @param string $inputImage Image content if the value `-` has been specified in fromSrc query parameter
-     * @param array  $parameters {
+     * @param string $inputImage      Image content if the value `-` has been specified in fromSrc query parameter
+     * @param array  $queryParameters {
      *
      *     @var string $fromImage Name of the image to pull. The name may include a tag or digest. This parameter may only be used when pulling an image. The pull is cancelled if the HTTP connection is closed.
      *     @var string $fromSrc Source to import. The value may be a URL from which the image can be retrieved or `-` to read the image from the request body. This parameter may only be used when importing an image.
      *     @var string $repo Repository name given to an image when it is imported. The repo may include a tag. This parameter may only be used when importing an image.
      *     @var string $tag Tag or digest. If empty when pulling an image, this causes all tags for the given image to be pulled.
-     *     @var string $X-Registry-Auth A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)
      *     @var string $platform Platform in the format os[/arch[/variant]]
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param array $headerParameters {
+     *
+     *     @var string $X-Registry-Auth A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)
+     * }
+     *
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageCreateNotFoundException
      * @throws \Docker\API\Exception\ImageCreateInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function imageCreate($inputImage, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageCreate(string $inputImage, array $queryParameters = [], array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('fromImage', false, ['string']);
-        $queryParam->addQueryParameter('fromSrc', false, ['string']);
-        $queryParam->addQueryParameter('repo', false, ['string']);
-        $queryParam->addQueryParameter('tag', false, ['string']);
-        $queryParam->addHeaderParameter('X-Registry-Auth', false, ['string']);
-        $queryParam->addQueryParameter('platform', false, ['string'], '');
-        $url = '/images/create';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $inputImage;
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageCreateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageCreateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageCreate($inputImage, $queryParameters, $headerParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Return low-level information about an image.
      *
-     * @param string $name       Image name or id
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $name  Image name or id
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageInspectNotFoundException
      * @throws \Docker\API\Exception\ImageInspectInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Image
+     * @return null|\Docker\API\Model\Image|\Psr\Http\Message\ResponseInterface
      */
-    public function imageInspect(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageInspect(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/images/{name}/json';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Image', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageInspect($name);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Return parent layers of an image.
      *
-     * @param string $name       Image name or ID
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $name  Image name or ID
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageHistoryNotFoundException
      * @throws \Docker\API\Exception\ImageHistoryInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImagesNameHistoryGetResponse200Item
+     * @return null|\Docker\API\Model\ImagesNameHistoryGetResponse200Item[]|\Psr\Http\Message\ResponseInterface
      */
-    public function imageHistory(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageHistory(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/images/{name}/history';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImagesNameHistoryGetResponse200Item[]', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageHistoryNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageHistoryInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageHistory($name);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -312,97 +183,55 @@ trait ImageResourceTrait
     The push is cancelled if the HTTP connection is closed.
 
      *
-     * @param string $name       image name or ID
-     * @param array  $parameters {
+     * @param string $name            image name or ID
+     * @param array  $queryParameters {
      *
-     *     @var string $tag the tag to associate with the image on the registry
+     *     @var string $tag The tag to associate with the image on the registry.
+     * }
+     *
+     * @param array $headerParameters {
+     *
      *     @var string $X-Registry-Auth A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImagePushNotFoundException
      * @throws \Docker\API\Exception\ImagePushInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function imagePush(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imagePush(string $name, array $queryParameters = [], array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('tag', false, ['string']);
-        $queryParam->addHeaderParameter('X-Registry-Auth', true, ['string']);
-        $url = '/images/{name}/push';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImagePushNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImagePushInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImagePush($name, $queryParameters, $headerParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Tag an image so that it becomes part of a repository.
      *
-     * @param string $name       image name or ID to tag
-     * @param array  $parameters {
+     * @param string $name            image name or ID to tag
+     * @param array  $queryParameters {
      *
      *     @var string $repo The repository to tag in. For example, `someuser/someimage`.
      *     @var string $tag The name of the new tag.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageTagBadRequestException
      * @throws \Docker\API\Exception\ImageTagNotFoundException
      * @throws \Docker\API\Exception\ImageTagConflictException
      * @throws \Docker\API\Exception\ImageTagInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function imageTag(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageTag(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('repo', false, ['string']);
-        $queryParam->addQueryParameter('tag', false, ['string']);
-        $url = '/images/{name}/tag';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (201 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageTagBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageTagNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageTagConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageTagInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageTag($name, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -413,130 +242,75 @@ trait ImageResourceTrait
     used by a running container or are being used by a build.
 
      *
-     * @param string $name       Image name or ID
-     * @param array  $parameters {
+     * @param string $name            Image name or ID
+     * @param array  $queryParameters {
      *
      *     @var bool $force Remove the image even if it is being used by stopped containers or has other tags
      *     @var bool $noprune Do not delete untagged parent images
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageDeleteNotFoundException
      * @throws \Docker\API\Exception\ImageDeleteConflictException
      * @throws \Docker\API\Exception\ImageDeleteInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImageDeleteResponseItem
+     * @return null|\Docker\API\Model\ImageDeleteResponseItem[]|\Psr\Http\Message\ResponseInterface
      */
-    public function imageDelete(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageDelete(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('force', false, ['bool'], false);
-        $queryParam->addQueryParameter('noprune', false, ['bool'], false);
-        $url = '/images/{name}';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('DELETE', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImageDeleteResponseItem[]', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageDeleteConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageDelete($name, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Search for an image on Docker Hub.
      *
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $term Term to search
      *     @var int $limit Maximum number of results to return
      *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters:
 
      * }
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageSearchInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImagesSearchGetResponse200Item
+     * @return null|\Docker\API\Model\ImagesSearchGetResponse200Item[]|\Psr\Http\Message\ResponseInterface
      */
-    public function imageSearch(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageSearch(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('term', true, ['string']);
-        $queryParam->addQueryParameter('limit', false, ['int']);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $url = '/images/search';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImagesSearchGetResponse200Item[]', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageSearchInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageSearch($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters:
 
     - `dangling=<boolean>` When set to `true` (or `1`), prune only
       unused *and* untagged images. When set to `false`
      * }
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImagePruneInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ImagesPrunePostResponse200
+     * @return null|\Docker\API\Model\ImagesPrunePostResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function imagePrune(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imagePrune(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $url = '/images/prune';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ImagesPrunePostResponse200', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImagePruneInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImagePrune($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * @param \Docker\API\Model\ContainerConfig $containerConfig The container configuration
-     * @param array                             $parameters      {
+     * @param array                             $queryParameters {
      *
      *     @var string $container The ID or name of the container to commit
      *     @var string $repo Repository name for the created image
@@ -547,42 +321,18 @@ trait ImageResourceTrait
      *     @var string $changes `Dockerfile` instructions to apply while committing
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageCommitNotFoundException
      * @throws \Docker\API\Exception\ImageCommitInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\IdResponse
+     * @return null|\Docker\API\Model\IdResponse|\Psr\Http\Message\ResponseInterface
      */
-    public function imageCommit(\Docker\API\Model\ContainerConfig $containerConfig, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageCommit(\Docker\API\Model\ContainerConfig $containerConfig, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('container', false, ['string']);
-        $queryParam->addQueryParameter('repo', false, ['string']);
-        $queryParam->addQueryParameter('tag', false, ['string']);
-        $queryParam->addQueryParameter('comment', false, ['string']);
-        $queryParam->addQueryParameter('author', false, ['string']);
-        $queryParam->addQueryParameter('pause', false, ['bool'], true);
-        $queryParam->addQueryParameter('changes', false, ['string']);
-        $url = '/commit';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($containerConfig, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (201 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\IdResponse', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageCommitNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageCommitInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageCommit($containerConfig, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -611,34 +361,18 @@ trait ImageResourceTrait
     ```
 
      *
-     * @param string $name       Image name or ID
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $name  Image name or ID
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageGetInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function imageGet(string $name, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageGet(string $name, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/images/{name}/get';
-        $url = str_replace('{name}', urlencode($name), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return json_decode((string) $response->getBody());
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageGetInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageGet($name);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -649,37 +383,22 @@ trait ImageResourceTrait
     For details on the format, see [the export image endpoint](#operation/ImageGet).
 
      *
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var array $names Image names to filter by
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageGetAllInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function imageGetAll(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageGetAll(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('names', false, ['array']);
-        $url = '/images/get';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return json_decode((string) $response->getBody());
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageGetAllInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageGetAll($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
@@ -688,37 +407,22 @@ trait ImageResourceTrait
     For details on the format, see [the export image endpoint](#operation/ImageGet).
 
      *
-     * @param string $imagesTarball Tar archive containing images
-     * @param array  $parameters    {
+     * @param string $imagesTarball   Tar archive containing images
+     * @param array  $queryParameters {
      *
      *     @var bool $quiet Suppress progress details during load.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ImageLoadInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function imageLoad($imagesTarball, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageLoad(string $imagesTarball, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('quiet', false, ['bool'], false);
-        $url = '/images/load';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $imagesTarball;
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ImageLoadInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ImageLoad($imagesTarball, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }

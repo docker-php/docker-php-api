@@ -10,177 +10,88 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait NodeResourceTrait
 {
     /**
-     * @param array $parameters {
+     * @param array $queryParameters {
      *
      *     @var string $filters filters to process on the nodes list, encoded as JSON (a `map[string][]string`)
 
      * }
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeListInternalServerErrorException
      * @throws \Docker\API\Exception\NodeListServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Node
+     * @return null|\Docker\API\Model\Node[]|\Psr\Http\Message\ResponseInterface
      */
-    public function nodeList(array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function nodeList(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('filters', false, ['string']);
-        $url = '/nodes';
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Node[]', 'json');
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeListInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeListServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\NodeList($queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         The ID or name of the node
-     * @param array  $parameters {
+     * @param string $id              The ID or name of the node
+     * @param array  $queryParameters {
      *
      *     @var bool $force Force remove a node from the swarm
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeDeleteNotFoundException
      * @throws \Docker\API\Exception\NodeDeleteInternalServerErrorException
      * @throws \Docker\API\Exception\NodeDeleteServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function nodeDelete(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function nodeDelete(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('force', false, ['bool'], false);
-        $url = '/nodes/{id}';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('DELETE', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeDeleteNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeDeleteInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeDeleteServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\NodeDelete($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string $id         The ID or name of the node
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    The ID or name of the node
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeInspectNotFoundException
      * @throws \Docker\API\Exception\NodeInspectInternalServerErrorException
      * @throws \Docker\API\Exception\NodeInspectServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\Node
+     * @return null|\Docker\API\Model\Node|\Psr\Http\Message\ResponseInterface
      */
-    public function nodeInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function nodeInspect(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/nodes/{id}';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\Node', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeInspectServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\NodeInspect($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
-     * @param string                     $id         The ID of the node
+     * @param string                     $id              The ID of the node
      * @param \Docker\API\Model\NodeSpec $body
-     * @param array                      $parameters {
+     * @param array                      $queryParameters {
      *
      *     @var int $version The version number of the node object being updated. This is required to avoid conflicting writes.
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\NodeUpdateBadRequestException
      * @throws \Docker\API\Exception\NodeUpdateNotFoundException
      * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function nodeUpdate(string $id, \Docker\API\Model\NodeSpec $body, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function nodeUpdate(string $id, \Docker\API\Model\NodeSpec $body, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('version', true, ['int']);
-        $url = '/nodes/{id}/update';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($body, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (400 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeUpdateBadRequestException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeUpdateNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeUpdateInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (503 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\NodeUpdateServiceUnavailableException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\NodeUpdate($id, $body, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }

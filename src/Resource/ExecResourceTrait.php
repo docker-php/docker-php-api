@@ -10,164 +10,85 @@ declare(strict_types=1);
 
 namespace Docker\API\Resource;
 
-use Jane\OpenApiRuntime\Client\QueryParam;
-
 trait ExecResourceTrait
 {
     /**
      * Run a command inside a running container.
      *
-     * @param \Docker\API\Model\ContainersIdExecPostBody $execConfig Exec configuration
      * @param string                                     $id         ID or name of container
-     * @param array                                      $parameters List of parameters
-     * @param string                                     $fetch      Fetch mode (object or response)
+     * @param \Docker\API\Model\ContainersIdExecPostBody $execConfig Exec configuration
+     * @param string                                     $fetch      Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ContainerExecNotFoundException
      * @throws \Docker\API\Exception\ContainerExecConflictException
      * @throws \Docker\API\Exception\ContainerExecInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\IdResponse
+     * @return null|\Docker\API\Model\IdResponse|\Psr\Http\Message\ResponseInterface
      */
-    public function containerExec(\Docker\API\Model\ContainersIdExecPostBody $execConfig, string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function containerExec(string $id, \Docker\API\Model\ContainersIdExecPostBody $execConfig, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/containers/{id}/exec';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($execConfig, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (201 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\IdResponse', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerExecNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerExecConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ContainerExecInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ContainerExec($id, $execConfig);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Starts a previously set up exec instance. If detach is true, this endpoint returns immediately after starting the command. Otherwise, it sets up an interactive session with the command.
      *
-     * @param \Docker\API\Model\ExecIdStartPostBody $execStartConfig
      * @param string                                $id              Exec instance ID
-     * @param array                                 $parameters      List of parameters
-     * @param string                                $fetch           Fetch mode (object or response)
+     * @param \Docker\API\Model\ExecIdStartPostBody $execStartConfig
+     * @param string                                $fetch           Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ExecStartNotFoundException
      * @throws \Docker\API\Exception\ExecStartConflictException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function execStart(\Docker\API\Model\ExecIdStartPostBody $execStartConfig, string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function execStart(string $id, \Docker\API\Model\ExecIdStartPostBody $execStartConfig, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/exec/{id}/start';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json'], 'Content-Type' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $this->serializer->serialize($execStartConfig, 'json');
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ExecStartNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (409 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ExecStartConflictException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ExecStart($id, $execStartConfig);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Resize the TTY session used by an exec instance. This endpoint only works if `tty` was specified as part of creating and starting the exec instance.
      *
-     * @param string $id         Exec instance ID
-     * @param array  $parameters {
+     * @param string $id              Exec instance ID
+     * @param array  $queryParameters {
      *
      *     @var int $h Height of the TTY session in characters
      *     @var int $w Width of the TTY session in characters
      * }
      *
-     * @param string $fetch Fetch mode (object or response)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ExecResizeNotFoundException
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
-    public function execResize(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function execResize(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $queryParam->addQueryParameter('h', false, ['int']);
-        $queryParam->addQueryParameter('w', false, ['int']);
-        $url = '/exec/{id}/resize';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('POST', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (201 === $response->getStatusCode()) {
-                return null;
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ExecResizeNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ExecResize($id, $queryParameters);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 
     /**
      * Return low-level information about an exec instance.
      *
-     * @param string $id         Exec instance ID
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
+     * @param string $id    Exec instance ID
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws \Docker\API\Exception\ExecInspectNotFoundException
      * @throws \Docker\API\Exception\ExecInspectInternalServerErrorException
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Docker\API\Model\ExecIdJsonGetResponse200
+     * @return null|\Docker\API\Model\ExecIdJsonGetResponse200|\Psr\Http\Message\ResponseInterface
      */
-    public function execInspect(string $id, array $parameters = [], string $fetch = self::FETCH_OBJECT)
+    public function execInspect(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        $queryParam = new QueryParam($this->streamFactory);
-        $url = '/exec/{id}/json';
-        $url = str_replace('{id}', urlencode($id), $url);
-        $url = $url . ('?' . $queryParam->buildQueryString($parameters));
-        $headers = array_merge(['Accept' => ['application/json']], $queryParam->buildHeaders($parameters));
-        $body = $queryParam->buildFormDataString($parameters);
-        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
-        $response = $this->httpClient->sendRequest($request);
-        if (self::FETCH_OBJECT === $fetch) {
-            if (200 === $response->getStatusCode()) {
-                return $this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ExecIdJsonGetResponse200', 'json');
-            }
-            if (404 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ExecInspectNotFoundException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-            if (500 === $response->getStatusCode()) {
-                throw new \Docker\API\Exception\ExecInspectInternalServerErrorException($this->serializer->deserialize((string) $response->getBody(), 'Docker\\API\\Model\\ErrorResponse', 'json'));
-            }
-        }
+        $endpoint = new \Docker\API\Endpoint\ExecInspect($id);
 
-        return $response;
+        return $this->executePsr7Endpoint($endpoint, $fetch);
     }
 }
