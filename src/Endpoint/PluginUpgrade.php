@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class PluginUpgrade extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class PluginUpgrade extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $name;
 
@@ -38,6 +38,8 @@ class PluginUpgrade extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->headerParameters = $headerParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -48,28 +50,9 @@ class PluginUpgrade extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{name}'], [$this->name], '/plugins/{name}/upgrade');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\PluginUpgradeNotFoundException
-     * @throws \Docker\API\Exception\PluginUpgradeInternalServerErrorException
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (204 === $status) {
-            return null;
-        }
-        if (404 === $status) {
-            throw new \Docker\API\Exception\PluginUpgradeNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\PluginUpgradeInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -97,5 +80,24 @@ class PluginUpgrade extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('X-Registry-Auth', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\PluginUpgradeNotFoundException
+     * @throws \Docker\API\Exception\PluginUpgradeInternalServerErrorException
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (204 === $status) {
+            return null;
+        }
+        if (404 === $status) {
+            throw new \Docker\API\Exception\PluginUpgradeNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\PluginUpgradeInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

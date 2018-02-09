@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * Build an image from a tar archive with a `Dockerfile` in it.
@@ -22,8 +22,8 @@ class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint
     The build is canceled if the client drops the connection by quitting or being killed.
 
      *
-     * @param string $inputStream     a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz
-     * @param array  $queryParameters {
+     * @param string|resource|\Psr\Http\Message\StreamInterface $inputStream     a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz
+     * @param array                                             $queryParameters {
      *
      *     @var string $dockerfile Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`.
      *     @var string $t A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters.
@@ -73,12 +73,14 @@ class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint
 
      * }
      */
-    public function __construct(string $inputStream, array $queryParameters = [], array $headerParameters = [])
+    public function __construct($inputStream, array $queryParameters = [], array $headerParameters = [])
     {
         $this->body = $inputStream;
         $this->queryParameters = $queryParameters;
         $this->headerParameters = $headerParameters;
     }
+
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
 
     public function getMethod(): string
     {
@@ -90,28 +92,9 @@ class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/build';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ImageBuildBadRequestException
-     * @throws \Docker\API\Exception\ImageBuildInternalServerErrorException
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return null;
-        }
-        if (400 === $status) {
-            throw new \Docker\API\Exception\ImageBuildBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ImageBuildInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -161,5 +144,24 @@ class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('X-Registry-Config', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ImageBuildBadRequestException
+     * @throws \Docker\API\Exception\ImageBuildInternalServerErrorException
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return null;
+        }
+        if (400 === $status) {
+            throw new \Docker\API\Exception\ImageBuildBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ImageBuildInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

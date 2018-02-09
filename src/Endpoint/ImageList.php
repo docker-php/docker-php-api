@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ImageList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ImageList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * Returns a list of images on the server. Note that it uses a different, smaller representation of an image than inspecting a single image.
@@ -28,6 +28,8 @@ class ImageList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'GET';
@@ -38,26 +40,9 @@ class ImageList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/images/json';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ImageListInternalServerErrorException
-     *
-     * @return null|\Docker\API\Model\ImageSummary[]
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\ImageSummary[]', 'json');
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ImageListInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -76,5 +61,22 @@ class ImageList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('digests', ['bool']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ImageListInternalServerErrorException
+     *
+     * @return null|\Docker\API\Model\ImageSummary[]
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\ImageSummary[]', 'json');
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ImageListInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ContainerArchive extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ContainerArchive extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $id;
 
@@ -29,6 +29,8 @@ class ContainerArchive extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'GET';
@@ -39,32 +41,9 @@ class ContainerArchive extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{id}'], [$this->id], '/containers/{id}/archive');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ContainerArchiveBadRequestException
-     * @throws \Docker\API\Exception\ContainerArchiveNotFoundException
-     * @throws \Docker\API\Exception\ContainerArchiveInternalServerErrorException
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return null;
-        }
-        if (400 === $status) {
-            throw new \Docker\API\Exception\ContainerArchiveBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ContainersIdArchiveGetResponse400', 'json'));
-        }
-        if (404 === $status) {
-            throw new \Docker\API\Exception\ContainerArchiveNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ContainerArchiveInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -81,5 +60,28 @@ class ContainerArchive extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('path', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ContainerArchiveBadRequestException
+     * @throws \Docker\API\Exception\ContainerArchiveNotFoundException
+     * @throws \Docker\API\Exception\ContainerArchiveInternalServerErrorException
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return null;
+        }
+        if (400 === $status) {
+            throw new \Docker\API\Exception\ContainerArchiveBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ContainersIdArchiveGetResponse400', 'json'));
+        }
+        if (404 === $status) {
+            throw new \Docker\API\Exception\ContainerArchiveNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ContainerArchiveInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class NodeUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class NodeUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $id;
 
@@ -29,6 +29,8 @@ class NodeUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -39,36 +41,9 @@ class NodeUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{id}'], [$this->id], '/nodes/{id}/update');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\NodeUpdateBadRequestException
-     * @throws \Docker\API\Exception\NodeUpdateNotFoundException
-     * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
-     * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return null;
-        }
-        if (400 === $status) {
-            throw new \Docker\API\Exception\NodeUpdateBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (404 === $status) {
-            throw new \Docker\API\Exception\NodeUpdateNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\NodeUpdateInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (503 === $status) {
-            throw new \Docker\API\Exception\NodeUpdateServiceUnavailableException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -85,5 +60,32 @@ class NodeUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('version', ['int']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\NodeUpdateBadRequestException
+     * @throws \Docker\API\Exception\NodeUpdateNotFoundException
+     * @throws \Docker\API\Exception\NodeUpdateInternalServerErrorException
+     * @throws \Docker\API\Exception\NodeUpdateServiceUnavailableException
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return null;
+        }
+        if (400 === $status) {
+            throw new \Docker\API\Exception\NodeUpdateBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (404 === $status) {
+            throw new \Docker\API\Exception\NodeUpdateNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\NodeUpdateInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (503 === $status) {
+            throw new \Docker\API\Exception\NodeUpdateServiceUnavailableException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

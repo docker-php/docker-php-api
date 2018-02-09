@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ImageLoad extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ImageLoad extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * Load a set of images and tags into a repository.
@@ -18,17 +18,19 @@ class ImageLoad extends \Jane\OpenApiRuntime\Client\BaseEndpoint
     For details on the format, see [the export image endpoint](#operation/ImageGet).
 
      *
-     * @param string $imagesTarball   Tar archive containing images
-     * @param array  $queryParameters {
+     * @param string|resource|\Psr\Http\Message\StreamInterface $imagesTarball   Tar archive containing images
+     * @param array                                             $queryParameters {
      *
      *     @var bool $quiet Suppress progress details during load.
      * }
      */
-    public function __construct(string $imagesTarball, array $queryParameters = [])
+    public function __construct($imagesTarball, array $queryParameters = [])
     {
         $this->body = $imagesTarball;
         $this->queryParameters = $queryParameters;
     }
+
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
 
     public function getMethod(): string
     {
@@ -40,24 +42,9 @@ class ImageLoad extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/images/load';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ImageLoadInternalServerErrorException
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return null;
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ImageLoadInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -74,5 +61,20 @@ class ImageLoad extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('quiet', ['bool']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ImageLoadInternalServerErrorException
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return null;
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ImageLoadInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

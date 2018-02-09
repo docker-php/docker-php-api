@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ContainerWait extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ContainerWait extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $id;
 
@@ -29,6 +29,8 @@ class ContainerWait extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -39,30 +41,9 @@ class ContainerWait extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{id}'], [$this->id], '/containers/{id}/wait');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ContainerWaitNotFoundException
-     * @throws \Docker\API\Exception\ContainerWaitInternalServerErrorException
-     *
-     * @return null|\Docker\API\Model\ContainersIdWaitPostResponse200
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\ContainersIdWaitPostResponse200', 'json');
-        }
-        if (404 === $status) {
-            throw new \Docker\API\Exception\ContainerWaitNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ContainerWaitInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -79,5 +60,26 @@ class ContainerWait extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('condition', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ContainerWaitNotFoundException
+     * @throws \Docker\API\Exception\ContainerWaitInternalServerErrorException
+     *
+     * @return null|\Docker\API\Model\ContainersIdWaitPostResponse200
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\ContainersIdWaitPostResponse200', 'json');
+        }
+        if (404 === $status) {
+            throw new \Docker\API\Exception\ContainerWaitNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ContainerWaitInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

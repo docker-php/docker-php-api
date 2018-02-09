@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ConfigDelete extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ConfigDelete extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $id;
 
@@ -22,6 +22,8 @@ class ConfigDelete extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->id = $id;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'DELETE';
@@ -32,9 +34,14 @@ class ConfigDelete extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{id}'], [$this->id], '/configs/{id}');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
+    }
+
+    public function getExtraHeaders(): array
+    {
+        return ['Accept' => ['application/json']];
     }
 
     /**
@@ -44,7 +51,7 @@ class ConfigDelete extends \Jane\OpenApiRuntime\Client\BaseEndpoint
      * @throws \Docker\API\Exception\ConfigDeleteInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigDeleteServiceUnavailableException
      */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (204 === $status) {
             return null;
@@ -58,10 +65,5 @@ class ConfigDelete extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         if (503 === $status) {
             throw new \Docker\API\Exception\ConfigDeleteServiceUnavailableException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
         }
-    }
-
-    public function getExtraHeaders(): array
-    {
-        return ['Accept' => ['application/json']];
     }
 }

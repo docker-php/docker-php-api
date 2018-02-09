@@ -10,20 +10,22 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class PluginCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class PluginCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
-     * @param string $tarContext      Path to tar containing plugin rootfs and manifest
-     * @param array  $queryParameters {
+     * @param string|resource|\Psr\Http\Message\StreamInterface $tarContext      Path to tar containing plugin rootfs and manifest
+     * @param array                                             $queryParameters {
      *
      *     @var string $name The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
      * }
      */
-    public function __construct(string $tarContext, array $queryParameters = [])
+    public function __construct($tarContext, array $queryParameters = [])
     {
         $this->body = $tarContext;
         $this->queryParameters = $queryParameters;
     }
+
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
 
     public function getMethod(): string
     {
@@ -35,24 +37,9 @@ class PluginCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/plugins/create';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\PluginCreateInternalServerErrorException
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (204 === $status) {
-            return null;
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\PluginCreateInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -69,5 +56,20 @@ class PluginCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('name', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\PluginCreateInternalServerErrorException
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (204 === $status) {
+            return null;
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\PluginCreateInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class PluginInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class PluginInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $name;
 
@@ -22,6 +22,8 @@ class PluginInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->name = $name;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'GET';
@@ -32,9 +34,14 @@ class PluginInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{name}'], [$this->name], '/plugins/{name}/json');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
+    }
+
+    public function getExtraHeaders(): array
+    {
+        return ['Accept' => ['application/json']];
     }
 
     /**
@@ -45,7 +52,7 @@ class PluginInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint
      *
      * @return null|\Docker\API\Model\Plugin
      */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (200 === $status) {
             return $serializer->deserialize($body, 'Docker\\API\\Model\\Plugin', 'json');
@@ -56,10 +63,5 @@ class PluginInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         if (500 === $status) {
             throw new \Docker\API\Exception\PluginInspectInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
         }
-    }
-
-    public function getExtraHeaders(): array
-    {
-        return ['Accept' => ['application/json']];
     }
 }

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ImagePrune extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ImagePrune extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * @param array $queryParameters {
@@ -30,6 +30,8 @@ class ImagePrune extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -40,26 +42,9 @@ class ImagePrune extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/images/prune';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ImagePruneInternalServerErrorException
-     *
-     * @return null|\Docker\API\Model\ImagesPrunePostResponse200
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\ImagesPrunePostResponse200', 'json');
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ImagePruneInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -76,5 +61,22 @@ class ImagePrune extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('filters', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ImagePruneInternalServerErrorException
+     *
+     * @return null|\Docker\API\Model\ImagesPrunePostResponse200
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\ImagesPrunePostResponse200', 'json');
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ImagePruneInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

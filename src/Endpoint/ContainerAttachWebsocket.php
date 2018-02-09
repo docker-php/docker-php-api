@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ContainerAttachWebsocket extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ContainerAttachWebsocket extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $id;
 
@@ -32,6 +32,8 @@ class ContainerAttachWebsocket extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'GET';
@@ -42,35 +44,9 @@ class ContainerAttachWebsocket extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{id}'], [$this->id], '/containers/{id}/attach/ws');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ContainerAttachWebsocketBadRequestException
-     * @throws \Docker\API\Exception\ContainerAttachWebsocketNotFoundException
-     * @throws \Docker\API\Exception\ContainerAttachWebsocketInternalServerErrorException
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (101 === $status) {
-            return null;
-        }
-        if (200 === $status) {
-            return null;
-        }
-        if (400 === $status) {
-            throw new \Docker\API\Exception\ContainerAttachWebsocketBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (404 === $status) {
-            throw new \Docker\API\Exception\ContainerAttachWebsocketNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ContainerAttachWebsocketInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -92,5 +68,31 @@ class ContainerAttachWebsocket extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('stderr', ['bool']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ContainerAttachWebsocketBadRequestException
+     * @throws \Docker\API\Exception\ContainerAttachWebsocketNotFoundException
+     * @throws \Docker\API\Exception\ContainerAttachWebsocketInternalServerErrorException
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (101 === $status) {
+            return null;
+        }
+        if (200 === $status) {
+            return null;
+        }
+        if (400 === $status) {
+            throw new \Docker\API\Exception\ContainerAttachWebsocketBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (404 === $status) {
+            throw new \Docker\API\Exception\ContainerAttachWebsocketNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ContainerAttachWebsocketInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

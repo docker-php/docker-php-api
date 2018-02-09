@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ImageCommit extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ImageCommit extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * @param \Docker\API\Model\ContainerConfig $containerConfig The container configuration
@@ -31,6 +31,8 @@ class ImageCommit extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -41,30 +43,9 @@ class ImageCommit extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/commit';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ImageCommitNotFoundException
-     * @throws \Docker\API\Exception\ImageCommitInternalServerErrorException
-     *
-     * @return null|\Docker\API\Model\IdResponse
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (201 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\IdResponse', 'json');
-        }
-        if (404 === $status) {
-            throw new \Docker\API\Exception\ImageCommitNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ImageCommitInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -87,5 +68,26 @@ class ImageCommit extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('changes', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ImageCommitNotFoundException
+     * @throws \Docker\API\Exception\ImageCommitInternalServerErrorException
+     *
+     * @return null|\Docker\API\Model\IdResponse
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (201 === $status) {
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\IdResponse', 'json');
+        }
+        if (404 === $status) {
+            throw new \Docker\API\Exception\ImageCommitNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ImageCommitInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

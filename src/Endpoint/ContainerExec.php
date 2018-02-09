@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ContainerExec extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ContainerExec extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $id;
 
@@ -26,6 +26,8 @@ class ContainerExec extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->body = $execConfig;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -36,9 +38,14 @@ class ContainerExec extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{id}'], [$this->id], '/containers/{id}/exec');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
+    }
+
+    public function getExtraHeaders(): array
+    {
+        return ['Accept' => ['application/json']];
     }
 
     /**
@@ -50,7 +57,7 @@ class ContainerExec extends \Jane\OpenApiRuntime\Client\BaseEndpoint
      *
      * @return null|\Docker\API\Model\IdResponse
      */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (201 === $status) {
             return $serializer->deserialize($body, 'Docker\\API\\Model\\IdResponse', 'json');
@@ -64,10 +71,5 @@ class ContainerExec extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         if (500 === $status) {
             throw new \Docker\API\Exception\ContainerExecInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
         }
-    }
-
-    public function getExtraHeaders(): array
-    {
-        return ['Accept' => ['application/json']];
     }
 }

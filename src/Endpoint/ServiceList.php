@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ServiceList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ServiceList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * @param array $queryParameters {
@@ -29,6 +29,8 @@ class ServiceList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'GET';
@@ -39,30 +41,9 @@ class ServiceList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/services';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ServiceListInternalServerErrorException
-     * @throws \Docker\API\Exception\ServiceListServiceUnavailableException
-     *
-     * @return null|\Docker\API\Model\Service[]
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\Service[]', 'json');
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ServiceListInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (503 === $status) {
-            throw new \Docker\API\Exception\ServiceListServiceUnavailableException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -79,5 +60,26 @@ class ServiceList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('filters', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ServiceListInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceListServiceUnavailableException
+     *
+     * @return null|\Docker\API\Model\Service[]
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\Service[]', 'json');
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ServiceListInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (503 === $status) {
+            throw new \Docker\API\Exception\ServiceListServiceUnavailableException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

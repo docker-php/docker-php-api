@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ContainerList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ContainerList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * Returns a list of containers. For details on the format, see [the inspect endpoint](#operation/ContainerInspect).
@@ -49,6 +49,8 @@ class ContainerList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->queryParameters = $queryParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'GET';
@@ -59,30 +61,9 @@ class ContainerList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/containers/json';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Docker\API\Exception\ContainerListBadRequestException
-     * @throws \Docker\API\Exception\ContainerListInternalServerErrorException
-     *
-     * @return null|\Docker\API\Model\ContainerSummaryItem[]
-     */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
-    {
-        if (200 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\ContainerSummaryItem[]', 'json');
-        }
-        if (400 === $status) {
-            throw new \Docker\API\Exception\ContainerListBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
-        if (500 === $status) {
-            throw new \Docker\API\Exception\ContainerListInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
-        }
     }
 
     public function getExtraHeaders(): array
@@ -102,5 +83,26 @@ class ContainerList extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $optionsResolver->setAllowedTypes('filters', ['string']);
 
         return $optionsResolver;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Docker\API\Exception\ContainerListBadRequestException
+     * @throws \Docker\API\Exception\ContainerListInternalServerErrorException
+     *
+     * @return null|\Docker\API\Model\ContainerSummaryItem[]
+     */
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    {
+        if (200 === $status) {
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\ContainerSummaryItem[]', 'json');
+        }
+        if (400 === $status) {
+            throw new \Docker\API\Exception\ContainerListBadRequestException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (500 === $status) {
+            throw new \Docker\API\Exception\ContainerListInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
     }
 }

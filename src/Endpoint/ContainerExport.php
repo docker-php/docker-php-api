@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ContainerExport extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ContainerExport extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     protected $id;
 
@@ -24,6 +24,8 @@ class ContainerExport extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->id = $id;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'GET';
@@ -34,9 +36,14 @@ class ContainerExport extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return str_replace(['{id}'], [$this->id], '/containers/{id}/export');
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return [[], null];
+    }
+
+    public function getExtraHeaders(): array
+    {
+        return ['Accept' => ['application/json']];
     }
 
     /**
@@ -45,7 +52,7 @@ class ContainerExport extends \Jane\OpenApiRuntime\Client\BaseEndpoint
      * @throws \Docker\API\Exception\ContainerExportNotFoundException
      * @throws \Docker\API\Exception\ContainerExportInternalServerErrorException
      */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (200 === $status) {
             return null;
@@ -56,10 +63,5 @@ class ContainerExport extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         if (500 === $status) {
             throw new \Docker\API\Exception\ContainerExportInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
         }
-    }
-
-    public function getExtraHeaders(): array
-    {
-        return ['Accept' => ['application/json']];
     }
 }

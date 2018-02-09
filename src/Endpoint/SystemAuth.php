@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class SystemAuth extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class SystemAuth extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * Validate credentials for a registry and, if available, get an identity token for accessing the registry without password.
@@ -22,6 +22,8 @@ class SystemAuth extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->body = $authConfig;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -32,9 +34,14 @@ class SystemAuth extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/auth';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
+    }
+
+    public function getExtraHeaders(): array
+    {
+        return ['Accept' => ['application/json']];
     }
 
     /**
@@ -44,7 +51,7 @@ class SystemAuth extends \Jane\OpenApiRuntime\Client\BaseEndpoint
      *
      * @return null|\Docker\API\Model\AuthPostResponse200
      */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (200 === $status) {
             return $serializer->deserialize($body, 'Docker\\API\\Model\\AuthPostResponse200', 'json');
@@ -55,10 +62,5 @@ class SystemAuth extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         if (500 === $status) {
             throw new \Docker\API\Exception\SystemAuthInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
         }
-    }
-
-    public function getExtraHeaders(): array
-    {
-        return ['Accept' => ['application/json']];
     }
 }

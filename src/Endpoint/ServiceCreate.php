@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Endpoint;
 
-class ServiceCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
+class ServiceCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane\OpenApiRuntime\Client\AmpArtaxEndpoint, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpoint
 {
     /**
      * @param \Docker\API\Model\ServicesCreatePostBody $body
@@ -25,6 +25,8 @@ class ServiceCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         $this->headerParameters = $headerParameters;
     }
 
+    use \Jane\OpenApiRuntime\Client\AmpArtaxEndpointTrait, \Jane\OpenApiRuntime\Client\Psr7HttplugEndpointTrait;
+
     public function getMethod(): string
     {
         return 'POST';
@@ -35,9 +37,25 @@ class ServiceCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         return '/services/create';
     }
 
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null)
+    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
         return $this->getSerializedBody($serializer);
+    }
+
+    public function getExtraHeaders(): array
+    {
+        return ['Accept' => ['application/json']];
+    }
+
+    protected function getHeadersOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
+    {
+        $optionsResolver = parent::getHeadersOptionsResolver();
+        $optionsResolver->setDefined(['X-Registry-Auth']);
+        $optionsResolver->setRequired([]);
+        $optionsResolver->setDefaults([]);
+        $optionsResolver->setAllowedTypes('X-Registry-Auth', ['string']);
+
+        return $optionsResolver;
     }
 
     /**
@@ -51,7 +69,7 @@ class ServiceCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
      *
      * @return null|\Docker\API\Model\ServicesCreatePostResponse201
      */
-    public function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
+    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (201 === $status) {
             return $serializer->deserialize($body, 'Docker\\API\\Model\\ServicesCreatePostResponse201', 'json');
@@ -71,21 +89,5 @@ class ServiceCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint
         if (503 === $status) {
             throw new \Docker\API\Exception\ServiceCreateServiceUnavailableException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
         }
-    }
-
-    public function getExtraHeaders(): array
-    {
-        return ['Accept' => ['application/json']];
-    }
-
-    protected function getHeadersOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
-    {
-        $optionsResolver = parent::getHeadersOptionsResolver();
-        $optionsResolver->setDefined(['X-Registry-Auth']);
-        $optionsResolver->setRequired([]);
-        $optionsResolver->setDefaults([]);
-        $optionsResolver->setAllowedTypes('X-Registry-Auth', ['string']);
-
-        return $optionsResolver;
     }
 }
