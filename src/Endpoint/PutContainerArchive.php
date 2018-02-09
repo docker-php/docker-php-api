@@ -46,7 +46,7 @@ class PutContainerArchive extends \Jane\OpenApiRuntime\Client\BaseEndpoint imple
 
     public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
-        return $this->getSerializedBody($serializer);
+        return [[], $this->body];
     }
 
     public function getExtraHeaders(): array
