@@ -14,6 +14,6 @@ This library does *not* respect semver and will instead follow Jane OpenAPI vers
  * Second and third number are the Docker API Version
  * Last number is the minor revision number for this
 
-So 3.1.25.0 is the version 1.25 of Docker API generated with Jane OpenAPI in a 3.X version.
+So 4.1.25.0 is the version 1.25 of Docker API generated with Jane OpenAPI in a 4.X version.
 
-You should always fix the version, or at least the 3 first numbers (3.1.25.*)
+You should always fix the version, or at least the 3 first numbers (4.1.25.*)
