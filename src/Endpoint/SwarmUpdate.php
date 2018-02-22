@@ -42,7 +42,7 @@ class SwarmUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \J
 
     public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
-        return [[], $this->body];
+        return $this->getSerializedBody($serializer);
     }
 
     public function getExtraHeaders(): array
