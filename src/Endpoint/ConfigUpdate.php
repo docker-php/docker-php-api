@@ -43,7 +43,7 @@ class ConfigUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
 
     public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, \Http\Message\StreamFactory $streamFactory = null): array
     {
-        return [[], $this->body];
+        return $this->getSerializedBody($serializer);
     }
 
     public function getExtraHeaders(): array
