@@ -54,6 +54,7 @@ class NormalizerFactory
         $normalizers[] = new IPAMNormalizer();
         $normalizers[] = new NetworkContainerNormalizer();
         $normalizers[] = new BuildInfoNormalizer();
+        $normalizers[] = new ImageIDNormalizer();
         $normalizers[] = new CreateImageInfoNormalizer();
         $normalizers[] = new PushImageInfoNormalizer();
         $normalizers[] = new ErrorDetailNormalizer();
@@ -196,9 +197,7 @@ class NormalizerFactory
         $normalizers[] = new ServicesCreatePostResponse201Normalizer();
         $normalizers[] = new ServicesIdUpdatePostBodyNormalizer();
         $normalizers[] = new SecretsCreatePostBodyNormalizer();
-        $normalizers[] = new SecretsCreatePostResponse201Normalizer();
         $normalizers[] = new ConfigsCreatePostBodyNormalizer();
-        $normalizers[] = new ConfigsCreatePostResponse201Normalizer();
         $normalizers[] = new DistributionNameJsonGetResponse200Normalizer();
         $normalizers[] = new DistributionNameJsonGetResponse200DescriptorNormalizer();
         $normalizers[] = new DistributionNameJsonGetResponse200PlatformsItemNormalizer();

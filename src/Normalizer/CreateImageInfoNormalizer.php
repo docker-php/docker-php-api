@@ -38,6 +38,9 @@ class CreateImageInfoNormalizer implements DenormalizerInterface, NormalizerInte
             return null;
         }
         $object = new \Docker\API\Model\CreateImageInfo();
+        if (property_exists($data, 'id') && $data->{'id'} !== null) {
+            $object->setId($data->{'id'});
+        }
         if (property_exists($data, 'error') && $data->{'error'} !== null) {
             $object->setError($data->{'error'});
         }
@@ -57,6 +60,9 @@ class CreateImageInfoNormalizer implements DenormalizerInterface, NormalizerInte
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
+        if (null !== $object->getId()) {
+            $data->{'id'} = $object->getId();
+        }
         if (null !== $object->getError()) {
             $data->{'error'} = $object->getError();
         }

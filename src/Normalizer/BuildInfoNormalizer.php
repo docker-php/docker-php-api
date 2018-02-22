@@ -59,6 +59,9 @@ class BuildInfoNormalizer implements DenormalizerInterface, NormalizerInterface,
         if (property_exists($data, 'progressDetail') && $data->{'progressDetail'} !== null) {
             $object->setProgressDetail($this->denormalizer->denormalize($data->{'progressDetail'}, 'Docker\\API\\Model\\ProgressDetail', 'json', $context));
         }
+        if (property_exists($data, 'aux') && $data->{'aux'} !== null) {
+            $object->setAux($this->denormalizer->denormalize($data->{'aux'}, 'Docker\\API\\Model\\ImageID', 'json', $context));
+        }
 
         return $object;
     }
@@ -86,6 +89,9 @@ class BuildInfoNormalizer implements DenormalizerInterface, NormalizerInterface,
         }
         if (null !== $object->getProgressDetail()) {
             $data->{'progressDetail'} = $this->normalizer->normalize($object->getProgressDetail(), 'json', $context);
+        }
+        if (null !== $object->getAux()) {
+            $data->{'aux'} = $this->normalizer->normalize($object->getAux(), 'json', $context);
         }
 
         return $data;

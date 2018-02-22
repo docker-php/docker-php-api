@@ -15,6 +15,10 @@ class CreateImageInfo
     /**
      * @var string
      */
+    protected $id;
+    /**
+     * @var string
+     */
     protected $error;
     /**
      * @var string
@@ -28,6 +32,26 @@ class CreateImageInfo
      * @var ProgressDetail
      */
     protected $progressDetail;
+
+    /**
+     * @return string
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return self
+     */
+    public function setId(?string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * @return string

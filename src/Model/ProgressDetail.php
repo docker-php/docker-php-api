@@ -15,28 +15,28 @@ class ProgressDetail
     /**
      * @var int
      */
-    protected $code;
+    protected $current;
     /**
      * @var int
      */
-    protected $message;
+    protected $total;
 
     /**
      * @return int
      */
-    public function getCode(): ?int
+    public function getCurrent(): ?int
     {
-        return $this->code;
+        return $this->current;
     }
 
     /**
-     * @param int $code
+     * @param int $current
      *
      * @return self
      */
-    public function setCode(?int $code): self
+    public function setCurrent(?int $current): self
     {
-        $this->code = $code;
+        $this->current = $current;
 
         return $this;
     }
@@ -44,19 +44,19 @@ class ProgressDetail
     /**
      * @return int
      */
-    public function getMessage(): ?int
+    public function getTotal(): ?int
     {
-        return $this->message;
+        return $this->total;
     }
 
     /**
-     * @param int $message
+     * @param int $total
      *
      * @return self
      */
-    public function setMessage(?int $message): self
+    public function setTotal(?int $total): self
     {
-        $this->message = $message;
+        $this->total = $total;
 
         return $this;
     }

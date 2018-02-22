@@ -38,6 +38,12 @@ class ExecIdJsonGetResponse200Normalizer implements DenormalizerInterface, Norma
             return null;
         }
         $object = new \Docker\API\Model\ExecIdJsonGetResponse200();
+        if (property_exists($data, 'CanRemove') && $data->{'CanRemove'} !== null) {
+            $object->setCanRemove($data->{'CanRemove'});
+        }
+        if (property_exists($data, 'DetachKeys') && $data->{'DetachKeys'} !== null) {
+            $object->setDetachKeys($data->{'DetachKeys'});
+        }
         if (property_exists($data, 'ID') && $data->{'ID'} !== null) {
             $object->setID($data->{'ID'});
         }
@@ -72,6 +78,12 @@ class ExecIdJsonGetResponse200Normalizer implements DenormalizerInterface, Norma
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
+        if (null !== $object->getCanRemove()) {
+            $data->{'CanRemove'} = $object->getCanRemove();
+        }
+        if (null !== $object->getDetachKeys()) {
+            $data->{'DetachKeys'} = $object->getDetachKeys();
+        }
         if (null !== $object->getID()) {
             $data->{'ID'} = $object->getID();
         }

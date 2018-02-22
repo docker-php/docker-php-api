@@ -49,12 +49,12 @@ class SecretCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
      * @throws \Docker\API\Exception\SecretCreateInternalServerErrorException
      * @throws \Docker\API\Exception\SecretCreateServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\SecretsCreatePostResponse201
+     * @return null|\Docker\API\Model\IdResponse
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (201 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\SecretsCreatePostResponse201', 'json');
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\IdResponse', 'json');
         }
         if (409 === $status) {
             throw new \Docker\API\Exception\SecretCreateConflictException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));

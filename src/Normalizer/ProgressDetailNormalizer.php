@@ -38,11 +38,11 @@ class ProgressDetailNormalizer implements DenormalizerInterface, NormalizerInter
             return null;
         }
         $object = new \Docker\API\Model\ProgressDetail();
-        if (property_exists($data, 'code') && $data->{'code'} !== null) {
-            $object->setCode($data->{'code'});
+        if (property_exists($data, 'current') && $data->{'current'} !== null) {
+            $object->setCurrent($data->{'current'});
         }
-        if (property_exists($data, 'message') && $data->{'message'} !== null) {
-            $object->setMessage($data->{'message'});
+        if (property_exists($data, 'total') && $data->{'total'} !== null) {
+            $object->setTotal($data->{'total'});
         }
 
         return $object;
@@ -51,11 +51,11 @@ class ProgressDetailNormalizer implements DenormalizerInterface, NormalizerInter
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getCode()) {
-            $data->{'code'} = $object->getCode();
+        if (null !== $object->getCurrent()) {
+            $data->{'current'} = $object->getCurrent();
         }
-        if (null !== $object->getMessage()) {
-            $data->{'message'} = $object->getMessage();
+        if (null !== $object->getTotal()) {
+            $data->{'total'} = $object->getTotal();
         }
 
         return $data;

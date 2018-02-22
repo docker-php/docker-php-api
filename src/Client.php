@@ -987,7 +987,7 @@ class Client extends \Jane\OpenApiRuntime\Client\Psr7HttplugClient
 
     Various objects within Docker report events when something happens to them.
 
-    Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`
+    Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `exec_die`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`
 
     Images report these events: `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, and `untag`
 
@@ -2022,7 +2022,7 @@ class Client extends \Jane\OpenApiRuntime\Client\Psr7HttplugClient
      * @throws \Docker\API\Exception\SecretCreateInternalServerErrorException
      * @throws \Docker\API\Exception\SecretCreateServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\SecretsCreatePostResponse201|\Psr\Http\Message\ResponseInterface
+     * @return null|\Docker\API\Model\IdResponse|\Psr\Http\Message\ResponseInterface
      */
     public function secretCreate(\Docker\API\Model\SecretsCreatePostBody $body, string $fetch = self::FETCH_OBJECT)
     {
@@ -2107,7 +2107,7 @@ class Client extends \Jane\OpenApiRuntime\Client\Psr7HttplugClient
      * @throws \Docker\API\Exception\ConfigCreateInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigCreateServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\ConfigsCreatePostResponse201|\Psr\Http\Message\ResponseInterface
+     * @return null|\Docker\API\Model\IdResponse|\Psr\Http\Message\ResponseInterface
      */
     public function configCreate(\Docker\API\Model\ConfigsCreatePostBody $body, string $fetch = self::FETCH_OBJECT)
     {
@@ -2200,7 +2200,7 @@ class Client extends \Jane\OpenApiRuntime\Client\Psr7HttplugClient
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\HttpClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\UriFactoryDiscovery::find()->createUri('v1.35');
+            $uri = \Http\Discovery\UriFactoryDiscovery::find()->createUri('v1.36');
             $plugins[] = new \Http\Client\Common\Plugin\AddPathPlugin($uri);
             $httpClient = new \Http\Client\Common\PluginClient($httpClient, $plugins);
         }

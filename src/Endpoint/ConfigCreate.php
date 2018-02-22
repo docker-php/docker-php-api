@@ -49,12 +49,12 @@ class ConfigCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
      * @throws \Docker\API\Exception\ConfigCreateInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigCreateServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\ConfigsCreatePostResponse201
+     * @return null|\Docker\API\Model\IdResponse
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
         if (201 === $status) {
-            return $serializer->deserialize($body, 'Docker\\API\\Model\\ConfigsCreatePostResponse201', 'json');
+            return $serializer->deserialize($body, 'Docker\\API\\Model\\IdResponse', 'json');
         }
         if (409 === $status) {
             throw new \Docker\API\Exception\ConfigCreateConflictException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));

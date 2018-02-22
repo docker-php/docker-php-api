@@ -987,7 +987,7 @@ class ClientAsync extends \Jane\OpenApiRuntime\Client\AmpArtaxClient
 
     Various objects within Docker report events when something happens to them.
 
-    Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`
+    Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `exec_die`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`
 
     Images report these events: `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, and `untag`
 
@@ -2022,7 +2022,7 @@ class ClientAsync extends \Jane\OpenApiRuntime\Client\AmpArtaxClient
      * @throws \Docker\API\Exception\SecretCreateInternalServerErrorException
      * @throws \Docker\API\Exception\SecretCreateServiceUnavailableException
      *
-     * @return \Amp\Promise<null|\Docker\API\Model\SecretsCreatePostResponse201|\Amp\Artax\Response>
+     * @return \Amp\Promise<null|\Docker\API\Model\IdResponse|\Amp\Artax\Response>
      */
     public function secretCreate(\Docker\API\Model\SecretsCreatePostBody $body, string $fetch = self::FETCH_OBJECT)
     {
@@ -2107,7 +2107,7 @@ class ClientAsync extends \Jane\OpenApiRuntime\Client\AmpArtaxClient
      * @throws \Docker\API\Exception\ConfigCreateInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigCreateServiceUnavailableException
      *
-     * @return \Amp\Promise<null|\Docker\API\Model\ConfigsCreatePostResponse201|\Amp\Artax\Response>
+     * @return \Amp\Promise<null|\Docker\API\Model\IdResponse|\Amp\Artax\Response>
      */
     public function configCreate(\Docker\API\Model\ConfigsCreatePostBody $body, string $fetch = self::FETCH_OBJECT)
     {

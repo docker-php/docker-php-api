@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ConfigsCreatePostResponse201Normalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class ImageIDNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\ConfigsCreatePostResponse201';
+        return $type === 'Docker\\API\\Model\\ImageID';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\ConfigsCreatePostResponse201;
+        return $data instanceof \Docker\API\Model\ImageID;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,7 +37,7 @@ class ConfigsCreatePostResponse201Normalizer implements DenormalizerInterface, N
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\ConfigsCreatePostResponse201();
+        $object = new \Docker\API\Model\ImageID();
         if (property_exists($data, 'ID') && $data->{'ID'} !== null) {
             $object->setID($data->{'ID'});
         }

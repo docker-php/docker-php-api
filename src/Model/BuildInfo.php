@@ -40,6 +40,12 @@ class BuildInfo
      * @var ProgressDetail
      */
     protected $progressDetail;
+    /**
+     * Image ID or Digest.
+     *
+     * @var ImageID
+     */
+    protected $aux;
 
     /**
      * @return string
@@ -177,6 +183,30 @@ class BuildInfo
     public function setProgressDetail(?ProgressDetail $progressDetail): self
     {
         $this->progressDetail = $progressDetail;
+
+        return $this;
+    }
+
+    /**
+     * Image ID or Digest.
+     *
+     * @return ImageID
+     */
+    public function getAux(): ?ImageID
+    {
+        return $this->aux;
+    }
+
+    /**
+     * Image ID or Digest.
+     *
+     * @param ImageID $aux
+     *
+     * @return self
+     */
+    public function setAux(?ImageID $aux): self
+    {
+        $this->aux = $aux;
 
         return $this;
     }

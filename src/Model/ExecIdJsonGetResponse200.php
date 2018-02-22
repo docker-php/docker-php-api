@@ -13,6 +13,14 @@ namespace Docker\API\Model;
 class ExecIdJsonGetResponse200
 {
     /**
+     * @var bool
+     */
+    protected $canRemove;
+    /**
+     * @var string
+     */
+    protected $detachKeys;
+    /**
      * @var string
      */
     protected $iD;
@@ -50,6 +58,46 @@ class ExecIdJsonGetResponse200
      * @var int
      */
     protected $pid;
+
+    /**
+     * @return bool
+     */
+    public function getCanRemove(): ?bool
+    {
+        return $this->canRemove;
+    }
+
+    /**
+     * @param bool $canRemove
+     *
+     * @return self
+     */
+    public function setCanRemove(?bool $canRemove): self
+    {
+        $this->canRemove = $canRemove;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDetachKeys(): ?string
+    {
+        return $this->detachKeys;
+    }
+
+    /**
+     * @param string $detachKeys
+     *
+     * @return self
+     */
+    public function setDetachKeys(?string $detachKeys): self
+    {
+        $this->detachKeys = $detachKeys;
+
+        return $this;
+    }
 
     /**
      * @return string

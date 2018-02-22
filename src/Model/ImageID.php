@@ -10,18 +10,14 @@ declare(strict_types=1);
 
 namespace Docker\API\Model;
 
-class ConfigsCreatePostResponse201
+class ImageID
 {
     /**
-     * The ID of the created config.
-     *
      * @var string
      */
     protected $iD;
 
     /**
-     * The ID of the created config.
-     *
      * @return string
      */
     public function getID(): ?string
@@ -30,8 +26,6 @@ class ConfigsCreatePostResponse201
     }
 
     /**
-     * The ID of the created config.
-     *
      * @param string $iD
      *
      * @return self
