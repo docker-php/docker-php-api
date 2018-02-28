@@ -37,7 +37,6 @@ class NormalizerFactory
         $normalizers[] = new HostConfigNormalizer();
         $normalizers[] = new HostConfigLogConfigNormalizer();
         $normalizers[] = new ContainerConfigNormalizer();
-        $normalizers[] = new ContainerConfigVolumesNormalizer();
         $normalizers[] = new NetworkSettingsNormalizer();
         $normalizers[] = new AddressNormalizer();
         $normalizers[] = new PortBindingNormalizer();
