@@ -40,7 +40,7 @@ class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Ja
      *     @var string $cpusetcpus CPUs in which to allow execution (e.g., `0-3`, `0,1`).
      *     @var int $cpuperiod the length of a CPU period in microseconds
      *     @var int $cpuquota microseconds of CPU time that the container can get in a CPU period
-     *     @var int $buildargs JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values. [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg)
+     *     @var string $buildargs JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values. [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg)
      *     @var int $shmsize Size of `/dev/shm` in bytes. The size must be greater than 0. If omitted the system uses 64MB.
      *     @var bool $squash Squash the resulting images layers into a single layer. *(Experimental release only.)*
      *     @var string $labels arbitrary key/value labels to set on the image, as a JSON map of string pairs
@@ -121,7 +121,7 @@ class ImageBuild extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Ja
         $optionsResolver->setAllowedTypes('cpusetcpus', ['string']);
         $optionsResolver->setAllowedTypes('cpuperiod', ['int']);
         $optionsResolver->setAllowedTypes('cpuquota', ['int']);
-        $optionsResolver->setAllowedTypes('buildargs', ['int']);
+        $optionsResolver->setAllowedTypes('buildargs', ['string']);
         $optionsResolver->setAllowedTypes('shmsize', ['int']);
         $optionsResolver->setAllowedTypes('squash', ['bool']);
         $optionsResolver->setAllowedTypes('labels', ['string']);

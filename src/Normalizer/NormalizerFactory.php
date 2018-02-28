@@ -34,7 +34,6 @@ class NormalizerFactory
         $normalizers[] = new HostConfigLogConfigNormalizer();
         $normalizers[] = new HostConfigPortBindingsItemNormalizer();
         $normalizers[] = new ConfigNormalizer();
-        $normalizers[] = new ConfigVolumesNormalizer();
         $normalizers[] = new NetworkConfigNormalizer();
         $normalizers[] = new GraphDriverNormalizer();
         $normalizers[] = new ImageNormalizer();
