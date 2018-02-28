@@ -108,7 +108,7 @@ class ContainersCreatePostBody
     /**
      * An object mapping mount point paths inside the container to empty objects.
      *
-     * @var ConfigVolumes
+     * @var mixed[]
      */
     protected $volumes;
     /**
@@ -550,9 +550,9 @@ class ContainersCreatePostBody
     /**
      * An object mapping mount point paths inside the container to empty objects.
      *
-     * @return ConfigVolumes
+     * @return mixed[]
      */
-    public function getVolumes(): ?ConfigVolumes
+    public function getVolumes(): ?\ArrayObject
     {
         return $this->volumes;
     }
@@ -560,11 +560,11 @@ class ContainersCreatePostBody
     /**
      * An object mapping mount point paths inside the container to empty objects.
      *
-     * @param ConfigVolumes $volumes
+     * @param mixed[] $volumes
      *
      * @return self
      */
-    public function setVolumes(?ConfigVolumes $volumes): self
+    public function setVolumes(?\ArrayObject $volumes): self
     {
         $this->volumes = $volumes;
 
