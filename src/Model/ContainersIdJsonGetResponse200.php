@@ -510,7 +510,7 @@ class ContainersIdJsonGetResponse200
     /**
      * @return string
      */
-    public function getExecIDs(): ?string
+    public function getExecIDs(): ?array
     {
         return $this->execIDs;
     }
