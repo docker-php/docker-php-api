@@ -520,7 +520,7 @@ class ContainersIdJsonGetResponse200
      *
      * @return self
      */
-    public function setExecIDs(?string $execIDs): self
+    public function setExecIDs(?array $execIDs): self
     {
         $this->execIDs = $execIDs;
 
