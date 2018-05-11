@@ -138,6 +138,9 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
         if (property_exists($data, 'OomKillDisable') && $data->{'OomKillDisable'} !== null) {
             $object->setOomKillDisable($data->{'OomKillDisable'});
         }
+        if (property_exists($data, 'Init') && $data->{'Init'} !== null) {
+            $object->setInit($data->{'Init'});
+        }
         if (property_exists($data, 'PidsLimit') && $data->{'PidsLimit'} !== null) {
             $object->setPidsLimit($data->{'PidsLimit'});
         }
@@ -266,6 +269,9 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
         }
         if (null !== $object->getOomKillDisable()) {
             $data->{'OomKillDisable'} = $object->getOomKillDisable();
+        }
+        if (null !== $object->getInit()) {
+            $data->{'Init'} = $object->getInit();
         }
         if (null !== $object->getPidsLimit()) {
             $data->{'PidsLimit'} = $object->getPidsLimit();

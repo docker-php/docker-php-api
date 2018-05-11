@@ -51,6 +51,9 @@ class ConfigSpecNormalizer implements DenormalizerInterface, NormalizerInterface
         if (property_exists($data, 'Data') && $data->{'Data'} !== null) {
             $object->setData($data->{'Data'});
         }
+        if (property_exists($data, 'Templating') && $data->{'Templating'} !== null) {
+            $object->setTemplating($this->denormalizer->denormalize($data->{'Templating'}, 'Docker\\API\\Model\\Driver', 'json', $context));
+        }
 
         return $object;
     }
@@ -70,6 +73,9 @@ class ConfigSpecNormalizer implements DenormalizerInterface, NormalizerInterface
         }
         if (null !== $object->getData()) {
             $data->{'Data'} = $object->getData();
+        }
+        if (null !== $object->getTemplating()) {
+            $data->{'Templating'} = $this->normalizer->normalize($object->getTemplating(), 'json', $context);
         }
 
         return $data;
