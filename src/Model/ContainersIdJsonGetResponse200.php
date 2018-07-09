@@ -95,7 +95,7 @@ class ContainersIdJsonGetResponse200
      */
     protected $appArmorProfile;
     /**
-     * @var string
+     * @var mixed[]
      */
     protected $execIDs;
     /**
@@ -508,19 +508,19 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
-     * @return string
+     * @return mixed[]
      */
-    public function getExecIDs(): ?string
+    public function getExecIDs(): ?array
     {
         return $this->execIDs;
     }
 
     /**
-     * @param string $execIDs
+     * @param mixed[] $execIDs
      *
      * @return self
      */
-    public function setExecIDs(?string $execIDs): self
+    public function setExecIDs(?array $execIDs): self
     {
         $this->execIDs = $execIDs;
 

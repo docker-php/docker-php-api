@@ -66,6 +66,7 @@ class ContainerKill extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * {@inheritdoc}
      *
      * @throws \Docker\API\Exception\ContainerKillNotFoundException
+     * @throws \Docker\API\Exception\ContainerKillConflictException
      * @throws \Docker\API\Exception\ContainerKillInternalServerErrorException
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
@@ -75,6 +76,9 @@ class ContainerKill extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
         }
         if (404 === $status) {
             throw new \Docker\API\Exception\ContainerKillNotFoundException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
+        }
+        if (409 === $status) {
+            throw new \Docker\API\Exception\ContainerKillConflictException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));
         }
         if (500 === $status) {
             throw new \Docker\API\Exception\ContainerKillInternalServerErrorException($serializer->deserialize($body, 'Docker\\API\\Model\\ErrorResponse', 'json'));

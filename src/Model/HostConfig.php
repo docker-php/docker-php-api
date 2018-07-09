@@ -157,6 +157,12 @@ class HostConfig
      */
     protected $oomKillDisable;
     /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @var bool
+     */
+    protected $init;
+    /**
      * Tune a container's pids limit. Set -1 for unlimited.
      *
      * @var int
@@ -233,8 +239,8 @@ class HostConfig
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @var PortBinding[][]
@@ -1023,6 +1029,30 @@ class HostConfig
     }
 
     /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @return bool
+     */
+    public function getInit(): ?bool
+    {
+        return $this->init;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @param bool $init
+     *
+     * @return self
+     */
+    public function setInit(?bool $init): self
+    {
+        $this->init = $init;
+
+        return $this;
+    }
+
+    /**
      * Tune a container's pids limit. Set -1 for unlimited.
      *
      * @return int
@@ -1291,8 +1321,8 @@ class HostConfig
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @return PortBinding[][]
@@ -1307,8 +1337,8 @@ class HostConfig
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @param PortBinding[][] $portBindings
