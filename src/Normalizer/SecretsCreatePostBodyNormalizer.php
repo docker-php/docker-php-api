@@ -54,6 +54,9 @@ class SecretsCreatePostBodyNormalizer implements DenormalizerInterface, Normaliz
         if (property_exists($data, 'Driver') && $data->{'Driver'} !== null) {
             $object->setDriver($this->denormalizer->denormalize($data->{'Driver'}, 'Docker\\API\\Model\\Driver', 'json', $context));
         }
+        if (property_exists($data, 'Templating') && $data->{'Templating'} !== null) {
+            $object->setTemplating($this->denormalizer->denormalize($data->{'Templating'}, 'Docker\\API\\Model\\Driver', 'json', $context));
+        }
 
         return $object;
     }
@@ -76,6 +79,9 @@ class SecretsCreatePostBodyNormalizer implements DenormalizerInterface, Normaliz
         }
         if (null !== $object->getDriver()) {
             $data->{'Driver'} = $this->normalizer->normalize($object->getDriver(), 'json', $context);
+        }
+        if (null !== $object->getTemplating()) {
+            $data->{'Templating'} = $this->normalizer->normalize($object->getTemplating(), 'json', $context);
         }
 
         return $data;

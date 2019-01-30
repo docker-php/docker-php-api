@@ -39,7 +39,7 @@ class SystemDataUsage extends \Jane\OpenApiRuntime\Client\BaseEndpoint implement
      *
      * @throws \Docker\API\Exception\SystemDataUsageInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\SystemDfGetResponse200
+     * @return \Docker\API\Model\SystemDfGetResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

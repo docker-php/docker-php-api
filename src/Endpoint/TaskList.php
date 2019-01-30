@@ -70,7 +70,7 @@ class TaskList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane
      * @throws \Docker\API\Exception\TaskListInternalServerErrorException
      * @throws \Docker\API\Exception\TaskListServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Task[]
+     * @return \Docker\API\Model\Task[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

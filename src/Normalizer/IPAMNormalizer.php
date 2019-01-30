@@ -53,13 +53,9 @@ class IPAMNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
             $object->setConfig($values);
         }
         if (property_exists($data, 'Options') && $data->{'Options'} !== null) {
-            $values_2 = [];
-            foreach ($data->{'Options'} as $value_2) {
-                $values_3 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-                foreach ($value_2 as $key_1 => $value_3) {
-                    $values_3[$key_1] = $value_3;
-                }
-                $values_2[] = $values_3;
+            $values_2 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data->{'Options'} as $key_1 => $value_2) {
+                $values_2[$key_1] = $value_2;
             }
             $object->setOptions($values_2);
         }
@@ -85,13 +81,9 @@ class IPAMNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
             $data->{'Config'} = $values;
         }
         if (null !== $object->getOptions()) {
-            $values_2 = [];
-            foreach ($object->getOptions() as $value_2) {
-                $values_3 = new \stdClass();
-                foreach ($value_2 as $key_1 => $value_3) {
-                    $values_3->{$key_1} = $value_3;
-                }
-                $values_2[] = $values_3;
+            $values_2 = new \stdClass();
+            foreach ($object->getOptions() as $key_1 => $value_2) {
+                $values_2->{$key_1} = $value_2;
             }
             $data->{'Options'} = $values_2;
         }

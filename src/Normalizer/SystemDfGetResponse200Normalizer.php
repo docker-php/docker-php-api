@@ -66,6 +66,13 @@ class SystemDfGetResponse200Normalizer implements DenormalizerInterface, Normali
             }
             $object->setVolumes($values_3);
         }
+        if (property_exists($data, 'BuildCache') && $data->{'BuildCache'} !== null) {
+            $values_4 = [];
+            foreach ($data->{'BuildCache'} as $value_4) {
+                $values_4[] = $this->denormalizer->denormalize($value_4, 'Docker\\API\\Model\\BuildCache', 'json', $context);
+            }
+            $object->setBuildCache($values_4);
+        }
 
         return $object;
     }
@@ -100,6 +107,13 @@ class SystemDfGetResponse200Normalizer implements DenormalizerInterface, Normali
                 $values_3[] = $this->normalizer->normalize($value_3, 'json', $context);
             }
             $data->{'Volumes'} = $values_3;
+        }
+        if (null !== $object->getBuildCache()) {
+            $values_4 = [];
+            foreach ($object->getBuildCache() as $value_4) {
+                $values_4[] = $this->normalizer->normalize($value_4, 'json', $context);
+            }
+            $data->{'BuildCache'} = $values_4;
         }
 
         return $data;

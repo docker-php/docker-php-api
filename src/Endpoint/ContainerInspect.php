@@ -68,7 +68,7 @@ class ContainerInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implemen
      * @throws \Docker\API\Exception\ContainerInspectNotFoundException
      * @throws \Docker\API\Exception\ContainerInspectInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ContainersIdJsonGetResponse200
+     * @return \Docker\API\Model\ContainersIdJsonGetResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

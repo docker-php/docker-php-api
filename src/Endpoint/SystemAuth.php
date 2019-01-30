@@ -49,7 +49,7 @@ class SystemAuth extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Ja
      *
      * @throws \Docker\API\Exception\SystemAuthInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\AuthPostResponse200
+     * @return \Docker\API\Model\AuthPostResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

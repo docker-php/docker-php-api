@@ -316,6 +316,8 @@ class SystemInfo
     /**
      * HTTP-proxy configured for the daemon. This value is obtained from the.
     [`HTTP_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.
+    Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL
+    are masked in the API response.
 
     Containers do not automatically inherit this configuration.
 
@@ -326,6 +328,8 @@ class SystemInfo
     /**
      * HTTPS-proxy configured for the daemon. This value is obtained from the.
     [`HTTPS_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.
+    Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL
+    are masked in the API response.
 
     Containers do not automatically inherit this configuration.
 
@@ -471,7 +475,7 @@ class SystemInfo
      */
     protected $isolation;
     /**
-     * Name and, optional, path of the the `docker-init` binary.
+     * Name and, optional, path of the `docker-init` binary.
 
     If the path is omitted, the daemon searches the host's `$PATH` for the
     binary and uses the first result.
@@ -519,6 +523,26 @@ class SystemInfo
      * @var string[]
      */
     protected $securityOptions;
+    /**
+     * Reports a summary of the product license on the daemon.
+
+    If a commercial license has been applied to the daemon, information
+    such as number of nodes, and expiration are included.
+
+     *
+     * @var string
+     */
+    protected $productLicense;
+    /**
+     * List of warnings / informational messages about missing features, or.
+    issues related to the daemon configuration.
+
+    These messages can be printed by the client as information to the user.
+
+     *
+     * @var string[]
+     */
+    protected $warnings;
 
     /**
      * Unique identifier of the daemon.
@@ -1581,6 +1605,8 @@ class SystemInfo
     /**
      * HTTP-proxy configured for the daemon. This value is obtained from the.
     [`HTTP_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.
+    Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL
+    are masked in the API response.
 
     Containers do not automatically inherit this configuration.
 
@@ -1595,6 +1621,8 @@ class SystemInfo
     /**
      * HTTP-proxy configured for the daemon. This value is obtained from the.
     [`HTTP_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.
+    Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL
+    are masked in the API response.
 
     Containers do not automatically inherit this configuration.
 
@@ -1613,6 +1641,8 @@ class SystemInfo
     /**
      * HTTPS-proxy configured for the daemon. This value is obtained from the.
     [`HTTPS_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.
+    Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL
+    are masked in the API response.
 
     Containers do not automatically inherit this configuration.
 
@@ -1627,6 +1657,8 @@ class SystemInfo
     /**
      * HTTPS-proxy configured for the daemon. This value is obtained from the.
     [`HTTPS_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.
+    Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL
+    are masked in the API response.
 
     Containers do not automatically inherit this configuration.
 
@@ -2061,7 +2093,7 @@ class SystemInfo
     }
 
     /**
-     * Name and, optional, path of the the `docker-init` binary.
+     * Name and, optional, path of the `docker-init` binary.
 
     If the path is omitted, the daemon searches the host's `$PATH` for the
     binary and uses the first result.
@@ -2075,7 +2107,7 @@ class SystemInfo
     }
 
     /**
-     * Name and, optional, path of the the `docker-init` binary.
+     * Name and, optional, path of the `docker-init` binary.
 
     If the path is omitted, the daemon searches the host's `$PATH` for the
     binary and uses the first result.
@@ -2214,6 +2246,70 @@ class SystemInfo
     public function setSecurityOptions(?array $securityOptions): self
     {
         $this->securityOptions = $securityOptions;
+
+        return $this;
+    }
+
+    /**
+     * Reports a summary of the product license on the daemon.
+
+    If a commercial license has been applied to the daemon, information
+    such as number of nodes, and expiration are included.
+
+     *
+     * @return string
+     */
+    public function getProductLicense(): ?string
+    {
+        return $this->productLicense;
+    }
+
+    /**
+     * Reports a summary of the product license on the daemon.
+
+    If a commercial license has been applied to the daemon, information
+    such as number of nodes, and expiration are included.
+
+     *
+     * @param string $productLicense
+     *
+     * @return self
+     */
+    public function setProductLicense(?string $productLicense): self
+    {
+        $this->productLicense = $productLicense;
+
+        return $this;
+    }
+
+    /**
+     * List of warnings / informational messages about missing features, or.
+    issues related to the daemon configuration.
+
+    These messages can be printed by the client as information to the user.
+
+     *
+     * @return string[]
+     */
+    public function getWarnings(): ?array
+    {
+        return $this->warnings;
+    }
+
+    /**
+     * List of warnings / informational messages about missing features, or.
+    issues related to the daemon configuration.
+
+    These messages can be printed by the client as information to the user.
+
+     *
+     * @param string[] $warnings
+     *
+     * @return self
+     */
+    public function setWarnings(?array $warnings): self
+    {
+        $this->warnings = $warnings;
 
         return $this;
     }

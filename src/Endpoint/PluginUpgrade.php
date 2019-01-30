@@ -19,7 +19,7 @@ class PluginUpgrade extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @param array  $body
      * @param array  $queryParameters {
      *
-     *     @var string $remote remote reference to upgrade to
+     *     @var string $remote Remote reference to upgrade to.
 
     The `:latest` tag is optional, and is used as the default if omitted.
 

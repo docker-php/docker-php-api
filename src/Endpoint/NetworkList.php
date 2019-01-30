@@ -75,7 +75,7 @@ class NetworkList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \J
      *
      * @throws \Docker\API\Exception\NetworkListInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\Network[]
+     * @return \Docker\API\Model\Network[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

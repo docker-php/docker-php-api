@@ -68,7 +68,7 @@ class ContainerTop extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
      * @throws \Docker\API\Exception\ContainerTopNotFoundException
      * @throws \Docker\API\Exception\ContainerTopInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ContainersIdTopGetResponse200
+     * @return \Docker\API\Model\ContainersIdTopGetResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

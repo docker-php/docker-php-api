@@ -66,7 +66,7 @@ class ContainerStop extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\ContainerStopNotFoundException
      * @throws \Docker\API\Exception\ContainerStopInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ErrorResponse
+     * @return \Docker\API\Model\ErrorResponse|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

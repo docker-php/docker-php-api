@@ -76,7 +76,7 @@ class ImageDelete extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \J
      * @throws \Docker\API\Exception\ImageDeleteConflictException
      * @throws \Docker\API\Exception\ImageDeleteInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ImageDeleteResponseItem[]
+     * @return \Docker\API\Model\ImageDeleteResponseItem[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

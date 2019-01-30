@@ -67,7 +67,7 @@ class ServiceCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\ServiceCreateInternalServerErrorException
      * @throws \Docker\API\Exception\ServiceCreateServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\ServicesCreatePostResponse201
+     * @return \Docker\API\Model\ServicesCreatePostResponse201|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

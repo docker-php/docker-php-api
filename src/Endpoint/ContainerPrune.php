@@ -15,7 +15,7 @@ class ContainerPrune extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements
     /**
      * @param array $queryParameters {
      *
-     *     @var string $filters filters to process on the prune list, encoded as JSON (a `map[string][]string`)
+     *     @var string $filters Filters to process on the prune list, encoded as JSON (a `map[string][]string`).
 
     Available filters:
     - `until=<timestamp>` Prune containers created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine’s time.
@@ -66,7 +66,7 @@ class ContainerPrune extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements
      *
      * @throws \Docker\API\Exception\ContainerPruneInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ContainersPrunePostResponse200
+     * @return \Docker\API\Model\ContainersPrunePostResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

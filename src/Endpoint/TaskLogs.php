@@ -24,7 +24,7 @@ class TaskLogs extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane
      * @param array  $queryParameters {
      *
      *     @var bool $details show task context and extra details provided to logs
-     *     @var bool $follow return the logs as a stream
+     *     @var bool $follow Return the logs as a stream.
 
      *     @var bool $stdout Return logs from `stdout`
      *     @var bool $stderr Return logs from `stderr`

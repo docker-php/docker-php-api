@@ -59,6 +59,19 @@ class ClusterInfoNormalizer implements DenormalizerInterface, NormalizerInterfac
         if (property_exists($data, 'RootRotationInProgress') && $data->{'RootRotationInProgress'} !== null) {
             $object->setRootRotationInProgress($data->{'RootRotationInProgress'});
         }
+        if (property_exists($data, 'DataPathPort') && $data->{'DataPathPort'} !== null) {
+            $object->setDataPathPort($data->{'DataPathPort'});
+        }
+        if (property_exists($data, 'DefaultAddrPool') && $data->{'DefaultAddrPool'} !== null) {
+            $values = [];
+            foreach ($data->{'DefaultAddrPool'} as $value) {
+                $values[] = $value;
+            }
+            $object->setDefaultAddrPool($values);
+        }
+        if (property_exists($data, 'SubnetSize') && $data->{'SubnetSize'} !== null) {
+            $object->setSubnetSize($data->{'SubnetSize'});
+        }
 
         return $object;
     }
@@ -86,6 +99,19 @@ class ClusterInfoNormalizer implements DenormalizerInterface, NormalizerInterfac
         }
         if (null !== $object->getRootRotationInProgress()) {
             $data->{'RootRotationInProgress'} = $object->getRootRotationInProgress();
+        }
+        if (null !== $object->getDataPathPort()) {
+            $data->{'DataPathPort'} = $object->getDataPathPort();
+        }
+        if (null !== $object->getDefaultAddrPool()) {
+            $values = [];
+            foreach ($object->getDefaultAddrPool() as $value) {
+                $values[] = $value;
+            }
+            $data->{'DefaultAddrPool'} = $values;
+        }
+        if (null !== $object->getSubnetSize()) {
+            $data->{'SubnetSize'} = $object->getSubnetSize();
         }
 
         return $data;

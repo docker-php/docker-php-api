@@ -58,7 +58,7 @@ class ContainerChanges extends \Jane\OpenApiRuntime\Client\BaseEndpoint implemen
      * @throws \Docker\API\Exception\ContainerChangesNotFoundException
      * @throws \Docker\API\Exception\ContainerChangesInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ContainersIdChangesGetResponse200Item[]
+     * @return \Docker\API\Model\ContainersIdChangesGetResponse200Item[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

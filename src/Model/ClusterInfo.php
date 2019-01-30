@@ -65,6 +65,27 @@ class ClusterInfo
      * @var bool
      */
     protected $rootRotationInProgress;
+    /**
+     * DataPathPort specifies the data path port number for data traffic.
+    Acceptable port range is 1024 to 49151.
+    If no port is set or is set to 0, the default port (4789) is used.
+
+     *
+     * @var int
+     */
+    protected $dataPathPort;
+    /**
+     * Default Address Pool specifies default subnet pools for global scope networks.
+     *
+     * @var string[]
+     */
+    protected $defaultAddrPool;
+    /**
+     * SubnetSize specifies the subnet size of the networks created from the default subnet pool.
+     *
+     * @var int
+     */
+    protected $subnetSize;
 
     /**
      * The ID of the swarm.
@@ -252,6 +273,84 @@ class ClusterInfo
     public function setRootRotationInProgress(?bool $rootRotationInProgress): self
     {
         $this->rootRotationInProgress = $rootRotationInProgress;
+
+        return $this;
+    }
+
+    /**
+     * DataPathPort specifies the data path port number for data traffic.
+    Acceptable port range is 1024 to 49151.
+    If no port is set or is set to 0, the default port (4789) is used.
+
+     *
+     * @return int
+     */
+    public function getDataPathPort(): ?int
+    {
+        return $this->dataPathPort;
+    }
+
+    /**
+     * DataPathPort specifies the data path port number for data traffic.
+    Acceptable port range is 1024 to 49151.
+    If no port is set or is set to 0, the default port (4789) is used.
+
+     *
+     * @param int $dataPathPort
+     *
+     * @return self
+     */
+    public function setDataPathPort(?int $dataPathPort): self
+    {
+        $this->dataPathPort = $dataPathPort;
+
+        return $this;
+    }
+
+    /**
+     * Default Address Pool specifies default subnet pools for global scope networks.
+     *
+     * @return string[]
+     */
+    public function getDefaultAddrPool(): ?array
+    {
+        return $this->defaultAddrPool;
+    }
+
+    /**
+     * Default Address Pool specifies default subnet pools for global scope networks.
+     *
+     * @param string[] $defaultAddrPool
+     *
+     * @return self
+     */
+    public function setDefaultAddrPool(?array $defaultAddrPool): self
+    {
+        $this->defaultAddrPool = $defaultAddrPool;
+
+        return $this;
+    }
+
+    /**
+     * SubnetSize specifies the subnet size of the networks created from the default subnet pool.
+     *
+     * @return int
+     */
+    public function getSubnetSize(): ?int
+    {
+        return $this->subnetSize;
+    }
+
+    /**
+     * SubnetSize specifies the subnet size of the networks created from the default subnet pool.
+     *
+     * @param int $subnetSize
+     *
+     * @return self
+     */
+    public function setSubnetSize(?int $subnetSize): self
+    {
+        $this->subnetSize = $subnetSize;
 
         return $this;
     }

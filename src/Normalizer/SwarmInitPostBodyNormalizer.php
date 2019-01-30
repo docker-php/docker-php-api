@@ -47,8 +47,21 @@ class SwarmInitPostBodyNormalizer implements DenormalizerInterface, NormalizerIn
         if (property_exists($data, 'DataPathAddr') && $data->{'DataPathAddr'} !== null) {
             $object->setDataPathAddr($data->{'DataPathAddr'});
         }
+        if (property_exists($data, 'DataPathPort') && $data->{'DataPathPort'} !== null) {
+            $object->setDataPathPort($data->{'DataPathPort'});
+        }
+        if (property_exists($data, 'DefaultAddrPool') && $data->{'DefaultAddrPool'} !== null) {
+            $values = [];
+            foreach ($data->{'DefaultAddrPool'} as $value) {
+                $values[] = $value;
+            }
+            $object->setDefaultAddrPool($values);
+        }
         if (property_exists($data, 'ForceNewCluster') && $data->{'ForceNewCluster'} !== null) {
             $object->setForceNewCluster($data->{'ForceNewCluster'});
+        }
+        if (property_exists($data, 'SubnetSize') && $data->{'SubnetSize'} !== null) {
+            $object->setSubnetSize($data->{'SubnetSize'});
         }
         if (property_exists($data, 'Spec') && $data->{'Spec'} !== null) {
             $object->setSpec($this->denormalizer->denormalize($data->{'Spec'}, 'Docker\\API\\Model\\SwarmSpec', 'json', $context));
@@ -69,8 +82,21 @@ class SwarmInitPostBodyNormalizer implements DenormalizerInterface, NormalizerIn
         if (null !== $object->getDataPathAddr()) {
             $data->{'DataPathAddr'} = $object->getDataPathAddr();
         }
+        if (null !== $object->getDataPathPort()) {
+            $data->{'DataPathPort'} = $object->getDataPathPort();
+        }
+        if (null !== $object->getDefaultAddrPool()) {
+            $values = [];
+            foreach ($object->getDefaultAddrPool() as $value) {
+                $values[] = $value;
+            }
+            $data->{'DefaultAddrPool'} = $values;
+        }
         if (null !== $object->getForceNewCluster()) {
             $data->{'ForceNewCluster'} = $object->getForceNewCluster();
+        }
+        if (null !== $object->getSubnetSize()) {
+            $data->{'SubnetSize'} = $object->getSubnetSize();
         }
         if (null !== $object->getSpec()) {
             $data->{'Spec'} = $this->normalizer->normalize($object->getSpec(), 'json', $context);

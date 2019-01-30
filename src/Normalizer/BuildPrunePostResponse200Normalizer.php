@@ -38,6 +38,13 @@ class BuildPrunePostResponse200Normalizer implements DenormalizerInterface, Norm
             return null;
         }
         $object = new \Docker\API\Model\BuildPrunePostResponse200();
+        if (property_exists($data, 'CachesDeleted') && $data->{'CachesDeleted'} !== null) {
+            $values = [];
+            foreach ($data->{'CachesDeleted'} as $value) {
+                $values[] = $value;
+            }
+            $object->setCachesDeleted($values);
+        }
         if (property_exists($data, 'SpaceReclaimed') && $data->{'SpaceReclaimed'} !== null) {
             $object->setSpaceReclaimed($data->{'SpaceReclaimed'});
         }
@@ -48,6 +55,13 @@ class BuildPrunePostResponse200Normalizer implements DenormalizerInterface, Norm
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
+        if (null !== $object->getCachesDeleted()) {
+            $values = [];
+            foreach ($object->getCachesDeleted() as $value) {
+                $values[] = $value;
+            }
+            $data->{'CachesDeleted'} = $values;
+        }
         if (null !== $object->getSpaceReclaimed()) {
             $data->{'SpaceReclaimed'} = $object->getSpaceReclaimed();
         }

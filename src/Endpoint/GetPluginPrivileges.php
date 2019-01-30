@@ -61,7 +61,7 @@ class GetPluginPrivileges extends \Jane\OpenApiRuntime\Client\BaseEndpoint imple
      *
      * @throws \Docker\API\Exception\GetPluginPrivilegesInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\PluginsPrivilegesGetResponse200Item[]
+     * @return \Docker\API\Model\PluginsPrivilegesGetResponse200Item[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

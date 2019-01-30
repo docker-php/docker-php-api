@@ -150,6 +150,25 @@ class TaskSpecContainerSpec
      * @var string
      */
     protected $isolation;
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @var bool
+     */
+    protected $init;
+    /**
+     * Set kernel namedspaced parameters (sysctls) in the container.
+    The Sysctls option on services accepts the same sysctls as the
+    are supported on containers. Note that while the same sysctls are
+    supported, no guarantees or checks are made about their
+    suitability for a clustered environment, and it's up to the user
+    to determine whether a given sysctl will work properly in a
+    Service.
+
+     *
+     * @var string[]
+     */
+    protected $sysctls;
 
     /**
      * The image name to use for the container.
@@ -687,6 +706,68 @@ class TaskSpecContainerSpec
     public function setIsolation(?string $isolation): self
     {
         $this->isolation = $isolation;
+
+        return $this;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @return bool
+     */
+    public function getInit(): ?bool
+    {
+        return $this->init;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @param bool $init
+     *
+     * @return self
+     */
+    public function setInit(?bool $init): self
+    {
+        $this->init = $init;
+
+        return $this;
+    }
+
+    /**
+     * Set kernel namedspaced parameters (sysctls) in the container.
+    The Sysctls option on services accepts the same sysctls as the
+    are supported on containers. Note that while the same sysctls are
+    supported, no guarantees or checks are made about their
+    suitability for a clustered environment, and it's up to the user
+    to determine whether a given sysctl will work properly in a
+    Service.
+
+     *
+     * @return string[]
+     */
+    public function getSysctls(): ?\ArrayObject
+    {
+        return $this->sysctls;
+    }
+
+    /**
+     * Set kernel namedspaced parameters (sysctls) in the container.
+    The Sysctls option on services accepts the same sysctls as the
+    are supported on containers. Note that while the same sysctls are
+    supported, no guarantees or checks are made about their
+    suitability for a clustered environment, and it's up to the user
+    to determine whether a given sysctl will work properly in a
+    Service.
+
+     *
+     * @param string[] $sysctls
+     *
+     * @return self
+     */
+    public function setSysctls(?\ArrayObject $sysctls): self
+    {
+        $this->sysctls = $sysctls;
 
         return $this;
     }

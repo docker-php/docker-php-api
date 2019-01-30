@@ -95,7 +95,9 @@ class ContainersIdJsonGetResponse200
      */
     protected $appArmorProfile;
     /**
-     * @var string
+     * IDs of exec instances that are running in the container.
+     *
+     * @var string[]
      */
     protected $execIDs;
     /**
@@ -508,19 +510,23 @@ class ContainersIdJsonGetResponse200
     }
 
     /**
-     * @return string
+     * IDs of exec instances that are running in the container.
+     *
+     * @return string[]
      */
-    public function getExecIDs(): ?string
+    public function getExecIDs(): ?array
     {
         return $this->execIDs;
     }
 
     /**
-     * @param string $execIDs
+     * IDs of exec instances that are running in the container.
+     *
+     * @param string[] $execIDs
      *
      * @return self
      */
-    public function setExecIDs(?string $execIDs): self
+    public function setExecIDs(?array $execIDs): self
     {
         $this->execIDs = $execIDs;
 

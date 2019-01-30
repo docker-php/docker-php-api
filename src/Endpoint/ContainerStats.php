@@ -18,9 +18,9 @@ class ContainerStats extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements
      * This endpoint returns a live stream of a container’s resource usage.
     statistics.
 
-    The `precpu_stats` is the CPU statistic of last read, which is used
-    for calculating the CPU usage percentage. It is not the same as the
-    `cpu_stats` field.
+    The `precpu_stats` is the CPU statistic of the *previous* read, and is
+    used to calculate the CPU usage percentage. It is not an exact copy
+    of the `cpu_stats` field.
 
     If either `precpu_stats.online_cpus` or `cpu_stats.online_cpus` is
     nil then for compatibility with older daemons the length of the

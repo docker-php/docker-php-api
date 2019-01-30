@@ -68,7 +68,7 @@ class ServiceList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \J
      * @throws \Docker\API\Exception\ServiceListInternalServerErrorException
      * @throws \Docker\API\Exception\ServiceListServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Service[]
+     * @return \Docker\API\Model\Service[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

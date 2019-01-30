@@ -39,7 +39,7 @@ class SystemVersion extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      *
      * @throws \Docker\API\Exception\SystemVersionInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\VersionGetResponse200
+     * @return \Docker\API\Model\VersionGetResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

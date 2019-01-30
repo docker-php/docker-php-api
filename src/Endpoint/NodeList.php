@@ -15,13 +15,14 @@ class NodeList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane
     /**
      * @param array $queryParameters {
      *
-     *     @var string $filters filters to process on the nodes list, encoded as JSON (a `map[string][]string`)
+     *     @var string $filters Filters to process on the nodes list, encoded as JSON (a `map[string][]string`).
 
     Available filters:
     - `id=<node id>`
     - `label=<engine label>`
     - `membership=`(`accepted`|`pending`)`
     - `name=<node name>`
+    - `node.label=<node label>`
     - `role=`(`manager`|`worker`)`
 
      * }
@@ -70,7 +71,7 @@ class NodeList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jane
      * @throws \Docker\API\Exception\NodeListInternalServerErrorException
      * @throws \Docker\API\Exception\NodeListServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Node[]
+     * @return \Docker\API\Model\Node[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

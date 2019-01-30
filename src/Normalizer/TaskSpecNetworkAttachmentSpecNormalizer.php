@@ -17,19 +17,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class MountBindOptionsNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class TaskSpecNetworkAttachmentSpecNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === 'Docker\\API\\Model\\MountBindOptions';
+        return $type === 'Docker\\API\\Model\\TaskSpecNetworkAttachmentSpec';
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof \Docker\API\Model\MountBindOptions;
+        return $data instanceof \Docker\API\Model\TaskSpecNetworkAttachmentSpec;
     }
 
     public function denormalize($data, $class, $format = null, array $context = [])
@@ -37,12 +37,9 @@ class MountBindOptionsNormalizer implements DenormalizerInterface, NormalizerInt
         if (!is_object($data)) {
             return null;
         }
-        $object = new \Docker\API\Model\MountBindOptions();
-        if (property_exists($data, 'Propagation') && $data->{'Propagation'} !== null) {
-            $object->setPropagation($data->{'Propagation'});
-        }
-        if (property_exists($data, 'NonRecursive') && $data->{'NonRecursive'} !== null) {
-            $object->setNonRecursive($data->{'NonRecursive'});
+        $object = new \Docker\API\Model\TaskSpecNetworkAttachmentSpec();
+        if (property_exists($data, 'ContainerID') && $data->{'ContainerID'} !== null) {
+            $object->setContainerID($data->{'ContainerID'});
         }
 
         return $object;
@@ -51,11 +48,8 @@ class MountBindOptionsNormalizer implements DenormalizerInterface, NormalizerInt
     public function normalize($object, $format = null, array $context = [])
     {
         $data = new \stdClass();
-        if (null !== $object->getPropagation()) {
-            $data->{'Propagation'} = $object->getPropagation();
-        }
-        if (null !== $object->getNonRecursive()) {
-            $data->{'NonRecursive'} = $object->getNonRecursive();
+        if (null !== $object->getContainerID()) {
+            $data->{'ContainerID'} = $object->getContainerID();
         }
 
         return $data;

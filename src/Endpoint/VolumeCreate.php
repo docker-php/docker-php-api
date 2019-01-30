@@ -47,7 +47,7 @@ class VolumeCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
      *
      * @throws \Docker\API\Exception\VolumeCreateInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\Volume
+     * @return \Docker\API\Model\Volume|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

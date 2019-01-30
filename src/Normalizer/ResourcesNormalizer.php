@@ -123,6 +123,9 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
         if (property_exists($data, 'KernelMemory') && $data->{'KernelMemory'} !== null) {
             $object->setKernelMemory($data->{'KernelMemory'});
         }
+        if (property_exists($data, 'KernelMemoryTCP') && $data->{'KernelMemoryTCP'} !== null) {
+            $object->setKernelMemoryTCP($data->{'KernelMemoryTCP'});
+        }
         if (property_exists($data, 'MemoryReservation') && $data->{'MemoryReservation'} !== null) {
             $object->setMemoryReservation($data->{'MemoryReservation'});
         }
@@ -137,6 +140,9 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
         }
         if (property_exists($data, 'OomKillDisable') && $data->{'OomKillDisable'} !== null) {
             $object->setOomKillDisable($data->{'OomKillDisable'});
+        }
+        if (property_exists($data, 'Init') && $data->{'Init'} !== null) {
+            $object->setInit($data->{'Init'});
         }
         if (property_exists($data, 'PidsLimit') && $data->{'PidsLimit'} !== null) {
             $object->setPidsLimit($data->{'PidsLimit'});
@@ -252,6 +258,9 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
         if (null !== $object->getKernelMemory()) {
             $data->{'KernelMemory'} = $object->getKernelMemory();
         }
+        if (null !== $object->getKernelMemoryTCP()) {
+            $data->{'KernelMemoryTCP'} = $object->getKernelMemoryTCP();
+        }
         if (null !== $object->getMemoryReservation()) {
             $data->{'MemoryReservation'} = $object->getMemoryReservation();
         }
@@ -266,6 +275,9 @@ class ResourcesNormalizer implements DenormalizerInterface, NormalizerInterface,
         }
         if (null !== $object->getOomKillDisable()) {
             $data->{'OomKillDisable'} = $object->getOomKillDisable();
+        }
+        if (null !== $object->getInit()) {
+            $data->{'Init'} = $object->getInit();
         }
         if (null !== $object->getPidsLimit()) {
             $data->{'PidsLimit'} = $object->getPidsLimit();

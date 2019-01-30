@@ -19,9 +19,9 @@ class PluginPull extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Ja
      * @param array $body
      * @param array $queryParameters {
      *
-     *     @var string $remote remote reference for plugin to install
+     *     @var string $remote Remote reference for plugin to install.
 
-     *     @var string $name local name for the pulled plugin
+     *     @var string $name Local name for the pulled plugin.
 
     The `:latest` tag is optional, and is used as the default if omitted.
 

@@ -20,6 +20,12 @@ class PluginConfigInterface
      * @var string
      */
     protected $socket;
+    /**
+     * Protocol to use for clients connecting to the plugin.
+     *
+     * @var string
+     */
+    protected $protocolScheme;
 
     /**
      * @return PluginInterfaceType[]
@@ -57,6 +63,30 @@ class PluginConfigInterface
     public function setSocket(?string $socket): self
     {
         $this->socket = $socket;
+
+        return $this;
+    }
+
+    /**
+     * Protocol to use for clients connecting to the plugin.
+     *
+     * @return string
+     */
+    public function getProtocolScheme(): ?string
+    {
+        return $this->protocolScheme;
+    }
+
+    /**
+     * Protocol to use for clients connecting to the plugin.
+     *
+     * @param string $protocolScheme
+     *
+     * @return self
+     */
+    public function setProtocolScheme(?string $protocolScheme): self
+    {
+        $this->protocolScheme = $protocolScheme;
 
         return $this;
     }
