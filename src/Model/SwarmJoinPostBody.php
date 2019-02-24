@@ -40,7 +40,7 @@ class SwarmJoinPostBody
     /**
      * Addresses of manager nodes already participating in the swarm.
      *
-     * @var string
+     * @var array
      */
     protected $remoteAddrs;
     /**
@@ -139,9 +139,9 @@ class SwarmJoinPostBody
     /**
      * Addresses of manager nodes already participating in the swarm.
      *
-     * @return string
+     * @return array
      */
-    public function getRemoteAddrs(): ?string
+    public function getRemoteAddrs(): ?array
     {
         return $this->remoteAddrs;
     }
@@ -149,11 +149,11 @@ class SwarmJoinPostBody
     /**
      * Addresses of manager nodes already participating in the swarm.
      *
-     * @param string $remoteAddrs
+     * @param array $remoteAddrs
      *
      * @return self
      */
-    public function setRemoteAddrs(?string $remoteAddrs): self
+    public function setRemoteAddrs(?array $remoteAddrs): self
     {
         $this->remoteAddrs = $remoteAddrs;
 
