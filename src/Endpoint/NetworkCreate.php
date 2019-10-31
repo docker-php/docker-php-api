@@ -49,7 +49,7 @@ class NetworkCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\NetworkCreateNotFoundException
      * @throws \Docker\API\Exception\NetworkCreateInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\NetworksCreatePostResponse201
+     * @return \Docker\API\Model\NetworksCreatePostResponse201|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

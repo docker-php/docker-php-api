@@ -40,7 +40,7 @@ class SwarmUnlockkey extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements
      * @throws \Docker\API\Exception\SwarmUnlockkeyInternalServerErrorException
      * @throws \Docker\API\Exception\SwarmUnlockkeyServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\SwarmUnlockkeyGetResponse200
+     * @return \Docker\API\Model\SwarmUnlockkeyGetResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

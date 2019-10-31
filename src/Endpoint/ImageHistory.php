@@ -52,7 +52,7 @@ class ImageHistory extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
      * @throws \Docker\API\Exception\ImageHistoryNotFoundException
      * @throws \Docker\API\Exception\ImageHistoryInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ImagesNameHistoryGetResponse200Item[]
+     * @return \Docker\API\Model\ImagesNameHistoryGetResponse200Item[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

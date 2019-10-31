@@ -13,17 +13,48 @@ namespace Docker\API\Model;
 class TaskSpec
 {
     /**
-     * Invalid when specified with `ContainerSpec`. *(Experimental release only.)*.
+     * Plugin spec for the service.  *(Experimental release only.)*.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
      *
      * @var TaskSpecPluginSpec
      */
     protected $pluginSpec;
     /**
-     * Invalid when specified with `PluginSpec`.
+     * Container spec for the service.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
      *
      * @var TaskSpecContainerSpec
      */
     protected $containerSpec;
+    /**
+     * Read-only spec type for non-swarm containers attached to swarm overlay.
+    networks.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
+     *
+     * @var TaskSpecNetworkAttachmentSpec
+     */
+    protected $networkAttachmentSpec;
     /**
      * Resource requirements which apply to each individual container created as part of the service.
      *
@@ -64,7 +95,15 @@ class TaskSpec
     protected $logDriver;
 
     /**
-     * Invalid when specified with `ContainerSpec`. *(Experimental release only.)*.
+     * Plugin spec for the service.  *(Experimental release only.)*.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
      *
      * @return TaskSpecPluginSpec
      */
@@ -74,7 +113,15 @@ class TaskSpec
     }
 
     /**
-     * Invalid when specified with `ContainerSpec`. *(Experimental release only.)*.
+     * Plugin spec for the service.  *(Experimental release only.)*.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
      *
      * @param TaskSpecPluginSpec $pluginSpec
      *
@@ -88,7 +135,15 @@ class TaskSpec
     }
 
     /**
-     * Invalid when specified with `PluginSpec`.
+     * Container spec for the service.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
      *
      * @return TaskSpecContainerSpec
      */
@@ -98,7 +153,15 @@ class TaskSpec
     }
 
     /**
-     * Invalid when specified with `PluginSpec`.
+     * Container spec for the service.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
      *
      * @param TaskSpecContainerSpec $containerSpec
      *
@@ -107,6 +170,48 @@ class TaskSpec
     public function setContainerSpec(?TaskSpecContainerSpec $containerSpec): self
     {
         $this->containerSpec = $containerSpec;
+
+        return $this;
+    }
+
+    /**
+     * Read-only spec type for non-swarm containers attached to swarm overlay.
+    networks.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
+     *
+     * @return TaskSpecNetworkAttachmentSpec
+     */
+    public function getNetworkAttachmentSpec(): ?TaskSpecNetworkAttachmentSpec
+    {
+        return $this->networkAttachmentSpec;
+    }
+
+    /**
+     * Read-only spec type for non-swarm containers attached to swarm overlay.
+    networks.
+
+    <p><br /></p>
+
+    > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are
+    > mutually exclusive. PluginSpec is only used when the Runtime field
+    > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime
+    > field is set to `attachment`.
+
+     *
+     * @param TaskSpecNetworkAttachmentSpec $networkAttachmentSpec
+     *
+     * @return self
+     */
+    public function setNetworkAttachmentSpec(?TaskSpecNetworkAttachmentSpec $networkAttachmentSpec): self
+    {
+        $this->networkAttachmentSpec = $networkAttachmentSpec;
 
         return $this;
     }

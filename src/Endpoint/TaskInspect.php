@@ -51,7 +51,7 @@ class TaskInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \J
      * @throws \Docker\API\Exception\TaskInspectInternalServerErrorException
      * @throws \Docker\API\Exception\TaskInspectServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Task
+     * @return \Docker\API\Model\Task|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

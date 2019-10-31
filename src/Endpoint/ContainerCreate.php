@@ -66,7 +66,7 @@ class ContainerCreate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implement
      * @throws \Docker\API\Exception\ContainerCreateConflictException
      * @throws \Docker\API\Exception\ContainerCreateInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ContainersCreatePostResponse201
+     * @return \Docker\API\Model\ContainersCreatePostResponse201|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

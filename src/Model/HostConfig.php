@@ -127,6 +127,12 @@ class HostConfig
      */
     protected $kernelMemory;
     /**
+     * Hard limit for kernel TCP buffer memory (in bytes).
+     *
+     * @var int
+     */
+    protected $kernelMemoryTCP;
+    /**
      * Memory soft limit in bytes.
      *
      * @var int
@@ -156,6 +162,12 @@ class HostConfig
      * @var bool
      */
     protected $oomKillDisable;
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @var bool
+     */
+    protected $init;
     /**
      * Tune a container's pids limit. Set -1 for unlimited.
      *
@@ -233,8 +245,8 @@ class HostConfig
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @var PortBinding[][]
@@ -274,13 +286,22 @@ class HostConfig
      */
     protected $mounts;
     /**
-     * A list of kernel capabilities to add to the container.
+     * A list of kernel capabilities to be available for container (this overrides the default set).
+
+    Conflicts with options 'CapAdd' and 'CapDrop'"
+
+     *
+     * @var string[]
+     */
+    protected $capabilities;
+    /**
+     * A list of kernel capabilities to add to the container. Conflicts with option 'Capabilities'.
      *
      * @var string[]
      */
     protected $capAdd;
     /**
-     * A list of kernel capabilities to drop from the container.
+     * A list of kernel capabilities to drop from the container. Conflicts with option 'Capabilities'.
      *
      * @var string[]
      */
@@ -445,6 +466,18 @@ class HostConfig
      * @var string
      */
     protected $isolation;
+    /**
+     * The list of paths to be masked inside the container (this overrides the default set of paths).
+     *
+     * @var string[]
+     */
+    protected $maskedPaths;
+    /**
+     * The list of paths to be set as read-only inside the container (this overrides the default set of paths).
+     *
+     * @var string[]
+     */
+    protected $readonlyPaths;
 
     /**
      * An integer value representing this container's relative CPU weight versus other containers.
@@ -903,6 +936,30 @@ class HostConfig
     }
 
     /**
+     * Hard limit for kernel TCP buffer memory (in bytes).
+     *
+     * @return int
+     */
+    public function getKernelMemoryTCP(): ?int
+    {
+        return $this->kernelMemoryTCP;
+    }
+
+    /**
+     * Hard limit for kernel TCP buffer memory (in bytes).
+     *
+     * @param int $kernelMemoryTCP
+     *
+     * @return self
+     */
+    public function setKernelMemoryTCP(?int $kernelMemoryTCP): self
+    {
+        $this->kernelMemoryTCP = $kernelMemoryTCP;
+
+        return $this;
+    }
+
+    /**
      * Memory soft limit in bytes.
      *
      * @return int
@@ -1018,6 +1075,30 @@ class HostConfig
     public function setOomKillDisable(?bool $oomKillDisable): self
     {
         $this->oomKillDisable = $oomKillDisable;
+
+        return $this;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @return bool
+     */
+    public function getInit(): ?bool
+    {
+        return $this->init;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @param bool $init
+     *
+     * @return self
+     */
+    public function setInit(?bool $init): self
+    {
+        $this->init = $init;
 
         return $this;
     }
@@ -1291,8 +1372,8 @@ class HostConfig
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @return PortBinding[][]
@@ -1307,8 +1388,8 @@ class HostConfig
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @param PortBinding[][] $portBindings
@@ -1449,7 +1530,37 @@ class HostConfig
     }
 
     /**
-     * A list of kernel capabilities to add to the container.
+     * A list of kernel capabilities to be available for container (this overrides the default set).
+
+    Conflicts with options 'CapAdd' and 'CapDrop'"
+
+     *
+     * @return string[]
+     */
+    public function getCapabilities(): ?array
+    {
+        return $this->capabilities;
+    }
+
+    /**
+     * A list of kernel capabilities to be available for container (this overrides the default set).
+
+    Conflicts with options 'CapAdd' and 'CapDrop'"
+
+     *
+     * @param string[] $capabilities
+     *
+     * @return self
+     */
+    public function setCapabilities(?array $capabilities): self
+    {
+        $this->capabilities = $capabilities;
+
+        return $this;
+    }
+
+    /**
+     * A list of kernel capabilities to add to the container. Conflicts with option 'Capabilities'.
      *
      * @return string[]
      */
@@ -1459,7 +1570,7 @@ class HostConfig
     }
 
     /**
-     * A list of kernel capabilities to add to the container.
+     * A list of kernel capabilities to add to the container. Conflicts with option 'Capabilities'.
      *
      * @param string[] $capAdd
      *
@@ -1473,7 +1584,7 @@ class HostConfig
     }
 
     /**
-     * A list of kernel capabilities to drop from the container.
+     * A list of kernel capabilities to drop from the container. Conflicts with option 'Capabilities'.
      *
      * @return string[]
      */
@@ -1483,7 +1594,7 @@ class HostConfig
     }
 
     /**
-     * A list of kernel capabilities to drop from the container.
+     * A list of kernel capabilities to drop from the container. Conflicts with option 'Capabilities'.
      *
      * @param string[] $capDrop
      *
@@ -2088,6 +2199,54 @@ class HostConfig
     public function setIsolation(?string $isolation): self
     {
         $this->isolation = $isolation;
+
+        return $this;
+    }
+
+    /**
+     * The list of paths to be masked inside the container (this overrides the default set of paths).
+     *
+     * @return string[]
+     */
+    public function getMaskedPaths(): ?array
+    {
+        return $this->maskedPaths;
+    }
+
+    /**
+     * The list of paths to be masked inside the container (this overrides the default set of paths).
+     *
+     * @param string[] $maskedPaths
+     *
+     * @return self
+     */
+    public function setMaskedPaths(?array $maskedPaths): self
+    {
+        $this->maskedPaths = $maskedPaths;
+
+        return $this;
+    }
+
+    /**
+     * The list of paths to be set as read-only inside the container (this overrides the default set of paths).
+     *
+     * @return string[]
+     */
+    public function getReadonlyPaths(): ?array
+    {
+        return $this->readonlyPaths;
+    }
+
+    /**
+     * The list of paths to be set as read-only inside the container (this overrides the default set of paths).
+     *
+     * @param string[] $readonlyPaths
+     *
+     * @return self
+     */
+    public function setReadonlyPaths(?array $readonlyPaths): self
+    {
+        $this->readonlyPaths = $readonlyPaths;
 
         return $this;
     }

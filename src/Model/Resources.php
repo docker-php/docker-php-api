@@ -127,6 +127,12 @@ class Resources
      */
     protected $kernelMemory;
     /**
+     * Hard limit for kernel TCP buffer memory (in bytes).
+     *
+     * @var int
+     */
+    protected $kernelMemoryTCP;
+    /**
      * Memory soft limit in bytes.
      *
      * @var int
@@ -156,6 +162,12 @@ class Resources
      * @var bool
      */
     protected $oomKillDisable;
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @var bool
+     */
+    protected $init;
     /**
      * Tune a container's pids limit. Set -1 for unlimited.
      *
@@ -656,6 +668,30 @@ class Resources
     }
 
     /**
+     * Hard limit for kernel TCP buffer memory (in bytes).
+     *
+     * @return int
+     */
+    public function getKernelMemoryTCP(): ?int
+    {
+        return $this->kernelMemoryTCP;
+    }
+
+    /**
+     * Hard limit for kernel TCP buffer memory (in bytes).
+     *
+     * @param int $kernelMemoryTCP
+     *
+     * @return self
+     */
+    public function setKernelMemoryTCP(?int $kernelMemoryTCP): self
+    {
+        $this->kernelMemoryTCP = $kernelMemoryTCP;
+
+        return $this;
+    }
+
+    /**
      * Memory soft limit in bytes.
      *
      * @return int
@@ -771,6 +807,30 @@ class Resources
     public function setOomKillDisable(?bool $oomKillDisable): self
     {
         $this->oomKillDisable = $oomKillDisable;
+
+        return $this;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @return bool
+     */
+    public function getInit(): ?bool
+    {
+        return $this->init;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @param bool $init
+     *
+     * @return self
+     */
+    public function setInit(?bool $init): self
+    {
+        $this->init = $init;
 
         return $this;
     }

@@ -52,7 +52,7 @@ class ExecInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \J
      * @throws \Docker\API\Exception\ExecInspectNotFoundException
      * @throws \Docker\API\Exception\ExecInspectInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ExecIdJsonGetResponse200
+     * @return \Docker\API\Model\ExecIdJsonGetResponse200|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

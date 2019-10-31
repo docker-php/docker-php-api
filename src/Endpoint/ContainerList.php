@@ -91,7 +91,7 @@ class ContainerList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\ContainerListBadRequestException
      * @throws \Docker\API\Exception\ContainerListInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ContainerSummaryItem[]
+     * @return \Docker\API\Model\ContainerSummaryItem[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

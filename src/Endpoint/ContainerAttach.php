@@ -96,7 +96,7 @@ class ContainerAttach extends \Jane\OpenApiRuntime\Client\BaseEndpoint implement
      * @param array  $queryParameters {
      *
      *     @var string $detachKeys Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
-     *     @var bool $logs replay previous logs from the container
+     *     @var bool $logs Replay previous logs from the container.
 
      *     @var bool $stream Stream attached streams from the time the request was made onwards
      *     @var bool $stdin Attach to `stdin`

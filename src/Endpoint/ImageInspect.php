@@ -52,7 +52,7 @@ class ImageInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
      * @throws \Docker\API\Exception\ImageInspectNotFoundException
      * @throws \Docker\API\Exception\ImageInspectInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\Image
+     * @return \Docker\API\Model\Image|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

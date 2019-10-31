@@ -39,7 +39,7 @@ class SystemInfo extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Ja
      *
      * @throws \Docker\API\Exception\SystemInfoInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\SystemInfo
+     * @return \Docker\API\Model\SystemInfo|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

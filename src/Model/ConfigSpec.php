@@ -32,6 +32,12 @@ class ConfigSpec
      * @var string
      */
     protected $data;
+    /**
+     * Driver represents a driver (network, logging, secrets).
+     *
+     * @var Driver
+     */
+    protected $templating;
 
     /**
      * User-defined name of the config.
@@ -105,6 +111,30 @@ class ConfigSpec
     public function setData(?string $data): self
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Driver represents a driver (network, logging, secrets).
+     *
+     * @return Driver
+     */
+    public function getTemplating(): ?Driver
+    {
+        return $this->templating;
+    }
+
+    /**
+     * Driver represents a driver (network, logging, secrets).
+     *
+     * @param Driver $templating
+     *
+     * @return self
+     */
+    public function setTemplating(?Driver $templating): self
+    {
+        $this->templating = $templating;
 
         return $this;
     }

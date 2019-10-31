@@ -51,7 +51,7 @@ class ConfigInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\ConfigInspectInternalServerErrorException
      * @throws \Docker\API\Exception\ConfigInspectServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Config
+     * @return \Docker\API\Model\Config|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

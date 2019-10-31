@@ -66,7 +66,7 @@ class ContainerStart extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements
      * @throws \Docker\API\Exception\ContainerStartNotFoundException
      * @throws \Docker\API\Exception\ContainerStartInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ErrorResponse
+     * @return \Docker\API\Model\ErrorResponse|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

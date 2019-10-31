@@ -19,7 +19,7 @@ class ServiceUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @param \Docker\API\Model\ServicesIdUpdatePostBody $body
      * @param array                                      $queryParameters {
      *
-     *     @var int $version The version number of the service object being updated. This is required to avoid conflicting writes.
+     *     @var int $version The version number of the service object being updated. This is required to avoid conflicting writes. This version number should be the value as currently set on the service *before* the update. You can find the current version by calling `GET /services/{id}`
      *     @var string $registryAuthFrom If the X-Registry-Auth header is not specified, this parameter indicates where to find registry authorization credentials. The valid values are `spec` and `previous-spec`.
      *     @var string $rollback Set to this parameter to `previous` to cause a server-side rollback to the previous service spec. The supplied spec will be ignored in this case.
      * }
@@ -91,7 +91,7 @@ class ServiceUpdate extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\ServiceUpdateInternalServerErrorException
      * @throws \Docker\API\Exception\ServiceUpdateServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\ServiceUpdateResponse
+     * @return \Docker\API\Model\ServiceUpdateResponse|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

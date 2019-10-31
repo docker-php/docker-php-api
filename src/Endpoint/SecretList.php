@@ -68,7 +68,7 @@ class SecretList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Ja
      * @throws \Docker\API\Exception\SecretListInternalServerErrorException
      * @throws \Docker\API\Exception\SecretListServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Secret[]
+     * @return \Docker\API\Model\Secret[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

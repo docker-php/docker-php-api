@@ -140,6 +140,16 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
         if (property_exists($data, 'Isolation') && $data->{'Isolation'} !== null) {
             $object->setIsolation($data->{'Isolation'});
         }
+        if (property_exists($data, 'Init') && $data->{'Init'} !== null) {
+            $object->setInit($data->{'Init'});
+        }
+        if (property_exists($data, 'Sysctls') && $data->{'Sysctls'} !== null) {
+            $values_9 = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data->{'Sysctls'} as $key_1 => $value_9) {
+                $values_9[$key_1] = $value_9;
+            }
+            $object->setSysctls($values_9);
+        }
 
         return $object;
     }
@@ -248,6 +258,16 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
         }
         if (null !== $object->getIsolation()) {
             $data->{'Isolation'} = $object->getIsolation();
+        }
+        if (null !== $object->getInit()) {
+            $data->{'Init'} = $object->getInit();
+        }
+        if (null !== $object->getSysctls()) {
+            $values_9 = new \stdClass();
+            foreach ($object->getSysctls() as $key_1 => $value_9) {
+                $values_9->{$key_1} = $value_9;
+            }
+            $data->{'Sysctls'} = $values_9;
         }
 
         return $data;

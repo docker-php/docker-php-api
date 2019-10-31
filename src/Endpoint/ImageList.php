@@ -68,7 +68,7 @@ class ImageList extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \Jan
      *
      * @throws \Docker\API\Exception\ImageListInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\ImageSummary[]
+     * @return \Docker\API\Model\ImageSummary[]|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

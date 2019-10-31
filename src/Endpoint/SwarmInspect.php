@@ -41,7 +41,7 @@ class SwarmInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \
      * @throws \Docker\API\Exception\SwarmInspectInternalServerErrorException
      * @throws \Docker\API\Exception\SwarmInspectServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Swarm
+     * @return \Docker\API\Model\Swarm|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

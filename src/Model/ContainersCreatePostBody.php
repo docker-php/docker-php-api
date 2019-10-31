@@ -51,7 +51,7 @@ class ContainersCreatePostBody
     /**
      * An object mapping ports to an empty object in the form:.
 
-    `{"<port>/<tcp|udp>": {}}`
+    `{"<port>/<tcp|udp|sctp>": {}}`
 
      *
      * @var mixed[]
@@ -328,7 +328,7 @@ class ContainersCreatePostBody
     /**
      * An object mapping ports to an empty object in the form:.
 
-    `{"<port>/<tcp|udp>": {}}`
+    `{"<port>/<tcp|udp|sctp>": {}}`
 
      *
      * @return mixed[]
@@ -341,7 +341,7 @@ class ContainersCreatePostBody
     /**
      * An object mapping ports to an empty object in the form:.
 
-    `{"<port>/<tcp|udp>": {}}`
+    `{"<port>/<tcp|udp|sctp>": {}}`
 
      *
      * @param mixed[] $exposedPorts

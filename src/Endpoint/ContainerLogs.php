@@ -23,7 +23,7 @@ class ContainerLogs extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements 
      * @param string $id              ID or name of the container
      * @param array  $queryParameters {
      *
-     *     @var bool $follow return the logs as a stream
+     *     @var bool $follow Return the logs as a stream.
 
      *     @var bool $stdout Return logs from `stdout`
      *     @var bool $stderr Return logs from `stderr`

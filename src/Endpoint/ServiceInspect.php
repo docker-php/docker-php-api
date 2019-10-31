@@ -67,7 +67,7 @@ class ServiceInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements
      * @throws \Docker\API\Exception\ServiceInspectInternalServerErrorException
      * @throws \Docker\API\Exception\ServiceInspectServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Service
+     * @return \Docker\API\Model\Service|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

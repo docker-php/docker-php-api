@@ -68,7 +68,7 @@ class NetworkInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements
      * @throws \Docker\API\Exception\NetworkInspectNotFoundException
      * @throws \Docker\API\Exception\NetworkInspectInternalServerErrorException
      *
-     * @return null|\Docker\API\Model\Network
+     * @return \Docker\API\Model\Network|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {

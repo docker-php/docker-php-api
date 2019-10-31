@@ -21,7 +21,7 @@ class PutContainerArchive extends \Jane\OpenApiRuntime\Client\BaseEndpoint imple
      * @param string $inputStream     the input stream must be a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz
      * @param array  $queryParameters {
      *
-     *     @var string $path Path to a directory in the container to extract the archive’s contents into.
+     *     @var string $path path to a directory in the container to extract the archive’s contents into
      *     @var string $noOverwriteDirNonDir If “1”, “true”, or “True” then it will be an error if unpacking the given content would cause an existing directory to be replaced with a non-directory and vice versa.
      * }
      */

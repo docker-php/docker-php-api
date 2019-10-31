@@ -25,6 +25,12 @@ class TaskSpecPlacement
      */
     protected $preferences;
     /**
+     * Maximum number of replicas for per node (default value is 0, which is unlimited).
+     *
+     * @var int
+     */
+    protected $maxReplicas;
+    /**
      * Platforms stores all the platforms that the service's image can.
     run on. This field is used in the platform filter for scheduling.
     If empty, then the platform filter is off, meaning there are no
@@ -79,6 +85,30 @@ class TaskSpecPlacement
     public function setPreferences(?array $preferences): self
     {
         $this->preferences = $preferences;
+
+        return $this;
+    }
+
+    /**
+     * Maximum number of replicas for per node (default value is 0, which is unlimited).
+     *
+     * @return int
+     */
+    public function getMaxReplicas(): ?int
+    {
+        return $this->maxReplicas;
+    }
+
+    /**
+     * Maximum number of replicas for per node (default value is 0, which is unlimited).
+     *
+     * @param int $maxReplicas
+     *
+     * @return self
+     */
+    public function setMaxReplicas(?int $maxReplicas): self
+    {
+        $this->maxReplicas = $maxReplicas;
 
         return $this;
     }

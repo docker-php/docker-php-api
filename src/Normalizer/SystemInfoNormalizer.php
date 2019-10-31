@@ -241,6 +241,16 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
             }
             $object->setSecurityOptions($values_7);
         }
+        if (property_exists($data, 'ProductLicense') && $data->{'ProductLicense'} !== null) {
+            $object->setProductLicense($data->{'ProductLicense'});
+        }
+        if (property_exists($data, 'Warnings') && $data->{'Warnings'} !== null) {
+            $values_8 = [];
+            foreach ($data->{'Warnings'} as $value_8) {
+                $values_8[] = $value_8;
+            }
+            $object->setWarnings($values_8);
+        }
 
         return $object;
     }
@@ -450,6 +460,16 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
                 $values_7[] = $value_7;
             }
             $data->{'SecurityOptions'} = $values_7;
+        }
+        if (null !== $object->getProductLicense()) {
+            $data->{'ProductLicense'} = $object->getProductLicense();
+        }
+        if (null !== $object->getWarnings()) {
+            $values_8 = [];
+            foreach ($object->getWarnings() as $value_8) {
+                $values_8[] = $value_8;
+            }
+            $data->{'Warnings'} = $values_8;
         }
 
         return $data;

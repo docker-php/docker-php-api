@@ -51,7 +51,7 @@ class NodeInspect extends \Jane\OpenApiRuntime\Client\BaseEndpoint implements \J
      * @throws \Docker\API\Exception\NodeInspectInternalServerErrorException
      * @throws \Docker\API\Exception\NodeInspectServiceUnavailableException
      *
-     * @return null|\Docker\API\Model\Node
+     * @return \Docker\API\Model\Node|null
      */
     protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer)
     {
