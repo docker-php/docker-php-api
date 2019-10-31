@@ -47,8 +47,8 @@ class NetworkSettings
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @var PortBinding[][]
@@ -320,8 +320,8 @@ class NetworkSettings
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @return PortBinding[][]
@@ -336,8 +336,8 @@ class NetworkSettings
     container's port-number and protocol as key in the format `<port>/<protocol>`,
     for example, `80/udp`.
 
-    If a container's port is mapped for both `tcp` and `udp`, two separate
-    entries are added to the mapping table.
+    If a container's port is mapped for multiple protocols, separate entries
+    are added to the mapping table.
 
      *
      * @param PortBinding[][] $ports

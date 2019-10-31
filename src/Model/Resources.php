@@ -157,6 +157,12 @@ class Resources
      */
     protected $oomKillDisable;
     /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @var bool
+     */
+    protected $init;
+    /**
      * Tune a container's pids limit. Set -1 for unlimited.
      *
      * @var int
@@ -771,6 +777,30 @@ class Resources
     public function setOomKillDisable(?bool $oomKillDisable): self
     {
         $this->oomKillDisable = $oomKillDisable;
+
+        return $this;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @return bool
+     */
+    public function getInit(): ?bool
+    {
+        return $this->init;
+    }
+
+    /**
+     * Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.
+     *
+     * @param bool $init
+     *
+     * @return self
+     */
+    public function setInit(?bool $init): self
+    {
+        $this->init = $init;
 
         return $this;
     }
