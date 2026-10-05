@@ -4,6 +4,7 @@ Docker PHP API
 Generated API client from the OpenAPI specification of [Docker](https://www.docker.com/),
 using the [Jane](https://github.com/janephp/janephp) OpenAPI client generator.
 
+[![Documentation](https://img.shields.io/badge/docs-Mintlify-blue?style=flat-square)](https://docker-php.mintlify.site/)
 [![Latest Version](https://img.shields.io/packagist/v/docker-php/docker-php-api.svg?style=flat-square)](https://packagist.org/packages/docker-php/docker-php-api)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/docker-php/docker-php-api.svg?style=flat-square)](https://packagist.org/packages/docker-php/docker-php-api)
@@ -25,8 +26,11 @@ targets Docker Engine API v1.45. We plan to add the missing API versions and bri
 support up to the latest Docker Engine API.
 
 These releases have not been published yet. The installation and migration
-instructions below apply once they are available. We're updating the
-documentation alongside the 3.0 client release and expect to publish it soon.
+instructions below apply once they are available.
+
+The [Docker PHP documentation](https://docker-php.mintlify.site/) covers the
+3.0 client, API versioning and migration. It is still being updated ahead of
+the package releases.
 
 ## Requirements
 
@@ -90,7 +94,7 @@ Change an explicit `docker-php/docker-php-api:4.1.*` requirement to the API v1.4
 range above.
 
 If you also use `docker-php/docker-php`, upgrade it to 3.0 at the same time and
-follow its [migration guide](https://github.com/docker-php/docker-php#upgrading-to-30).
+follow its [migration guide](https://docker-php.mintlify.site/migration).
 Resolve the dependency changes together, test your application and commit the
 updated `composer.lock`.
 
