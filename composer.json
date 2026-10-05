@@ -31,7 +31,7 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",
         "friendsofphp/php-cs-fixer": "^3.8",
-        "jane-php/open-api-3": "^7.14",
+        "jane-php/open-api-3": "^7.14.4",
         "roave/security-advisories": "dev-latest"
     },
     "conflict": {
@@ -54,10 +54,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "generate": [
-            "vendor/bin/jane-openapi generate",
-            "cat patches/*.patch | patch -s -p1"
-        ],
+        "generate": "vendor/bin/jane-openapi generate",
         "lint": "vendor/bin/php-cs-fixer fix --dry-run --verbose --diff",
         "lint-fix": "vendor/bin/php-cs-fixer fix --verbose"
     },
