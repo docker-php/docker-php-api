@@ -9,6 +9,12 @@ using the [Jane](https://github.com/janephp/janephp) OpenAPI client generator.
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/docker-php/docker-php-api.svg?style=flat-square)](https://packagist.org/packages/docker-php/docker-php-api)
 
+## Documentation
+
+The [Docker PHP documentation](https://docker-php.mintlify.site/) covers the
+3.0 client, API versioning and migration. It is still being updated ahead of
+the package releases.
+
 ## New maintainers
 
 After this repository was archived, the code was forked in
@@ -27,10 +33,6 @@ support up to the latest Docker Engine API.
 
 These releases have not been published yet. The installation and migration
 instructions below apply once they are available.
-
-The [Docker PHP documentation](https://docker-php.mintlify.site/) covers the
-3.0 client, API versioning and migration. It is still being updated ahead of
-the package releases.
 
 ## Requirements
 
