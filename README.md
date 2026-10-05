@@ -59,6 +59,9 @@ remains `Docker\API`.
 
 ## Versioning
 
+See the official [Docker Engine API v1.45 reference](https://docs.docker.com/reference/api/engine/version/v1.45/)
+for endpoint descriptions, parameters and response schemas matching this API line.
+
 This package does not follow semantic versioning. It retains the four-part
 version scheme used by previous releases:
 
