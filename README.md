@@ -106,9 +106,9 @@ client requirement at the same time, test the application and commit its updated
 ## Generation
 
 This API line is generated from [spec/v1.45.json](spec/v1.45.json), using the
-configuration in [.jane-openapi](.jane-openapi). For the planned release, the
-generator will require Jane 7.14.4 or later within the Jane 7 release line.
-Generation will use Jane's upstream output without local patches.
+configuration in [.jane-openapi](.jane-openapi). The generator requires Jane
+7.14.4 or later within the Jane 7 release line. Generation uses Jane's upstream
+output without local patches.
 
 Install the development dependencies, generate the code and apply the project's
 formatting:

@@ -1,5 +1,5 @@
 {
-    "name": "beluga-php/docker-php-api",
+    "name": "docker-php/docker-php-api",
     "description": "Docker API generated files from OpenAPI Specification",
     "license": "MIT",
     "type": "library",
@@ -35,7 +35,7 @@
         "roave/security-advisories": "dev-latest"
     },
     "conflict": {
-        "docker-php/docker-php-api": "*"
+        "beluga-php/docker-php-api": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -60,14 +60,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "7.1.46.x-dev",
-            "7.1.45": "7.1.45.x-dev",
-            "7.1.44": "7.1.44.x-dev",
-            "7.1.43": "7.1.43.x-dev",
-            "7.1.42": "7.1.42.x-dev",
-            "7.1.41": "7.1.41.x-dev",
-            "6.1.41": "6.1.41.x-dev",
-            "6.1.36": "6.1.36.x-dev"
+            "dev-main": "7.1.45.x-dev"
         }
     }
 }
