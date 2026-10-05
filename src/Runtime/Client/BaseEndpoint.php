@@ -166,7 +166,7 @@ abstract class BaseEndpoint implements Endpoint
     {
         $params = [];
         foreach ($value as $subKey => $subValue) {
-            $arrayKey = $queryParamName.'['.rawurlencode((string) $subKey).']';
+            $arrayKey = $queryParamName.'['.$subKey.']';
             $params[] = $this->encodeValue($arrayKey, $subValue, $allowReserved);
         }
 
@@ -212,7 +212,7 @@ abstract class BaseEndpoint implements Endpoint
             foreach ($value as $index => $item) {
                 if (\is_array($item)) {
                     // Nested levels use bracket notation.
-                    $pairs = array_merge($pairs, $this->flattenBracketPairs($name.'['.rawurlencode((string) $index).']', $item, $allowReserved));
+                    $pairs = array_merge($pairs, $this->flattenBracketPairs($name.'['.$index.']', $item, $allowReserved));
                     continue;
                 }
                 if (null === $item) {
@@ -226,7 +226,7 @@ abstract class BaseEndpoint implements Endpoint
         // Exploded objects drop the parent key: each property becomes a top level pair.
         foreach ($value as $subKey => $subValue) {
             if (\is_array($subValue)) {
-                $pairs = array_merge($pairs, $this->flattenBracketPairs(rawurlencode((string) $subKey), $subValue, $allowReserved));
+                $pairs = array_merge($pairs, $this->flattenBracketPairs((string) $subKey, $subValue, $allowReserved));
                 continue;
             }
             if (null === $subValue) {
@@ -286,7 +286,7 @@ abstract class BaseEndpoint implements Endpoint
         }
         $pairs = [];
         foreach ($value as $subKey => $subValue) {
-            $pairs = array_merge($pairs, $this->flattenBracketPairs($prefix.'['.rawurlencode((string) $subKey).']', $subValue, $allowReserved));
+            $pairs = array_merge($pairs, $this->flattenBracketPairs($prefix.'['.$subKey.']', $subValue, $allowReserved));
         }
 
         return $pairs;
