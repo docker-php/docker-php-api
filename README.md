@@ -12,8 +12,7 @@ using the [Jane](https://github.com/janephp/janephp) OpenAPI client generator.
 ## Documentation
 
 The [Docker PHP documentation](https://docker-php.mintlify.site/) covers the
-3.0 client, API versioning and migration. It is still being updated ahead of
-the package releases.
+3.0 client, API versioning and migration.
 
 ## New maintainers
 
@@ -26,13 +25,10 @@ maintenance of the original `docker-php/docker-php-api` repository to give you a
 better upgrade path. Development will continue here, and we will archive
 `beluga-php/docker-php-api` once the migration is complete.
 
-We're preparing version `7.1.45.0` of this package alongside the
-[Docker PHP 3.0 client](https://github.com/docker-php/docker-php). The first release
-targets Docker Engine API v1.45. We plan to add the missing API versions and bring
+Version `7.1.45.0` of this package targets Docker Engine API v1.45 and is used by
+the [Docker PHP 3.0 client](https://github.com/docker-php/docker-php).
+We plan to add the missing API versions and bring
 support up to the latest Docker Engine API.
-
-These releases have not been published yet. The installation and migration
-instructions below apply once they are available.
 
 ## Requirements
 
