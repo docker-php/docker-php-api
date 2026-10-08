@@ -7,6 +7,7 @@ namespace Docker\API\Endpoint;
 class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docker\API\Runtime\Client\Endpoint
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
+    protected $accept;
 
     /**
      * Stream real-time events from the server.
@@ -15,7 +16,7 @@ class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      *
      * Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `exec_die`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, `update`, and `prune`
      *
-     * Images report these events: `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, `untag`, and `prune`
+     * Images report these events: `create`, `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, `untag`, and `prune`
      *
      * Volumes report these events: `create`, `mount`, `unmount`, `destroy`, and `prune`
      *
@@ -53,10 +54,12 @@ class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      * - `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service`, `secret` or `config`
      * - `volume=<string>` volume name
      * } $queryParameters
+     * @param array $accept Accept content header application/x-ndjson|application/json-seq
      */
-    public function __construct(array $queryParameters = [])
+    public function __construct(array $queryParameters = [], array $accept = [])
     {
         $this->queryParameters = $queryParameters;
+        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -76,7 +79,11 @@ class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
 
     public function getExtraHeaders(): array
     {
-        return ['Accept' => ['application/json']];
+        if (empty($this->accept)) {
+            return ['Accept' => ['application/x-ndjson', 'application/json-seq']];
+        }
+
+        return $this->accept;
     }
 
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
@@ -93,23 +100,17 @@ class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
     }
 
     /**
-     * @throws \Docker\API\Exception\SystemEventsBadRequestException
-     * @throws \Docker\API\Exception\SystemEventsInternalServerErrorException
-     *
-     * @return \Docker\API\Model\EventMessage|null
+     * @return null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            return $serializer->deserialize($body, 'Docker\API\Model\EventMessage', 'json');
+        if (200 === $status) {
         }
-        if ((null === $contentType) === false && (400 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            throw new \Docker\API\Exception\SystemEventsBadRequestException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
+        if (400 === $status) {
         }
-        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            throw new \Docker\API\Exception\SystemEventsInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
+        if (500 === $status) {
         }
     }
 

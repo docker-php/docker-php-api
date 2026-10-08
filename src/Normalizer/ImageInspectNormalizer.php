@@ -50,34 +50,45 @@ class ImageInspectNormalizer implements DenormalizerInterface, NormalizerInterfa
             $object->setId(null);
             unset($data['Id']);
         }
-        if (\array_key_exists('RepoTags', $data) && null !== $data['RepoTags']) {
+        if (\array_key_exists('Descriptor', $data) && null !== $data['Descriptor']) {
+            $object->setDescriptor($this->denormalizer->denormalize($data['Descriptor'], \Docker\API\Model\OCIDescriptor::class, 'json', $context));
+            unset($data['Descriptor']);
+        } elseif (\array_key_exists('Descriptor', $data) && null === $data['Descriptor']) {
+            $object->setDescriptor(null);
+            unset($data['Descriptor']);
+        }
+        if (\array_key_exists('Manifests', $data) && null !== $data['Manifests']) {
             $values = [];
-            foreach ($data['RepoTags'] as $value) {
-                $values[] = $value;
+            foreach ($data['Manifests'] as $value) {
+                $values[] = $this->denormalizer->denormalize($value, \Docker\API\Model\ImageManifestSummary::class, 'json', $context);
             }
-            $object->setRepoTags($values);
+            $object->setManifests($values);
+            unset($data['Manifests']);
+        } elseif (\array_key_exists('Manifests', $data) && null === $data['Manifests']) {
+            $object->setManifests(null);
+            unset($data['Manifests']);
+        }
+        if (\array_key_exists('RepoTags', $data) && null !== $data['RepoTags']) {
+            $values_1 = [];
+            foreach ($data['RepoTags'] as $value_1) {
+                $values_1[] = $value_1;
+            }
+            $object->setRepoTags($values_1);
             unset($data['RepoTags']);
         } elseif (\array_key_exists('RepoTags', $data) && null === $data['RepoTags']) {
             $object->setRepoTags(null);
             unset($data['RepoTags']);
         }
         if (\array_key_exists('RepoDigests', $data) && null !== $data['RepoDigests']) {
-            $values_1 = [];
-            foreach ($data['RepoDigests'] as $value_1) {
-                $values_1[] = $value_1;
+            $values_2 = [];
+            foreach ($data['RepoDigests'] as $value_2) {
+                $values_2[] = $value_2;
             }
-            $object->setRepoDigests($values_1);
+            $object->setRepoDigests($values_2);
             unset($data['RepoDigests']);
         } elseif (\array_key_exists('RepoDigests', $data) && null === $data['RepoDigests']) {
             $object->setRepoDigests(null);
             unset($data['RepoDigests']);
-        }
-        if (\array_key_exists('Parent', $data) && null !== $data['Parent']) {
-            $object->setParent($data['Parent']);
-            unset($data['Parent']);
-        } elseif (\array_key_exists('Parent', $data) && null === $data['Parent']) {
-            $object->setParent(null);
-            unset($data['Parent']);
         }
         if (\array_key_exists('Comment', $data) && null !== $data['Comment']) {
             $object->setComment($data['Comment']);
@@ -92,13 +103,6 @@ class ImageInspectNormalizer implements DenormalizerInterface, NormalizerInterfa
         } elseif (\array_key_exists('Created', $data) && null === $data['Created']) {
             $object->setCreated(null);
             unset($data['Created']);
-        }
-        if (\array_key_exists('DockerVersion', $data) && null !== $data['DockerVersion']) {
-            $object->setDockerVersion($data['DockerVersion']);
-            unset($data['DockerVersion']);
-        } elseif (\array_key_exists('DockerVersion', $data) && null === $data['DockerVersion']) {
-            $object->setDockerVersion(null);
-            unset($data['DockerVersion']);
         }
         if (\array_key_exists('Author', $data) && null !== $data['Author']) {
             $object->setAuthor($data['Author']);
@@ -150,7 +154,7 @@ class ImageInspectNormalizer implements DenormalizerInterface, NormalizerInterfa
             unset($data['Size']);
         }
         if (\array_key_exists('GraphDriver', $data) && null !== $data['GraphDriver']) {
-            $object->setGraphDriver($this->denormalizer->denormalize($data['GraphDriver'], \Docker\API\Model\GraphDriverData::class, 'json', $context));
+            $object->setGraphDriver($this->denormalizer->denormalize($data['GraphDriver'], \Docker\API\Model\DriverData::class, 'json', $context));
             unset($data['GraphDriver']);
         } elseif (\array_key_exists('GraphDriver', $data) && null === $data['GraphDriver']) {
             $object->setGraphDriver(null);
@@ -170,9 +174,9 @@ class ImageInspectNormalizer implements DenormalizerInterface, NormalizerInterfa
             $object->setMetadata(null);
             unset($data['Metadata']);
         }
-        foreach ($data as $key => $value_2) {
+        foreach ($data as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value_2;
+                $object[$key] = $value_3;
             }
         }
 
@@ -185,31 +189,35 @@ class ImageInspectNormalizer implements DenormalizerInterface, NormalizerInterfa
         if ($data->isInitialized('id') && null !== $data->getId()) {
             $dataArray['Id'] = $data->getId();
         }
-        if ($data->isInitialized('repoTags') && null !== $data->getRepoTags()) {
-            $values = [];
-            foreach ($data->getRepoTags() as $value) {
-                $values[] = $value;
-            }
-            $dataArray['RepoTags'] = $values;
+        if ($data->isInitialized('descriptor') && null !== $data->getDescriptor()) {
+            $dataArray['Descriptor'] = null === $data->getDescriptor() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getDescriptor(), 'json', $context));
         }
-        if ($data->isInitialized('repoDigests') && null !== $data->getRepoDigests()) {
+        if ($data->isInitialized('manifests') && null !== $data->getManifests()) {
+            $values = [];
+            foreach ($data->getManifests() as $value) {
+                $values[] = null === $value ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value, 'json', $context));
+            }
+            $dataArray['Manifests'] = $values;
+        }
+        if ($data->isInitialized('repoTags') && null !== $data->getRepoTags()) {
             $values_1 = [];
-            foreach ($data->getRepoDigests() as $value_1) {
+            foreach ($data->getRepoTags() as $value_1) {
                 $values_1[] = $value_1;
             }
-            $dataArray['RepoDigests'] = $values_1;
+            $dataArray['RepoTags'] = $values_1;
         }
-        if ($data->isInitialized('parent') && null !== $data->getParent()) {
-            $dataArray['Parent'] = $data->getParent();
+        if ($data->isInitialized('repoDigests') && null !== $data->getRepoDigests()) {
+            $values_2 = [];
+            foreach ($data->getRepoDigests() as $value_2) {
+                $values_2[] = $value_2;
+            }
+            $dataArray['RepoDigests'] = $values_2;
         }
         if ($data->isInitialized('comment') && null !== $data->getComment()) {
             $dataArray['Comment'] = $data->getComment();
         }
         if ($data->isInitialized('created') && null !== $data->getCreated()) {
             $dataArray['Created'] = $data->getCreated();
-        }
-        if ($data->isInitialized('dockerVersion') && null !== $data->getDockerVersion()) {
-            $dataArray['DockerVersion'] = $data->getDockerVersion();
         }
         if ($data->isInitialized('author') && null !== $data->getAuthor()) {
             $dataArray['Author'] = $data->getAuthor();
@@ -241,9 +249,9 @@ class ImageInspectNormalizer implements DenormalizerInterface, NormalizerInterfa
         if ($data->isInitialized('metadata') && null !== $data->getMetadata()) {
             $dataArray['Metadata'] = null === $data->getMetadata() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getMetadata(), 'json', $context));
         }
-        foreach ($data->additionalPropertyEntries() as $key => $value_2) {
+        foreach ($data->additionalPropertyEntries() as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $dataArray[$key] = $value_2;
+                $dataArray[$key] = $value_3;
             }
         }
 

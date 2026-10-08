@@ -20,117 +20,108 @@ class SystemDfGetTextplainResponse200 implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
-     * @var int|null
+     * represents system data usage for image resources.
+     *
+     * @var ImagesDiskUsage|null
      */
-    protected $layersSize;
+    protected $imageUsage;
     /**
-     * @var list<ImageSummary>|null
+     * represents system data usage information for container resources.
+     *
+     * @var ContainersDiskUsage|null
      */
-    protected $images;
+    protected $containerUsage;
     /**
-     * @var list<ContainerSummary>|null
+     * represents system data usage for volume resources.
+     *
+     * @var VolumesDiskUsage|null
      */
-    protected $containers;
+    protected $volumeUsage;
     /**
-     * @var list<Volume>|null
+     * represents system data usage for build cache resources.
+     *
+     * @var BuildCacheDiskUsage|null
      */
-    protected $volumes;
-    /**
-     * @var list<BuildCache>|null
-     */
-    protected $buildCache;
+    protected $buildCacheUsage;
 
-    public function getLayersSize(): ?int
+    /**
+     * represents system data usage for image resources.
+     */
+    public function getImageUsage(): ?ImagesDiskUsage
     {
-        return $this->layersSize;
+        return $this->imageUsage;
     }
 
-    public function setLayersSize(?int $layersSize): self
+    /**
+     * represents system data usage for image resources.
+     */
+    public function setImageUsage(?ImagesDiskUsage $imageUsage): self
     {
-        $this->initialized['layersSize'] = true;
-        $this->layersSize = $layersSize;
+        $this->initialized['imageUsage'] = true;
+        $this->imageUsage = $imageUsage;
 
         return $this;
     }
 
     /**
-     * @return list<ImageSummary>|null
+     * represents system data usage information for container resources.
      */
-    public function getImages(): ?array
+    public function getContainerUsage(): ?ContainersDiskUsage
     {
-        return $this->images;
+        return $this->containerUsage;
     }
 
     /**
-     * @param list<ImageSummary>|null $images
+     * represents system data usage information for container resources.
      */
-    public function setImages(?array $images): self
+    public function setContainerUsage(?ContainersDiskUsage $containerUsage): self
     {
-        $this->initialized['images'] = true;
-        $this->images = $images;
+        $this->initialized['containerUsage'] = true;
+        $this->containerUsage = $containerUsage;
 
         return $this;
     }
 
     /**
-     * @return list<ContainerSummary>|null
+     * represents system data usage for volume resources.
      */
-    public function getContainers(): ?array
+    public function getVolumeUsage(): ?VolumesDiskUsage
     {
-        return $this->containers;
+        return $this->volumeUsage;
     }
 
     /**
-     * @param list<ContainerSummary>|null $containers
+     * represents system data usage for volume resources.
      */
-    public function setContainers(?array $containers): self
+    public function setVolumeUsage(?VolumesDiskUsage $volumeUsage): self
     {
-        $this->initialized['containers'] = true;
-        $this->containers = $containers;
+        $this->initialized['volumeUsage'] = true;
+        $this->volumeUsage = $volumeUsage;
 
         return $this;
     }
 
     /**
-     * @return list<Volume>|null
+     * represents system data usage for build cache resources.
      */
-    public function getVolumes(): ?array
+    public function getBuildCacheUsage(): ?BuildCacheDiskUsage
     {
-        return $this->volumes;
+        return $this->buildCacheUsage;
     }
 
     /**
-     * @param list<Volume>|null $volumes
+     * represents system data usage for build cache resources.
      */
-    public function setVolumes(?array $volumes): self
+    public function setBuildCacheUsage(?BuildCacheDiskUsage $buildCacheUsage): self
     {
-        $this->initialized['volumes'] = true;
-        $this->volumes = $volumes;
-
-        return $this;
-    }
-
-    /**
-     * @return list<BuildCache>|null
-     */
-    public function getBuildCache(): ?array
-    {
-        return $this->buildCache;
-    }
-
-    /**
-     * @param list<BuildCache>|null $buildCache
-     */
-    public function setBuildCache(?array $buildCache): self
-    {
-        $this->initialized['buildCache'] = true;
-        $this->buildCache = $buildCache;
+        $this->initialized['buildCacheUsage'] = true;
+        $this->buildCacheUsage = $buildCacheUsage;
 
         return $this;
     }
 
     public function definedProperties(): array
     {
-        return ['layersSize' => ['LayersSize', 'getLayersSize', 'setLayersSize'], 'images' => ['Images', 'getImages', 'setImages'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'volumes' => ['Volumes', 'getVolumes', 'setVolumes'], 'buildCache' => ['BuildCache', 'getBuildCache', 'setBuildCache']];
+        return ['imageUsage' => ['ImageUsage', 'getImageUsage', 'setImageUsage'], 'containerUsage' => ['ContainerUsage', 'getContainerUsage', 'setContainerUsage'], 'volumeUsage' => ['VolumeUsage', 'getVolumeUsage', 'setVolumeUsage'], 'buildCacheUsage' => ['BuildCacheUsage', 'getBuildCacheUsage', 'setBuildCacheUsage']];
     }
 }

@@ -24,10 +24,6 @@ class CreateImageInfo implements AdditionalPropertiesInterface
      */
     protected $id;
     /**
-     * @var string|null
-     */
-    protected $error;
-    /**
      * @var ErrorDetail|null
      */
     protected $errorDetail;
@@ -35,10 +31,6 @@ class CreateImageInfo implements AdditionalPropertiesInterface
      * @var string|null
      */
     protected $status;
-    /**
-     * @var string|null
-     */
-    protected $progress;
     /**
      * @var ProgressDetail|null
      */
@@ -53,19 +45,6 @@ class CreateImageInfo implements AdditionalPropertiesInterface
     {
         $this->initialized['id'] = true;
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getError(): ?string
-    {
-        return $this->error;
-    }
-
-    public function setError(?string $error): self
-    {
-        $this->initialized['error'] = true;
-        $this->error = $error;
 
         return $this;
     }
@@ -96,19 +75,6 @@ class CreateImageInfo implements AdditionalPropertiesInterface
         return $this;
     }
 
-    public function getProgress(): ?string
-    {
-        return $this->progress;
-    }
-
-    public function setProgress(?string $progress): self
-    {
-        $this->initialized['progress'] = true;
-        $this->progress = $progress;
-
-        return $this;
-    }
-
     public function getProgressDetail(): ?ProgressDetail
     {
         return $this->progressDetail;
@@ -124,6 +90,6 @@ class CreateImageInfo implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['id' => ['id', 'getId', 'setId'], 'error' => ['error', 'getError', 'setError'], 'errorDetail' => ['errorDetail', 'getErrorDetail', 'setErrorDetail'], 'status' => ['status', 'getStatus', 'setStatus'], 'progress' => ['progress', 'getProgress', 'setProgress'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail']];
+        return ['id' => ['id', 'getId', 'setId'], 'errorDetail' => ['errorDetail', 'getErrorDetail', 'setErrorDetail'], 'status' => ['status', 'getStatus', 'setStatus'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail']];
     }
 }

@@ -73,14 +73,14 @@ class NetworkList extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
     /**
      * @throws \Docker\API\Exception\NetworkListInternalServerErrorException
      *
-     * @return \Docker\API\Model\Network[]|null
+     * @return \Docker\API\Model\NetworkSummary[]|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            return $serializer->deserialize($body, 'Docker\API\Model\Network[]', 'json');
+            return $serializer->deserialize($body, 'Docker\API\Model\NetworkSummary[]', 'json');
         }
         if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
             throw new \Docker\API\Exception\NetworkListInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);

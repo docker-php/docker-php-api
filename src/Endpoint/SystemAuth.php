@@ -45,14 +45,14 @@ class SystemAuth extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
      * @throws \Docker\API\Exception\SystemAuthUnauthorizedException
      * @throws \Docker\API\Exception\SystemAuthInternalServerErrorException
      *
-     * @return \Docker\API\Model\AuthPostResponse200|null
+     * @return \Docker\API\Model\AuthResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            return $serializer->deserialize($body, 'Docker\API\Model\AuthPostResponse200', 'json');
+            return $serializer->deserialize($body, 'Docker\API\Model\AuthResponse', 'json');
         }
         if (204 === $status) {
             return null;

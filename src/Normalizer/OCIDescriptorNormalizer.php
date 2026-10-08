@@ -64,9 +64,52 @@ class OCIDescriptorNormalizer implements DenormalizerInterface, NormalizerInterf
             $object->setSize(null);
             unset($data['size']);
         }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+        if (\array_key_exists('urls', $data) && null !== $data['urls']) {
+            $values = [];
+            foreach ($data['urls'] as $value) {
+                $values[] = $value;
+            }
+            $object->setUrls($values);
+            unset($data['urls']);
+        } elseif (\array_key_exists('urls', $data) && null === $data['urls']) {
+            $object->setUrls(null);
+            unset($data['urls']);
+        }
+        if (\array_key_exists('annotations', $data) && null !== $data['annotations']) {
+            $values_1 = new \Docker\API\Runtime\JsonObject();
+            foreach ($data['annotations'] as $key => $value_1) {
+                $values_1[$key] = $value_1;
+            }
+            $object->setAnnotations($values_1);
+            unset($data['annotations']);
+        } elseif (\array_key_exists('annotations', $data) && null === $data['annotations']) {
+            $object->setAnnotations(null);
+            unset($data['annotations']);
+        }
+        if (\array_key_exists('data', $data) && null !== $data['data']) {
+            $object->setData($data['data']);
+            unset($data['data']);
+        } elseif (\array_key_exists('data', $data) && null === $data['data']) {
+            $object->setData(null);
+            unset($data['data']);
+        }
+        if (\array_key_exists('platform', $data) && null !== $data['platform']) {
+            $object->setPlatform($this->denormalizer->denormalize($data['platform'], \Docker\API\Model\OCIPlatform::class, 'json', $context));
+            unset($data['platform']);
+        } elseif (\array_key_exists('platform', $data) && null === $data['platform']) {
+            $object->setPlatform(null);
+            unset($data['platform']);
+        }
+        if (\array_key_exists('artifactType', $data) && null !== $data['artifactType']) {
+            $object->setArtifactType($data['artifactType']);
+            unset($data['artifactType']);
+        } elseif (\array_key_exists('artifactType', $data) && null === $data['artifactType']) {
+            $object->setArtifactType(null);
+            unset($data['artifactType']);
+        }
+        foreach ($data as $key_1 => $value_2) {
+            if (preg_match('/.*/', (string) $key_1)) {
+                $object[$key_1] = $value_2;
             }
         }
 
@@ -85,9 +128,32 @@ class OCIDescriptorNormalizer implements DenormalizerInterface, NormalizerInterf
         if ($data->isInitialized('size') && null !== $data->getSize()) {
             $dataArray['size'] = $data->getSize();
         }
-        foreach ($data->additionalPropertyEntries() as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $dataArray[$key] = $value;
+        if ($data->isInitialized('urls') && null !== $data->getUrls()) {
+            $values = [];
+            foreach ($data->getUrls() as $value) {
+                $values[] = $value;
+            }
+            $dataArray['urls'] = $values;
+        }
+        if ($data->isInitialized('annotations') && null !== $data->getAnnotations()) {
+            $values_1 = new \Docker\API\Runtime\JsonObject();
+            foreach ($data->getAnnotations() as $key => $value_1) {
+                $values_1[$key] = $value_1;
+            }
+            $dataArray['annotations'] = $values_1;
+        }
+        if ($data->isInitialized('data') && null !== $data->getData()) {
+            $dataArray['data'] = $data->getData();
+        }
+        if ($data->isInitialized('platform') && null !== $data->getPlatform()) {
+            $dataArray['platform'] = null === $data->getPlatform() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getPlatform(), 'json', $context));
+        }
+        if ($data->isInitialized('artifactType') && null !== $data->getArtifactType()) {
+            $dataArray['artifactType'] = $data->getArtifactType();
+        }
+        foreach ($data->additionalPropertyEntries() as $key_1 => $value_2) {
+            if (preg_match('/.*/', (string) $key_1)) {
+                $dataArray[$key_1] = $value_2;
             }
         }
 
