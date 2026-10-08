@@ -24,6 +24,7 @@ class MountPoint implements AdditionalPropertiesInterface
      *
      * - `bind` a mount of a file or directory from the host into the container.
      * - `cluster` a Swarm cluster volume.
+     * - `image` an OCI image.
      * - `npipe` a named pipe from the host into the container.
      * - `tmpfs` a `tmpfs`.
      * - `volume` a docker volume with the given `Name`.
@@ -91,6 +92,7 @@ class MountPoint implements AdditionalPropertiesInterface
      *
      * - `bind` a mount of a file or directory from the host into the container.
      * - `cluster` a Swarm cluster volume.
+     * - `image` an OCI image.
      * - `npipe` a named pipe from the host into the container.
      * - `tmpfs` a `tmpfs`.
      * - `volume` a docker volume with the given `Name`.
@@ -105,6 +107,7 @@ class MountPoint implements AdditionalPropertiesInterface
      *
      * - `bind` a mount of a file or directory from the host into the container.
      * - `cluster` a Swarm cluster volume.
+     * - `image` an OCI image.
      * - `npipe` a named pipe from the host into the container.
      * - `tmpfs` a `tmpfs`.
      * - `volume` a docker volume with the given `Name`.

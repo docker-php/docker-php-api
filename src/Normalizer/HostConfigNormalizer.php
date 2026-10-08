@@ -219,13 +219,6 @@ class HostConfigNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setDeviceRequests(null);
             unset($data['DeviceRequests']);
         }
-        if (\array_key_exists('KernelMemoryTCP', $data) && null !== $data['KernelMemoryTCP']) {
-            $object->setKernelMemoryTCP($data['KernelMemoryTCP']);
-            unset($data['KernelMemoryTCP']);
-        } elseif (\array_key_exists('KernelMemoryTCP', $data) && null === $data['KernelMemoryTCP']) {
-            $object->setKernelMemoryTCP(null);
-            unset($data['KernelMemoryTCP']);
-        }
         if (\array_key_exists('MemoryReservation', $data) && null !== $data['MemoryReservation']) {
             $object->setMemoryReservation($data['MemoryReservation']);
             unset($data['MemoryReservation']);
@@ -772,9 +765,6 @@ class HostConfigNormalizer implements DenormalizerInterface, NormalizerInterface
                 $values_7[] = null === $value_7 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_7, 'json', $context));
             }
             $dataArray['DeviceRequests'] = $values_7;
-        }
-        if ($data->isInitialized('kernelMemoryTCP') && null !== $data->getKernelMemoryTCP()) {
-            $dataArray['KernelMemoryTCP'] = $data->getKernelMemoryTCP();
         }
         if ($data->isInitialized('memoryReservation') && null !== $data->getMemoryReservation()) {
             $dataArray['MemoryReservation'] = $data->getMemoryReservation();

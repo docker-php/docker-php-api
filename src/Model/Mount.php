@@ -41,6 +41,7 @@ class Mount implements AdditionalPropertiesInterface
      *
      * - `bind` Mounts a file or directory from the host into the container. The `Source` must exist prior to creating the container.
      * - `cluster` a Swarm cluster volume
+     * - `image` Mounts an image.
      * - `npipe` Mounts a named pipe from the host into the container. The `Source` must exist prior to creating the container.
      * - `tmpfs` Create a tmpfs with the given options. The mount `Source` cannot be specified for tmpfs.
      * - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed.
@@ -72,6 +73,12 @@ class Mount implements AdditionalPropertiesInterface
      * @var MountVolumeOptions|null
      */
     protected $volumeOptions;
+    /**
+     * Optional configuration for the `image` type.
+     *
+     * @var MountImageOptions|null
+     */
+    protected $imageOptions;
     /**
      * Optional configuration for the `tmpfs` type.
      *
@@ -132,6 +139,7 @@ class Mount implements AdditionalPropertiesInterface
      *
      * - `bind` Mounts a file or directory from the host into the container. The `Source` must exist prior to creating the container.
      * - `cluster` a Swarm cluster volume
+     * - `image` Mounts an image.
      * - `npipe` Mounts a named pipe from the host into the container. The `Source` must exist prior to creating the container.
      * - `tmpfs` Create a tmpfs with the given options. The mount `Source` cannot be specified for tmpfs.
      * - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed.
@@ -146,6 +154,7 @@ class Mount implements AdditionalPropertiesInterface
      *
      * - `bind` Mounts a file or directory from the host into the container. The `Source` must exist prior to creating the container.
      * - `cluster` a Swarm cluster volume
+     * - `image` Mounts an image.
      * - `npipe` Mounts a named pipe from the host into the container. The `Source` must exist prior to creating the container.
      * - `tmpfs` Create a tmpfs with the given options. The mount `Source` cannot be specified for tmpfs.
      * - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed.
@@ -235,6 +244,25 @@ class Mount implements AdditionalPropertiesInterface
     }
 
     /**
+     * Optional configuration for the `image` type.
+     */
+    public function getImageOptions(): ?MountImageOptions
+    {
+        return $this->imageOptions;
+    }
+
+    /**
+     * Optional configuration for the `image` type.
+     */
+    public function setImageOptions(?MountImageOptions $imageOptions): self
+    {
+        $this->initialized['imageOptions'] = true;
+        $this->imageOptions = $imageOptions;
+
+        return $this;
+    }
+
+    /**
      * Optional configuration for the `tmpfs` type.
      */
     public function getTmpfsOptions(): ?MountTmpfsOptions
@@ -255,6 +283,6 @@ class Mount implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['target' => ['Target', 'getTarget', 'setTarget'], 'source' => ['Source', 'getSource', 'setSource'], 'type' => ['Type', 'getType', 'setType'], 'readOnly' => ['ReadOnly', 'getReadOnly', 'setReadOnly'], 'consistency' => ['Consistency', 'getConsistency', 'setConsistency'], 'bindOptions' => ['BindOptions', 'getBindOptions', 'setBindOptions'], 'volumeOptions' => ['VolumeOptions', 'getVolumeOptions', 'setVolumeOptions'], 'tmpfsOptions' => ['TmpfsOptions', 'getTmpfsOptions', 'setTmpfsOptions']];
+        return ['target' => ['Target', 'getTarget', 'setTarget'], 'source' => ['Source', 'getSource', 'setSource'], 'type' => ['Type', 'getType', 'setType'], 'readOnly' => ['ReadOnly', 'getReadOnly', 'setReadOnly'], 'consistency' => ['Consistency', 'getConsistency', 'setConsistency'], 'bindOptions' => ['BindOptions', 'getBindOptions', 'setBindOptions'], 'volumeOptions' => ['VolumeOptions', 'getVolumeOptions', 'setVolumeOptions'], 'imageOptions' => ['ImageOptions', 'getImageOptions', 'setImageOptions'], 'tmpfsOptions' => ['TmpfsOptions', 'getTmpfsOptions', 'setTmpfsOptions']];
     }
 }

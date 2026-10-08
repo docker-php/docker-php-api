@@ -20,36 +20,12 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
-     * List of IP ranges to which nondistributable artifacts can be pushed,
-     * using the CIDR syntax [RFC 4632](https://tools.ietf.org/html/4632).
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
-     *
-     * @var list<string>|null
-     */
-    protected $allowNondistributableArtifactsCIDRs;
-    /**
-     * List of registry hostnames to which nondistributable artifacts can be
-     * pushed, using the format `<hostname>[:<port>]` or `<IP address>[:<port>]`.
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
-     *
-     * @var list<string>|null
-     */
-    protected $allowNondistributableArtifactsHostnames;
-    /**
      * List of IP ranges of insecure registries, using the CIDR syntax
      * ([RFC 4632](https://tools.ietf.org/html/4632)). Insecure registries
      * accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates
      * from unknown CAs) communication.
      *
-     * By default, local registries (`127.0.0.0/8`) are configured as
+     * By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as
      * insecure. All other registries are secure. Communicating with an
      * insecure registry is not possible if the daemon assumes that registry
      * is secure.
@@ -84,82 +60,12 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
     protected $mirrors;
 
     /**
-     * List of IP ranges to which nondistributable artifacts can be pushed,
-     * using the CIDR syntax [RFC 4632](https://tools.ietf.org/html/4632).
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
-     *
-     * @return list<string>|null
-     */
-    public function getAllowNondistributableArtifactsCIDRs(): ?array
-    {
-        return $this->allowNondistributableArtifactsCIDRs;
-    }
-
-    /**
-     * List of IP ranges to which nondistributable artifacts can be pushed,
-     * using the CIDR syntax [RFC 4632](https://tools.ietf.org/html/4632).
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
-     *
-     * @param list<string>|null $allowNondistributableArtifactsCIDRs
-     */
-    public function setAllowNondistributableArtifactsCIDRs(?array $allowNondistributableArtifactsCIDRs): self
-    {
-        $this->initialized['allowNondistributableArtifactsCIDRs'] = true;
-        $this->allowNondistributableArtifactsCIDRs = $allowNondistributableArtifactsCIDRs;
-
-        return $this;
-    }
-
-    /**
-     * List of registry hostnames to which nondistributable artifacts can be
-     * pushed, using the format `<hostname>[:<port>]` or `<IP address>[:<port>]`.
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
-     *
-     * @return list<string>|null
-     */
-    public function getAllowNondistributableArtifactsHostnames(): ?array
-    {
-        return $this->allowNondistributableArtifactsHostnames;
-    }
-
-    /**
-     * List of registry hostnames to which nondistributable artifacts can be
-     * pushed, using the format `<hostname>[:<port>]` or `<IP address>[:<port>]`.
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
-     *
-     * @param list<string>|null $allowNondistributableArtifactsHostnames
-     */
-    public function setAllowNondistributableArtifactsHostnames(?array $allowNondistributableArtifactsHostnames): self
-    {
-        $this->initialized['allowNondistributableArtifactsHostnames'] = true;
-        $this->allowNondistributableArtifactsHostnames = $allowNondistributableArtifactsHostnames;
-
-        return $this;
-    }
-
-    /**
      * List of IP ranges of insecure registries, using the CIDR syntax
      * ([RFC 4632](https://tools.ietf.org/html/4632)). Insecure registries
      * accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates
      * from unknown CAs) communication.
      *
-     * By default, local registries (`127.0.0.0/8`) are configured as
+     * By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as
      * insecure. All other registries are secure. Communicating with an
      * insecure registry is not possible if the daemon assumes that registry
      * is secure.
@@ -191,7 +97,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates
      * from unknown CAs) communication.
      *
-     * By default, local registries (`127.0.0.0/8`) are configured as
+     * By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as
      * insecure. All other registries are secure. Communicating with an
      * insecure registry is not possible if the daemon assumes that registry
      * is secure.
@@ -266,6 +172,6 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['allowNondistributableArtifactsCIDRs' => ['AllowNondistributableArtifactsCIDRs', 'getAllowNondistributableArtifactsCIDRs', 'setAllowNondistributableArtifactsCIDRs'], 'allowNondistributableArtifactsHostnames' => ['AllowNondistributableArtifactsHostnames', 'getAllowNondistributableArtifactsHostnames', 'setAllowNondistributableArtifactsHostnames'], 'insecureRegistryCIDRs' => ['InsecureRegistryCIDRs', 'getInsecureRegistryCIDRs', 'setInsecureRegistryCIDRs'], 'indexConfigs' => ['IndexConfigs', 'getIndexConfigs', 'setIndexConfigs'], 'mirrors' => ['Mirrors', 'getMirrors', 'setMirrors']];
+        return ['insecureRegistryCIDRs' => ['InsecureRegistryCIDRs', 'getInsecureRegistryCIDRs', 'setInsecureRegistryCIDRs'], 'indexConfigs' => ['IndexConfigs', 'getIndexConfigs', 'setIndexConfigs'], 'mirrors' => ['Mirrors', 'getMirrors', 'setMirrors']];
     }
 }

@@ -43,60 +43,37 @@ class SystemDfGetJsonResponse200Normalizer implements DenormalizerInterface, Nor
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (\array_key_exists('LayersSize', $data) && null !== $data['LayersSize']) {
-            $object->setLayersSize($data['LayersSize']);
-            unset($data['LayersSize']);
-        } elseif (\array_key_exists('LayersSize', $data) && null === $data['LayersSize']) {
-            $object->setLayersSize(null);
-            unset($data['LayersSize']);
+        if (\array_key_exists('ImageUsage', $data) && null !== $data['ImageUsage']) {
+            $object->setImageUsage($this->denormalizer->denormalize($data['ImageUsage'], \Docker\API\Model\ImagesDiskUsage::class, 'json', $context));
+            unset($data['ImageUsage']);
+        } elseif (\array_key_exists('ImageUsage', $data) && null === $data['ImageUsage']) {
+            $object->setImageUsage(null);
+            unset($data['ImageUsage']);
         }
-        if (\array_key_exists('Images', $data) && null !== $data['Images']) {
-            $values = [];
-            foreach ($data['Images'] as $value) {
-                $values[] = $this->denormalizer->denormalize($value, \Docker\API\Model\ImageSummary::class, 'json', $context);
-            }
-            $object->setImages($values);
-            unset($data['Images']);
-        } elseif (\array_key_exists('Images', $data) && null === $data['Images']) {
-            $object->setImages(null);
-            unset($data['Images']);
+        if (\array_key_exists('ContainerUsage', $data) && null !== $data['ContainerUsage']) {
+            $object->setContainerUsage($this->denormalizer->denormalize($data['ContainerUsage'], \Docker\API\Model\ContainersDiskUsage::class, 'json', $context));
+            unset($data['ContainerUsage']);
+        } elseif (\array_key_exists('ContainerUsage', $data) && null === $data['ContainerUsage']) {
+            $object->setContainerUsage(null);
+            unset($data['ContainerUsage']);
         }
-        if (\array_key_exists('Containers', $data) && null !== $data['Containers']) {
-            $values_1 = [];
-            foreach ($data['Containers'] as $value_1) {
-                $values_1[] = $this->denormalizer->denormalize($value_1, \Docker\API\Model\ContainerSummary::class, 'json', $context);
-            }
-            $object->setContainers($values_1);
-            unset($data['Containers']);
-        } elseif (\array_key_exists('Containers', $data) && null === $data['Containers']) {
-            $object->setContainers(null);
-            unset($data['Containers']);
+        if (\array_key_exists('VolumeUsage', $data) && null !== $data['VolumeUsage']) {
+            $object->setVolumeUsage($this->denormalizer->denormalize($data['VolumeUsage'], \Docker\API\Model\VolumesDiskUsage::class, 'json', $context));
+            unset($data['VolumeUsage']);
+        } elseif (\array_key_exists('VolumeUsage', $data) && null === $data['VolumeUsage']) {
+            $object->setVolumeUsage(null);
+            unset($data['VolumeUsage']);
         }
-        if (\array_key_exists('Volumes', $data) && null !== $data['Volumes']) {
-            $values_2 = [];
-            foreach ($data['Volumes'] as $value_2) {
-                $values_2[] = $this->denormalizer->denormalize($value_2, \Docker\API\Model\Volume::class, 'json', $context);
-            }
-            $object->setVolumes($values_2);
-            unset($data['Volumes']);
-        } elseif (\array_key_exists('Volumes', $data) && null === $data['Volumes']) {
-            $object->setVolumes(null);
-            unset($data['Volumes']);
+        if (\array_key_exists('BuildCacheUsage', $data) && null !== $data['BuildCacheUsage']) {
+            $object->setBuildCacheUsage($this->denormalizer->denormalize($data['BuildCacheUsage'], \Docker\API\Model\BuildCacheDiskUsage::class, 'json', $context));
+            unset($data['BuildCacheUsage']);
+        } elseif (\array_key_exists('BuildCacheUsage', $data) && null === $data['BuildCacheUsage']) {
+            $object->setBuildCacheUsage(null);
+            unset($data['BuildCacheUsage']);
         }
-        if (\array_key_exists('BuildCache', $data) && null !== $data['BuildCache']) {
-            $values_3 = [];
-            foreach ($data['BuildCache'] as $value_3) {
-                $values_3[] = $this->denormalizer->denormalize($value_3, \Docker\API\Model\BuildCache::class, 'json', $context);
-            }
-            $object->setBuildCache($values_3);
-            unset($data['BuildCache']);
-        } elseif (\array_key_exists('BuildCache', $data) && null === $data['BuildCache']) {
-            $object->setBuildCache(null);
-            unset($data['BuildCache']);
-        }
-        foreach ($data as $key => $value_4) {
+        foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value_4;
+                $object[$key] = $value;
             }
         }
 
@@ -106,40 +83,21 @@ class SystemDfGetJsonResponse200Normalizer implements DenormalizerInterface, Nor
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
-        if ($data->isInitialized('layersSize') && null !== $data->getLayersSize()) {
-            $dataArray['LayersSize'] = $data->getLayersSize();
+        if ($data->isInitialized('imageUsage') && null !== $data->getImageUsage()) {
+            $dataArray['ImageUsage'] = null === $data->getImageUsage() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getImageUsage(), 'json', $context));
         }
-        if ($data->isInitialized('images') && null !== $data->getImages()) {
-            $values = [];
-            foreach ($data->getImages() as $value) {
-                $values[] = null === $value ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value, 'json', $context));
-            }
-            $dataArray['Images'] = $values;
+        if ($data->isInitialized('containerUsage') && null !== $data->getContainerUsage()) {
+            $dataArray['ContainerUsage'] = null === $data->getContainerUsage() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getContainerUsage(), 'json', $context));
         }
-        if ($data->isInitialized('containers') && null !== $data->getContainers()) {
-            $values_1 = [];
-            foreach ($data->getContainers() as $value_1) {
-                $values_1[] = null === $value_1 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_1, 'json', $context));
-            }
-            $dataArray['Containers'] = $values_1;
+        if ($data->isInitialized('volumeUsage') && null !== $data->getVolumeUsage()) {
+            $dataArray['VolumeUsage'] = null === $data->getVolumeUsage() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getVolumeUsage(), 'json', $context));
         }
-        if ($data->isInitialized('volumes') && null !== $data->getVolumes()) {
-            $values_2 = [];
-            foreach ($data->getVolumes() as $value_2) {
-                $values_2[] = null === $value_2 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_2, 'json', $context));
-            }
-            $dataArray['Volumes'] = $values_2;
+        if ($data->isInitialized('buildCacheUsage') && null !== $data->getBuildCacheUsage()) {
+            $dataArray['BuildCacheUsage'] = null === $data->getBuildCacheUsage() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getBuildCacheUsage(), 'json', $context));
         }
-        if ($data->isInitialized('buildCache') && null !== $data->getBuildCache()) {
-            $values_3 = [];
-            foreach ($data->getBuildCache() as $value_3) {
-                $values_3[] = null === $value_3 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_3, 'json', $context));
-            }
-            $dataArray['BuildCache'] = $values_3;
-        }
-        foreach ($data->additionalPropertyEntries() as $key => $value_4) {
+        foreach ($data->additionalPropertyEntries() as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
-                $dataArray[$key] = $value_4;
+                $dataArray[$key] = $value;
             }
         }
 

@@ -20,29 +20,50 @@ class ContainerSummary implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
-     * The ID of this container.
+     * The ID of this container as a 128-bit (64-character) hexadecimal string (32 bytes).
      *
      * @var string|null
      */
     protected $id;
     /**
-     * The names that this container has been given.
+     * The names associated with this container. Most containers have a single
+     * name, but when using legacy "links", the container can have multiple
+     * names.
+     *
+     * For historic reasons, names are prefixed with a forward-slash (`/`).
      *
      * @var list<string>|null
      */
     protected $names;
     /**
-     * The name of the image used when creating this container.
+     * The name or ID of the image used to create the container.
+     *
+     * This field shows the image reference as was specified when creating the container,
+     * which can be in its canonical form (e.g., `docker.io/library/ubuntu:latest`
+     * or `docker.io/library/ubuntu@sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`),
+     * short form (e.g., `ubuntu:latest`)), or the ID(-prefix) of the image (e.g., `72297848456d`).
+     *
+     * The content of this field can be updated at runtime if the image used to
+     * create the container is untagged, in which case the field is updated to
+     * contain the the image ID (digest) it was resolved to in its canonical,
+     * non-truncated form (e.g., `sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`).
      *
      * @var string|null
      */
     protected $image;
     /**
-     * The ID of the image that this container was created from.
+     * The ID (digest) of the image that this container was created from.
      *
      * @var string|null
      */
     protected $imageID;
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     *
+     * @var OCIDescriptor|null
+     */
+    protected $imageManifestDescriptor;
     /**
      * Command to run when starting the container.
      *
@@ -50,25 +71,33 @@ class ContainerSummary implements AdditionalPropertiesInterface
      */
     protected $command;
     /**
-     * When the container was created.
+     * Date and time at which the container was created as a Unix timestamp
+     * (number of seconds since EPOCH).
      *
      * @var int|null
      */
     protected $created;
     /**
-     * The ports exposed by this container.
+     * Port-mappings for the container.
      *
-     * @var list<Port>|null
+     * @var list<PortSummary>|null
      */
     protected $ports;
     /**
      * The size of files that have been created or changed by this container.
      *
+     * This field is omitted by default, and only set when size is requested
+     * in the API request.
+     *
      * @var int|null
      */
     protected $sizeRw;
     /**
-     * The total size of all the files in this container.
+     * The total size of all files in the read-only layers from the image
+     * that the container uses. These layers can be shared between containers.
+     *
+     * This field is omitted by default, and only set when size is requested
+     * in the API request.
      *
      * @var int|null
      */
@@ -80,7 +109,7 @@ class ContainerSummary implements AdditionalPropertiesInterface
      */
     protected $labels;
     /**
-     * The state of this container (e.g. `Exited`).
+     * The state of this container.
      *
      * @var string|null
      */
@@ -92,22 +121,38 @@ class ContainerSummary implements AdditionalPropertiesInterface
      */
     protected $status;
     /**
+     * Summary of host-specific runtime information of the container. This
+     * is a reduced set of information in the container's "HostConfig" as
+     * available in the container "inspect" response.
+     *
      * @var ContainerSummaryHostConfig|null
      */
     protected $hostConfig;
     /**
-     * A summary of the container's network settings.
+     * Summary of the container's network settings.
      *
      * @var ContainerSummaryNetworkSettings|null
      */
     protected $networkSettings;
     /**
+     * List of mounts used by the container.
+     *
      * @var list<MountPoint>|null
      */
     protected $mounts;
+    /**
+     * Summary of health status.
+     *
+     * Added in v1.52, before that version all container summary not include Health.
+     * After this attribute introduced, it includes containers with no health checks configured,
+     * or containers that are not running with none
+     *
+     * @var ContainerSummaryHealth|null
+     */
+    protected $health;
 
     /**
-     * The ID of this container.
+     * The ID of this container as a 128-bit (64-character) hexadecimal string (32 bytes).
      */
     public function getId(): ?string
     {
@@ -115,7 +160,7 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The ID of this container.
+     * The ID of this container as a 128-bit (64-character) hexadecimal string (32 bytes).
      */
     public function setId(?string $id): self
     {
@@ -126,7 +171,11 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The names that this container has been given.
+     * The names associated with this container. Most containers have a single
+     * name, but when using legacy "links", the container can have multiple
+     * names.
+     *
+     * For historic reasons, names are prefixed with a forward-slash (`/`).
      *
      * @return list<string>|null
      */
@@ -136,7 +185,11 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The names that this container has been given.
+     * The names associated with this container. Most containers have a single
+     * name, but when using legacy "links", the container can have multiple
+     * names.
+     *
+     * For historic reasons, names are prefixed with a forward-slash (`/`).
      *
      * @param list<string>|null $names
      */
@@ -149,7 +202,17 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The name of the image used when creating this container.
+     * The name or ID of the image used to create the container.
+     *
+     * This field shows the image reference as was specified when creating the container,
+     * which can be in its canonical form (e.g., `docker.io/library/ubuntu:latest`
+     * or `docker.io/library/ubuntu@sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`),
+     * short form (e.g., `ubuntu:latest`)), or the ID(-prefix) of the image (e.g., `72297848456d`).
+     *
+     * The content of this field can be updated at runtime if the image used to
+     * create the container is untagged, in which case the field is updated to
+     * contain the the image ID (digest) it was resolved to in its canonical,
+     * non-truncated form (e.g., `sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`).
      */
     public function getImage(): ?string
     {
@@ -157,7 +220,17 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The name of the image used when creating this container.
+     * The name or ID of the image used to create the container.
+     *
+     * This field shows the image reference as was specified when creating the container,
+     * which can be in its canonical form (e.g., `docker.io/library/ubuntu:latest`
+     * or `docker.io/library/ubuntu@sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`),
+     * short form (e.g., `ubuntu:latest`)), or the ID(-prefix) of the image (e.g., `72297848456d`).
+     *
+     * The content of this field can be updated at runtime if the image used to
+     * create the container is untagged, in which case the field is updated to
+     * contain the the image ID (digest) it was resolved to in its canonical,
+     * non-truncated form (e.g., `sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`).
      */
     public function setImage(?string $image): self
     {
@@ -168,7 +241,7 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The ID of the image that this container was created from.
+     * The ID (digest) of the image that this container was created from.
      */
     public function getImageID(): ?string
     {
@@ -176,12 +249,33 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The ID of the image that this container was created from.
+     * The ID (digest) of the image that this container was created from.
      */
     public function setImageID(?string $imageID): self
     {
         $this->initialized['imageID'] = true;
         $this->imageID = $imageID;
+
+        return $this;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function getImageManifestDescriptor(): ?OCIDescriptor
+    {
+        return $this->imageManifestDescriptor;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function setImageManifestDescriptor(?OCIDescriptor $imageManifestDescriptor): self
+    {
+        $this->initialized['imageManifestDescriptor'] = true;
+        $this->imageManifestDescriptor = $imageManifestDescriptor;
 
         return $this;
     }
@@ -206,7 +300,8 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * When the container was created.
+     * Date and time at which the container was created as a Unix timestamp
+     * (number of seconds since EPOCH).
      */
     public function getCreated(): ?int
     {
@@ -214,7 +309,8 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * When the container was created.
+     * Date and time at which the container was created as a Unix timestamp
+     * (number of seconds since EPOCH).
      */
     public function setCreated(?int $created): self
     {
@@ -225,9 +321,9 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The ports exposed by this container.
+     * Port-mappings for the container.
      *
-     * @return list<Port>|null
+     * @return list<PortSummary>|null
      */
     public function getPorts(): ?array
     {
@@ -235,9 +331,9 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The ports exposed by this container.
+     * Port-mappings for the container.
      *
-     * @param list<Port>|null $ports
+     * @param list<PortSummary>|null $ports
      */
     public function setPorts(?array $ports): self
     {
@@ -249,6 +345,9 @@ class ContainerSummary implements AdditionalPropertiesInterface
 
     /**
      * The size of files that have been created or changed by this container.
+     *
+     * This field is omitted by default, and only set when size is requested
+     * in the API request.
      */
     public function getSizeRw(): ?int
     {
@@ -257,6 +356,9 @@ class ContainerSummary implements AdditionalPropertiesInterface
 
     /**
      * The size of files that have been created or changed by this container.
+     *
+     * This field is omitted by default, and only set when size is requested
+     * in the API request.
      */
     public function setSizeRw(?int $sizeRw): self
     {
@@ -267,7 +369,11 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The total size of all the files in this container.
+     * The total size of all files in the read-only layers from the image
+     * that the container uses. These layers can be shared between containers.
+     *
+     * This field is omitted by default, and only set when size is requested
+     * in the API request.
      */
     public function getSizeRootFs(): ?int
     {
@@ -275,7 +381,11 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The total size of all the files in this container.
+     * The total size of all files in the read-only layers from the image
+     * that the container uses. These layers can be shared between containers.
+     *
+     * This field is omitted by default, and only set when size is requested
+     * in the API request.
      */
     public function setSizeRootFs(?int $sizeRootFs): self
     {
@@ -309,7 +419,7 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The state of this container (e.g. `Exited`).
+     * The state of this container.
      */
     public function getState(): ?string
     {
@@ -317,7 +427,7 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * The state of this container (e.g. `Exited`).
+     * The state of this container.
      */
     public function setState(?string $state): self
     {
@@ -346,11 +456,21 @@ class ContainerSummary implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Summary of host-specific runtime information of the container. This
+     * is a reduced set of information in the container's "HostConfig" as
+     * available in the container "inspect" response.
+     */
     public function getHostConfig(): ?ContainerSummaryHostConfig
     {
         return $this->hostConfig;
     }
 
+    /**
+     * Summary of host-specific runtime information of the container. This
+     * is a reduced set of information in the container's "HostConfig" as
+     * available in the container "inspect" response.
+     */
     public function setHostConfig(?ContainerSummaryHostConfig $hostConfig): self
     {
         $this->initialized['hostConfig'] = true;
@@ -360,7 +480,7 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * A summary of the container's network settings.
+     * Summary of the container's network settings.
      */
     public function getNetworkSettings(): ?ContainerSummaryNetworkSettings
     {
@@ -368,7 +488,7 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
-     * A summary of the container's network settings.
+     * Summary of the container's network settings.
      */
     public function setNetworkSettings(?ContainerSummaryNetworkSettings $networkSettings): self
     {
@@ -379,6 +499,8 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
+     * List of mounts used by the container.
+     *
      * @return list<MountPoint>|null
      */
     public function getMounts(): ?array
@@ -387,6 +509,8 @@ class ContainerSummary implements AdditionalPropertiesInterface
     }
 
     /**
+     * List of mounts used by the container.
+     *
      * @param list<MountPoint>|null $mounts
      */
     public function setMounts(?array $mounts): self
@@ -397,8 +521,35 @@ class ContainerSummary implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Summary of health status.
+     *
+     * Added in v1.52, before that version all container summary not include Health.
+     * After this attribute introduced, it includes containers with no health checks configured,
+     * or containers that are not running with none
+     */
+    public function getHealth(): ?ContainerSummaryHealth
+    {
+        return $this->health;
+    }
+
+    /**
+     * Summary of health status.
+     *
+     * Added in v1.52, before that version all container summary not include Health.
+     * After this attribute introduced, it includes containers with no health checks configured,
+     * or containers that are not running with none
+     */
+    public function setHealth(?ContainerSummaryHealth $health): self
+    {
+        $this->initialized['health'] = true;
+        $this->health = $health;
+
+        return $this;
+    }
+
     public function definedProperties(): array
     {
-        return ['id' => ['Id', 'getId', 'setId'], 'names' => ['Names', 'getNames', 'setNames'], 'image' => ['Image', 'getImage', 'setImage'], 'imageID' => ['ImageID', 'getImageID', 'setImageID'], 'command' => ['Command', 'getCommand', 'setCommand'], 'created' => ['Created', 'getCreated', 'setCreated'], 'ports' => ['Ports', 'getPorts', 'setPorts'], 'sizeRw' => ['SizeRw', 'getSizeRw', 'setSizeRw'], 'sizeRootFs' => ['SizeRootFs', 'getSizeRootFs', 'setSizeRootFs'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'state' => ['State', 'getState', 'setState'], 'status' => ['Status', 'getStatus', 'setStatus'], 'hostConfig' => ['HostConfig', 'getHostConfig', 'setHostConfig'], 'networkSettings' => ['NetworkSettings', 'getNetworkSettings', 'setNetworkSettings'], 'mounts' => ['Mounts', 'getMounts', 'setMounts']];
+        return ['id' => ['Id', 'getId', 'setId'], 'names' => ['Names', 'getNames', 'setNames'], 'image' => ['Image', 'getImage', 'setImage'], 'imageID' => ['ImageID', 'getImageID', 'setImageID'], 'imageManifestDescriptor' => ['ImageManifestDescriptor', 'getImageManifestDescriptor', 'setImageManifestDescriptor'], 'command' => ['Command', 'getCommand', 'setCommand'], 'created' => ['Created', 'getCreated', 'setCreated'], 'ports' => ['Ports', 'getPorts', 'setPorts'], 'sizeRw' => ['SizeRw', 'getSizeRw', 'setSizeRw'], 'sizeRootFs' => ['SizeRootFs', 'getSizeRootFs', 'setSizeRootFs'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'state' => ['State', 'getState', 'setState'], 'status' => ['Status', 'getStatus', 'setStatus'], 'hostConfig' => ['HostConfig', 'getHostConfig', 'setHostConfig'], 'networkSettings' => ['NetworkSettings', 'getNetworkSettings', 'setNetworkSettings'], 'mounts' => ['Mounts', 'getMounts', 'setMounts'], 'health' => ['Health', 'getHealth', 'setHealth']];
     }
 }

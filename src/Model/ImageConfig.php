@@ -20,61 +20,11 @@ class ImageConfig implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
-     * The hostname to use for the container, as a valid RFC 1123 hostname.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     *
-     * @var string|null
-     */
-    protected $hostname;
-    /**
-     * The domain name to use for the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     *
-     * @var string|null
-     */
-    protected $domainname;
-    /**
      * The user that commands are run as inside the container.
      *
      * @var string|null
      */
     protected $user;
-    /**
-     * Whether to attach to `stdin`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     *
-     * @var bool|null
-     */
-    protected $attachStdin = false;
-    /**
-     * Whether to attach to `stdout`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     *
-     * @var bool|null
-     */
-    protected $attachStdout = false;
-    /**
-     * Whether to attach to `stderr`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     *
-     * @var bool|null
-     */
-    protected $attachStderr = false;
     /**
      * An object mapping ports to an empty object in the form:
      *
@@ -83,36 +33,6 @@ class ImageConfig implements AdditionalPropertiesInterface
      * @var array<string, array<string, mixed>>|null
      */
     protected $exposedPorts;
-    /**
-     * Attach standard streams to a TTY, including `stdin` if it is not closed.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     *
-     * @var bool|null
-     */
-    protected $tty = false;
-    /**
-     * Open `stdin`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     *
-     * @var bool|null
-     */
-    protected $openStdin = false;
-    /**
-     * Close `stdin` after one attached client disconnects.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     *
-     * @var bool|null
-     */
-    protected $stdinOnce = false;
     /**
      * A list of environment variables to set inside the container in the
      * form `["VAR=value", ...]`. A variable without `=` is removed from the
@@ -141,17 +61,6 @@ class ImageConfig implements AdditionalPropertiesInterface
      */
     protected $argsEscaped = false;
     /**
-     * The name (or reference) of the image to use when creating the container,
-     * or which was used when the container was created.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     *
-     * @var string|null
-     */
-    protected $image = '';
-    /**
      * An object mapping mount point paths inside the container to empty
      * objects.
      *
@@ -175,26 +84,6 @@ class ImageConfig implements AdditionalPropertiesInterface
      */
     protected $entrypoint;
     /**
-     * Disable networking for the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always omitted and must not be used.
-     *
-     * @var bool|null
-     */
-    protected $networkDisabled = false;
-    /**
-     * MAC address of the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: this field is deprecated in API v1.44 and up. It is always omitted.
-     *
-     * @var string|null
-     */
-    protected $macAddress = '';
-    /**
      * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
      *
      * @var list<string>|null
@@ -213,75 +102,11 @@ class ImageConfig implements AdditionalPropertiesInterface
      */
     protected $stopSignal;
     /**
-     * Timeout to stop a container in seconds.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always omitted and must not be used.
-     *
-     * @var int|null
-     */
-    protected $stopTimeout = 10;
-    /**
      * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
      *
      * @var list<string>|null
      */
     protected $shell;
-
-    /**
-     * The hostname to use for the container, as a valid RFC 1123 hostname.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     */
-    public function getHostname(): ?string
-    {
-        return $this->hostname;
-    }
-
-    /**
-     * The hostname to use for the container, as a valid RFC 1123 hostname.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     */
-    public function setHostname(?string $hostname): self
-    {
-        $this->initialized['hostname'] = true;
-        $this->hostname = $hostname;
-
-        return $this;
-    }
-
-    /**
-     * The domain name to use for the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     */
-    public function getDomainname(): ?string
-    {
-        return $this->domainname;
-    }
-
-    /**
-     * The domain name to use for the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     */
-    public function setDomainname(?string $domainname): self
-    {
-        $this->initialized['domainname'] = true;
-        $this->domainname = $domainname;
-
-        return $this;
-    }
 
     /**
      * The user that commands are run as inside the container.
@@ -298,87 +123,6 @@ class ImageConfig implements AdditionalPropertiesInterface
     {
         $this->initialized['user'] = true;
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Whether to attach to `stdin`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function getAttachStdin(): ?bool
-    {
-        return $this->attachStdin;
-    }
-
-    /**
-     * Whether to attach to `stdin`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function setAttachStdin(?bool $attachStdin): self
-    {
-        $this->initialized['attachStdin'] = true;
-        $this->attachStdin = $attachStdin;
-
-        return $this;
-    }
-
-    /**
-     * Whether to attach to `stdout`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function getAttachStdout(): ?bool
-    {
-        return $this->attachStdout;
-    }
-
-    /**
-     * Whether to attach to `stdout`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function setAttachStdout(?bool $attachStdout): self
-    {
-        $this->initialized['attachStdout'] = true;
-        $this->attachStdout = $attachStdout;
-
-        return $this;
-    }
-
-    /**
-     * Whether to attach to `stderr`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function getAttachStderr(): ?bool
-    {
-        return $this->attachStderr;
-    }
-
-    /**
-     * Whether to attach to `stderr`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function setAttachStderr(?bool $attachStderr): self
-    {
-        $this->initialized['attachStderr'] = true;
-        $this->attachStderr = $attachStderr;
 
         return $this;
     }
@@ -406,87 +150,6 @@ class ImageConfig implements AdditionalPropertiesInterface
     {
         $this->initialized['exposedPorts'] = true;
         $this->exposedPorts = $exposedPorts;
-
-        return $this;
-    }
-
-    /**
-     * Attach standard streams to a TTY, including `stdin` if it is not closed.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function getTty(): ?bool
-    {
-        return $this->tty;
-    }
-
-    /**
-     * Attach standard streams to a TTY, including `stdin` if it is not closed.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function setTty(?bool $tty): self
-    {
-        $this->initialized['tty'] = true;
-        $this->tty = $tty;
-
-        return $this;
-    }
-
-    /**
-     * Open `stdin`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function getOpenStdin(): ?bool
-    {
-        return $this->openStdin;
-    }
-
-    /**
-     * Open `stdin`.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function setOpenStdin(?bool $openStdin): self
-    {
-        $this->initialized['openStdin'] = true;
-        $this->openStdin = $openStdin;
-
-        return $this;
-    }
-
-    /**
-     * Close `stdin` after one attached client disconnects.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function getStdinOnce(): ?bool
-    {
-        return $this->stdinOnce;
-    }
-
-    /**
-     * Close `stdin` after one attached client disconnects.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always false and must not be used.
-     */
-    public function setStdinOnce(?bool $stdinOnce): self
-    {
-        $this->initialized['stdinOnce'] = true;
-        $this->stdinOnce = $stdinOnce;
 
         return $this;
     }
@@ -582,35 +245,6 @@ class ImageConfig implements AdditionalPropertiesInterface
     }
 
     /**
-     * The name (or reference) of the image to use when creating the container,
-     * or which was used when the container was created.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     */
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    /**
-     * The name (or reference) of the image to use when creating the container,
-     * or which was used when the container was created.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always empty and must not be used.
-     */
-    public function setImage(?string $image): self
-    {
-        $this->initialized['image'] = true;
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
      * An object mapping mount point paths inside the container to empty
      * objects.
      *
@@ -686,60 +320,6 @@ class ImageConfig implements AdditionalPropertiesInterface
     }
 
     /**
-     * Disable networking for the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always omitted and must not be used.
-     */
-    public function getNetworkDisabled(): ?bool
-    {
-        return $this->networkDisabled;
-    }
-
-    /**
-     * Disable networking for the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always omitted and must not be used.
-     */
-    public function setNetworkDisabled(?bool $networkDisabled): self
-    {
-        $this->initialized['networkDisabled'] = true;
-        $this->networkDisabled = $networkDisabled;
-
-        return $this;
-    }
-
-    /**
-     * MAC address of the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: this field is deprecated in API v1.44 and up. It is always omitted.
-     */
-    public function getMacAddress(): ?string
-    {
-        return $this->macAddress;
-    }
-
-    /**
-     * MAC address of the container.
-     *
-     * <p><br /></p>
-     *
-     * > **Deprecated**: this field is deprecated in API v1.44 and up. It is always omitted.
-     */
-    public function setMacAddress(?string $macAddress): self
-    {
-        $this->initialized['macAddress'] = true;
-        $this->macAddress = $macAddress;
-
-        return $this;
-    }
-
-    /**
      * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
      *
      * @return list<string>|null
@@ -805,33 +385,6 @@ class ImageConfig implements AdditionalPropertiesInterface
     }
 
     /**
-     * Timeout to stop a container in seconds.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always omitted and must not be used.
-     */
-    public function getStopTimeout(): ?int
-    {
-        return $this->stopTimeout;
-    }
-
-    /**
-     * Timeout to stop a container in seconds.
-     *
-     * <p><br /></p>
-     *
-     * > **Note**: this field is always omitted and must not be used.
-     */
-    public function setStopTimeout(?int $stopTimeout): self
-    {
-        $this->initialized['stopTimeout'] = true;
-        $this->stopTimeout = $stopTimeout;
-
-        return $this;
-    }
-
-    /**
      * Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
      *
      * @return list<string>|null
@@ -856,6 +409,6 @@ class ImageConfig implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['hostname' => ['Hostname', 'getHostname', 'setHostname'], 'domainname' => ['Domainname', 'getDomainname', 'setDomainname'], 'user' => ['User', 'getUser', 'setUser'], 'attachStdin' => ['AttachStdin', 'getAttachStdin', 'setAttachStdin'], 'attachStdout' => ['AttachStdout', 'getAttachStdout', 'setAttachStdout'], 'attachStderr' => ['AttachStderr', 'getAttachStderr', 'setAttachStderr'], 'exposedPorts' => ['ExposedPorts', 'getExposedPorts', 'setExposedPorts'], 'tty' => ['Tty', 'getTty', 'setTty'], 'openStdin' => ['OpenStdin', 'getOpenStdin', 'setOpenStdin'], 'stdinOnce' => ['StdinOnce', 'getStdinOnce', 'setStdinOnce'], 'env' => ['Env', 'getEnv', 'setEnv'], 'cmd' => ['Cmd', 'getCmd', 'setCmd'], 'healthcheck' => ['Healthcheck', 'getHealthcheck', 'setHealthcheck'], 'argsEscaped' => ['ArgsEscaped', 'getArgsEscaped', 'setArgsEscaped'], 'image' => ['Image', 'getImage', 'setImage'], 'volumes' => ['Volumes', 'getVolumes', 'setVolumes'], 'workingDir' => ['WorkingDir', 'getWorkingDir', 'setWorkingDir'], 'entrypoint' => ['Entrypoint', 'getEntrypoint', 'setEntrypoint'], 'networkDisabled' => ['NetworkDisabled', 'getNetworkDisabled', 'setNetworkDisabled'], 'macAddress' => ['MacAddress', 'getMacAddress', 'setMacAddress'], 'onBuild' => ['OnBuild', 'getOnBuild', 'setOnBuild'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'stopSignal' => ['StopSignal', 'getStopSignal', 'setStopSignal'], 'stopTimeout' => ['StopTimeout', 'getStopTimeout', 'setStopTimeout'], 'shell' => ['Shell', 'getShell', 'setShell']];
+        return ['user' => ['User', 'getUser', 'setUser'], 'exposedPorts' => ['ExposedPorts', 'getExposedPorts', 'setExposedPorts'], 'env' => ['Env', 'getEnv', 'setEnv'], 'cmd' => ['Cmd', 'getCmd', 'setCmd'], 'healthcheck' => ['Healthcheck', 'getHealthcheck', 'setHealthcheck'], 'argsEscaped' => ['ArgsEscaped', 'getArgsEscaped', 'setArgsEscaped'], 'volumes' => ['Volumes', 'getVolumes', 'setVolumes'], 'workingDir' => ['WorkingDir', 'getWorkingDir', 'setWorkingDir'], 'entrypoint' => ['Entrypoint', 'getEntrypoint', 'setEntrypoint'], 'onBuild' => ['OnBuild', 'getOnBuild', 'setOnBuild'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'stopSignal' => ['StopSignal', 'getStopSignal', 'setStopSignal'], 'shell' => ['Shell', 'getShell', 'setShell']];
     }
 }

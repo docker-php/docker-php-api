@@ -12,6 +12,7 @@ class SystemDataUsage extends \Docker\API\Runtime\Client\BaseEndpoint implements
     /**
      * @param array{
      *    "type"?: array, //Object types, for which to compute and return data.
+     *    "verbose"?: bool, //Show detailed information on space usage.
      * } $queryParameters
      * @param array $accept Accept content header application/json|text/plain
      */
@@ -48,10 +49,11 @@ class SystemDataUsage extends \Docker\API\Runtime\Client\BaseEndpoint implements
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(['type']);
+        $optionsResolver->setDefined(['type', 'verbose']);
         $optionsResolver->setRequired([]);
-        $optionsResolver->setDefaults([]);
+        $optionsResolver->setDefaults(['verbose' => false]);
         $optionsResolver->addAllowedTypes('type', ['array']);
+        $optionsResolver->addAllowedTypes('verbose', ['bool']);
 
         return $optionsResolver;
     }

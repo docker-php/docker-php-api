@@ -43,6 +43,9 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
+        if (\array_key_exists('EnableIPv4', $data) && \is_int($data['EnableIPv4'])) {
+            $data['EnableIPv4'] = (bool) $data['EnableIPv4'];
+        }
         if (\array_key_exists('EnableIPv6', $data) && \is_int($data['EnableIPv6'])) {
             $data['EnableIPv6'] = (bool) $data['EnableIPv6'];
         }
@@ -93,6 +96,13 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
             $object->setDriver(null);
             unset($data['Driver']);
         }
+        if (\array_key_exists('EnableIPv4', $data) && null !== $data['EnableIPv4']) {
+            $object->setEnableIPv4($data['EnableIPv4']);
+            unset($data['EnableIPv4']);
+        } elseif (\array_key_exists('EnableIPv4', $data) && null === $data['EnableIPv4']) {
+            $object->setEnableIPv4(null);
+            unset($data['EnableIPv4']);
+        }
         if (\array_key_exists('EnableIPv6', $data) && null !== $data['EnableIPv6']) {
             $object->setEnableIPv6($data['EnableIPv6']);
             unset($data['EnableIPv6']);
@@ -142,53 +152,42 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
             $object->setConfigOnly(null);
             unset($data['ConfigOnly']);
         }
-        if (\array_key_exists('Containers', $data) && null !== $data['Containers']) {
-            $values = new \Docker\API\Runtime\JsonObject();
-            foreach ($data['Containers'] as $key => $value) {
-                $values[$key] = $this->denormalizer->denormalize($value, \Docker\API\Model\NetworkContainer::class, 'json', $context);
-            }
-            $object->setContainers($values);
-            unset($data['Containers']);
-        } elseif (\array_key_exists('Containers', $data) && null === $data['Containers']) {
-            $object->setContainers(null);
-            unset($data['Containers']);
-        }
         if (\array_key_exists('Options', $data) && null !== $data['Options']) {
-            $values_1 = new \Docker\API\Runtime\JsonObject();
-            foreach ($data['Options'] as $key_1 => $value_1) {
-                $values_1[$key_1] = $value_1;
+            $values = new \Docker\API\Runtime\JsonObject();
+            foreach ($data['Options'] as $key => $value) {
+                $values[$key] = $value;
             }
-            $object->setOptions($values_1);
+            $object->setOptions($values);
             unset($data['Options']);
         } elseif (\array_key_exists('Options', $data) && null === $data['Options']) {
             $object->setOptions(null);
             unset($data['Options']);
         }
         if (\array_key_exists('Labels', $data) && null !== $data['Labels']) {
-            $values_2 = new \Docker\API\Runtime\JsonObject();
-            foreach ($data['Labels'] as $key_2 => $value_2) {
-                $values_2[$key_2] = $value_2;
+            $values_1 = new \Docker\API\Runtime\JsonObject();
+            foreach ($data['Labels'] as $key_1 => $value_1) {
+                $values_1[$key_1] = $value_1;
             }
-            $object->setLabels($values_2);
+            $object->setLabels($values_1);
             unset($data['Labels']);
         } elseif (\array_key_exists('Labels', $data) && null === $data['Labels']) {
             $object->setLabels(null);
             unset($data['Labels']);
         }
         if (\array_key_exists('Peers', $data) && null !== $data['Peers']) {
-            $values_3 = [];
-            foreach ($data['Peers'] as $value_3) {
-                $values_3[] = $this->denormalizer->denormalize($value_3, \Docker\API\Model\PeerInfo::class, 'json', $context);
+            $values_2 = [];
+            foreach ($data['Peers'] as $value_2) {
+                $values_2[] = $this->denormalizer->denormalize($value_2, \Docker\API\Model\PeerInfo::class, 'json', $context);
             }
-            $object->setPeers($values_3);
+            $object->setPeers($values_2);
             unset($data['Peers']);
         } elseif (\array_key_exists('Peers', $data) && null === $data['Peers']) {
             $object->setPeers(null);
             unset($data['Peers']);
         }
-        foreach ($data as $key_3 => $value_4) {
-            if (preg_match('/.*/', (string) $key_3)) {
-                $object[$key_3] = $value_4;
+        foreach ($data as $key_2 => $value_3) {
+            if (preg_match('/.*/', (string) $key_2)) {
+                $object[$key_2] = $value_3;
             }
         }
 
@@ -213,6 +212,9 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if ($data->isInitialized('driver') && null !== $data->getDriver()) {
             $dataArray['Driver'] = $data->getDriver();
         }
+        if ($data->isInitialized('enableIPv4') && null !== $data->getEnableIPv4()) {
+            $dataArray['EnableIPv4'] = $data->getEnableIPv4();
+        }
         if ($data->isInitialized('enableIPv6') && null !== $data->getEnableIPv6()) {
             $dataArray['EnableIPv6'] = $data->getEnableIPv6();
         }
@@ -234,37 +236,30 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if ($data->isInitialized('configOnly') && null !== $data->getConfigOnly()) {
             $dataArray['ConfigOnly'] = $data->getConfigOnly();
         }
-        if ($data->isInitialized('containers') && null !== $data->getContainers()) {
-            $values = new \Docker\API\Runtime\JsonObject();
-            foreach ($data->getContainers() as $key => $value) {
-                $values[$key] = null === $value ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value, 'json', $context));
-            }
-            $dataArray['Containers'] = $values;
-        }
         if ($data->isInitialized('options') && null !== $data->getOptions()) {
-            $values_1 = new \Docker\API\Runtime\JsonObject();
-            foreach ($data->getOptions() as $key_1 => $value_1) {
-                $values_1[$key_1] = $value_1;
+            $values = new \Docker\API\Runtime\JsonObject();
+            foreach ($data->getOptions() as $key => $value) {
+                $values[$key] = $value;
             }
-            $dataArray['Options'] = $values_1;
+            $dataArray['Options'] = $values;
         }
         if ($data->isInitialized('labels') && null !== $data->getLabels()) {
-            $values_2 = new \Docker\API\Runtime\JsonObject();
-            foreach ($data->getLabels() as $key_2 => $value_2) {
-                $values_2[$key_2] = $value_2;
+            $values_1 = new \Docker\API\Runtime\JsonObject();
+            foreach ($data->getLabels() as $key_1 => $value_1) {
+                $values_1[$key_1] = $value_1;
             }
-            $dataArray['Labels'] = $values_2;
+            $dataArray['Labels'] = $values_1;
         }
         if ($data->isInitialized('peers') && null !== $data->getPeers()) {
-            $values_3 = [];
-            foreach ($data->getPeers() as $value_3) {
-                $values_3[] = null === $value_3 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_3, 'json', $context));
+            $values_2 = [];
+            foreach ($data->getPeers() as $value_2) {
+                $values_2[] = null === $value_2 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_2, 'json', $context));
             }
-            $dataArray['Peers'] = $values_3;
+            $dataArray['Peers'] = $values_2;
         }
-        foreach ($data->additionalPropertyEntries() as $key_3 => $value_4) {
-            if (preg_match('/.*/', (string) $key_3)) {
-                $dataArray[$key_3] = $value_4;
+        foreach ($data->additionalPropertyEntries() as $key_2 => $value_3) {
+            if (preg_match('/.*/', (string) $key_2)) {
+                $dataArray[$key_2] = $value_3;
             }
         }
 

@@ -31,10 +31,19 @@ class ImageGet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docke
      * ```
      *
      * @param string $name Image name or ID
+     * @param array{
+     *    "platform"?: array, //JSON encoded OCI platform describing a platform which will be used
+     * to select a platform-specific image to be saved if the image is
+     * multi-platform.
+     * If not provided, the full multi-platform image will be saved.
+     *
+     * Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}`
+     * } $queryParameters
      */
-    public function __construct(string $name)
+    public function __construct(string $name, array $queryParameters = [])
     {
         $this->name = $name;
+        $this->queryParameters = $queryParameters;
     }
 
     public function getMethod(): string
@@ -55,6 +64,22 @@ class ImageGet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docke
     public function getExtraHeaders(): array
     {
         return ['Accept' => ['application/x-tar']];
+    }
+
+    protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
+    {
+        $optionsResolver = parent::getQueryOptionsResolver();
+        $optionsResolver->setDefined(['platform']);
+        $optionsResolver->setRequired([]);
+        $optionsResolver->setDefaults([]);
+        $optionsResolver->addAllowedTypes('platform', ['array']);
+
+        return $optionsResolver;
+    }
+
+    protected function getQueryStyles(): array
+    {
+        return ['platform' => ['style' => 'form', 'explode' => true]];
     }
 
     /**

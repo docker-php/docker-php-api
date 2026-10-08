@@ -20,7 +20,7 @@ class PluginConfigInterface implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
-     * @var list<PluginInterfaceType>|null
+     * @var list<string>|null
      */
     protected $types;
     /**
@@ -35,7 +35,7 @@ class PluginConfigInterface implements AdditionalPropertiesInterface
     protected $protocolScheme;
 
     /**
-     * @return list<PluginInterfaceType>|null
+     * @return list<string>|null
      */
     public function getTypes(): ?array
     {
@@ -43,7 +43,7 @@ class PluginConfigInterface implements AdditionalPropertiesInterface
     }
 
     /**
-     * @param list<PluginInterfaceType>|null $types
+     * @param list<string>|null $types
      */
     public function setTypes(?array $types): self
     {
