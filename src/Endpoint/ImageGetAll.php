@@ -21,7 +21,13 @@ class ImageGetAll extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
      * For details on the format, see the [export image endpoint](#operation/ImageGet).
      *
      * @param array{
-     *    "names"?: array, //Image names to filter by
+     *    "names"?: array, //Image names to filter by. Repeat the parameter for multiple images.
+     *    "platform"?: string, //JSON encoded OCI platform describing a platform which will be used
+     * to select a platform-specific image to be saved if the image is
+     * multi-platform.
+     * If not provided, the full multi-platform image will be saved.
+     *
+     * Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}`
      * } $queryParameters
      */
     public function __construct(array $queryParameters = [])
@@ -52,17 +58,18 @@ class ImageGetAll extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(['names']);
+        $optionsResolver->setDefined(['names', 'platform']);
         $optionsResolver->setRequired([]);
         $optionsResolver->setDefaults([]);
         $optionsResolver->addAllowedTypes('names', ['array']);
+        $optionsResolver->addAllowedTypes('platform', ['string']);
 
         return $optionsResolver;
     }
 
     protected function getQueryStyles(): array
     {
-        return ['names' => ['style' => 'form', 'explode' => false]];
+        return ['names' => ['style' => 'form', 'explode' => true]];
     }
 
     /**

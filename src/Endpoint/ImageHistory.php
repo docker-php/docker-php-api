@@ -13,10 +13,23 @@ class ImageHistory extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      * Return parent layers of an image.
      *
      * @param string $name Image name or ID
+     * @param array{
+     *    "platform"?: string, //JSON-encoded OCI platform to select the platform-variant.
+     * If omitted, it defaults to any locally available platform,
+     * prioritizing the daemon's host platform.
+     *
+     * If the daemon provides a multi-platform image store, this selects
+     * the platform-variant to show the history for. If the image is
+     * a single-platform image, or if the multi-platform image does not
+     * provide a variant matching the given platform, an error is returned.
+     *
+     * Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}`
+     * } $queryParameters
      */
-    public function __construct(string $name)
+    public function __construct(string $name, array $queryParameters = [])
     {
         $this->name = $name;
+        $this->queryParameters = $queryParameters;
     }
 
     public function getMethod(): string
@@ -37,6 +50,17 @@ class ImageHistory extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
     public function getExtraHeaders(): array
     {
         return ['Accept' => ['application/json']];
+    }
+
+    protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
+    {
+        $optionsResolver = parent::getQueryOptionsResolver();
+        $optionsResolver->setDefined(['platform']);
+        $optionsResolver->setRequired([]);
+        $optionsResolver->setDefaults([]);
+        $optionsResolver->addAllowedTypes('platform', ['string']);
+
+        return $optionsResolver;
     }
 
     /**

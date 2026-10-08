@@ -227,6 +227,13 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
             $object->setSecrets(null);
             unset($data['Secrets']);
         }
+        if (\array_key_exists('OomScoreAdj', $data) && null !== $data['OomScoreAdj']) {
+            $object->setOomScoreAdj($data['OomScoreAdj']);
+            unset($data['OomScoreAdj']);
+        } elseif (\array_key_exists('OomScoreAdj', $data) && null === $data['OomScoreAdj']) {
+            $object->setOomScoreAdj(null);
+            unset($data['OomScoreAdj']);
+        }
         if (\array_key_exists('Configs', $data) && null !== $data['Configs']) {
             $values_8 = [];
             foreach ($data['Configs'] as $value_8) {
@@ -399,6 +406,9 @@ class TaskSpecContainerSpecNormalizer implements DenormalizerInterface, Normaliz
                 $values_7[] = null === $value_7 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_7, 'json', $context));
             }
             $dataArray['Secrets'] = $values_7;
+        }
+        if ($data->isInitialized('oomScoreAdj') && null !== $data->getOomScoreAdj()) {
+            $dataArray['OomScoreAdj'] = $data->getOomScoreAdj();
         }
         if ($data->isInitialized('configs') && null !== $data->getConfigs()) {
             $values_8 = [];

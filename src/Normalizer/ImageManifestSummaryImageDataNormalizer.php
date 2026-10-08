@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ContainersIdUpdatePostResponse200Normalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class ImageManifestSummaryImageDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use CheckArray;
     use DenormalizerAwareTrait;
@@ -23,17 +23,17 @@ class ContainersIdUpdatePostResponse200Normalizer implements DenormalizerInterfa
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \Docker\API\Model\ContainersIdUpdatePostResponse200::class === $type;
+        return \Docker\API\Model\ImageManifestSummaryImageData::class === $type;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return \is_object($data) && \Docker\API\Model\ContainersIdUpdatePostResponse200::class === $data::class;
+        return \is_object($data) && \Docker\API\Model\ImageManifestSummaryImageData::class === $data::class;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $object = new \Docker\API\Model\ContainersIdUpdatePostResponse200();
+        $object = new \Docker\API\Model\ImageManifestSummaryImageData();
         if (null === $data || false === \is_array($data)) {
             return $object;
         }
@@ -43,16 +43,30 @@ class ContainersIdUpdatePostResponse200Normalizer implements DenormalizerInterfa
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (\array_key_exists('Warnings', $data) && null !== $data['Warnings']) {
+        if (\array_key_exists('Platform', $data) && null !== $data['Platform']) {
+            $object->setPlatform($this->denormalizer->denormalize($data['Platform'], \Docker\API\Model\OCIPlatform::class, 'json', $context));
+            unset($data['Platform']);
+        } elseif (\array_key_exists('Platform', $data) && null === $data['Platform']) {
+            $object->setPlatform(null);
+            unset($data['Platform']);
+        }
+        if (\array_key_exists('Containers', $data) && null !== $data['Containers']) {
             $values = [];
-            foreach ($data['Warnings'] as $value) {
+            foreach ($data['Containers'] as $value) {
                 $values[] = $value;
             }
-            $object->setWarnings($values);
-            unset($data['Warnings']);
-        } elseif (\array_key_exists('Warnings', $data) && null === $data['Warnings']) {
-            $object->setWarnings(null);
-            unset($data['Warnings']);
+            $object->setContainers($values);
+            unset($data['Containers']);
+        } elseif (\array_key_exists('Containers', $data) && null === $data['Containers']) {
+            $object->setContainers(null);
+            unset($data['Containers']);
+        }
+        if (\array_key_exists('Size', $data) && null !== $data['Size']) {
+            $object->setSize($this->denormalizer->denormalize($data['Size'], \Docker\API\Model\ImageManifestSummaryImageDataSize::class, 'json', $context));
+            unset($data['Size']);
+        } elseif (\array_key_exists('Size', $data) && null === $data['Size']) {
+            $object->setSize(null);
+            unset($data['Size']);
         }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -66,13 +80,13 @@ class ContainersIdUpdatePostResponse200Normalizer implements DenormalizerInterfa
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
-        if ($data->isInitialized('warnings') && null !== $data->getWarnings()) {
-            $values = [];
-            foreach ($data->getWarnings() as $value) {
-                $values[] = $value;
-            }
-            $dataArray['Warnings'] = $values;
+        $dataArray['Platform'] = null === $data->getPlatform() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getPlatform(), 'json', $context));
+        $values = [];
+        foreach ($data->getContainers() as $value) {
+            $values[] = $value;
         }
+        $dataArray['Containers'] = $values;
+        $dataArray['Size'] = null === $data->getSize() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getSize(), 'json', $context));
         foreach ($data->additionalPropertyEntries() as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $dataArray[$key] = $value_1;
@@ -84,6 +98,6 @@ class ContainersIdUpdatePostResponse200Normalizer implements DenormalizerInterfa
 
     public function getSupportedTypes(?string $format = null): array
     {
-        return [\Docker\API\Model\ContainersIdUpdatePostResponse200::class => false];
+        return [\Docker\API\Model\ImageManifestSummaryImageData::class => false];
     }
 }

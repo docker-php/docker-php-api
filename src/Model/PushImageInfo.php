@@ -20,14 +20,26 @@ class PushImageInfo implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
+     * errors encountered during the operation.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.4, and will be omitted in a future API version. Use the information in errorDetail instead.
+     *
      * @var string|null
      */
     protected $error;
+    /**
+     * @var ErrorDetail|null
+     */
+    protected $errorDetail;
     /**
      * @var string|null
      */
     protected $status;
     /**
+     * Progress is a pre-formatted presentation of progressDetail.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.8, and will be omitted in a future API version. Use the information in progressDetail instead.
+     *
      * @var string|null
      */
     protected $progress;
@@ -36,15 +48,38 @@ class PushImageInfo implements AdditionalPropertiesInterface
      */
     protected $progressDetail;
 
+    /**
+     * errors encountered during the operation.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.4, and will be omitted in a future API version. Use the information in errorDetail instead.
+     */
     public function getError(): ?string
     {
         return $this->error;
     }
 
+    /**
+     * errors encountered during the operation.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.4, and will be omitted in a future API version. Use the information in errorDetail instead.
+     */
     public function setError(?string $error): self
     {
         $this->initialized['error'] = true;
         $this->error = $error;
+
+        return $this;
+    }
+
+    public function getErrorDetail(): ?ErrorDetail
+    {
+        return $this->errorDetail;
+    }
+
+    public function setErrorDetail(?ErrorDetail $errorDetail): self
+    {
+        $this->initialized['errorDetail'] = true;
+        $this->errorDetail = $errorDetail;
 
         return $this;
     }
@@ -62,11 +97,21 @@ class PushImageInfo implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Progress is a pre-formatted presentation of progressDetail.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.8, and will be omitted in a future API version. Use the information in progressDetail instead.
+     */
     public function getProgress(): ?string
     {
         return $this->progress;
     }
 
+    /**
+     * Progress is a pre-formatted presentation of progressDetail.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.8, and will be omitted in a future API version. Use the information in progressDetail instead.
+     */
     public function setProgress(?string $progress): self
     {
         $this->initialized['progress'] = true;
@@ -90,6 +135,6 @@ class PushImageInfo implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['error' => ['error', 'getError', 'setError'], 'status' => ['status', 'getStatus', 'setStatus'], 'progress' => ['progress', 'getProgress', 'setProgress'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail']];
+        return ['error' => ['error', 'getError', 'setError'], 'errorDetail' => ['errorDetail', 'getErrorDetail', 'setErrorDetail'], 'status' => ['status', 'getStatus', 'setStatus'], 'progress' => ['progress', 'getProgress', 'setProgress'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail']];
     }
 }

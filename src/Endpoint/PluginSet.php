@@ -8,19 +8,16 @@ class PluginSet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $name;
-    protected $accept;
 
     /**
      * @param string       $name        The name of the plugin. The `:latest` tag is optional, and is the
      *                                  default if omitted.
      * @param array[]|null $requestBody
-     * @param array        $accept      Accept content header application/json|text/plain
      */
-    public function __construct(string $name, ?array $requestBody = null, array $accept = [])
+    public function __construct(string $name, ?array $requestBody = null)
     {
         $this->name = $name;
         $this->body = $requestBody;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -44,11 +41,7 @@ class PluginSet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['application/json', 'text/plain']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     /**

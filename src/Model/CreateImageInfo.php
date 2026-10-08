@@ -24,6 +24,10 @@ class CreateImageInfo implements AdditionalPropertiesInterface
      */
     protected $id;
     /**
+     * errors encountered during the operation.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.4, and will be omitted in a future API version. Use the information in errorDetail instead.
+     *
      * @var string|null
      */
     protected $error;
@@ -36,6 +40,10 @@ class CreateImageInfo implements AdditionalPropertiesInterface
      */
     protected $status;
     /**
+     * Progress is a pre-formatted presentation of progressDetail.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.8, and will be omitted in a future API version. Use the information in progressDetail instead.
+     *
      * @var string|null
      */
     protected $progress;
@@ -57,11 +65,21 @@ class CreateImageInfo implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * errors encountered during the operation.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.4, and will be omitted in a future API version. Use the information in errorDetail instead.
+     */
     public function getError(): ?string
     {
         return $this->error;
     }
 
+    /**
+     * errors encountered during the operation.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.4, and will be omitted in a future API version. Use the information in errorDetail instead.
+     */
     public function setError(?string $error): self
     {
         $this->initialized['error'] = true;
@@ -96,11 +114,21 @@ class CreateImageInfo implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Progress is a pre-formatted presentation of progressDetail.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.8, and will be omitted in a future API version. Use the information in progressDetail instead.
+     */
     public function getProgress(): ?string
     {
         return $this->progress;
     }
 
+    /**
+     * Progress is a pre-formatted presentation of progressDetail.
+     *
+     * > **Deprecated**: This field is deprecated since API v1.8, and will be omitted in a future API version. Use the information in progressDetail instead.
+     */
     public function setProgress(?string $progress): self
     {
         $this->initialized['progress'] = true;

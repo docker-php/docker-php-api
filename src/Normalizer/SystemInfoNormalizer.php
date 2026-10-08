@@ -73,12 +73,6 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
         if (\array_key_exists('IPv4Forwarding', $data) && \is_int($data['IPv4Forwarding'])) {
             $data['IPv4Forwarding'] = (bool) $data['IPv4Forwarding'];
         }
-        if (\array_key_exists('BridgeNfIptables', $data) && \is_int($data['BridgeNfIptables'])) {
-            $data['BridgeNfIptables'] = (bool) $data['BridgeNfIptables'];
-        }
-        if (\array_key_exists('BridgeNfIp6tables', $data) && \is_int($data['BridgeNfIp6tables'])) {
-            $data['BridgeNfIp6tables'] = (bool) $data['BridgeNfIp6tables'];
-        }
         if (\array_key_exists('Debug', $data) && \is_int($data['Debug'])) {
             $data['Debug'] = (bool) $data['Debug'];
         }
@@ -235,20 +229,6 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
         } elseif (\array_key_exists('IPv4Forwarding', $data) && null === $data['IPv4Forwarding']) {
             $object->setIPv4Forwarding(null);
             unset($data['IPv4Forwarding']);
-        }
-        if (\array_key_exists('BridgeNfIptables', $data) && null !== $data['BridgeNfIptables']) {
-            $object->setBridgeNfIptables($data['BridgeNfIptables']);
-            unset($data['BridgeNfIptables']);
-        } elseif (\array_key_exists('BridgeNfIptables', $data) && null === $data['BridgeNfIptables']) {
-            $object->setBridgeNfIptables(null);
-            unset($data['BridgeNfIptables']);
-        }
-        if (\array_key_exists('BridgeNfIp6tables', $data) && null !== $data['BridgeNfIp6tables']) {
-            $object->setBridgeNfIp6tables($data['BridgeNfIp6tables']);
-            unset($data['BridgeNfIp6tables']);
-        } elseif (\array_key_exists('BridgeNfIp6tables', $data) && null === $data['BridgeNfIp6tables']) {
-            $object->setBridgeNfIp6tables(null);
-            unset($data['BridgeNfIp6tables']);
         }
         if (\array_key_exists('Debug', $data) && null !== $data['Debug']) {
             $object->setDebug($data['Debug']);
@@ -529,31 +509,56 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setDefaultAddressPools(null);
             unset($data['DefaultAddressPools']);
         }
-        if (\array_key_exists('Warnings', $data) && null !== $data['Warnings']) {
+        if (\array_key_exists('FirewallBackend', $data) && null !== $data['FirewallBackend']) {
+            $object->setFirewallBackend($this->denormalizer->denormalize($data['FirewallBackend'], \Docker\API\Model\FirewallInfo::class, 'json', $context));
+            unset($data['FirewallBackend']);
+        } elseif (\array_key_exists('FirewallBackend', $data) && null === $data['FirewallBackend']) {
+            $object->setFirewallBackend(null);
+            unset($data['FirewallBackend']);
+        }
+        if (\array_key_exists('DiscoveredDevices', $data) && null !== $data['DiscoveredDevices']) {
             $values_7 = [];
-            foreach ($data['Warnings'] as $value_7) {
-                $values_7[] = $value_7;
+            foreach ($data['DiscoveredDevices'] as $value_7) {
+                $values_7[] = $this->denormalizer->denormalize($value_7, \Docker\API\Model\DeviceInfo::class, 'json', $context);
             }
-            $object->setWarnings($values_7);
+            $object->setDiscoveredDevices($values_7);
+            unset($data['DiscoveredDevices']);
+        } elseif (\array_key_exists('DiscoveredDevices', $data) && null === $data['DiscoveredDevices']) {
+            $object->setDiscoveredDevices(null);
+            unset($data['DiscoveredDevices']);
+        }
+        if (\array_key_exists('Warnings', $data) && null !== $data['Warnings']) {
+            $values_8 = [];
+            foreach ($data['Warnings'] as $value_8) {
+                $values_8[] = $value_8;
+            }
+            $object->setWarnings($values_8);
             unset($data['Warnings']);
         } elseif (\array_key_exists('Warnings', $data) && null === $data['Warnings']) {
             $object->setWarnings(null);
             unset($data['Warnings']);
         }
         if (\array_key_exists('CDISpecDirs', $data) && null !== $data['CDISpecDirs']) {
-            $values_8 = [];
-            foreach ($data['CDISpecDirs'] as $value_8) {
-                $values_8[] = $value_8;
+            $values_9 = [];
+            foreach ($data['CDISpecDirs'] as $value_9) {
+                $values_9[] = $value_9;
             }
-            $object->setCDISpecDirs($values_8);
+            $object->setCDISpecDirs($values_9);
             unset($data['CDISpecDirs']);
         } elseif (\array_key_exists('CDISpecDirs', $data) && null === $data['CDISpecDirs']) {
             $object->setCDISpecDirs(null);
             unset($data['CDISpecDirs']);
         }
-        foreach ($data as $key_1 => $value_9) {
+        if (\array_key_exists('Containerd', $data) && null !== $data['Containerd']) {
+            $object->setContainerd($this->denormalizer->denormalize($data['Containerd'], \Docker\API\Model\ContainerdInfo::class, 'json', $context));
+            unset($data['Containerd']);
+        } elseif (\array_key_exists('Containerd', $data) && null === $data['Containerd']) {
+            $object->setContainerd(null);
+            unset($data['Containerd']);
+        }
+        foreach ($data as $key_1 => $value_10) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_9;
+                $object[$key_1] = $value_10;
             }
         }
 
@@ -630,12 +635,6 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
         }
         if ($data->isInitialized('iPv4Forwarding') && null !== $data->getIPv4Forwarding()) {
             $dataArray['IPv4Forwarding'] = $data->getIPv4Forwarding();
-        }
-        if ($data->isInitialized('bridgeNfIptables') && null !== $data->getBridgeNfIptables()) {
-            $dataArray['BridgeNfIptables'] = $data->getBridgeNfIptables();
-        }
-        if ($data->isInitialized('bridgeNfIp6tables') && null !== $data->getBridgeNfIp6tables()) {
-            $dataArray['BridgeNfIp6tables'] = $data->getBridgeNfIp6tables();
         }
         if ($data->isInitialized('debug') && null !== $data->getDebug()) {
             $dataArray['Debug'] = $data->getDebug();
@@ -768,23 +767,36 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
             }
             $dataArray['DefaultAddressPools'] = $values_6;
         }
-        if ($data->isInitialized('warnings') && null !== $data->getWarnings()) {
-            $values_7 = [];
-            foreach ($data->getWarnings() as $value_7) {
-                $values_7[] = $value_7;
-            }
-            $dataArray['Warnings'] = $values_7;
+        if ($data->isInitialized('firewallBackend') && null !== $data->getFirewallBackend()) {
+            $dataArray['FirewallBackend'] = null === $data->getFirewallBackend() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getFirewallBackend(), 'json', $context));
         }
-        if ($data->isInitialized('cDISpecDirs') && null !== $data->getCDISpecDirs()) {
+        if ($data->isInitialized('discoveredDevices') && null !== $data->getDiscoveredDevices()) {
+            $values_7 = [];
+            foreach ($data->getDiscoveredDevices() as $value_7) {
+                $values_7[] = null === $value_7 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_7, 'json', $context));
+            }
+            $dataArray['DiscoveredDevices'] = $values_7;
+        }
+        if ($data->isInitialized('warnings') && null !== $data->getWarnings()) {
             $values_8 = [];
-            foreach ($data->getCDISpecDirs() as $value_8) {
+            foreach ($data->getWarnings() as $value_8) {
                 $values_8[] = $value_8;
             }
-            $dataArray['CDISpecDirs'] = $values_8;
+            $dataArray['Warnings'] = $values_8;
         }
-        foreach ($data->additionalPropertyEntries() as $key_1 => $value_9) {
+        if ($data->isInitialized('cDISpecDirs') && null !== $data->getCDISpecDirs()) {
+            $values_9 = [];
+            foreach ($data->getCDISpecDirs() as $value_9) {
+                $values_9[] = $value_9;
+            }
+            $dataArray['CDISpecDirs'] = $values_9;
+        }
+        if ($data->isInitialized('containerd') && null !== $data->getContainerd()) {
+            $dataArray['Containerd'] = null === $data->getContainerd() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getContainerd(), 'json', $context));
+        }
+        foreach ($data->additionalPropertyEntries() as $key_1 => $value_10) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $dataArray[$key_1] = $value_9;
+                $dataArray[$key_1] = $value_10;
             }
         }
 

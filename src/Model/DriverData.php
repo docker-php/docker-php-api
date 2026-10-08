@@ -7,7 +7,7 @@ namespace Docker\API\Model;
 use Docker\API\Runtime\AdditionalAndPatternProperties;
 use Docker\API\Runtime\AdditionalPropertiesInterface;
 
-class GraphDriverData implements AdditionalPropertiesInterface
+class DriverData implements AdditionalPropertiesInterface
 {
     use AdditionalAndPatternProperties;
     /**

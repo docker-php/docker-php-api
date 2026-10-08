@@ -79,6 +79,24 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
             $object->setAliases(null);
             unset($data['Aliases']);
         }
+        if (\array_key_exists('DriverOpts', $data) && null !== $data['DriverOpts']) {
+            $values_2 = new \Docker\API\Runtime\JsonObject();
+            foreach ($data['DriverOpts'] as $key => $value_2) {
+                $values_2[$key] = $value_2;
+            }
+            $object->setDriverOpts($values_2);
+            unset($data['DriverOpts']);
+        } elseif (\array_key_exists('DriverOpts', $data) && null === $data['DriverOpts']) {
+            $object->setDriverOpts(null);
+            unset($data['DriverOpts']);
+        }
+        if (\array_key_exists('GwPriority', $data) && null !== $data['GwPriority']) {
+            $object->setGwPriority($data['GwPriority']);
+            unset($data['GwPriority']);
+        } elseif (\array_key_exists('GwPriority', $data) && null === $data['GwPriority']) {
+            $object->setGwPriority(null);
+            unset($data['GwPriority']);
+        }
         if (\array_key_exists('NetworkID', $data) && null !== $data['NetworkID']) {
             $object->setNetworkID($data['NetworkID']);
             unset($data['NetworkID']);
@@ -135,17 +153,6 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
             $object->setGlobalIPv6PrefixLen(null);
             unset($data['GlobalIPv6PrefixLen']);
         }
-        if (\array_key_exists('DriverOpts', $data) && null !== $data['DriverOpts']) {
-            $values_2 = new \Docker\API\Runtime\JsonObject();
-            foreach ($data['DriverOpts'] as $key => $value_2) {
-                $values_2[$key] = $value_2;
-            }
-            $object->setDriverOpts($values_2);
-            unset($data['DriverOpts']);
-        } elseif (\array_key_exists('DriverOpts', $data) && null === $data['DriverOpts']) {
-            $object->setDriverOpts(null);
-            unset($data['DriverOpts']);
-        }
         if (\array_key_exists('DNSNames', $data) && null !== $data['DNSNames']) {
             $values_3 = [];
             foreach ($data['DNSNames'] as $value_3) {
@@ -189,6 +196,16 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
             }
             $dataArray['Aliases'] = $values_1;
         }
+        if ($data->isInitialized('driverOpts') && null !== $data->getDriverOpts()) {
+            $values_2 = new \Docker\API\Runtime\JsonObject();
+            foreach ($data->getDriverOpts() as $key => $value_2) {
+                $values_2[$key] = $value_2;
+            }
+            $dataArray['DriverOpts'] = $values_2;
+        }
+        if ($data->isInitialized('gwPriority') && null !== $data->getGwPriority()) {
+            $dataArray['GwPriority'] = $data->getGwPriority();
+        }
         if ($data->isInitialized('networkID') && null !== $data->getNetworkID()) {
             $dataArray['NetworkID'] = $data->getNetworkID();
         }
@@ -212,13 +229,6 @@ class EndpointSettingsNormalizer implements DenormalizerInterface, NormalizerInt
         }
         if ($data->isInitialized('globalIPv6PrefixLen') && null !== $data->getGlobalIPv6PrefixLen()) {
             $dataArray['GlobalIPv6PrefixLen'] = $data->getGlobalIPv6PrefixLen();
-        }
-        if ($data->isInitialized('driverOpts') && null !== $data->getDriverOpts()) {
-            $values_2 = new \Docker\API\Runtime\JsonObject();
-            foreach ($data->getDriverOpts() as $key => $value_2) {
-                $values_2[$key] = $value_2;
-            }
-            $dataArray['DriverOpts'] = $values_2;
         }
         if ($data->isInitialized('dNSNames') && null !== $data->getDNSNames()) {
             $values_3 = [];
