@@ -11,6 +11,12 @@ class BuildPrune extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
     /**
      * @param array{
      *    "keep-storage"?: int, //Amount of disk space in bytes to keep for cache
+     *
+     * > **Deprecated**: This parameter is deprecated and has been renamed to "reserved-space".
+     * > It is kept for backward compatibility and will be removed in API v1.52.
+     *    "reserved-space"?: int, //Amount of disk space in bytes to keep for cache
+     *    "max-used-space"?: int, //Maximum amount of disk space allowed to keep for cache
+     *    "min-free-space"?: int, //Target amount of free disk space after pruning
      *    "all"?: bool, //Remove all types of build cache
      *    "filters"?: string, //A JSON encoded value of the filters (a `map[string][]string`) to
      * process on the list of build cache objects.
@@ -55,10 +61,13 @@ class BuildPrune extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(['keep-storage', 'all', 'filters']);
+        $optionsResolver->setDefined(['keep-storage', 'reserved-space', 'max-used-space', 'min-free-space', 'all', 'filters']);
         $optionsResolver->setRequired([]);
         $optionsResolver->setDefaults([]);
         $optionsResolver->addAllowedTypes('keep-storage', ['int']);
+        $optionsResolver->addAllowedTypes('reserved-space', ['int']);
+        $optionsResolver->addAllowedTypes('max-used-space', ['int']);
+        $optionsResolver->addAllowedTypes('min-free-space', ['int']);
         $optionsResolver->addAllowedTypes('all', ['bool']);
         $optionsResolver->addAllowedTypes('filters', ['string']);
 

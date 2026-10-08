@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class GraphDriverDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class ImageManifestSummaryAttestationDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use CheckArray;
     use DenormalizerAwareTrait;
@@ -23,17 +23,17 @@ class GraphDriverDataNormalizer implements DenormalizerInterface, NormalizerInte
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \Docker\API\Model\GraphDriverData::class === $type;
+        return \Docker\API\Model\ImageManifestSummaryAttestationData::class === $type;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return \is_object($data) && \Docker\API\Model\GraphDriverData::class === $data::class;
+        return \is_object($data) && \Docker\API\Model\ImageManifestSummaryAttestationData::class === $data::class;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $object = new \Docker\API\Model\GraphDriverData();
+        $object = new \Docker\API\Model\ImageManifestSummaryAttestationData();
         if (null === $data || false === \is_array($data)) {
             return $object;
         }
@@ -43,27 +43,16 @@ class GraphDriverDataNormalizer implements DenormalizerInterface, NormalizerInte
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (\array_key_exists('Name', $data) && null !== $data['Name']) {
-            $object->setName($data['Name']);
-            unset($data['Name']);
-        } elseif (\array_key_exists('Name', $data) && null === $data['Name']) {
-            $object->setName(null);
-            unset($data['Name']);
+        if (\array_key_exists('For', $data) && null !== $data['For']) {
+            $object->setFor($data['For']);
+            unset($data['For']);
+        } elseif (\array_key_exists('For', $data) && null === $data['For']) {
+            $object->setFor(null);
+            unset($data['For']);
         }
-        if (\array_key_exists('Data', $data) && null !== $data['Data']) {
-            $values = new \Docker\API\Runtime\JsonObject();
-            foreach ($data['Data'] as $key => $value) {
-                $values[$key] = $value;
-            }
-            $object->setData($values);
-            unset($data['Data']);
-        } elseif (\array_key_exists('Data', $data) && null === $data['Data']) {
-            $object->setData(null);
-            unset($data['Data']);
-        }
-        foreach ($data as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_1;
+        foreach ($data as $key => $value) {
+            if (preg_match('/.*/', (string) $key)) {
+                $object[$key] = $value;
             }
         }
 
@@ -73,15 +62,10 @@ class GraphDriverDataNormalizer implements DenormalizerInterface, NormalizerInte
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
-        $dataArray['Name'] = $data->getName();
-        $values = new \Docker\API\Runtime\JsonObject();
-        foreach ($data->getData() as $key => $value) {
-            $values[$key] = $value;
-        }
-        $dataArray['Data'] = $values;
-        foreach ($data->additionalPropertyEntries() as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $dataArray[$key_1] = $value_1;
+        $dataArray['For'] = $data->getFor();
+        foreach ($data->additionalPropertyEntries() as $key => $value) {
+            if (preg_match('/.*/', (string) $key)) {
+                $dataArray[$key] = $value;
             }
         }
 
@@ -90,6 +74,6 @@ class GraphDriverDataNormalizer implements DenormalizerInterface, NormalizerInte
 
     public function getSupportedTypes(?string $format = null): array
     {
-        return [\Docker\API\Model\GraphDriverData::class => false];
+        return [\Docker\API\Model\ImageManifestSummaryAttestationData::class => false];
     }
 }

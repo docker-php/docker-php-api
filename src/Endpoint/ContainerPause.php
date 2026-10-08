@@ -8,7 +8,6 @@ class ContainerPause extends \Docker\API\Runtime\Client\BaseEndpoint implements 
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $id;
-    protected $accept;
 
     /**
      * Use the freezer cgroup to suspend all processes in a container.
@@ -18,13 +17,11 @@ class ContainerPause extends \Docker\API\Runtime\Client\BaseEndpoint implements 
      * cgroup the process is unaware, and unable to capture, that it is being
      * suspended, and subsequently resumed.
      *
-     * @param string $id     ID or name of the container
-     * @param array  $accept Accept content header application/json|text/plain
+     * @param string $id ID or name of the container
      */
-    public function __construct(string $id, array $accept = [])
+    public function __construct(string $id)
     {
         $this->id = $id;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -44,11 +41,7 @@ class ContainerPause extends \Docker\API\Runtime\Client\BaseEndpoint implements 
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['application/json', 'text/plain']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     /**

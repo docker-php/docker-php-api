@@ -26,7 +26,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * <p><br /></p>
      *
      * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
+     * > and this field is always `null`. This field will be removed in a API v1.49.
      *
      * @var list<string>|null
      */
@@ -38,7 +38,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * <p><br /></p>
      *
      * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
+     * > and this field is always `null`. This field will be removed in a API v1.49.
      *
      * @var list<string>|null
      */
@@ -49,7 +49,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates
      * from unknown CAs) communication.
      *
-     * By default, local registries (`127.0.0.0/8`) are configured as
+     * By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as
      * insecure. All other registries are secure. Communicating with an
      * insecure registry is not possible if the daemon assumes that registry
      * is secure.
@@ -90,7 +90,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * <p><br /></p>
      *
      * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
+     * > and this field is always `null`. This field will be removed in a API v1.49.
      *
      * @return list<string>|null
      */
@@ -106,7 +106,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * <p><br /></p>
      *
      * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
+     * > and this field is always `null`. This field will be removed in a API v1.49.
      *
      * @param list<string>|null $allowNondistributableArtifactsCIDRs
      */
@@ -125,7 +125,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * <p><br /></p>
      *
      * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
+     * > and this field is always `null`. This field will be removed in a API v1.49.
      *
      * @return list<string>|null
      */
@@ -141,7 +141,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * <p><br /></p>
      *
      * > **Deprecated**: Pushing nondistributable artifacts is now always enabled
-     * > and this field is always `null`.
+     * > and this field is always `null`. This field will be removed in a API v1.49.
      *
      * @param list<string>|null $allowNondistributableArtifactsHostnames
      */
@@ -159,7 +159,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates
      * from unknown CAs) communication.
      *
-     * By default, local registries (`127.0.0.0/8`) are configured as
+     * By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as
      * insecure. All other registries are secure. Communicating with an
      * insecure registry is not possible if the daemon assumes that registry
      * is secure.
@@ -191,7 +191,7 @@ class RegistryServiceConfig implements AdditionalPropertiesInterface
      * accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates
      * from unknown CAs) communication.
      *
-     * By default, local registries (`127.0.0.0/8`) are configured as
+     * By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as
      * insecure. All other registries are secure. Communicating with an
      * insecure registry is not possible if the daemon assumes that registry
      * is secure.

@@ -13,10 +13,14 @@ class ImageInspect extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      * Return low-level information about an image.
      *
      * @param string $name Image name or id
+     * @param array{
+     *    "manifests"?: bool, //Include Manifests in the image summary.
+     * } $queryParameters
      */
-    public function __construct(string $name)
+    public function __construct(string $name, array $queryParameters = [])
     {
         $this->name = $name;
+        $this->queryParameters = $queryParameters;
     }
 
     public function getMethod(): string
@@ -37,6 +41,17 @@ class ImageInspect extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
     public function getExtraHeaders(): array
     {
         return ['Accept' => ['application/json']];
+    }
+
+    protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
+    {
+        $optionsResolver = parent::getQueryOptionsResolver();
+        $optionsResolver->setDefined(['manifests']);
+        $optionsResolver->setRequired([]);
+        $optionsResolver->setDefaults(['manifests' => false]);
+        $optionsResolver->addAllowedTypes('manifests', ['bool']);
+
+        return $optionsResolver;
     }
 
     /**

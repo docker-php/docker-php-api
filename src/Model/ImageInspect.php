@@ -33,6 +33,27 @@ class ImageInspect implements AdditionalPropertiesInterface
      */
     protected $id;
     /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     *
+     * @var OCIDescriptor|null
+     */
+    protected $descriptor;
+    /**
+     * Manifests is a list of image manifests available in this image. It
+     * provides a more detailed view of the platform-specific image manifests or
+     * other image-attached data like build attestations.
+     *
+     * Only available if the daemon provides a multi-platform image store
+     * and the `manifests` option is set in the inspect request.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @var list<ImageManifestSummary>|null
+     */
+    protected $manifests;
+    /**
      * List of image names/tags in the local image cache that reference this
      * image.
      *
@@ -138,7 +159,7 @@ class ImageInspect implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      *
-     * @var GraphDriverData|null
+     * @var DriverData|null
      */
     protected $graphDriver;
     /**
@@ -184,6 +205,66 @@ class ImageInspect implements AdditionalPropertiesInterface
     {
         $this->initialized['id'] = true;
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function getDescriptor(): ?OCIDescriptor
+    {
+        return $this->descriptor;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function setDescriptor(?OCIDescriptor $descriptor): self
+    {
+        $this->initialized['descriptor'] = true;
+        $this->descriptor = $descriptor;
+
+        return $this;
+    }
+
+    /**
+     * Manifests is a list of image manifests available in this image. It
+     * provides a more detailed view of the platform-specific image manifests or
+     * other image-attached data like build attestations.
+     *
+     * Only available if the daemon provides a multi-platform image store
+     * and the `manifests` option is set in the inspect request.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @return list<ImageManifestSummary>|null
+     */
+    public function getManifests(): ?array
+    {
+        return $this->manifests;
+    }
+
+    /**
+     * Manifests is a list of image manifests available in this image. It
+     * provides a more detailed view of the platform-specific image manifests or
+     * other image-attached data like build attestations.
+     *
+     * Only available if the daemon provides a multi-platform image store
+     * and the `manifests` option is set in the inspect request.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @param list<ImageManifestSummary>|null $manifests
+     */
+    public function setManifests(?array $manifests): self
+    {
+        $this->initialized['manifests'] = true;
+        $this->manifests = $manifests;
 
         return $this;
     }
@@ -495,7 +576,7 @@ class ImageInspect implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      */
-    public function getGraphDriver(): ?GraphDriverData
+    public function getGraphDriver(): ?DriverData
     {
         return $this->graphDriver;
     }
@@ -504,7 +585,7 @@ class ImageInspect implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      */
-    public function setGraphDriver(?GraphDriverData $graphDriver): self
+    public function setGraphDriver(?DriverData $graphDriver): self
     {
         $this->initialized['graphDriver'] = true;
         $this->graphDriver = $graphDriver;
@@ -554,6 +635,6 @@ class ImageInspect implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['id' => ['Id', 'getId', 'setId'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'parent' => ['Parent', 'getParent', 'setParent'], 'comment' => ['Comment', 'getComment', 'setComment'], 'created' => ['Created', 'getCreated', 'setCreated'], 'dockerVersion' => ['DockerVersion', 'getDockerVersion', 'setDockerVersion'], 'author' => ['Author', 'getAuthor', 'setAuthor'], 'config' => ['Config', 'getConfig', 'setConfig'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'variant' => ['Variant', 'getVariant', 'setVariant'], 'os' => ['Os', 'getOs', 'setOs'], 'osVersion' => ['OsVersion', 'getOsVersion', 'setOsVersion'], 'size' => ['Size', 'getSize', 'setSize'], 'graphDriver' => ['GraphDriver', 'getGraphDriver', 'setGraphDriver'], 'rootFS' => ['RootFS', 'getRootFS', 'setRootFS'], 'metadata' => ['Metadata', 'getMetadata', 'setMetadata']];
+        return ['id' => ['Id', 'getId', 'setId'], 'descriptor' => ['Descriptor', 'getDescriptor', 'setDescriptor'], 'manifests' => ['Manifests', 'getManifests', 'setManifests'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'parent' => ['Parent', 'getParent', 'setParent'], 'comment' => ['Comment', 'getComment', 'setComment'], 'created' => ['Created', 'getCreated', 'setCreated'], 'dockerVersion' => ['DockerVersion', 'getDockerVersion', 'setDockerVersion'], 'author' => ['Author', 'getAuthor', 'setAuthor'], 'config' => ['Config', 'getConfig', 'setConfig'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'variant' => ['Variant', 'getVariant', 'setVariant'], 'os' => ['Os', 'getOs', 'setOs'], 'osVersion' => ['OsVersion', 'getOsVersion', 'setOsVersion'], 'size' => ['Size', 'getSize', 'setSize'], 'graphDriver' => ['GraphDriver', 'getGraphDriver', 'setGraphDriver'], 'rootFS' => ['RootFS', 'getRootFS', 'setRootFS'], 'metadata' => ['Metadata', 'getMetadata', 'setMetadata']];
     }
 }

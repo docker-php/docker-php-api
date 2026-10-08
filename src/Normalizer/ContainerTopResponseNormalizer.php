@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ContainersIdTopGetTextplainResponse200Normalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class ContainerTopResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use CheckArray;
     use DenormalizerAwareTrait;
@@ -23,17 +23,17 @@ class ContainersIdTopGetTextplainResponse200Normalizer implements DenormalizerIn
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \Docker\API\Model\ContainersIdTopGetTextplainResponse200::class === $type;
+        return \Docker\API\Model\ContainerTopResponse::class === $type;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return \is_object($data) && \Docker\API\Model\ContainersIdTopGetTextplainResponse200::class === $data::class;
+        return \is_object($data) && \Docker\API\Model\ContainerTopResponse::class === $data::class;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $object = new \Docker\API\Model\ContainersIdTopGetTextplainResponse200();
+        $object = new \Docker\API\Model\ContainerTopResponse();
         if (null === $data || false === \is_array($data)) {
             return $object;
         }
@@ -110,6 +110,6 @@ class ContainersIdTopGetTextplainResponse200Normalizer implements DenormalizerIn
 
     public function getSupportedTypes(?string $format = null): array
     {
-        return [\Docker\API\Model\ContainersIdTopGetTextplainResponse200::class => false];
+        return [\Docker\API\Model\ContainerTopResponse::class => false];
     }
 }

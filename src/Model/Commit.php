@@ -28,6 +28,8 @@ class Commit implements AdditionalPropertiesInterface
     /**
      * Commit ID of external tool expected by dockerd as set at build time.
      *
+     * **Deprecated**: This field is deprecated and will be omitted in a API v1.49.
+     *
      * @var string|null
      */
     protected $expected;
@@ -53,6 +55,8 @@ class Commit implements AdditionalPropertiesInterface
 
     /**
      * Commit ID of external tool expected by dockerd as set at build time.
+     *
+     * **Deprecated**: This field is deprecated and will be omitted in a API v1.49.
      */
     public function getExpected(): ?string
     {
@@ -61,6 +65,7 @@ class Commit implements AdditionalPropertiesInterface
 
     /**
      * Commit ID of external tool expected by dockerd as set at build time.
+     **Deprecated**: This field is deprecated and will be omitted in a API v1.49.
      */
     public function setExpected(?string $expected): self
     {

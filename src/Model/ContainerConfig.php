@@ -32,7 +32,11 @@ class ContainerConfig implements AdditionalPropertiesInterface
      */
     protected $domainname;
     /**
-     * The user that commands are run as inside the container.
+     * Commands run as this user inside the container. If omitted, commands
+     * run as the user specified in the image the container was started from.
+     *
+     * Can be either user-name or UID, and optional group-name or GID,
+     * separated by a colon (`<user-name|UID>[<:group-name|GID>]`).
      *
      * @var string|null
      */
@@ -223,7 +227,11 @@ class ContainerConfig implements AdditionalPropertiesInterface
     }
 
     /**
-     * The user that commands are run as inside the container.
+     * Commands run as this user inside the container. If omitted, commands
+     * run as the user specified in the image the container was started from.
+     *
+     * Can be either user-name or UID, and optional group-name or GID,
+     * separated by a colon (`<user-name|UID>[<:group-name|GID>]`).
      */
     public function getUser(): ?string
     {
@@ -231,7 +239,11 @@ class ContainerConfig implements AdditionalPropertiesInterface
     }
 
     /**
-     * The user that commands are run as inside the container.
+     * Commands run as this user inside the container. If omitted, commands
+     * run as the user specified in the image the container was started from.
+     *
+     * Can be either user-name or UID, and optional group-name or GID,
+     * separated by a colon (`<user-name|UID>[<:group-name|GID>]`).
      */
     public function setUser(?string $user): self
     {
