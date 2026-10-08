@@ -20,31 +20,27 @@ class PushImageInfo implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
-     * @var string|null
+     * @var ErrorDetail|null
      */
-    protected $error;
+    protected $errorDetail;
     /**
      * @var string|null
      */
     protected $status;
     /**
-     * @var string|null
-     */
-    protected $progress;
-    /**
      * @var ProgressDetail|null
      */
     protected $progressDetail;
 
-    public function getError(): ?string
+    public function getErrorDetail(): ?ErrorDetail
     {
-        return $this->error;
+        return $this->errorDetail;
     }
 
-    public function setError(?string $error): self
+    public function setErrorDetail(?ErrorDetail $errorDetail): self
     {
-        $this->initialized['error'] = true;
-        $this->error = $error;
+        $this->initialized['errorDetail'] = true;
+        $this->errorDetail = $errorDetail;
 
         return $this;
     }
@@ -58,19 +54,6 @@ class PushImageInfo implements AdditionalPropertiesInterface
     {
         $this->initialized['status'] = true;
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getProgress(): ?string
-    {
-        return $this->progress;
-    }
-
-    public function setProgress(?string $progress): self
-    {
-        $this->initialized['progress'] = true;
-        $this->progress = $progress;
 
         return $this;
     }
@@ -90,6 +73,6 @@ class PushImageInfo implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['error' => ['error', 'getError', 'setError'], 'status' => ['status', 'getStatus', 'setStatus'], 'progress' => ['progress', 'getProgress', 'setProgress'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail']];
+        return ['errorDetail' => ['errorDetail', 'getErrorDetail', 'setErrorDetail'], 'status' => ['status', 'getStatus', 'setStatus'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail']];
     }
 }

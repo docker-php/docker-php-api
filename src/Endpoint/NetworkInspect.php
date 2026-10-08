@@ -58,14 +58,14 @@ class NetworkInspect extends \Docker\API\Runtime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\NetworkInspectNotFoundException
      * @throws \Docker\API\Exception\NetworkInspectInternalServerErrorException
      *
-     * @return \Docker\API\Model\Network|null
+     * @return \Docker\API\Model\NetworkInspect|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            return $serializer->deserialize($body, 'Docker\API\Model\Network', 'json');
+            return $serializer->deserialize($body, 'Docker\API\Model\NetworkInspect', 'json');
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
             throw new \Docker\API\Exception\NetworkInspectNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);

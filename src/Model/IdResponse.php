@@ -7,7 +7,7 @@ namespace Docker\API\Model;
 use Docker\API\Runtime\AdditionalAndPatternProperties;
 use Docker\API\Runtime\AdditionalPropertiesInterface;
 
-class IdResponse implements AdditionalPropertiesInterface
+class IDResponse implements AdditionalPropertiesInterface
 {
     use AdditionalAndPatternProperties;
     /**

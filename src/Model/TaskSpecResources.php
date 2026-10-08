@@ -32,6 +32,24 @@ class TaskSpecResources implements AdditionalPropertiesInterface
      * @var ResourceObject|null
      */
     protected $reservations;
+    /**
+     * Amount of swap in bytes - can only be used together with a memory limit.
+     * If not specified, the default behaviour is to grant a swap space twice
+     * as big as the memory limit.
+     * Set to -1 to enable unlimited swap.
+     *
+     * @var int|null
+     */
+    protected $swapBytes;
+    /**
+     * Tune the service's containers' memory swappiness (0 to 100).
+     * If not specified, defaults to the containers' OS' default, generally 60,
+     * or whatever value was predefined in the image.
+     * Set to -1 to unset a previously set value.
+     *
+     * @var int|null
+     */
+    protected $memorySwappiness;
 
     /**
      * An object describing a limit on resources which can be requested by a task.
@@ -73,8 +91,58 @@ class TaskSpecResources implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Amount of swap in bytes - can only be used together with a memory limit.
+     * If not specified, the default behaviour is to grant a swap space twice
+     * as big as the memory limit.
+     * Set to -1 to enable unlimited swap.
+     */
+    public function getSwapBytes(): ?int
+    {
+        return $this->swapBytes;
+    }
+
+    /**
+     * Amount of swap in bytes - can only be used together with a memory limit.
+     * If not specified, the default behaviour is to grant a swap space twice
+     * as big as the memory limit.
+     * Set to -1 to enable unlimited swap.
+     */
+    public function setSwapBytes(?int $swapBytes): self
+    {
+        $this->initialized['swapBytes'] = true;
+        $this->swapBytes = $swapBytes;
+
+        return $this;
+    }
+
+    /**
+     * Tune the service's containers' memory swappiness (0 to 100).
+     * If not specified, defaults to the containers' OS' default, generally 60,
+     * or whatever value was predefined in the image.
+     * Set to -1 to unset a previously set value.
+     */
+    public function getMemorySwappiness(): ?int
+    {
+        return $this->memorySwappiness;
+    }
+
+    /**
+     * Tune the service's containers' memory swappiness (0 to 100).
+     * If not specified, defaults to the containers' OS' default, generally 60,
+     * or whatever value was predefined in the image.
+     * Set to -1 to unset a previously set value.
+     */
+    public function setMemorySwappiness(?int $memorySwappiness): self
+    {
+        $this->initialized['memorySwappiness'] = true;
+        $this->memorySwappiness = $memorySwappiness;
+
+        return $this;
+    }
+
     public function definedProperties(): array
     {
-        return ['limits' => ['Limits', 'getLimits', 'setLimits'], 'reservations' => ['Reservations', 'getReservations', 'setReservations']];
+        return ['limits' => ['Limits', 'getLimits', 'setLimits'], 'reservations' => ['Reservations', 'getReservations', 'setReservations'], 'swapBytes' => ['SwapBytes', 'getSwapBytes', 'setSwapBytes'], 'memorySwappiness' => ['MemorySwappiness', 'getMemorySwappiness', 'setMemorySwappiness']];
     }
 }

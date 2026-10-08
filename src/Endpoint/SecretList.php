@@ -17,8 +17,8 @@ class SecretList extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
      *
      * - `id=<secret id>`
      * - `label=<key> or label=<key>=value`
-     * - `name=<secret name>`
-     * - `names=<secret name>`
+     * - `name=<secret name>` matches all or part of a secret name (prefix match)
+     * - `names=<secret name>` matches a secret name (exact match)
      * } $queryParameters
      */
     public function __construct(array $queryParameters = [])

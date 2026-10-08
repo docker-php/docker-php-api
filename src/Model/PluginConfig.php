@@ -20,12 +20,6 @@ class PluginConfig implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
-     * Docker Version used to create the plugin.
-     *
-     * @var string|null
-     */
-    protected $dockerVersion;
-    /**
      * @var string|null
      */
     protected $description;
@@ -87,25 +81,6 @@ class PluginConfig implements AdditionalPropertiesInterface
      * @var PluginConfigRootfs|null
      */
     protected $rootfs;
-
-    /**
-     * Docker Version used to create the plugin.
-     */
-    public function getDockerVersion(): ?string
-    {
-        return $this->dockerVersion;
-    }
-
-    /**
-     * Docker Version used to create the plugin.
-     */
-    public function setDockerVersion(?string $dockerVersion): self
-    {
-        $this->initialized['dockerVersion'] = true;
-        $this->dockerVersion = $dockerVersion;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {
@@ -328,6 +303,6 @@ class PluginConfig implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['dockerVersion' => ['DockerVersion', 'getDockerVersion', 'setDockerVersion'], 'description' => ['Description', 'getDescription', 'setDescription'], 'documentation' => ['Documentation', 'getDocumentation', 'setDocumentation'], 'interface' => ['Interface', 'getInterface', 'setInterface'], 'entrypoint' => ['Entrypoint', 'getEntrypoint', 'setEntrypoint'], 'workDir' => ['WorkDir', 'getWorkDir', 'setWorkDir'], 'user' => ['User', 'getUser', 'setUser'], 'network' => ['Network', 'getNetwork', 'setNetwork'], 'linux' => ['Linux', 'getLinux', 'setLinux'], 'propagatedMount' => ['PropagatedMount', 'getPropagatedMount', 'setPropagatedMount'], 'ipcHost' => ['IpcHost', 'getIpcHost', 'setIpcHost'], 'pidHost' => ['PidHost', 'getPidHost', 'setPidHost'], 'mounts' => ['Mounts', 'getMounts', 'setMounts'], 'env' => ['Env', 'getEnv', 'setEnv'], 'args' => ['Args', 'getArgs', 'setArgs'], 'rootfs' => ['rootfs', 'getRootfs', 'setRootfs']];
+        return ['description' => ['Description', 'getDescription', 'setDescription'], 'documentation' => ['Documentation', 'getDocumentation', 'setDocumentation'], 'interface' => ['Interface', 'getInterface', 'setInterface'], 'entrypoint' => ['Entrypoint', 'getEntrypoint', 'setEntrypoint'], 'workDir' => ['WorkDir', 'getWorkDir', 'setWorkDir'], 'user' => ['User', 'getUser', 'setUser'], 'network' => ['Network', 'getNetwork', 'setNetwork'], 'linux' => ['Linux', 'getLinux', 'setLinux'], 'propagatedMount' => ['PropagatedMount', 'getPropagatedMount', 'setPropagatedMount'], 'ipcHost' => ['IpcHost', 'getIpcHost', 'setIpcHost'], 'pidHost' => ['PidHost', 'getPidHost', 'setPidHost'], 'mounts' => ['Mounts', 'getMounts', 'setMounts'], 'env' => ['Env', 'getEnv', 'setEnv'], 'args' => ['Args', 'getArgs', 'setArgs'], 'rootfs' => ['rootfs', 'getRootfs', 'setRootfs']];
     }
 }
