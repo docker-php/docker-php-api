@@ -58,14 +58,14 @@ class ContainerInspect extends \Docker\API\Runtime\Client\BaseEndpoint implement
      * @throws \Docker\API\Exception\ContainerInspectNotFoundException
      * @throws \Docker\API\Exception\ContainerInspectInternalServerErrorException
      *
-     * @return \Docker\API\Model\ContainersIdJsonGetResponse200|null
+     * @return \Docker\API\Model\ContainerInspectResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            return $serializer->deserialize($body, 'Docker\API\Model\ContainersIdJsonGetResponse200', 'json');
+            return $serializer->deserialize($body, 'Docker\API\Model\ContainerInspectResponse', 'json');
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
             throw new \Docker\API\Exception\ContainerInspectNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);

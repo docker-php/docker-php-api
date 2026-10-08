@@ -8,7 +8,6 @@ class VolumeDelete extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $name;
-    protected $accept;
 
     /**
      * Instruct the driver to remove the volume.
@@ -17,13 +16,11 @@ class VolumeDelete extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      * @param array{
      *    "force"?: bool, //Force the removal of the volume
      * } $queryParameters
-     * @param array $accept Accept content header application/json|text/plain
      */
-    public function __construct(string $name, array $queryParameters = [], array $accept = [])
+    public function __construct(string $name, array $queryParameters = [])
     {
         $this->name = $name;
         $this->queryParameters = $queryParameters;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -43,11 +40,7 @@ class VolumeDelete extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['application/json', 'text/plain']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver

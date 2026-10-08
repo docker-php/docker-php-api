@@ -8,7 +8,6 @@ class PluginUpgrade extends \Docker\API\Runtime\Client\BaseEndpoint implements \
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $name;
-    protected $accept;
 
     /**
      * @param string                                   $name        The name of the plugin. The `:latest` tag is optional, and is the
@@ -26,15 +25,13 @@ class PluginUpgrade extends \Docker\API\Runtime\Client\BaseEndpoint implements \
      * Refer to the [authentication section](#section/Authentication) for
      * details.
      * } $headerParameters
-     * @param array $accept Accept content header application/json|text/plain
      */
-    public function __construct(string $name, ?array $requestBody = null, array $queryParameters = [], array $headerParameters = [], array $accept = [])
+    public function __construct(string $name, ?array $requestBody = null, array $queryParameters = [], array $headerParameters = [])
     {
         $this->name = $name;
         $this->body = $requestBody;
         $this->queryParameters = $queryParameters;
         $this->headerParameters = $headerParameters;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -61,11 +58,7 @@ class PluginUpgrade extends \Docker\API\Runtime\Client\BaseEndpoint implements \
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['application/json', 'text/plain']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver

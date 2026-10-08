@@ -28,10 +28,6 @@ class BuildInfo implements AdditionalPropertiesInterface
      */
     protected $stream;
     /**
-     * @var string|null
-     */
-    protected $error;
-    /**
      * @var ErrorDetail|null
      */
     protected $errorDetail;
@@ -39,10 +35,6 @@ class BuildInfo implements AdditionalPropertiesInterface
      * @var string|null
      */
     protected $status;
-    /**
-     * @var string|null
-     */
-    protected $progress;
     /**
      * @var ProgressDetail|null
      */
@@ -80,19 +72,6 @@ class BuildInfo implements AdditionalPropertiesInterface
         return $this;
     }
 
-    public function getError(): ?string
-    {
-        return $this->error;
-    }
-
-    public function setError(?string $error): self
-    {
-        $this->initialized['error'] = true;
-        $this->error = $error;
-
-        return $this;
-    }
-
     public function getErrorDetail(): ?ErrorDetail
     {
         return $this->errorDetail;
@@ -115,19 +94,6 @@ class BuildInfo implements AdditionalPropertiesInterface
     {
         $this->initialized['status'] = true;
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getProgress(): ?string
-    {
-        return $this->progress;
-    }
-
-    public function setProgress(?string $progress): self
-    {
-        $this->initialized['progress'] = true;
-        $this->progress = $progress;
 
         return $this;
     }
@@ -166,6 +132,6 @@ class BuildInfo implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['id' => ['id', 'getId', 'setId'], 'stream' => ['stream', 'getStream', 'setStream'], 'error' => ['error', 'getError', 'setError'], 'errorDetail' => ['errorDetail', 'getErrorDetail', 'setErrorDetail'], 'status' => ['status', 'getStatus', 'setStatus'], 'progress' => ['progress', 'getProgress', 'setProgress'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail'], 'aux' => ['aux', 'getAux', 'setAux']];
+        return ['id' => ['id', 'getId', 'setId'], 'stream' => ['stream', 'getStream', 'setStream'], 'errorDetail' => ['errorDetail', 'getErrorDetail', 'setErrorDetail'], 'status' => ['status', 'getStatus', 'setStatus'], 'progressDetail' => ['progressDetail', 'getProgressDetail', 'setProgressDetail'], 'aux' => ['aux', 'getAux', 'setAux']];
     }
 }

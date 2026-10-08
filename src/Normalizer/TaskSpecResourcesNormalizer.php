@@ -57,6 +57,20 @@ class TaskSpecResourcesNormalizer implements DenormalizerInterface, NormalizerIn
             $object->setReservations(null);
             unset($data['Reservations']);
         }
+        if (\array_key_exists('SwapBytes', $data) && null !== $data['SwapBytes']) {
+            $object->setSwapBytes($data['SwapBytes']);
+            unset($data['SwapBytes']);
+        } elseif (\array_key_exists('SwapBytes', $data) && null === $data['SwapBytes']) {
+            $object->setSwapBytes(null);
+            unset($data['SwapBytes']);
+        }
+        if (\array_key_exists('MemorySwappiness', $data) && null !== $data['MemorySwappiness']) {
+            $object->setMemorySwappiness($data['MemorySwappiness']);
+            unset($data['MemorySwappiness']);
+        } elseif (\array_key_exists('MemorySwappiness', $data) && null === $data['MemorySwappiness']) {
+            $object->setMemorySwappiness(null);
+            unset($data['MemorySwappiness']);
+        }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $object[$key] = $value;
@@ -74,6 +88,12 @@ class TaskSpecResourcesNormalizer implements DenormalizerInterface, NormalizerIn
         }
         if ($data->isInitialized('reservations') && null !== $data->getReservations()) {
             $dataArray['Reservations'] = null === $data->getReservations() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getReservations(), 'json', $context));
+        }
+        if ($data->isInitialized('swapBytes') && null !== $data->getSwapBytes()) {
+            $dataArray['SwapBytes'] = $data->getSwapBytes();
+        }
+        if ($data->isInitialized('memorySwappiness') && null !== $data->getMemorySwappiness()) {
+            $dataArray['MemorySwappiness'] = $data->getMemorySwappiness();
         }
         foreach ($data->additionalPropertyEntries() as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {

@@ -49,13 +49,6 @@ class PluginConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
         if (\array_key_exists('PidHost', $data) && \is_int($data['PidHost'])) {
             $data['PidHost'] = (bool) $data['PidHost'];
         }
-        if (\array_key_exists('DockerVersion', $data) && null !== $data['DockerVersion']) {
-            $object->setDockerVersion($data['DockerVersion']);
-            unset($data['DockerVersion']);
-        } elseif (\array_key_exists('DockerVersion', $data) && null === $data['DockerVersion']) {
-            $object->setDockerVersion(null);
-            unset($data['DockerVersion']);
-        }
         if (\array_key_exists('Description', $data) && null !== $data['Description']) {
             $object->setDescription($data['Description']);
             unset($data['Description']);
@@ -185,9 +178,6 @@ class PluginConfigNormalizer implements DenormalizerInterface, NormalizerInterfa
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
-        if ($data->isInitialized('dockerVersion') && null !== $data->getDockerVersion()) {
-            $dataArray['DockerVersion'] = $data->getDockerVersion();
-        }
         $dataArray['Description'] = $data->getDescription();
         $dataArray['Documentation'] = $data->getDocumentation();
         $dataArray['Interface'] = null === $data->getInterface() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getInterface(), 'json', $context));

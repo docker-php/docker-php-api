@@ -34,7 +34,7 @@ class Plugin implements AdditionalPropertiesInterface
      */
     protected $enabled;
     /**
-     * Settings that can be modified by users.
+     * user-configurable settings for the plugin.
      *
      * @var PluginSettings|null
      */
@@ -98,7 +98,7 @@ class Plugin implements AdditionalPropertiesInterface
     }
 
     /**
-     * Settings that can be modified by users.
+     * user-configurable settings for the plugin.
      */
     public function getSettings(): ?PluginSettings
     {
@@ -106,7 +106,7 @@ class Plugin implements AdditionalPropertiesInterface
     }
 
     /**
-     * Settings that can be modified by users.
+     * user-configurable settings for the plugin.
      */
     public function setSettings(?PluginSettings $settings): self
     {

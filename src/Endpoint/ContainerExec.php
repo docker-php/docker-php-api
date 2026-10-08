@@ -49,14 +49,14 @@ class ContainerExec extends \Docker\API\Runtime\Client\BaseEndpoint implements \
      * @throws \Docker\API\Exception\ContainerExecConflictException
      * @throws \Docker\API\Exception\ContainerExecInternalServerErrorException
      *
-     * @return \Docker\API\Model\IdResponse|null
+     * @return \Docker\API\Model\IDResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if ((null === $contentType) === false && (201 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            return $serializer->deserialize($body, 'Docker\API\Model\IdResponse', 'json');
+            return $serializer->deserialize($body, 'Docker\API\Model\IDResponse', 'json');
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
             throw new \Docker\API\Exception\ContainerExecNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);

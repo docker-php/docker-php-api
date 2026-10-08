@@ -28,14 +28,6 @@ class AuthConfig implements AdditionalPropertiesInterface
      */
     protected $password;
     /**
-     * Email is an optional value associated with the username.
-     *
-     * > **Deprecated**: This field is deprecated since docker 1.11 (API v1.23) and will be removed in a future release.
-     *
-     * @var string|null
-     */
-    protected $email;
-    /**
      * @var string|null
      */
     protected $serveraddress;
@@ -66,29 +58,6 @@ class AuthConfig implements AdditionalPropertiesInterface
         return $this;
     }
 
-    /**
-     * Email is an optional value associated with the username.
-     *
-     * > **Deprecated**: This field is deprecated since docker 1.11 (API v1.23) and will be removed in a future release.
-     */
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    /**
-     * Email is an optional value associated with the username.
-     *
-     * > **Deprecated**: This field is deprecated since docker 1.11 (API v1.23) and will be removed in a future release.
-     */
-    public function setEmail(?string $email): self
-    {
-        $this->initialized['email'] = true;
-        $this->email = $email;
-
-        return $this;
-    }
-
     public function getServeraddress(): ?string
     {
         return $this->serveraddress;
@@ -104,6 +73,6 @@ class AuthConfig implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['username' => ['username', 'getUsername', 'setUsername'], 'password' => ['password', 'getPassword', 'setPassword'], 'email' => ['email', 'getEmail', 'setEmail'], 'serveraddress' => ['serveraddress', 'getServeraddress', 'setServeraddress']];
+        return ['username' => ['username', 'getUsername', 'setUsername'], 'password' => ['password', 'getPassword', 'setPassword'], 'serveraddress' => ['serveraddress', 'getServeraddress', 'setServeraddress']];
     }
 }

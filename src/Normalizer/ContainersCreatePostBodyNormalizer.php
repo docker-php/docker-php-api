@@ -228,13 +228,6 @@ class ContainersCreatePostBodyNormalizer implements DenormalizerInterface, Norma
             $object->setNetworkDisabled(null);
             unset($data['NetworkDisabled']);
         }
-        if (\array_key_exists('MacAddress', $data) && null !== $data['MacAddress']) {
-            $object->setMacAddress($data['MacAddress']);
-            unset($data['MacAddress']);
-        } elseif (\array_key_exists('MacAddress', $data) && null === $data['MacAddress']) {
-            $object->setMacAddress(null);
-            unset($data['MacAddress']);
-        }
         if (\array_key_exists('OnBuild', $data) && null !== $data['OnBuild']) {
             $values_7 = [];
             foreach ($data['OnBuild'] as $value_7) {
@@ -392,9 +385,6 @@ class ContainersCreatePostBodyNormalizer implements DenormalizerInterface, Norma
         }
         if ($data->isInitialized('networkDisabled') && null !== $data->getNetworkDisabled()) {
             $dataArray['NetworkDisabled'] = $data->getNetworkDisabled();
-        }
-        if ($data->isInitialized('macAddress') && null !== $data->getMacAddress()) {
-            $dataArray['MacAddress'] = $data->getMacAddress();
         }
         if ($data->isInitialized('onBuild') && null !== $data->getOnBuild()) {
             $values_7 = [];
