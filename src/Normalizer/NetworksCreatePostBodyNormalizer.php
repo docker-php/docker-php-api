@@ -43,9 +43,6 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (\array_key_exists('CheckDuplicate', $data) && \is_int($data['CheckDuplicate'])) {
-            $data['CheckDuplicate'] = (bool) $data['CheckDuplicate'];
-        }
         if (\array_key_exists('Internal', $data) && \is_int($data['Internal'])) {
             $data['Internal'] = (bool) $data['Internal'];
         }
@@ -67,13 +64,6 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         } elseif (\array_key_exists('Name', $data) && null === $data['Name']) {
             $object->setName(null);
             unset($data['Name']);
-        }
-        if (\array_key_exists('CheckDuplicate', $data) && null !== $data['CheckDuplicate']) {
-            $object->setCheckDuplicate($data['CheckDuplicate']);
-            unset($data['CheckDuplicate']);
-        } elseif (\array_key_exists('CheckDuplicate', $data) && null === $data['CheckDuplicate']) {
-            $object->setCheckDuplicate(null);
-            unset($data['CheckDuplicate']);
         }
         if (\array_key_exists('Driver', $data) && null !== $data['Driver']) {
             $object->setDriver($data['Driver']);
@@ -173,9 +163,6 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
     {
         $dataArray = [];
         $dataArray['Name'] = $data->getName();
-        if ($data->isInitialized('checkDuplicate') && null !== $data->getCheckDuplicate()) {
-            $dataArray['CheckDuplicate'] = $data->getCheckDuplicate();
-        }
         if ($data->isInitialized('driver') && null !== $data->getDriver()) {
             $dataArray['Driver'] = $data->getDriver();
         }

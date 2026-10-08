@@ -118,6 +118,8 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
 
         \Docker\API\Model\PeerInfo::class => PeerInfoNormalizer::class,
 
+        \Docker\API\Model\NetworkCreateResponse::class => NetworkCreateResponseNormalizer::class,
+
         \Docker\API\Model\BuildInfo::class => BuildInfoNormalizer::class,
 
         \Docker\API\Model\BuildCache::class => BuildCacheNormalizer::class,
@@ -332,6 +334,10 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
 
         \Docker\API\Model\SystemInfoDefaultAddressPoolsItem::class => SystemInfoDefaultAddressPoolsItemNormalizer::class,
 
+        \Docker\API\Model\ContainerdInfo::class => ContainerdInfoNormalizer::class,
+
+        \Docker\API\Model\ContainerdInfoNamespaces::class => ContainerdInfoNamespacesNormalizer::class,
+
         \Docker\API\Model\PluginsInfo::class => PluginsInfoNormalizer::class,
 
         \Docker\API\Model\RegistryServiceConfig::class => RegistryServiceConfigNormalizer::class,
@@ -413,8 +419,6 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         \Docker\API\Model\VolumesPrunePostResponse200::class => VolumesPrunePostResponse200Normalizer::class,
 
         \Docker\API\Model\NetworksCreatePostBody::class => NetworksCreatePostBodyNormalizer::class,
-
-        \Docker\API\Model\NetworksCreatePostResponse201::class => NetworksCreatePostResponse201Normalizer::class,
 
         \Docker\API\Model\NetworksIdConnectPostBody::class => NetworksIdConnectPostBodyNormalizer::class,
 

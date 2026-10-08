@@ -23,6 +23,12 @@ class ContainerSummaryHostConfig implements AdditionalPropertiesInterface
      * @var string|null
      */
     protected $networkMode;
+    /**
+     * Arbitrary key-value metadata attached to container.
+     *
+     * @var array<string, string>|null
+     */
+    protected $annotations;
 
     public function getNetworkMode(): ?string
     {
@@ -37,8 +43,31 @@ class ContainerSummaryHostConfig implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Arbitrary key-value metadata attached to container.
+     *
+     * @return array<string, string>|null
+     */
+    public function getAnnotations(): ?iterable
+    {
+        return $this->annotations;
+    }
+
+    /**
+     * Arbitrary key-value metadata attached to container.
+     *
+     * @param array<string, string>|null $annotations
+     */
+    public function setAnnotations(?iterable $annotations): self
+    {
+        $this->initialized['annotations'] = true;
+        $this->annotations = $annotations;
+
+        return $this;
+    }
+
     public function definedProperties(): array
     {
-        return ['networkMode' => ['NetworkMode', 'getNetworkMode', 'setNetworkMode']];
+        return ['networkMode' => ['NetworkMode', 'getNetworkMode', 'setNetworkMode'], 'annotations' => ['Annotations', 'getAnnotations', 'setAnnotations']];
     }
 }

@@ -251,7 +251,7 @@ class SystemInfo implements AdditionalPropertiesInterface
      */
     protected $kernelVersion;
     /**
-     * Name of the host's operating system, for example: "Ubuntu 16.04.2 LTS"
+     * Name of the host's operating system, for example: "Ubuntu 24.04 LTS"
      * or "Windows Server 2016 Datacenter".
      *
      * @var string|null
@@ -530,6 +530,13 @@ class SystemInfo implements AdditionalPropertiesInterface
      * @var list<string>|null
      */
     protected $cDISpecDirs;
+    /**
+     * Information for connecting to the containerd instance that is used by the daemon.
+     * This is included for debugging purposes only.
+     *
+     * @var ContainerdInfo|null
+     */
+    protected $containerd;
 
     /**
      * Unique identifier of the daemon.
@@ -1215,7 +1222,7 @@ class SystemInfo implements AdditionalPropertiesInterface
     }
 
     /**
-     * Name of the host's operating system, for example: "Ubuntu 16.04.2 LTS"
+     * Name of the host's operating system, for example: "Ubuntu 24.04 LTS"
      * or "Windows Server 2016 Datacenter".
      */
     public function getOperatingSystem(): ?string
@@ -1224,7 +1231,7 @@ class SystemInfo implements AdditionalPropertiesInterface
     }
 
     /**
-     * Name of the host's operating system, for example: "Ubuntu 16.04.2 LTS"
+     * Name of the host's operating system, for example: "Ubuntu 24.04 LTS"
      * or "Windows Server 2016 Datacenter".
      */
     public function setOperatingSystem(?string $operatingSystem): self
@@ -2012,8 +2019,29 @@ class SystemInfo implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Information for connecting to the containerd instance that is used by the daemon.
+     * This is included for debugging purposes only.
+     */
+    public function getContainerd(): ?ContainerdInfo
+    {
+        return $this->containerd;
+    }
+
+    /**
+     * Information for connecting to the containerd instance that is used by the daemon.
+     * This is included for debugging purposes only.
+     */
+    public function setContainerd(?ContainerdInfo $containerd): self
+    {
+        $this->initialized['containerd'] = true;
+        $this->containerd = $containerd;
+
+        return $this;
+    }
+
     public function definedProperties(): array
     {
-        return ['iD' => ['ID', 'getID', 'setID'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'containersRunning' => ['ContainersRunning', 'getContainersRunning', 'setContainersRunning'], 'containersPaused' => ['ContainersPaused', 'getContainersPaused', 'setContainersPaused'], 'containersStopped' => ['ContainersStopped', 'getContainersStopped', 'setContainersStopped'], 'images' => ['Images', 'getImages', 'setImages'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'driverStatus' => ['DriverStatus', 'getDriverStatus', 'setDriverStatus'], 'dockerRootDir' => ['DockerRootDir', 'getDockerRootDir', 'setDockerRootDir'], 'plugins' => ['Plugins', 'getPlugins', 'setPlugins'], 'memoryLimit' => ['MemoryLimit', 'getMemoryLimit', 'setMemoryLimit'], 'swapLimit' => ['SwapLimit', 'getSwapLimit', 'setSwapLimit'], 'kernelMemoryTCP' => ['KernelMemoryTCP', 'getKernelMemoryTCP', 'setKernelMemoryTCP'], 'cpuCfsPeriod' => ['CpuCfsPeriod', 'getCpuCfsPeriod', 'setCpuCfsPeriod'], 'cpuCfsQuota' => ['CpuCfsQuota', 'getCpuCfsQuota', 'setCpuCfsQuota'], 'cPUShares' => ['CPUShares', 'getCPUShares', 'setCPUShares'], 'cPUSet' => ['CPUSet', 'getCPUSet', 'setCPUSet'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'iPv4Forwarding' => ['IPv4Forwarding', 'getIPv4Forwarding', 'setIPv4Forwarding'], 'bridgeNfIptables' => ['BridgeNfIptables', 'getBridgeNfIptables', 'setBridgeNfIptables'], 'bridgeNfIp6tables' => ['BridgeNfIp6tables', 'getBridgeNfIp6tables', 'setBridgeNfIp6tables'], 'debug' => ['Debug', 'getDebug', 'setDebug'], 'nFd' => ['NFd', 'getNFd', 'setNFd'], 'nGoroutines' => ['NGoroutines', 'getNGoroutines', 'setNGoroutines'], 'systemTime' => ['SystemTime', 'getSystemTime', 'setSystemTime'], 'loggingDriver' => ['LoggingDriver', 'getLoggingDriver', 'setLoggingDriver'], 'cgroupDriver' => ['CgroupDriver', 'getCgroupDriver', 'setCgroupDriver'], 'cgroupVersion' => ['CgroupVersion', 'getCgroupVersion', 'setCgroupVersion'], 'nEventsListener' => ['NEventsListener', 'getNEventsListener', 'setNEventsListener'], 'kernelVersion' => ['KernelVersion', 'getKernelVersion', 'setKernelVersion'], 'operatingSystem' => ['OperatingSystem', 'getOperatingSystem', 'setOperatingSystem'], 'oSVersion' => ['OSVersion', 'getOSVersion', 'setOSVersion'], 'oSType' => ['OSType', 'getOSType', 'setOSType'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'nCPU' => ['NCPU', 'getNCPU', 'setNCPU'], 'memTotal' => ['MemTotal', 'getMemTotal', 'setMemTotal'], 'indexServerAddress' => ['IndexServerAddress', 'getIndexServerAddress', 'setIndexServerAddress'], 'registryConfig' => ['RegistryConfig', 'getRegistryConfig', 'setRegistryConfig'], 'genericResources' => ['GenericResources', 'getGenericResources', 'setGenericResources'], 'httpProxy' => ['HttpProxy', 'getHttpProxy', 'setHttpProxy'], 'httpsProxy' => ['HttpsProxy', 'getHttpsProxy', 'setHttpsProxy'], 'noProxy' => ['NoProxy', 'getNoProxy', 'setNoProxy'], 'name' => ['Name', 'getName', 'setName'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'experimentalBuild' => ['ExperimentalBuild', 'getExperimentalBuild', 'setExperimentalBuild'], 'serverVersion' => ['ServerVersion', 'getServerVersion', 'setServerVersion'], 'runtimes' => ['Runtimes', 'getRuntimes', 'setRuntimes'], 'defaultRuntime' => ['DefaultRuntime', 'getDefaultRuntime', 'setDefaultRuntime'], 'swarm' => ['Swarm', 'getSwarm', 'setSwarm'], 'liveRestoreEnabled' => ['LiveRestoreEnabled', 'getLiveRestoreEnabled', 'setLiveRestoreEnabled'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'initBinary' => ['InitBinary', 'getInitBinary', 'setInitBinary'], 'containerdCommit' => ['ContainerdCommit', 'getContainerdCommit', 'setContainerdCommit'], 'runcCommit' => ['RuncCommit', 'getRuncCommit', 'setRuncCommit'], 'initCommit' => ['InitCommit', 'getInitCommit', 'setInitCommit'], 'securityOptions' => ['SecurityOptions', 'getSecurityOptions', 'setSecurityOptions'], 'productLicense' => ['ProductLicense', 'getProductLicense', 'setProductLicense'], 'defaultAddressPools' => ['DefaultAddressPools', 'getDefaultAddressPools', 'setDefaultAddressPools'], 'warnings' => ['Warnings', 'getWarnings', 'setWarnings'], 'cDISpecDirs' => ['CDISpecDirs', 'getCDISpecDirs', 'setCDISpecDirs']];
+        return ['iD' => ['ID', 'getID', 'setID'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'containersRunning' => ['ContainersRunning', 'getContainersRunning', 'setContainersRunning'], 'containersPaused' => ['ContainersPaused', 'getContainersPaused', 'setContainersPaused'], 'containersStopped' => ['ContainersStopped', 'getContainersStopped', 'setContainersStopped'], 'images' => ['Images', 'getImages', 'setImages'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'driverStatus' => ['DriverStatus', 'getDriverStatus', 'setDriverStatus'], 'dockerRootDir' => ['DockerRootDir', 'getDockerRootDir', 'setDockerRootDir'], 'plugins' => ['Plugins', 'getPlugins', 'setPlugins'], 'memoryLimit' => ['MemoryLimit', 'getMemoryLimit', 'setMemoryLimit'], 'swapLimit' => ['SwapLimit', 'getSwapLimit', 'setSwapLimit'], 'kernelMemoryTCP' => ['KernelMemoryTCP', 'getKernelMemoryTCP', 'setKernelMemoryTCP'], 'cpuCfsPeriod' => ['CpuCfsPeriod', 'getCpuCfsPeriod', 'setCpuCfsPeriod'], 'cpuCfsQuota' => ['CpuCfsQuota', 'getCpuCfsQuota', 'setCpuCfsQuota'], 'cPUShares' => ['CPUShares', 'getCPUShares', 'setCPUShares'], 'cPUSet' => ['CPUSet', 'getCPUSet', 'setCPUSet'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'iPv4Forwarding' => ['IPv4Forwarding', 'getIPv4Forwarding', 'setIPv4Forwarding'], 'bridgeNfIptables' => ['BridgeNfIptables', 'getBridgeNfIptables', 'setBridgeNfIptables'], 'bridgeNfIp6tables' => ['BridgeNfIp6tables', 'getBridgeNfIp6tables', 'setBridgeNfIp6tables'], 'debug' => ['Debug', 'getDebug', 'setDebug'], 'nFd' => ['NFd', 'getNFd', 'setNFd'], 'nGoroutines' => ['NGoroutines', 'getNGoroutines', 'setNGoroutines'], 'systemTime' => ['SystemTime', 'getSystemTime', 'setSystemTime'], 'loggingDriver' => ['LoggingDriver', 'getLoggingDriver', 'setLoggingDriver'], 'cgroupDriver' => ['CgroupDriver', 'getCgroupDriver', 'setCgroupDriver'], 'cgroupVersion' => ['CgroupVersion', 'getCgroupVersion', 'setCgroupVersion'], 'nEventsListener' => ['NEventsListener', 'getNEventsListener', 'setNEventsListener'], 'kernelVersion' => ['KernelVersion', 'getKernelVersion', 'setKernelVersion'], 'operatingSystem' => ['OperatingSystem', 'getOperatingSystem', 'setOperatingSystem'], 'oSVersion' => ['OSVersion', 'getOSVersion', 'setOSVersion'], 'oSType' => ['OSType', 'getOSType', 'setOSType'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'nCPU' => ['NCPU', 'getNCPU', 'setNCPU'], 'memTotal' => ['MemTotal', 'getMemTotal', 'setMemTotal'], 'indexServerAddress' => ['IndexServerAddress', 'getIndexServerAddress', 'setIndexServerAddress'], 'registryConfig' => ['RegistryConfig', 'getRegistryConfig', 'setRegistryConfig'], 'genericResources' => ['GenericResources', 'getGenericResources', 'setGenericResources'], 'httpProxy' => ['HttpProxy', 'getHttpProxy', 'setHttpProxy'], 'httpsProxy' => ['HttpsProxy', 'getHttpsProxy', 'setHttpsProxy'], 'noProxy' => ['NoProxy', 'getNoProxy', 'setNoProxy'], 'name' => ['Name', 'getName', 'setName'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'experimentalBuild' => ['ExperimentalBuild', 'getExperimentalBuild', 'setExperimentalBuild'], 'serverVersion' => ['ServerVersion', 'getServerVersion', 'setServerVersion'], 'runtimes' => ['Runtimes', 'getRuntimes', 'setRuntimes'], 'defaultRuntime' => ['DefaultRuntime', 'getDefaultRuntime', 'setDefaultRuntime'], 'swarm' => ['Swarm', 'getSwarm', 'setSwarm'], 'liveRestoreEnabled' => ['LiveRestoreEnabled', 'getLiveRestoreEnabled', 'setLiveRestoreEnabled'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'initBinary' => ['InitBinary', 'getInitBinary', 'setInitBinary'], 'containerdCommit' => ['ContainerdCommit', 'getContainerdCommit', 'setContainerdCommit'], 'runcCommit' => ['RuncCommit', 'getRuncCommit', 'setRuncCommit'], 'initCommit' => ['InitCommit', 'getInitCommit', 'setInitCommit'], 'securityOptions' => ['SecurityOptions', 'getSecurityOptions', 'setSecurityOptions'], 'productLicense' => ['ProductLicense', 'getProductLicense', 'setProductLicense'], 'defaultAddressPools' => ['DefaultAddressPools', 'getDefaultAddressPools', 'setDefaultAddressPools'], 'warnings' => ['Warnings', 'getWarnings', 'setWarnings'], 'cDISpecDirs' => ['CDISpecDirs', 'getCDISpecDirs', 'setCDISpecDirs'], 'containerd' => ['Containerd', 'getContainerd', 'setContainerd']];
     }
 }

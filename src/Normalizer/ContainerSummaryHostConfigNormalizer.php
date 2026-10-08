@@ -50,9 +50,20 @@ class ContainerSummaryHostConfigNormalizer implements DenormalizerInterface, Nor
             $object->setNetworkMode(null);
             unset($data['NetworkMode']);
         }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+        if (\array_key_exists('Annotations', $data) && null !== $data['Annotations']) {
+            $values = new \Docker\API\Runtime\JsonObject();
+            foreach ($data['Annotations'] as $key => $value) {
+                $values[$key] = $value;
+            }
+            $object->setAnnotations($values);
+            unset($data['Annotations']);
+        } elseif (\array_key_exists('Annotations', $data) && null === $data['Annotations']) {
+            $object->setAnnotations(null);
+            unset($data['Annotations']);
+        }
+        foreach ($data as $key_1 => $value_1) {
+            if (preg_match('/.*/', (string) $key_1)) {
+                $object[$key_1] = $value_1;
             }
         }
 
@@ -65,9 +76,16 @@ class ContainerSummaryHostConfigNormalizer implements DenormalizerInterface, Nor
         if ($data->isInitialized('networkMode') && null !== $data->getNetworkMode()) {
             $dataArray['NetworkMode'] = $data->getNetworkMode();
         }
-        foreach ($data->additionalPropertyEntries() as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $dataArray[$key] = $value;
+        if ($data->isInitialized('annotations') && null !== $data->getAnnotations()) {
+            $values = new \Docker\API\Runtime\JsonObject();
+            foreach ($data->getAnnotations() as $key => $value) {
+                $values[$key] = $value;
+            }
+            $dataArray['Annotations'] = $values;
+        }
+        foreach ($data->additionalPropertyEntries() as $key_1 => $value_1) {
+            if (preg_match('/.*/', (string) $key_1)) {
+                $dataArray[$key_1] = $value_1;
             }
         }
 
