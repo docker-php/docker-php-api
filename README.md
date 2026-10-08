@@ -25,10 +25,24 @@ maintenance of the original `docker-php/docker-php-api` repository to give you a
 better upgrade path. Development will continue here, and we will archive
 `beluga-php/docker-php-api` once the migration is complete.
 
-Version `7.1.45.0` of this package targets Docker Engine API v1.45 and is used by
-the [Docker PHP 3.0 client](https://github.com/docker-php/docker-php).
-We plan to add the missing API versions and bring
-support up to the latest Docker Engine API.
+Version `7.1.45.0` of this package targets Docker Engine API v1.45. It works with
+the [Docker PHP client](https://github.com/docker-php/docker-php) 3.x and 4.0.
+Each Docker API version has its own release line:
+
+| Docker Engine API | Package line | Branch |
+| --- | --- | --- |
+| v1.45 | `>=7.1.45.0 <7.1.46.0` | [`main`](https://github.com/docker-php/docker-php-api/tree/main) |
+| v1.46 | `>=7.1.46.0 <7.1.47.0` | [`7.1.46`](https://github.com/docker-php/docker-php-api/tree/7.1.46) |
+| v1.47 | `>=7.1.47.0 <7.1.48.0` | [`7.1.47`](https://github.com/docker-php/docker-php-api/tree/7.1.47) |
+| v1.48 | `>=7.1.48.0 <7.1.49.0` | [`7.1.48`](https://github.com/docker-php/docker-php-api/tree/7.1.48) |
+| v1.49 | `>=7.1.49.0 <7.1.50.0` | [`7.1.49`](https://github.com/docker-php/docker-php-api/tree/7.1.49) |
+| v1.50 | `>=7.1.50.0 <7.1.51.0` | [`7.1.50`](https://github.com/docker-php/docker-php-api/tree/7.1.50) |
+| v1.51 | `>=7.1.51.0 <7.1.52.0` | [`7.1.51`](https://github.com/docker-php/docker-php-api/tree/7.1.51) |
+| v1.52 | `>=7.1.52.0 <7.1.53.0` | [`7.1.52`](https://github.com/docker-php/docker-php-api/tree/7.1.52) |
+| v1.53 | `>=7.1.53.0 <7.1.54.0` | [`7.1.53`](https://github.com/docker-php/docker-php-api/tree/7.1.53) |
+| v1.54 | `>=7.1.54.0 <7.1.55.0` | [`7.1.54`](https://github.com/docker-php/docker-php-api/tree/7.1.54) |
+| v1.55 | `>=7.1.55.0 <7.1.56.0` | [`7.1.55`](https://github.com/docker-php/docker-php-api/tree/7.1.55) |
+| v1.56 | `>=7.1.56.0 <7.1.57.0` | [`7.1.56`](https://github.com/docker-php/docker-php-api/tree/7.1.56) |
 
 ## Requirements
 
