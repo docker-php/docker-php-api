@@ -53,6 +53,12 @@ class Network implements AdditionalPropertiesInterface
      */
     protected $driver;
     /**
+     * Whether the network was created with IPv4 enabled.
+     *
+     * @var bool|null
+     */
+    protected $enableIPv4;
+    /**
      * Whether the network was created with IPv6 enabled.
      *
      * @var bool|null
@@ -221,6 +227,25 @@ class Network implements AdditionalPropertiesInterface
     {
         $this->initialized['driver'] = true;
         $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+     * Whether the network was created with IPv4 enabled.
+     */
+    public function getEnableIPv4(): ?bool
+    {
+        return $this->enableIPv4;
+    }
+
+    /**
+     * Whether the network was created with IPv4 enabled.
+     */
+    public function setEnableIPv4(?bool $enableIPv4): self
+    {
+        $this->initialized['enableIPv4'] = true;
+        $this->enableIPv4 = $enableIPv4;
 
         return $this;
     }
@@ -460,6 +485,6 @@ class Network implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['name' => ['Name', 'getName', 'setName'], 'id' => ['Id', 'getId', 'setId'], 'created' => ['Created', 'getCreated', 'setCreated'], 'scope' => ['Scope', 'getScope', 'setScope'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'enableIPv6' => ['EnableIPv6', 'getEnableIPv6', 'setEnableIPv6'], 'iPAM' => ['IPAM', 'getIPAM', 'setIPAM'], 'internal' => ['Internal', 'getInternal', 'setInternal'], 'attachable' => ['Attachable', 'getAttachable', 'setAttachable'], 'ingress' => ['Ingress', 'getIngress', 'setIngress'], 'configFrom' => ['ConfigFrom', 'getConfigFrom', 'setConfigFrom'], 'configOnly' => ['ConfigOnly', 'getConfigOnly', 'setConfigOnly'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'options' => ['Options', 'getOptions', 'setOptions'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'peers' => ['Peers', 'getPeers', 'setPeers']];
+        return ['name' => ['Name', 'getName', 'setName'], 'id' => ['Id', 'getId', 'setId'], 'created' => ['Created', 'getCreated', 'setCreated'], 'scope' => ['Scope', 'getScope', 'setScope'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'enableIPv4' => ['EnableIPv4', 'getEnableIPv4', 'setEnableIPv4'], 'enableIPv6' => ['EnableIPv6', 'getEnableIPv6', 'setEnableIPv6'], 'iPAM' => ['IPAM', 'getIPAM', 'setIPAM'], 'internal' => ['Internal', 'getInternal', 'setInternal'], 'attachable' => ['Attachable', 'getAttachable', 'setAttachable'], 'ingress' => ['Ingress', 'getIngress', 'setIngress'], 'configFrom' => ['ConfigFrom', 'getConfigFrom', 'setConfigFrom'], 'configOnly' => ['ConfigOnly', 'getConfigOnly', 'setConfigOnly'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'options' => ['Options', 'getOptions', 'setOptions'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'peers' => ['Peers', 'getPeers', 'setPeers']];
     }
 }

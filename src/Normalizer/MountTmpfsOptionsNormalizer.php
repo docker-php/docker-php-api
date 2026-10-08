@@ -57,9 +57,24 @@ class MountTmpfsOptionsNormalizer implements DenormalizerInterface, NormalizerIn
             $object->setMode(null);
             unset($data['Mode']);
         }
-        foreach ($data as $key => $value) {
+        if (\array_key_exists('Options', $data) && null !== $data['Options']) {
+            $values = [];
+            foreach ($data['Options'] as $value) {
+                $values_1 = [];
+                foreach ($value as $value_1) {
+                    $values_1[] = $value_1;
+                }
+                $values[] = $values_1;
+            }
+            $object->setOptions($values);
+            unset($data['Options']);
+        } elseif (\array_key_exists('Options', $data) && null === $data['Options']) {
+            $object->setOptions(null);
+            unset($data['Options']);
+        }
+        foreach ($data as $key => $value_2) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_2;
             }
         }
 
@@ -75,9 +90,20 @@ class MountTmpfsOptionsNormalizer implements DenormalizerInterface, NormalizerIn
         if ($data->isInitialized('mode') && null !== $data->getMode()) {
             $dataArray['Mode'] = $data->getMode();
         }
-        foreach ($data->additionalPropertyEntries() as $key => $value) {
+        if ($data->isInitialized('options') && null !== $data->getOptions()) {
+            $values = [];
+            foreach ($data->getOptions() as $value) {
+                $values_1 = [];
+                foreach ($value as $value_1) {
+                    $values_1[] = $value_1;
+                }
+                $values[] = $values_1;
+            }
+            $dataArray['Options'] = $values;
+        }
+        foreach ($data->additionalPropertyEntries() as $key => $value_2) {
             if (preg_match('/.*/', (string) $key)) {
-                $dataArray[$key] = $value;
+                $dataArray[$key] = $value_2;
             }
         }
 

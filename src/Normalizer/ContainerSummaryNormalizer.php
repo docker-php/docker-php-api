@@ -75,6 +75,13 @@ class ContainerSummaryNormalizer implements DenormalizerInterface, NormalizerInt
             $object->setImageID(null);
             unset($data['ImageID']);
         }
+        if (\array_key_exists('ImageManifestDescriptor', $data) && null !== $data['ImageManifestDescriptor']) {
+            $object->setImageManifestDescriptor($this->denormalizer->denormalize($data['ImageManifestDescriptor'], \Docker\API\Model\OCIDescriptor::class, 'json', $context));
+            unset($data['ImageManifestDescriptor']);
+        } elseif (\array_key_exists('ImageManifestDescriptor', $data) && null === $data['ImageManifestDescriptor']) {
+            $object->setImageManifestDescriptor(null);
+            unset($data['ImageManifestDescriptor']);
+        }
         if (\array_key_exists('Command', $data) && null !== $data['Command']) {
             $object->setCommand($data['Command']);
             unset($data['Command']);
@@ -191,6 +198,9 @@ class ContainerSummaryNormalizer implements DenormalizerInterface, NormalizerInt
         }
         if ($data->isInitialized('imageID') && null !== $data->getImageID()) {
             $dataArray['ImageID'] = $data->getImageID();
+        }
+        if ($data->isInitialized('imageManifestDescriptor') && null !== $data->getImageManifestDescriptor()) {
+            $dataArray['ImageManifestDescriptor'] = null === $data->getImageManifestDescriptor() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getImageManifestDescriptor(), 'json', $context));
         }
         if ($data->isInitialized('command') && null !== $data->getCommand()) {
             $dataArray['Command'] = $data->getCommand();

@@ -40,6 +40,23 @@ class EndpointSettings implements AdditionalPropertiesInterface
      */
     protected $aliases;
     /**
+     * DriverOpts is a mapping of driver options and values. These options
+     * are passed directly to the driver and are driver specific.
+     *
+     * @var array<string, string>|null
+     */
+    protected $driverOpts;
+    /**
+     * This property determines which endpoint will provide the default
+     * gateway for a container. The endpoint with the highest priority will
+     * be used. If multiple endpoints have the same priority, endpoints are
+     * lexicographically sorted based on their network name, and the one
+     * that sorts first is picked.
+     *
+     * @var int|null
+     */
+    protected $gwPriority;
+    /**
      * Unique ID of the network.
      *
      * @var string|null
@@ -87,13 +104,6 @@ class EndpointSettings implements AdditionalPropertiesInterface
      * @var int|null
      */
     protected $globalIPv6PrefixLen;
-    /**
-     * DriverOpts is a mapping of driver options and values. These options
-     * are passed directly to the driver and are driver specific.
-     *
-     * @var array<string, string>|null
-     */
-    protected $driverOpts;
     /**
      * List of all DNS names an endpoint has on a specific network. This
      * list is based on the container name, network aliases, container short
@@ -181,6 +191,58 @@ class EndpointSettings implements AdditionalPropertiesInterface
     {
         $this->initialized['aliases'] = true;
         $this->aliases = $aliases;
+
+        return $this;
+    }
+
+    /**
+     * DriverOpts is a mapping of driver options and values. These options
+     * are passed directly to the driver and are driver specific.
+     *
+     * @return array<string, string>|null
+     */
+    public function getDriverOpts(): ?iterable
+    {
+        return $this->driverOpts;
+    }
+
+    /**
+     * DriverOpts is a mapping of driver options and values. These options
+     * are passed directly to the driver and are driver specific.
+     *
+     * @param array<string, string>|null $driverOpts
+     */
+    public function setDriverOpts(?iterable $driverOpts): self
+    {
+        $this->initialized['driverOpts'] = true;
+        $this->driverOpts = $driverOpts;
+
+        return $this;
+    }
+
+    /**
+     * This property determines which endpoint will provide the default
+     * gateway for a container. The endpoint with the highest priority will
+     * be used. If multiple endpoints have the same priority, endpoints are
+     * lexicographically sorted based on their network name, and the one
+     * that sorts first is picked.
+     */
+    public function getGwPriority(): ?int
+    {
+        return $this->gwPriority;
+    }
+
+    /**
+     * This property determines which endpoint will provide the default
+     * gateway for a container. The endpoint with the highest priority will
+     * be used. If multiple endpoints have the same priority, endpoints are
+     * lexicographically sorted based on their network name, and the one
+     * that sorts first is picked.
+     */
+    public function setGwPriority(?int $gwPriority): self
+    {
+        $this->initialized['gwPriority'] = true;
+        $this->gwPriority = $gwPriority;
 
         return $this;
     }
@@ -338,31 +400,6 @@ class EndpointSettings implements AdditionalPropertiesInterface
     }
 
     /**
-     * DriverOpts is a mapping of driver options and values. These options
-     * are passed directly to the driver and are driver specific.
-     *
-     * @return array<string, string>|null
-     */
-    public function getDriverOpts(): ?iterable
-    {
-        return $this->driverOpts;
-    }
-
-    /**
-     * DriverOpts is a mapping of driver options and values. These options
-     * are passed directly to the driver and are driver specific.
-     *
-     * @param array<string, string>|null $driverOpts
-     */
-    public function setDriverOpts(?iterable $driverOpts): self
-    {
-        $this->initialized['driverOpts'] = true;
-        $this->driverOpts = $driverOpts;
-
-        return $this;
-    }
-
-    /**
      * List of all DNS names an endpoint has on a specific network. This
      * list is based on the container name, network aliases, container short
      * ID, and hostname.
@@ -403,6 +440,6 @@ class EndpointSettings implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['iPAMConfig' => ['IPAMConfig', 'getIPAMConfig', 'setIPAMConfig'], 'links' => ['Links', 'getLinks', 'setLinks'], 'macAddress' => ['MacAddress', 'getMacAddress', 'setMacAddress'], 'aliases' => ['Aliases', 'getAliases', 'setAliases'], 'networkID' => ['NetworkID', 'getNetworkID', 'setNetworkID'], 'endpointID' => ['EndpointID', 'getEndpointID', 'setEndpointID'], 'gateway' => ['Gateway', 'getGateway', 'setGateway'], 'iPAddress' => ['IPAddress', 'getIPAddress', 'setIPAddress'], 'iPPrefixLen' => ['IPPrefixLen', 'getIPPrefixLen', 'setIPPrefixLen'], 'iPv6Gateway' => ['IPv6Gateway', 'getIPv6Gateway', 'setIPv6Gateway'], 'globalIPv6Address' => ['GlobalIPv6Address', 'getGlobalIPv6Address', 'setGlobalIPv6Address'], 'globalIPv6PrefixLen' => ['GlobalIPv6PrefixLen', 'getGlobalIPv6PrefixLen', 'setGlobalIPv6PrefixLen'], 'driverOpts' => ['DriverOpts', 'getDriverOpts', 'setDriverOpts'], 'dNSNames' => ['DNSNames', 'getDNSNames', 'setDNSNames']];
+        return ['iPAMConfig' => ['IPAMConfig', 'getIPAMConfig', 'setIPAMConfig'], 'links' => ['Links', 'getLinks', 'setLinks'], 'macAddress' => ['MacAddress', 'getMacAddress', 'setMacAddress'], 'aliases' => ['Aliases', 'getAliases', 'setAliases'], 'driverOpts' => ['DriverOpts', 'getDriverOpts', 'setDriverOpts'], 'gwPriority' => ['GwPriority', 'getGwPriority', 'setGwPriority'], 'networkID' => ['NetworkID', 'getNetworkID', 'setNetworkID'], 'endpointID' => ['EndpointID', 'getEndpointID', 'setEndpointID'], 'gateway' => ['Gateway', 'getGateway', 'setGateway'], 'iPAddress' => ['IPAddress', 'getIPAddress', 'setIPAddress'], 'iPPrefixLen' => ['IPPrefixLen', 'getIPPrefixLen', 'setIPPrefixLen'], 'iPv6Gateway' => ['IPv6Gateway', 'getIPv6Gateway', 'setIPv6Gateway'], 'globalIPv6Address' => ['GlobalIPv6Address', 'getGlobalIPv6Address', 'setGlobalIPv6Address'], 'globalIPv6PrefixLen' => ['GlobalIPv6PrefixLen', 'getGlobalIPv6PrefixLen', 'setGlobalIPv6PrefixLen'], 'dNSNames' => ['DNSNames', 'getDNSNames', 'setDNSNames']];
     }
 }

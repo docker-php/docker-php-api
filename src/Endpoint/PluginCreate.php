@@ -7,7 +7,6 @@ namespace Docker\API\Endpoint;
 class PluginCreate extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docker\API\Runtime\Client\Endpoint
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
-    protected $accept;
 
     /**
      * @param string|resource|\Psr\Http\Message\StreamInterface|null $requestBody
@@ -15,13 +14,11 @@ class PluginCreate extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      *    "name": string, //The name of the plugin. The `:latest` tag is optional, and is the
      * default if omitted.
      * } $queryParameters
-     * @param array $accept Accept content header application/json|text/plain
      */
-    public function __construct($requestBody = null, array $queryParameters = [], array $accept = [])
+    public function __construct($requestBody = null, array $queryParameters = [])
     {
         $this->body = $requestBody;
         $this->queryParameters = $queryParameters;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -45,11 +42,7 @@ class PluginCreate extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['application/json', 'text/plain']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver

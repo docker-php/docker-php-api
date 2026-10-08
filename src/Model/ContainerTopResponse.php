@@ -7,7 +7,7 @@ namespace Docker\API\Model;
 use Docker\API\Runtime\AdditionalAndPatternProperties;
 use Docker\API\Runtime\AdditionalPropertiesInterface;
 
-class ContainersIdTopGetTextplainResponse200 implements AdditionalPropertiesInterface
+class ContainerTopResponse implements AdditionalPropertiesInterface
 {
     use AdditionalAndPatternProperties;
     /**
@@ -26,7 +26,7 @@ class ContainersIdTopGetTextplainResponse200 implements AdditionalPropertiesInte
      */
     protected $titles;
     /**
-     * Each process running in the container, where each is process
+     * Each process running in the container, where each process
      * is an array of values corresponding to the titles.
      *
      * @var list<list<string>>|null
@@ -57,7 +57,7 @@ class ContainersIdTopGetTextplainResponse200 implements AdditionalPropertiesInte
     }
 
     /**
-     * Each process running in the container, where each is process
+     * Each process running in the container, where each process
      * is an array of values corresponding to the titles.
      *
      * @return list<list<string>>|null
@@ -68,7 +68,7 @@ class ContainersIdTopGetTextplainResponse200 implements AdditionalPropertiesInte
     }
 
     /**
-     * Each process running in the container, where each is process
+     * Each process running in the container, where each process
      * is an array of values corresponding to the titles.
      *
      * @param list<list<string>>|null $processes

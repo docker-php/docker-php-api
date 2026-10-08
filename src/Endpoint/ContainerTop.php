@@ -66,14 +66,14 @@ class ContainerTop extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      * @throws \Docker\API\Exception\ContainerTopNotFoundException
      * @throws \Docker\API\Exception\ContainerTopInternalServerErrorException
      *
-     * @return \Docker\API\Model\ContainersIdTopGetJsonResponse200|null
+     * @return \Docker\API\Model\ContainerTopResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            return $serializer->deserialize($body, 'Docker\API\Model\ContainersIdTopGetJsonResponse200', 'json');
+            return $serializer->deserialize($body, 'Docker\API\Model\ContainerTopResponse', 'json');
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
             throw new \Docker\API\Exception\ContainerTopNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);

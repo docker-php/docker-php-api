@@ -529,6 +529,13 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setDefaultAddressPools(null);
             unset($data['DefaultAddressPools']);
         }
+        if (\array_key_exists('FirewallBackend', $data) && null !== $data['FirewallBackend']) {
+            $object->setFirewallBackend($this->denormalizer->denormalize($data['FirewallBackend'], \Docker\API\Model\FirewallInfo::class, 'json', $context));
+            unset($data['FirewallBackend']);
+        } elseif (\array_key_exists('FirewallBackend', $data) && null === $data['FirewallBackend']) {
+            $object->setFirewallBackend(null);
+            unset($data['FirewallBackend']);
+        }
         if (\array_key_exists('Warnings', $data) && null !== $data['Warnings']) {
             $values_7 = [];
             foreach ($data['Warnings'] as $value_7) {
@@ -550,6 +557,13 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
         } elseif (\array_key_exists('CDISpecDirs', $data) && null === $data['CDISpecDirs']) {
             $object->setCDISpecDirs(null);
             unset($data['CDISpecDirs']);
+        }
+        if (\array_key_exists('Containerd', $data) && null !== $data['Containerd']) {
+            $object->setContainerd($this->denormalizer->denormalize($data['Containerd'], \Docker\API\Model\ContainerdInfo::class, 'json', $context));
+            unset($data['Containerd']);
+        } elseif (\array_key_exists('Containerd', $data) && null === $data['Containerd']) {
+            $object->setContainerd(null);
+            unset($data['Containerd']);
         }
         foreach ($data as $key_1 => $value_9) {
             if (preg_match('/.*/', (string) $key_1)) {
@@ -768,6 +782,9 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
             }
             $dataArray['DefaultAddressPools'] = $values_6;
         }
+        if ($data->isInitialized('firewallBackend') && null !== $data->getFirewallBackend()) {
+            $dataArray['FirewallBackend'] = null === $data->getFirewallBackend() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getFirewallBackend(), 'json', $context));
+        }
         if ($data->isInitialized('warnings') && null !== $data->getWarnings()) {
             $values_7 = [];
             foreach ($data->getWarnings() as $value_7) {
@@ -781,6 +798,9 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
                 $values_8[] = $value_8;
             }
             $dataArray['CDISpecDirs'] = $values_8;
+        }
+        if ($data->isInitialized('containerd') && null !== $data->getContainerd()) {
+            $dataArray['Containerd'] = null === $data->getContainerd() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getContainerd(), 'json', $context));
         }
         foreach ($data->additionalPropertyEntries() as $key_1 => $value_9) {
             if (preg_match('/.*/', (string) $key_1)) {

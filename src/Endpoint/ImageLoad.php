@@ -16,6 +16,12 @@ class ImageLoad extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
      * @param string|resource|\Psr\Http\Message\StreamInterface|null $requestBody
      * @param array{
      *    "quiet"?: bool, //Suppress progress details during load.
+     *    "platform"?: string, //JSON encoded OCI platform describing a platform which will be used
+     * to select a platform-specific image to be load if the image is
+     * multi-platform.
+     * If not provided, the full multi-platform image will be loaded.
+     *
+     * Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}`
      * } $queryParameters
      */
     public function __construct($requestBody = null, array $queryParameters = [])
@@ -51,10 +57,11 @@ class ImageLoad extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(['quiet']);
+        $optionsResolver->setDefined(['quiet', 'platform']);
         $optionsResolver->setRequired([]);
         $optionsResolver->setDefaults(['quiet' => false]);
         $optionsResolver->addAllowedTypes('quiet', ['bool']);
+        $optionsResolver->addAllowedTypes('platform', ['string']);
 
         return $optionsResolver;
     }

@@ -151,6 +151,13 @@ class TaskSpecContainerSpec implements AdditionalPropertiesInterface
      */
     protected $secrets;
     /**
+     * An integer value containing the score given to the container in
+     * order to tune OOM killer preferences.
+     *
+     * @var int|null
+     */
+    protected $oomScoreAdj;
+    /**
      * Configs contains references to zero or more configs that will be
      * exposed to the service.
      *
@@ -640,6 +647,27 @@ class TaskSpecContainerSpec implements AdditionalPropertiesInterface
     }
 
     /**
+     * An integer value containing the score given to the container in
+     * order to tune OOM killer preferences.
+     */
+    public function getOomScoreAdj(): ?int
+    {
+        return $this->oomScoreAdj;
+    }
+
+    /**
+     * An integer value containing the score given to the container in
+     * order to tune OOM killer preferences.
+     */
+    public function setOomScoreAdj(?int $oomScoreAdj): self
+    {
+        $this->initialized['oomScoreAdj'] = true;
+        $this->oomScoreAdj = $oomScoreAdj;
+
+        return $this;
+    }
+
+    /**
      * Configs contains references to zero or more configs that will be
      * exposed to the service.
      *
@@ -818,6 +846,6 @@ class TaskSpecContainerSpec implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['image' => ['Image', 'getImage', 'setImage'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'command' => ['Command', 'getCommand', 'setCommand'], 'args' => ['Args', 'getArgs', 'setArgs'], 'hostname' => ['Hostname', 'getHostname', 'setHostname'], 'env' => ['Env', 'getEnv', 'setEnv'], 'dir' => ['Dir', 'getDir', 'setDir'], 'user' => ['User', 'getUser', 'setUser'], 'groups' => ['Groups', 'getGroups', 'setGroups'], 'privileges' => ['Privileges', 'getPrivileges', 'setPrivileges'], 'tTY' => ['TTY', 'getTTY', 'setTTY'], 'openStdin' => ['OpenStdin', 'getOpenStdin', 'setOpenStdin'], 'readOnly' => ['ReadOnly', 'getReadOnly', 'setReadOnly'], 'mounts' => ['Mounts', 'getMounts', 'setMounts'], 'stopSignal' => ['StopSignal', 'getStopSignal', 'setStopSignal'], 'stopGracePeriod' => ['StopGracePeriod', 'getStopGracePeriod', 'setStopGracePeriod'], 'healthcheck' => ['Healthcheck', 'getHealthcheck', 'setHealthcheck'], 'hosts' => ['Hosts', 'getHosts', 'setHosts'], 'dNSConfig' => ['DNSConfig', 'getDNSConfig', 'setDNSConfig'], 'secrets' => ['Secrets', 'getSecrets', 'setSecrets'], 'configs' => ['Configs', 'getConfigs', 'setConfigs'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'init' => ['Init', 'getInit', 'setInit'], 'sysctls' => ['Sysctls', 'getSysctls', 'setSysctls'], 'capabilityAdd' => ['CapabilityAdd', 'getCapabilityAdd', 'setCapabilityAdd'], 'capabilityDrop' => ['CapabilityDrop', 'getCapabilityDrop', 'setCapabilityDrop'], 'ulimits' => ['Ulimits', 'getUlimits', 'setUlimits']];
+        return ['image' => ['Image', 'getImage', 'setImage'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'command' => ['Command', 'getCommand', 'setCommand'], 'args' => ['Args', 'getArgs', 'setArgs'], 'hostname' => ['Hostname', 'getHostname', 'setHostname'], 'env' => ['Env', 'getEnv', 'setEnv'], 'dir' => ['Dir', 'getDir', 'setDir'], 'user' => ['User', 'getUser', 'setUser'], 'groups' => ['Groups', 'getGroups', 'setGroups'], 'privileges' => ['Privileges', 'getPrivileges', 'setPrivileges'], 'tTY' => ['TTY', 'getTTY', 'setTTY'], 'openStdin' => ['OpenStdin', 'getOpenStdin', 'setOpenStdin'], 'readOnly' => ['ReadOnly', 'getReadOnly', 'setReadOnly'], 'mounts' => ['Mounts', 'getMounts', 'setMounts'], 'stopSignal' => ['StopSignal', 'getStopSignal', 'setStopSignal'], 'stopGracePeriod' => ['StopGracePeriod', 'getStopGracePeriod', 'setStopGracePeriod'], 'healthcheck' => ['Healthcheck', 'getHealthcheck', 'setHealthcheck'], 'hosts' => ['Hosts', 'getHosts', 'setHosts'], 'dNSConfig' => ['DNSConfig', 'getDNSConfig', 'setDNSConfig'], 'secrets' => ['Secrets', 'getSecrets', 'setSecrets'], 'oomScoreAdj' => ['OomScoreAdj', 'getOomScoreAdj', 'setOomScoreAdj'], 'configs' => ['Configs', 'getConfigs', 'setConfigs'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'init' => ['Init', 'getInit', 'setInit'], 'sysctls' => ['Sysctls', 'getSysctls', 'setSysctls'], 'capabilityAdd' => ['CapabilityAdd', 'getCapabilityAdd', 'setCapabilityAdd'], 'capabilityDrop' => ['CapabilityDrop', 'getCapabilityDrop', 'setCapabilityDrop'], 'ulimits' => ['Ulimits', 'getUlimits', 'setUlimits']];
     }
 }

@@ -551,11 +551,8 @@ class HostConfig implements AdditionalPropertiesInterface
     protected $shmSize;
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @var array<string, string>|null
      */
@@ -2208,11 +2205,8 @@ class HostConfig implements AdditionalPropertiesInterface
 
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @return array<string, string>|null
      */
@@ -2223,11 +2217,8 @@ class HostConfig implements AdditionalPropertiesInterface
 
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @param array<string, string>|null $sysctls
      */

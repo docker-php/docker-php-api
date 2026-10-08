@@ -26,6 +26,7 @@ class ImageList extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
      * - `until=<timestamp>`
      *    "shared-size"?: bool, //Compute and show shared size as a `SharedSize` field on each image.
      *    "digests"?: bool, //Show digest information as a `RepoDigests` field on each image.
+     *    "manifests"?: bool, //Include `Manifests` in the image summary.
      * } $queryParameters
      */
     public function __construct(array $queryParameters = [])
@@ -56,13 +57,14 @@ class ImageList extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(['all', 'filters', 'shared-size', 'digests']);
+        $optionsResolver->setDefined(['all', 'filters', 'shared-size', 'digests', 'manifests']);
         $optionsResolver->setRequired([]);
-        $optionsResolver->setDefaults(['all' => false, 'shared-size' => false, 'digests' => false]);
+        $optionsResolver->setDefaults(['all' => false, 'shared-size' => false, 'digests' => false, 'manifests' => false]);
         $optionsResolver->addAllowedTypes('all', ['bool']);
         $optionsResolver->addAllowedTypes('filters', ['string']);
         $optionsResolver->addAllowedTypes('shared-size', ['bool']);
         $optionsResolver->addAllowedTypes('digests', ['bool']);
+        $optionsResolver->addAllowedTypes('manifests', ['bool']);
 
         return $optionsResolver;
     }

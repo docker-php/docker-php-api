@@ -50,6 +50,13 @@ class PushImageInfoNormalizer implements DenormalizerInterface, NormalizerInterf
             $object->setError(null);
             unset($data['error']);
         }
+        if (\array_key_exists('errorDetail', $data) && null !== $data['errorDetail']) {
+            $object->setErrorDetail($this->denormalizer->denormalize($data['errorDetail'], \Docker\API\Model\ErrorDetail::class, 'json', $context));
+            unset($data['errorDetail']);
+        } elseif (\array_key_exists('errorDetail', $data) && null === $data['errorDetail']) {
+            $object->setErrorDetail(null);
+            unset($data['errorDetail']);
+        }
         if (\array_key_exists('status', $data) && null !== $data['status']) {
             $object->setStatus($data['status']);
             unset($data['status']);
@@ -85,6 +92,9 @@ class PushImageInfoNormalizer implements DenormalizerInterface, NormalizerInterf
         $dataArray = [];
         if ($data->isInitialized('error') && null !== $data->getError()) {
             $dataArray['error'] = $data->getError();
+        }
+        if ($data->isInitialized('errorDetail') && null !== $data->getErrorDetail()) {
+            $dataArray['errorDetail'] = null === $data->getErrorDetail() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getErrorDetail(), 'json', $context));
         }
         if ($data->isInitialized('status') && null !== $data->getStatus()) {
             $dataArray['status'] = $data->getStatus();
