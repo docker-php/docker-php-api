@@ -551,6 +551,13 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setCDISpecDirs(null);
             unset($data['CDISpecDirs']);
         }
+        if (\array_key_exists('Containerd', $data) && null !== $data['Containerd']) {
+            $object->setContainerd($this->denormalizer->denormalize($data['Containerd'], \Docker\API\Model\ContainerdInfo::class, 'json', $context));
+            unset($data['Containerd']);
+        } elseif (\array_key_exists('Containerd', $data) && null === $data['Containerd']) {
+            $object->setContainerd(null);
+            unset($data['Containerd']);
+        }
         foreach ($data as $key_1 => $value_9) {
             if (preg_match('/.*/', (string) $key_1)) {
                 $object[$key_1] = $value_9;
@@ -781,6 +788,9 @@ class SystemInfoNormalizer implements DenormalizerInterface, NormalizerInterface
                 $values_8[] = $value_8;
             }
             $dataArray['CDISpecDirs'] = $values_8;
+        }
+        if ($data->isInitialized('containerd') && null !== $data->getContainerd()) {
+            $dataArray['Containerd'] = null === $data->getContainerd() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getContainerd(), 'json', $context));
         }
         foreach ($data->additionalPropertyEntries() as $key_1 => $value_9) {
             if (preg_match('/.*/', (string) $key_1)) {

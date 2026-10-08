@@ -82,7 +82,7 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
 
         \Docker\API\Model\PortBinding::class => PortBindingNormalizer::class,
 
-        \Docker\API\Model\GraphDriverData::class => GraphDriverDataNormalizer::class,
+        \Docker\API\Model\DriverData::class => DriverDataNormalizer::class,
 
         \Docker\API\Model\FilesystemChange::class => FilesystemChangeNormalizer::class,
 
@@ -117,6 +117,8 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         \Docker\API\Model\NetworkContainer::class => NetworkContainerNormalizer::class,
 
         \Docker\API\Model\PeerInfo::class => PeerInfoNormalizer::class,
+
+        \Docker\API\Model\NetworkCreateResponse::class => NetworkCreateResponseNormalizer::class,
 
         \Docker\API\Model\BuildInfo::class => BuildInfoNormalizer::class,
 
@@ -332,6 +334,10 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
 
         \Docker\API\Model\SystemInfoDefaultAddressPoolsItem::class => SystemInfoDefaultAddressPoolsItemNormalizer::class,
 
+        \Docker\API\Model\ContainerdInfo::class => ContainerdInfoNormalizer::class,
+
+        \Docker\API\Model\ContainerdInfoNamespaces::class => ContainerdInfoNamespacesNormalizer::class,
+
         \Docker\API\Model\PluginsInfo::class => PluginsInfoNormalizer::class,
 
         \Docker\API\Model\RegistryServiceConfig::class => RegistryServiceConfigNormalizer::class,
@@ -376,6 +382,16 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
 
         \Docker\API\Model\Topology::class => TopologyNormalizer::class,
 
+        \Docker\API\Model\ImageManifestSummary::class => ImageManifestSummaryNormalizer::class,
+
+        \Docker\API\Model\ImageManifestSummarySize::class => ImageManifestSummarySizeNormalizer::class,
+
+        \Docker\API\Model\ImageManifestSummaryImageData::class => ImageManifestSummaryImageDataNormalizer::class,
+
+        \Docker\API\Model\ImageManifestSummaryImageDataSize::class => ImageManifestSummaryImageDataSizeNormalizer::class,
+
+        \Docker\API\Model\ImageManifestSummaryAttestationData::class => ImageManifestSummaryAttestationDataNormalizer::class,
+
         \Docker\API\Model\ContainersCreatePostBody::class => ContainersCreatePostBodyNormalizer::class,
 
         \Docker\API\Model\ContainersIdJsonGetResponse200::class => ContainersIdJsonGetResponse200Normalizer::class,
@@ -413,8 +429,6 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         \Docker\API\Model\VolumesPrunePostResponse200::class => VolumesPrunePostResponse200Normalizer::class,
 
         \Docker\API\Model\NetworksCreatePostBody::class => NetworksCreatePostBodyNormalizer::class,
-
-        \Docker\API\Model\NetworksCreatePostResponse201::class => NetworksCreatePostResponse201Normalizer::class,
 
         \Docker\API\Model\NetworksIdConnectPostBody::class => NetworksIdConnectPostBodyNormalizer::class,
 

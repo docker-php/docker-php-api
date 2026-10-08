@@ -8,20 +8,17 @@ class ContainerRename extends \Docker\API\Runtime\Client\BaseEndpoint implements
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $id;
-    protected $accept;
 
     /**
      * @param string $id ID or name of the container
      * @param array{
      *    "name": string, //New name for the container
      * } $queryParameters
-     * @param array $accept Accept content header application/json|text/plain
      */
-    public function __construct(string $id, array $queryParameters = [], array $accept = [])
+    public function __construct(string $id, array $queryParameters = [])
     {
         $this->id = $id;
         $this->queryParameters = $queryParameters;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -41,11 +38,7 @@ class ContainerRename extends \Docker\API\Runtime\Client\BaseEndpoint implements
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['application/json', 'text/plain']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver

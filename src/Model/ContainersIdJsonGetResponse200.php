@@ -116,7 +116,7 @@ class ContainersIdJsonGetResponse200 implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      *
-     * @var GraphDriverData|null
+     * @var DriverData|null
      */
     protected $graphDriver;
     /**
@@ -458,7 +458,7 @@ class ContainersIdJsonGetResponse200 implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      */
-    public function getGraphDriver(): ?GraphDriverData
+    public function getGraphDriver(): ?DriverData
     {
         return $this->graphDriver;
     }
@@ -467,7 +467,7 @@ class ContainersIdJsonGetResponse200 implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      */
-    public function setGraphDriver(?GraphDriverData $graphDriver): self
+    public function setGraphDriver(?DriverData $graphDriver): self
     {
         $this->initialized['graphDriver'] = true;
         $this->graphDriver = $graphDriver;

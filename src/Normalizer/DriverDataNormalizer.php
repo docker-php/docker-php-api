@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ContainerSummaryHostConfigNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class DriverDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use CheckArray;
     use DenormalizerAwareTrait;
@@ -23,17 +23,17 @@ class ContainerSummaryHostConfigNormalizer implements DenormalizerInterface, Nor
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \Docker\API\Model\ContainerSummaryHostConfig::class === $type;
+        return \Docker\API\Model\DriverData::class === $type;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return \is_object($data) && \Docker\API\Model\ContainerSummaryHostConfig::class === $data::class;
+        return \is_object($data) && \Docker\API\Model\DriverData::class === $data::class;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $object = new \Docker\API\Model\ContainerSummaryHostConfig();
+        $object = new \Docker\API\Model\DriverData();
         if (null === $data || false === \is_array($data)) {
             return $object;
         }
@@ -43,23 +43,23 @@ class ContainerSummaryHostConfigNormalizer implements DenormalizerInterface, Nor
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (\array_key_exists('NetworkMode', $data) && null !== $data['NetworkMode']) {
-            $object->setNetworkMode($data['NetworkMode']);
-            unset($data['NetworkMode']);
-        } elseif (\array_key_exists('NetworkMode', $data) && null === $data['NetworkMode']) {
-            $object->setNetworkMode(null);
-            unset($data['NetworkMode']);
+        if (\array_key_exists('Name', $data) && null !== $data['Name']) {
+            $object->setName($data['Name']);
+            unset($data['Name']);
+        } elseif (\array_key_exists('Name', $data) && null === $data['Name']) {
+            $object->setName(null);
+            unset($data['Name']);
         }
-        if (\array_key_exists('Annotations', $data) && null !== $data['Annotations']) {
+        if (\array_key_exists('Data', $data) && null !== $data['Data']) {
             $values = new \Docker\API\Runtime\JsonObject();
-            foreach ($data['Annotations'] as $key => $value) {
+            foreach ($data['Data'] as $key => $value) {
                 $values[$key] = $value;
             }
-            $object->setAnnotations($values);
-            unset($data['Annotations']);
-        } elseif (\array_key_exists('Annotations', $data) && null === $data['Annotations']) {
-            $object->setAnnotations(null);
-            unset($data['Annotations']);
+            $object->setData($values);
+            unset($data['Data']);
+        } elseif (\array_key_exists('Data', $data) && null === $data['Data']) {
+            $object->setData(null);
+            unset($data['Data']);
         }
         foreach ($data as $key_1 => $value_1) {
             if (preg_match('/.*/', (string) $key_1)) {
@@ -73,16 +73,12 @@ class ContainerSummaryHostConfigNormalizer implements DenormalizerInterface, Nor
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
-        if ($data->isInitialized('networkMode') && null !== $data->getNetworkMode()) {
-            $dataArray['NetworkMode'] = $data->getNetworkMode();
+        $dataArray['Name'] = $data->getName();
+        $values = new \Docker\API\Runtime\JsonObject();
+        foreach ($data->getData() as $key => $value) {
+            $values[$key] = $value;
         }
-        if ($data->isInitialized('annotations') && null !== $data->getAnnotations()) {
-            $values = new \Docker\API\Runtime\JsonObject();
-            foreach ($data->getAnnotations() as $key => $value) {
-                $values[$key] = $value;
-            }
-            $dataArray['Annotations'] = $values;
-        }
+        $dataArray['Data'] = $values;
         foreach ($data->additionalPropertyEntries() as $key_1 => $value_1) {
             if (preg_match('/.*/', (string) $key_1)) {
                 $dataArray[$key_1] = $value_1;
@@ -94,6 +90,6 @@ class ContainerSummaryHostConfigNormalizer implements DenormalizerInterface, Nor
 
     public function getSupportedTypes(?string $format = null): array
     {
-        return [\Docker\API\Model\ContainerSummaryHostConfig::class => false];
+        return [\Docker\API\Model\DriverData::class => false];
     }
 }

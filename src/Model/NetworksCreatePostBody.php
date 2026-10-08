@@ -26,12 +26,6 @@ class NetworksCreatePostBody implements AdditionalPropertiesInterface
      */
     protected $name;
     /**
-     * Deprecated: CheckDuplicate is now always enabled.
-     *
-     * @var bool|null
-     */
-    protected $checkDuplicate;
-    /**
      * Name of the network driver plugin to use.
      *
      * @var string|null
@@ -85,6 +79,13 @@ class NetworksCreatePostBody implements AdditionalPropertiesInterface
      */
     protected $iPAM;
     /**
+     * Enable IPv4 on the network.
+     * To disable IPv4, the daemon must be started with experimental features enabled.
+     *
+     * @var bool|null
+     */
+    protected $enableIPv4;
+    /**
      * Enable IPv6 on the network.
      *
      * @var bool|null
@@ -118,25 +119,6 @@ class NetworksCreatePostBody implements AdditionalPropertiesInterface
     {
         $this->initialized['name'] = true;
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Deprecated: CheckDuplicate is now always enabled.
-     */
-    public function getCheckDuplicate(): ?bool
-    {
-        return $this->checkDuplicate;
-    }
-
-    /**
-     * Deprecated: CheckDuplicate is now always enabled.
-     */
-    public function setCheckDuplicate(?bool $checkDuplicate): self
-    {
-        $this->initialized['checkDuplicate'] = true;
-        $this->checkDuplicate = $checkDuplicate;
 
         return $this;
     }
@@ -302,6 +284,27 @@ class NetworksCreatePostBody implements AdditionalPropertiesInterface
     }
 
     /**
+     * Enable IPv4 on the network.
+     * To disable IPv4, the daemon must be started with experimental features enabled.
+     */
+    public function getEnableIPv4(): ?bool
+    {
+        return $this->enableIPv4;
+    }
+
+    /**
+     * Enable IPv4 on the network.
+     * To disable IPv4, the daemon must be started with experimental features enabled.
+     */
+    public function setEnableIPv4(?bool $enableIPv4): self
+    {
+        $this->initialized['enableIPv4'] = true;
+        $this->enableIPv4 = $enableIPv4;
+
+        return $this;
+    }
+
+    /**
      * Enable IPv6 on the network.
      */
     public function getEnableIPv6(): ?bool
@@ -368,6 +371,6 @@ class NetworksCreatePostBody implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['name' => ['Name', 'getName', 'setName'], 'checkDuplicate' => ['CheckDuplicate', 'getCheckDuplicate', 'setCheckDuplicate'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'scope' => ['Scope', 'getScope', 'setScope'], 'internal' => ['Internal', 'getInternal', 'setInternal'], 'attachable' => ['Attachable', 'getAttachable', 'setAttachable'], 'ingress' => ['Ingress', 'getIngress', 'setIngress'], 'configOnly' => ['ConfigOnly', 'getConfigOnly', 'setConfigOnly'], 'configFrom' => ['ConfigFrom', 'getConfigFrom', 'setConfigFrom'], 'iPAM' => ['IPAM', 'getIPAM', 'setIPAM'], 'enableIPv6' => ['EnableIPv6', 'getEnableIPv6', 'setEnableIPv6'], 'options' => ['Options', 'getOptions', 'setOptions'], 'labels' => ['Labels', 'getLabels', 'setLabels']];
+        return ['name' => ['Name', 'getName', 'setName'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'scope' => ['Scope', 'getScope', 'setScope'], 'internal' => ['Internal', 'getInternal', 'setInternal'], 'attachable' => ['Attachable', 'getAttachable', 'setAttachable'], 'ingress' => ['Ingress', 'getIngress', 'setIngress'], 'configOnly' => ['ConfigOnly', 'getConfigOnly', 'setConfigOnly'], 'configFrom' => ['ConfigFrom', 'getConfigFrom', 'setConfigFrom'], 'iPAM' => ['IPAM', 'getIPAM', 'setIPAM'], 'enableIPv4' => ['EnableIPv4', 'getEnableIPv4', 'setEnableIPv4'], 'enableIPv6' => ['EnableIPv6', 'getEnableIPv6', 'setEnableIPv6'], 'options' => ['Options', 'getOptions', 'setOptions'], 'labels' => ['Labels', 'getLabels', 'setLabels']];
     }
 }

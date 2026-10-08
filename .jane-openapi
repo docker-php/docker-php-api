@@ -4,7 +4,7 @@ return [
   'date-prefer-interface' => true,
   'directory'             => __DIR__ . '/src',
   'namespace'             => 'Docker\\API',
-  'openapi-file'          => __DIR__ . '/spec/v1.45.json',
+  'openapi-file'          => __DIR__ . '/spec/v1.47.json',
   'reference'             => true,
   'strict'                => false,
   'date-input-format'     => '',

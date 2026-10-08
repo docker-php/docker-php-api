@@ -43,6 +43,9 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
+        if (\array_key_exists('EnableIPv4', $data) && \is_int($data['EnableIPv4'])) {
+            $data['EnableIPv4'] = (bool) $data['EnableIPv4'];
+        }
         if (\array_key_exists('EnableIPv6', $data) && \is_int($data['EnableIPv6'])) {
             $data['EnableIPv6'] = (bool) $data['EnableIPv6'];
         }
@@ -92,6 +95,13 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         } elseif (\array_key_exists('Driver', $data) && null === $data['Driver']) {
             $object->setDriver(null);
             unset($data['Driver']);
+        }
+        if (\array_key_exists('EnableIPv4', $data) && null !== $data['EnableIPv4']) {
+            $object->setEnableIPv4($data['EnableIPv4']);
+            unset($data['EnableIPv4']);
+        } elseif (\array_key_exists('EnableIPv4', $data) && null === $data['EnableIPv4']) {
+            $object->setEnableIPv4(null);
+            unset($data['EnableIPv4']);
         }
         if (\array_key_exists('EnableIPv6', $data) && null !== $data['EnableIPv6']) {
             $object->setEnableIPv6($data['EnableIPv6']);
@@ -212,6 +222,9 @@ class NetworkNormalizer implements DenormalizerInterface, NormalizerInterface, D
         }
         if ($data->isInitialized('driver') && null !== $data->getDriver()) {
             $dataArray['Driver'] = $data->getDriver();
+        }
+        if ($data->isInitialized('enableIPv4') && null !== $data->getEnableIPv4()) {
+            $dataArray['EnableIPv4'] = $data->getEnableIPv4();
         }
         if ($data->isInitialized('enableIPv6') && null !== $data->getEnableIPv6()) {
             $dataArray['EnableIPv6'] = $data->getEnableIPv6();

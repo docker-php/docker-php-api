@@ -21,7 +21,7 @@ class ImageGetAll extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
      * For details on the format, see the [export image endpoint](#operation/ImageGet).
      *
      * @param array{
-     *    "names"?: array, //Image names to filter by
+     *    "names"?: array, //Image names to filter by. Repeat the parameter for multiple images.
      * } $queryParameters
      */
     public function __construct(array $queryParameters = [])
@@ -62,7 +62,7 @@ class ImageGetAll extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
 
     protected function getQueryStyles(): array
     {
-        return ['names' => ['style' => 'form', 'explode' => false]];
+        return ['names' => ['style' => 'form', 'explode' => true]];
     }
 
     /**

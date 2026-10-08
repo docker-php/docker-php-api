@@ -24,7 +24,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      *
      * @var string|null
      */
@@ -34,7 +35,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      *
      * @var string|null
      */
@@ -50,7 +52,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      *
      * @var bool|null
      */
@@ -60,7 +63,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      *
      * @var bool|null
      */
@@ -70,7 +74,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      *
      * @var bool|null
      */
@@ -88,7 +93,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      *
      * @var bool|null
      */
@@ -98,7 +104,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      *
      * @var bool|null
      */
@@ -108,7 +115,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      *
      * @var bool|null
      */
@@ -146,7 +154,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      *
      * @var string|null
      */
@@ -179,7 +188,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always omitted and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      *
      * @var bool|null
      */
@@ -189,7 +199,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Deprecated**: this field is deprecated in API v1.44 and up. It is always omitted.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      *
      * @var string|null
      */
@@ -217,7 +228,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always omitted and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      *
      * @var int|null
      */
@@ -234,7 +246,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      */
     public function getHostname(): ?string
     {
@@ -246,7 +259,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      */
     public function setHostname(?string $hostname): self
     {
@@ -261,7 +275,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      */
     public function getDomainname(): ?string
     {
@@ -273,7 +288,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      */
     public function setDomainname(?string $domainname): self
     {
@@ -307,7 +323,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function getAttachStdin(): ?bool
     {
@@ -319,7 +336,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function setAttachStdin(?bool $attachStdin): self
     {
@@ -334,7 +352,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function getAttachStdout(): ?bool
     {
@@ -346,7 +365,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function setAttachStdout(?bool $attachStdout): self
     {
@@ -361,7 +381,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function getAttachStderr(): ?bool
     {
@@ -373,7 +394,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function setAttachStderr(?bool $attachStderr): self
     {
@@ -415,7 +437,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function getTty(): ?bool
     {
@@ -427,7 +450,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function setTty(?bool $tty): self
     {
@@ -442,7 +466,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function getOpenStdin(): ?bool
     {
@@ -454,7 +479,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function setOpenStdin(?bool $openStdin): self
     {
@@ -469,7 +495,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function getStdinOnce(): ?bool
     {
@@ -481,7 +508,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always false and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always false. It must not be used, and will be removed in API v1.50.
      */
     public function setStdinOnce(?bool $stdinOnce): self
     {
@@ -587,7 +615,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      */
     public function getImage(): ?string
     {
@@ -600,7 +629,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always empty and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always empty. It must not be used, and will be removed in API v1.50.
      */
     public function setImage(?string $image): self
     {
@@ -690,7 +720,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always omitted and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      */
     public function getNetworkDisabled(): ?bool
     {
@@ -702,7 +733,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always omitted and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      */
     public function setNetworkDisabled(?bool $networkDisabled): self
     {
@@ -717,7 +749,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Deprecated**: this field is deprecated in API v1.44 and up. It is always omitted.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      */
     public function getMacAddress(): ?string
     {
@@ -729,7 +762,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Deprecated**: this field is deprecated in API v1.44 and up. It is always omitted.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      */
     public function setMacAddress(?string $macAddress): self
     {
@@ -809,7 +843,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always omitted and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      */
     public function getStopTimeout(): ?int
     {
@@ -821,7 +856,8 @@ class ImageConfig implements AdditionalPropertiesInterface
      *
      * <p><br /></p>
      *
-     * > **Note**: this field is always omitted and must not be used.
+     * > **Deprecated**: this field is not part of the image specification and is
+     * > always omitted. It must not be used, and will be removed in API v1.50.
      */
     public function setStopTimeout(?int $stopTimeout): self
     {

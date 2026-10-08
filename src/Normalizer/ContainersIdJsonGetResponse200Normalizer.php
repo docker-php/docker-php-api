@@ -185,7 +185,7 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
             unset($data['HostConfig']);
         }
         if (\array_key_exists('GraphDriver', $data) && null !== $data['GraphDriver']) {
-            $object->setGraphDriver($this->denormalizer->denormalize($data['GraphDriver'], \Docker\API\Model\GraphDriverData::class, 'json', $context));
+            $object->setGraphDriver($this->denormalizer->denormalize($data['GraphDriver'], \Docker\API\Model\DriverData::class, 'json', $context));
             unset($data['GraphDriver']);
         } elseif (\array_key_exists('GraphDriver', $data) && null === $data['GraphDriver']) {
             $object->setGraphDriver(null);

@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class NetworksCreatePostResponse201Normalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class NetworkCreateResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use CheckArray;
     use DenormalizerAwareTrait;
@@ -23,17 +23,17 @@ class NetworksCreatePostResponse201Normalizer implements DenormalizerInterface, 
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \Docker\API\Model\NetworksCreatePostResponse201::class === $type;
+        return \Docker\API\Model\NetworkCreateResponse::class === $type;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return \is_object($data) && \Docker\API\Model\NetworksCreatePostResponse201::class === $data::class;
+        return \is_object($data) && \Docker\API\Model\NetworkCreateResponse::class === $data::class;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $object = new \Docker\API\Model\NetworksCreatePostResponse201();
+        $object = new \Docker\API\Model\NetworkCreateResponse();
         if (null === $data || false === \is_array($data)) {
             return $object;
         }
@@ -69,12 +69,8 @@ class NetworksCreatePostResponse201Normalizer implements DenormalizerInterface, 
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
-        if ($data->isInitialized('id') && null !== $data->getId()) {
-            $dataArray['Id'] = $data->getId();
-        }
-        if ($data->isInitialized('warning') && null !== $data->getWarning()) {
-            $dataArray['Warning'] = $data->getWarning();
-        }
+        $dataArray['Id'] = $data->getId();
+        $dataArray['Warning'] = $data->getWarning();
         foreach ($data->additionalPropertyEntries() as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $dataArray[$key] = $value;
@@ -86,6 +82,6 @@ class NetworksCreatePostResponse201Normalizer implements DenormalizerInterface, 
 
     public function getSupportedTypes(?string $format = null): array
     {
-        return [\Docker\API\Model\NetworksCreatePostResponse201::class => false];
+        return [\Docker\API\Model\NetworkCreateResponse::class => false];
     }
 }

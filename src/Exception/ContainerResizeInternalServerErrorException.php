@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Docker\API\Exception;
 
-class ContainerResizeNotFoundException extends NotFoundException
+class ContainerResizeInternalServerErrorException extends InternalServerErrorException
 {
     /**
      * @var \Docker\API\Model\ErrorResponse
@@ -17,7 +17,7 @@ class ContainerResizeNotFoundException extends NotFoundException
 
     public function __construct(\Docker\API\Model\ErrorResponse $errorResponse, \Psr\Http\Message\ResponseInterface $response)
     {
-        parent::__construct('no such container');
+        parent::__construct('cannot resize container');
         $this->errorResponse = $errorResponse;
         $this->response = $response;
     }

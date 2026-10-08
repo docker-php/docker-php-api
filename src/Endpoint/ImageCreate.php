@@ -20,6 +20,7 @@ class ImageCreate extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
      *    "changes"?: array, //Apply `Dockerfile` instructions to the image that is created,
      * for example: `changes=ENV DEBUG=true`.
      * Note that `ENV DEBUG=true` should be URI component encoded.
+     * Repeat the parameter to apply multiple instructions.
      *
      * Supported `Dockerfile` instructions:
      * `CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR`
@@ -110,7 +111,7 @@ class ImageCreate extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
 
     protected function getQueryStyles(): array
     {
-        return ['changes' => ['style' => 'form', 'explode' => false]];
+        return ['changes' => ['style' => 'form', 'explode' => true]];
     }
 
     /**

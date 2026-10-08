@@ -104,6 +104,17 @@ class ImageSummary implements AdditionalPropertiesInterface
      * @var int|null
      */
     protected $containers;
+    /**
+     * Manifests is a list of manifests available in this image.
+     * It provides a more detailed view of the platform-specific image manifests
+     * or other image-attached data like build attestations.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @var list<ImageManifestSummary>|null
+     */
+    protected $manifests;
 
     /**
      * ID is the content-addressable ID of an image.
@@ -350,8 +361,41 @@ class ImageSummary implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Manifests is a list of manifests available in this image.
+     * It provides a more detailed view of the platform-specific image manifests
+     * or other image-attached data like build attestations.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @return list<ImageManifestSummary>|null
+     */
+    public function getManifests(): ?array
+    {
+        return $this->manifests;
+    }
+
+    /**
+     * Manifests is a list of manifests available in this image.
+     * It provides a more detailed view of the platform-specific image manifests
+     * or other image-attached data like build attestations.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @param list<ImageManifestSummary>|null $manifests
+     */
+    public function setManifests(?array $manifests): self
+    {
+        $this->initialized['manifests'] = true;
+        $this->manifests = $manifests;
+
+        return $this;
+    }
+
     public function definedProperties(): array
     {
-        return ['id' => ['Id', 'getId', 'setId'], 'parentId' => ['ParentId', 'getParentId', 'setParentId'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'created' => ['Created', 'getCreated', 'setCreated'], 'size' => ['Size', 'getSize', 'setSize'], 'sharedSize' => ['SharedSize', 'getSharedSize', 'setSharedSize'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'containers' => ['Containers', 'getContainers', 'setContainers']];
+        return ['id' => ['Id', 'getId', 'setId'], 'parentId' => ['ParentId', 'getParentId', 'setParentId'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'created' => ['Created', 'getCreated', 'setCreated'], 'size' => ['Size', 'getSize', 'setSize'], 'sharedSize' => ['SharedSize', 'getSharedSize', 'setSharedSize'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'manifests' => ['Manifests', 'getManifests', 'setManifests']];
     }
 }
