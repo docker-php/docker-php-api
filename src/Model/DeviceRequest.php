@@ -20,6 +20,11 @@ class DeviceRequest implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
+     * The name of the device driver to use for this request.
+     *
+     * Note that if this is specified the capabilities are ignored when
+     * selecting a device driver.
+     *
      * @var string|null
      */
     protected $driver;
@@ -34,6 +39,12 @@ class DeviceRequest implements AdditionalPropertiesInterface
     /**
      * A list of capabilities; an OR list of AND lists of capabilities.
      *
+     * Note that if a driver is specified the capabilities have no effect on
+     * selecting a driver as the driver name is used directly.
+     *
+     * Note that if no driver is specified the capabilities are used to
+     * select a driver with the required capabilities.
+     *
      * @var list<list<string>>|null
      */
     protected $capabilities;
@@ -45,11 +56,23 @@ class DeviceRequest implements AdditionalPropertiesInterface
      */
     protected $options;
 
+    /**
+     * The name of the device driver to use for this request.
+     *
+     * Note that if this is specified the capabilities are ignored when
+     * selecting a device driver.
+     */
     public function getDriver(): ?string
     {
         return $this->driver;
     }
 
+    /**
+     * The name of the device driver to use for this request.
+     *
+     * Note that if this is specified the capabilities are ignored when
+     * selecting a device driver.
+     */
     public function setDriver(?string $driver): self
     {
         $this->initialized['driver'] = true;
@@ -93,6 +116,12 @@ class DeviceRequest implements AdditionalPropertiesInterface
     /**
      * A list of capabilities; an OR list of AND lists of capabilities.
      *
+     * Note that if a driver is specified the capabilities have no effect on
+     * selecting a driver as the driver name is used directly.
+     *
+     * Note that if no driver is specified the capabilities are used to
+     * select a driver with the required capabilities.
+     *
      * @return list<list<string>>|null
      */
     public function getCapabilities(): ?array
@@ -102,6 +131,12 @@ class DeviceRequest implements AdditionalPropertiesInterface
 
     /**
      * A list of capabilities; an OR list of AND lists of capabilities.
+     *
+     * Note that if a driver is specified the capabilities have no effect on
+     * selecting a driver as the driver name is used directly.
+     *
+     * Note that if no driver is specified the capabilities are used to
+     * select a driver with the required capabilities.
      *
      * @param list<list<string>>|null $capabilities
      */

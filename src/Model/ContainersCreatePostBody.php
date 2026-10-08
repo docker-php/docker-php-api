@@ -32,7 +32,11 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
      */
     protected $domainname;
     /**
-     * The user that commands are run as inside the container.
+     * Commands run as this user inside the container. If omitted, commands
+     * run as the user specified in the image the container was started from.
+     *
+     * Can be either user-name or UID, and optional group-name or GID,
+     * separated by a colon (`<user-name|UID>[<:group-name|GID>]`).
      *
      * @var string|null
      */
@@ -145,14 +149,6 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
      */
     protected $networkDisabled;
     /**
-     * MAC address of the container.
-     *
-     * Deprecated: this field is deprecated in API v1.44 and up. Use EndpointSettings.MacAddress instead.
-     *
-     * @var string|null
-     */
-    protected $macAddress;
-    /**
      * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
      *
      * @var list<string>|null
@@ -172,7 +168,7 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
     protected $stopSignal;
     /**
      * Timeout to stop a container in seconds. If omitted, the daemon-wide
-     * default is used.
+     * default (`default-stop-timeout`) is used.
      *
      * @var int|null
      */
@@ -238,7 +234,11 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
     }
 
     /**
-     * The user that commands are run as inside the container.
+     * Commands run as this user inside the container. If omitted, commands
+     * run as the user specified in the image the container was started from.
+     *
+     * Can be either user-name or UID, and optional group-name or GID,
+     * separated by a colon (`<user-name|UID>[<:group-name|GID>]`).
      */
     public function getUser(): ?string
     {
@@ -246,7 +246,11 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
     }
 
     /**
-     * The user that commands are run as inside the container.
+     * Commands run as this user inside the container. If omitted, commands
+     * run as the user specified in the image the container was started from.
+     *
+     * Can be either user-name or UID, and optional group-name or GID,
+     * separated by a colon (`<user-name|UID>[<:group-name|GID>]`).
      */
     public function setUser(?string $user): self
     {
@@ -603,29 +607,6 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
     }
 
     /**
-     * MAC address of the container.
-     *
-     * Deprecated: this field is deprecated in API v1.44 and up. Use EndpointSettings.MacAddress instead.
-     */
-    public function getMacAddress(): ?string
-    {
-        return $this->macAddress;
-    }
-
-    /**
-     * MAC address of the container.
-     *
-     * Deprecated: this field is deprecated in API v1.44 and up. Use EndpointSettings.MacAddress instead.
-     */
-    public function setMacAddress(?string $macAddress): self
-    {
-        $this->initialized['macAddress'] = true;
-        $this->macAddress = $macAddress;
-
-        return $this;
-    }
-
-    /**
      * `ONBUILD` metadata that were defined in the image's `Dockerfile`.
      *
      * @return list<string>|null
@@ -692,7 +673,7 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
 
     /**
      * Timeout to stop a container in seconds. If omitted, the daemon-wide
-     * default is used.
+     * default (`default-stop-timeout`) is used.
      */
     public function getStopTimeout(): ?int
     {
@@ -701,7 +682,7 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
 
     /**
      * Timeout to stop a container in seconds. If omitted, the daemon-wide
-     * default is used.
+     * default (`default-stop-timeout`) is used.
      */
     public function setStopTimeout(?int $stopTimeout): self
     {
@@ -780,6 +761,6 @@ class ContainersCreatePostBody implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['hostname' => ['Hostname', 'getHostname', 'setHostname'], 'domainname' => ['Domainname', 'getDomainname', 'setDomainname'], 'user' => ['User', 'getUser', 'setUser'], 'attachStdin' => ['AttachStdin', 'getAttachStdin', 'setAttachStdin'], 'attachStdout' => ['AttachStdout', 'getAttachStdout', 'setAttachStdout'], 'attachStderr' => ['AttachStderr', 'getAttachStderr', 'setAttachStderr'], 'exposedPorts' => ['ExposedPorts', 'getExposedPorts', 'setExposedPorts'], 'tty' => ['Tty', 'getTty', 'setTty'], 'openStdin' => ['OpenStdin', 'getOpenStdin', 'setOpenStdin'], 'stdinOnce' => ['StdinOnce', 'getStdinOnce', 'setStdinOnce'], 'env' => ['Env', 'getEnv', 'setEnv'], 'cmd' => ['Cmd', 'getCmd', 'setCmd'], 'healthcheck' => ['Healthcheck', 'getHealthcheck', 'setHealthcheck'], 'argsEscaped' => ['ArgsEscaped', 'getArgsEscaped', 'setArgsEscaped'], 'image' => ['Image', 'getImage', 'setImage'], 'volumes' => ['Volumes', 'getVolumes', 'setVolumes'], 'workingDir' => ['WorkingDir', 'getWorkingDir', 'setWorkingDir'], 'entrypoint' => ['Entrypoint', 'getEntrypoint', 'setEntrypoint'], 'networkDisabled' => ['NetworkDisabled', 'getNetworkDisabled', 'setNetworkDisabled'], 'macAddress' => ['MacAddress', 'getMacAddress', 'setMacAddress'], 'onBuild' => ['OnBuild', 'getOnBuild', 'setOnBuild'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'stopSignal' => ['StopSignal', 'getStopSignal', 'setStopSignal'], 'stopTimeout' => ['StopTimeout', 'getStopTimeout', 'setStopTimeout'], 'shell' => ['Shell', 'getShell', 'setShell'], 'hostConfig' => ['HostConfig', 'getHostConfig', 'setHostConfig'], 'networkingConfig' => ['NetworkingConfig', 'getNetworkingConfig', 'setNetworkingConfig']];
+        return ['hostname' => ['Hostname', 'getHostname', 'setHostname'], 'domainname' => ['Domainname', 'getDomainname', 'setDomainname'], 'user' => ['User', 'getUser', 'setUser'], 'attachStdin' => ['AttachStdin', 'getAttachStdin', 'setAttachStdin'], 'attachStdout' => ['AttachStdout', 'getAttachStdout', 'setAttachStdout'], 'attachStderr' => ['AttachStderr', 'getAttachStderr', 'setAttachStderr'], 'exposedPorts' => ['ExposedPorts', 'getExposedPorts', 'setExposedPorts'], 'tty' => ['Tty', 'getTty', 'setTty'], 'openStdin' => ['OpenStdin', 'getOpenStdin', 'setOpenStdin'], 'stdinOnce' => ['StdinOnce', 'getStdinOnce', 'setStdinOnce'], 'env' => ['Env', 'getEnv', 'setEnv'], 'cmd' => ['Cmd', 'getCmd', 'setCmd'], 'healthcheck' => ['Healthcheck', 'getHealthcheck', 'setHealthcheck'], 'argsEscaped' => ['ArgsEscaped', 'getArgsEscaped', 'setArgsEscaped'], 'image' => ['Image', 'getImage', 'setImage'], 'volumes' => ['Volumes', 'getVolumes', 'setVolumes'], 'workingDir' => ['WorkingDir', 'getWorkingDir', 'setWorkingDir'], 'entrypoint' => ['Entrypoint', 'getEntrypoint', 'setEntrypoint'], 'networkDisabled' => ['NetworkDisabled', 'getNetworkDisabled', 'setNetworkDisabled'], 'onBuild' => ['OnBuild', 'getOnBuild', 'setOnBuild'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'stopSignal' => ['StopSignal', 'getStopSignal', 'setStopSignal'], 'stopTimeout' => ['StopTimeout', 'getStopTimeout', 'setStopTimeout'], 'shell' => ['Shell', 'getShell', 'setShell'], 'hostConfig' => ['HostConfig', 'getHostConfig', 'setHostConfig'], 'networkingConfig' => ['NetworkingConfig', 'getNetworkingConfig', 'setNetworkingConfig']];
     }
 }

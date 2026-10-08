@@ -98,12 +98,29 @@ class ImageSummary implements AdditionalPropertiesInterface
      * Number of containers using this image. Includes both stopped and running
      * containers.
      *
-     * This size is not calculated by default, and depends on which API endpoint
-     * is used. `-1` indicates that the value has not been set / calculated.
+     * `-1` indicates that the value has not been set / calculated.
      *
      * @var int|null
      */
     protected $containers;
+    /**
+     * Manifests is a list of manifests available in this image.
+     * It provides a more detailed view of the platform-specific image manifests
+     * or other image-attached data like build attestations.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @var list<ImageManifestSummary>|null
+     */
+    protected $manifests;
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     *
+     * @var OCIDescriptor|null
+     */
+    protected $descriptor;
 
     /**
      * ID is the content-addressable ID of an image.
@@ -327,8 +344,7 @@ class ImageSummary implements AdditionalPropertiesInterface
      * Number of containers using this image. Includes both stopped and running
      * containers.
      *
-     * This size is not calculated by default, and depends on which API endpoint
-     * is used. `-1` indicates that the value has not been set / calculated.
+     * `-1` indicates that the value has not been set / calculated.
      */
     public function getContainers(): ?int
     {
@@ -339,8 +355,7 @@ class ImageSummary implements AdditionalPropertiesInterface
      * Number of containers using this image. Includes both stopped and running
      * containers.
      *
-     * This size is not calculated by default, and depends on which API endpoint
-     * is used. `-1` indicates that the value has not been set / calculated.
+     * `-1` indicates that the value has not been set / calculated.
      */
     public function setContainers(?int $containers): self
     {
@@ -350,8 +365,62 @@ class ImageSummary implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Manifests is a list of manifests available in this image.
+     * It provides a more detailed view of the platform-specific image manifests
+     * or other image-attached data like build attestations.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @return list<ImageManifestSummary>|null
+     */
+    public function getManifests(): ?array
+    {
+        return $this->manifests;
+    }
+
+    /**
+     * Manifests is a list of manifests available in this image.
+     * It provides a more detailed view of the platform-specific image manifests
+     * or other image-attached data like build attestations.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @param list<ImageManifestSummary>|null $manifests
+     */
+    public function setManifests(?array $manifests): self
+    {
+        $this->initialized['manifests'] = true;
+        $this->manifests = $manifests;
+
+        return $this;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function getDescriptor(): ?OCIDescriptor
+    {
+        return $this->descriptor;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function setDescriptor(?OCIDescriptor $descriptor): self
+    {
+        $this->initialized['descriptor'] = true;
+        $this->descriptor = $descriptor;
+
+        return $this;
+    }
+
     public function definedProperties(): array
     {
-        return ['id' => ['Id', 'getId', 'setId'], 'parentId' => ['ParentId', 'getParentId', 'setParentId'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'created' => ['Created', 'getCreated', 'setCreated'], 'size' => ['Size', 'getSize', 'setSize'], 'sharedSize' => ['SharedSize', 'getSharedSize', 'setSharedSize'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'containers' => ['Containers', 'getContainers', 'setContainers']];
+        return ['id' => ['Id', 'getId', 'setId'], 'parentId' => ['ParentId', 'getParentId', 'setParentId'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'created' => ['Created', 'getCreated', 'setCreated'], 'size' => ['Size', 'getSize', 'setSize'], 'sharedSize' => ['SharedSize', 'getSharedSize', 'setSharedSize'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'manifests' => ['Manifests', 'getManifests', 'setManifests'], 'descriptor' => ['Descriptor', 'getDescriptor', 'setDescriptor']];
     }
 }

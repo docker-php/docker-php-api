@@ -17,7 +17,7 @@ class ConfigList extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
      *
      * - `id=<config id>`
      * - `label=<key> or label=<key>=value`
-     * - `name=<config name>`
+     * - `name=<config name>` matches all or part of a config name (prefix match)
      * } $queryParameters
      */
     public function __construct(array $queryParameters = [])

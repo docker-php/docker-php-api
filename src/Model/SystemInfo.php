@@ -119,16 +119,6 @@ class SystemInfo implements AdditionalPropertiesInterface
      */
     protected $swapLimit;
     /**
-     * Indicates if the host has kernel memory TCP limit support enabled. This
-     * field is omitted if not supported.
-     *
-     * Kernel memory TCP limits are not supported when using cgroups v2, which
-     * does not support the corresponding `memory.kmem.tcp.limit_in_bytes` cgroup.
-     *
-     * @var bool|null
-     */
-    protected $kernelMemoryTCP;
-    /**
      * Indicates if CPU CFS(Completely Fair Scheduler) period is supported by
      * the host.
      *
@@ -174,18 +164,6 @@ class SystemInfo implements AdditionalPropertiesInterface
      * @var bool|null
      */
     protected $iPv4Forwarding;
-    /**
-     * Indicates if `bridge-nf-call-iptables` is available on the host.
-     *
-     * @var bool|null
-     */
-    protected $bridgeNfIptables;
-    /**
-     * Indicates if `bridge-nf-call-ip6tables` is available on the host.
-     *
-     * @var bool|null
-     */
-    protected $bridgeNfIp6tables;
     /**
      * Indicates if the daemon is running in debug-mode / with debug-level
      * logging enabled.
@@ -251,7 +229,7 @@ class SystemInfo implements AdditionalPropertiesInterface
      */
     protected $kernelVersion;
     /**
-     * Name of the host's operating system, for example: "Ubuntu 16.04.2 LTS"
+     * Name of the host's operating system, for example: "Ubuntu 24.04 LTS"
      * or "Windows Server 2016 Datacenter".
      *
      * @var string|null
@@ -506,6 +484,31 @@ class SystemInfo implements AdditionalPropertiesInterface
      */
     protected $defaultAddressPools;
     /**
+     * Information about the daemon's firewalling configuration.
+     *
+     * This field is currently only used on Linux, and omitted on other platforms.
+     *
+     * @var FirewallInfo|null
+     */
+    protected $firewallBackend;
+    /**
+     * List of devices discovered by device drivers.
+     *
+     * Each device includes information about its source driver, kind, name,
+     * and additional driver-specific attributes.
+     *
+     * @var list<DeviceInfo>|null
+     */
+    protected $discoveredDevices;
+    /**
+     * Information about the Node Resource Interface (NRI).
+     *
+     * This field is only present if NRI is enabled.
+     *
+     * @var NRIInfo|null
+     */
+    protected $nRI;
+    /**
      * List of warnings / informational messages about missing features, or
      * issues related to the daemon configuration.
      *
@@ -530,6 +533,13 @@ class SystemInfo implements AdditionalPropertiesInterface
      * @var list<string>|null
      */
     protected $cDISpecDirs;
+    /**
+     * Information for connecting to the containerd instance that is used by the daemon.
+     * This is included for debugging purposes only.
+     *
+     * @var ContainerdInfo|null
+     */
+    protected $containerd;
 
     /**
      * Unique identifier of the daemon.
@@ -818,33 +828,6 @@ class SystemInfo implements AdditionalPropertiesInterface
     }
 
     /**
-     * Indicates if the host has kernel memory TCP limit support enabled. This
-     * field is omitted if not supported.
-     *
-     * Kernel memory TCP limits are not supported when using cgroups v2, which
-     * does not support the corresponding `memory.kmem.tcp.limit_in_bytes` cgroup.
-     */
-    public function getKernelMemoryTCP(): ?bool
-    {
-        return $this->kernelMemoryTCP;
-    }
-
-    /**
-     * Indicates if the host has kernel memory TCP limit support enabled. This
-     * field is omitted if not supported.
-     *
-     * Kernel memory TCP limits are not supported when using cgroups v2, which
-     * does not support the corresponding `memory.kmem.tcp.limit_in_bytes` cgroup.
-     */
-    public function setKernelMemoryTCP(?bool $kernelMemoryTCP): self
-    {
-        $this->initialized['kernelMemoryTCP'] = true;
-        $this->kernelMemoryTCP = $kernelMemoryTCP;
-
-        return $this;
-    }
-
-    /**
      * Indicates if CPU CFS(Completely Fair Scheduler) period is supported by
      * the host.
      */
@@ -981,44 +964,6 @@ class SystemInfo implements AdditionalPropertiesInterface
     {
         $this->initialized['iPv4Forwarding'] = true;
         $this->iPv4Forwarding = $iPv4Forwarding;
-
-        return $this;
-    }
-
-    /**
-     * Indicates if `bridge-nf-call-iptables` is available on the host.
-     */
-    public function getBridgeNfIptables(): ?bool
-    {
-        return $this->bridgeNfIptables;
-    }
-
-    /**
-     * Indicates if `bridge-nf-call-iptables` is available on the host.
-     */
-    public function setBridgeNfIptables(?bool $bridgeNfIptables): self
-    {
-        $this->initialized['bridgeNfIptables'] = true;
-        $this->bridgeNfIptables = $bridgeNfIptables;
-
-        return $this;
-    }
-
-    /**
-     * Indicates if `bridge-nf-call-ip6tables` is available on the host.
-     */
-    public function getBridgeNfIp6tables(): ?bool
-    {
-        return $this->bridgeNfIp6tables;
-    }
-
-    /**
-     * Indicates if `bridge-nf-call-ip6tables` is available on the host.
-     */
-    public function setBridgeNfIp6tables(?bool $bridgeNfIp6tables): self
-    {
-        $this->initialized['bridgeNfIp6tables'] = true;
-        $this->bridgeNfIp6tables = $bridgeNfIp6tables;
 
         return $this;
     }
@@ -1215,7 +1160,7 @@ class SystemInfo implements AdditionalPropertiesInterface
     }
 
     /**
-     * Name of the host's operating system, for example: "Ubuntu 16.04.2 LTS"
+     * Name of the host's operating system, for example: "Ubuntu 24.04 LTS"
      * or "Windows Server 2016 Datacenter".
      */
     public function getOperatingSystem(): ?string
@@ -1224,7 +1169,7 @@ class SystemInfo implements AdditionalPropertiesInterface
     }
 
     /**
-     * Name of the host's operating system, for example: "Ubuntu 16.04.2 LTS"
+     * Name of the host's operating system, for example: "Ubuntu 24.04 LTS"
      * or "Windows Server 2016 Datacenter".
      */
     public function setOperatingSystem(?string $operatingSystem): self
@@ -1941,6 +1886,81 @@ class SystemInfo implements AdditionalPropertiesInterface
     }
 
     /**
+     * Information about the daemon's firewalling configuration.
+     *
+     * This field is currently only used on Linux, and omitted on other platforms.
+     */
+    public function getFirewallBackend(): ?FirewallInfo
+    {
+        return $this->firewallBackend;
+    }
+
+    /**
+     * Information about the daemon's firewalling configuration.
+     *
+     * This field is currently only used on Linux, and omitted on other platforms.
+     */
+    public function setFirewallBackend(?FirewallInfo $firewallBackend): self
+    {
+        $this->initialized['firewallBackend'] = true;
+        $this->firewallBackend = $firewallBackend;
+
+        return $this;
+    }
+
+    /**
+     * List of devices discovered by device drivers.
+     *
+     * Each device includes information about its source driver, kind, name,
+     * and additional driver-specific attributes.
+     *
+     * @return list<DeviceInfo>|null
+     */
+    public function getDiscoveredDevices(): ?array
+    {
+        return $this->discoveredDevices;
+    }
+
+    /**
+     * List of devices discovered by device drivers.
+     *
+     * Each device includes information about its source driver, kind, name,
+     * and additional driver-specific attributes.
+     *
+     * @param list<DeviceInfo>|null $discoveredDevices
+     */
+    public function setDiscoveredDevices(?array $discoveredDevices): self
+    {
+        $this->initialized['discoveredDevices'] = true;
+        $this->discoveredDevices = $discoveredDevices;
+
+        return $this;
+    }
+
+    /**
+     * Information about the Node Resource Interface (NRI).
+     *
+     * This field is only present if NRI is enabled.
+     */
+    public function getNRI(): ?NRIInfo
+    {
+        return $this->nRI;
+    }
+
+    /**
+     * Information about the Node Resource Interface (NRI).
+     *
+     * This field is only present if NRI is enabled.
+     */
+    public function setNRI(?NRIInfo $nRI): self
+    {
+        $this->initialized['nRI'] = true;
+        $this->nRI = $nRI;
+
+        return $this;
+    }
+
+    /**
      * List of warnings / informational messages about missing features, or
      * issues related to the daemon configuration.
      *
@@ -2012,8 +2032,29 @@ class SystemInfo implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Information for connecting to the containerd instance that is used by the daemon.
+     * This is included for debugging purposes only.
+     */
+    public function getContainerd(): ?ContainerdInfo
+    {
+        return $this->containerd;
+    }
+
+    /**
+     * Information for connecting to the containerd instance that is used by the daemon.
+     * This is included for debugging purposes only.
+     */
+    public function setContainerd(?ContainerdInfo $containerd): self
+    {
+        $this->initialized['containerd'] = true;
+        $this->containerd = $containerd;
+
+        return $this;
+    }
+
     public function definedProperties(): array
     {
-        return ['iD' => ['ID', 'getID', 'setID'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'containersRunning' => ['ContainersRunning', 'getContainersRunning', 'setContainersRunning'], 'containersPaused' => ['ContainersPaused', 'getContainersPaused', 'setContainersPaused'], 'containersStopped' => ['ContainersStopped', 'getContainersStopped', 'setContainersStopped'], 'images' => ['Images', 'getImages', 'setImages'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'driverStatus' => ['DriverStatus', 'getDriverStatus', 'setDriverStatus'], 'dockerRootDir' => ['DockerRootDir', 'getDockerRootDir', 'setDockerRootDir'], 'plugins' => ['Plugins', 'getPlugins', 'setPlugins'], 'memoryLimit' => ['MemoryLimit', 'getMemoryLimit', 'setMemoryLimit'], 'swapLimit' => ['SwapLimit', 'getSwapLimit', 'setSwapLimit'], 'kernelMemoryTCP' => ['KernelMemoryTCP', 'getKernelMemoryTCP', 'setKernelMemoryTCP'], 'cpuCfsPeriod' => ['CpuCfsPeriod', 'getCpuCfsPeriod', 'setCpuCfsPeriod'], 'cpuCfsQuota' => ['CpuCfsQuota', 'getCpuCfsQuota', 'setCpuCfsQuota'], 'cPUShares' => ['CPUShares', 'getCPUShares', 'setCPUShares'], 'cPUSet' => ['CPUSet', 'getCPUSet', 'setCPUSet'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'iPv4Forwarding' => ['IPv4Forwarding', 'getIPv4Forwarding', 'setIPv4Forwarding'], 'bridgeNfIptables' => ['BridgeNfIptables', 'getBridgeNfIptables', 'setBridgeNfIptables'], 'bridgeNfIp6tables' => ['BridgeNfIp6tables', 'getBridgeNfIp6tables', 'setBridgeNfIp6tables'], 'debug' => ['Debug', 'getDebug', 'setDebug'], 'nFd' => ['NFd', 'getNFd', 'setNFd'], 'nGoroutines' => ['NGoroutines', 'getNGoroutines', 'setNGoroutines'], 'systemTime' => ['SystemTime', 'getSystemTime', 'setSystemTime'], 'loggingDriver' => ['LoggingDriver', 'getLoggingDriver', 'setLoggingDriver'], 'cgroupDriver' => ['CgroupDriver', 'getCgroupDriver', 'setCgroupDriver'], 'cgroupVersion' => ['CgroupVersion', 'getCgroupVersion', 'setCgroupVersion'], 'nEventsListener' => ['NEventsListener', 'getNEventsListener', 'setNEventsListener'], 'kernelVersion' => ['KernelVersion', 'getKernelVersion', 'setKernelVersion'], 'operatingSystem' => ['OperatingSystem', 'getOperatingSystem', 'setOperatingSystem'], 'oSVersion' => ['OSVersion', 'getOSVersion', 'setOSVersion'], 'oSType' => ['OSType', 'getOSType', 'setOSType'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'nCPU' => ['NCPU', 'getNCPU', 'setNCPU'], 'memTotal' => ['MemTotal', 'getMemTotal', 'setMemTotal'], 'indexServerAddress' => ['IndexServerAddress', 'getIndexServerAddress', 'setIndexServerAddress'], 'registryConfig' => ['RegistryConfig', 'getRegistryConfig', 'setRegistryConfig'], 'genericResources' => ['GenericResources', 'getGenericResources', 'setGenericResources'], 'httpProxy' => ['HttpProxy', 'getHttpProxy', 'setHttpProxy'], 'httpsProxy' => ['HttpsProxy', 'getHttpsProxy', 'setHttpsProxy'], 'noProxy' => ['NoProxy', 'getNoProxy', 'setNoProxy'], 'name' => ['Name', 'getName', 'setName'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'experimentalBuild' => ['ExperimentalBuild', 'getExperimentalBuild', 'setExperimentalBuild'], 'serverVersion' => ['ServerVersion', 'getServerVersion', 'setServerVersion'], 'runtimes' => ['Runtimes', 'getRuntimes', 'setRuntimes'], 'defaultRuntime' => ['DefaultRuntime', 'getDefaultRuntime', 'setDefaultRuntime'], 'swarm' => ['Swarm', 'getSwarm', 'setSwarm'], 'liveRestoreEnabled' => ['LiveRestoreEnabled', 'getLiveRestoreEnabled', 'setLiveRestoreEnabled'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'initBinary' => ['InitBinary', 'getInitBinary', 'setInitBinary'], 'containerdCommit' => ['ContainerdCommit', 'getContainerdCommit', 'setContainerdCommit'], 'runcCommit' => ['RuncCommit', 'getRuncCommit', 'setRuncCommit'], 'initCommit' => ['InitCommit', 'getInitCommit', 'setInitCommit'], 'securityOptions' => ['SecurityOptions', 'getSecurityOptions', 'setSecurityOptions'], 'productLicense' => ['ProductLicense', 'getProductLicense', 'setProductLicense'], 'defaultAddressPools' => ['DefaultAddressPools', 'getDefaultAddressPools', 'setDefaultAddressPools'], 'warnings' => ['Warnings', 'getWarnings', 'setWarnings'], 'cDISpecDirs' => ['CDISpecDirs', 'getCDISpecDirs', 'setCDISpecDirs']];
+        return ['iD' => ['ID', 'getID', 'setID'], 'containers' => ['Containers', 'getContainers', 'setContainers'], 'containersRunning' => ['ContainersRunning', 'getContainersRunning', 'setContainersRunning'], 'containersPaused' => ['ContainersPaused', 'getContainersPaused', 'setContainersPaused'], 'containersStopped' => ['ContainersStopped', 'getContainersStopped', 'setContainersStopped'], 'images' => ['Images', 'getImages', 'setImages'], 'driver' => ['Driver', 'getDriver', 'setDriver'], 'driverStatus' => ['DriverStatus', 'getDriverStatus', 'setDriverStatus'], 'dockerRootDir' => ['DockerRootDir', 'getDockerRootDir', 'setDockerRootDir'], 'plugins' => ['Plugins', 'getPlugins', 'setPlugins'], 'memoryLimit' => ['MemoryLimit', 'getMemoryLimit', 'setMemoryLimit'], 'swapLimit' => ['SwapLimit', 'getSwapLimit', 'setSwapLimit'], 'cpuCfsPeriod' => ['CpuCfsPeriod', 'getCpuCfsPeriod', 'setCpuCfsPeriod'], 'cpuCfsQuota' => ['CpuCfsQuota', 'getCpuCfsQuota', 'setCpuCfsQuota'], 'cPUShares' => ['CPUShares', 'getCPUShares', 'setCPUShares'], 'cPUSet' => ['CPUSet', 'getCPUSet', 'setCPUSet'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'iPv4Forwarding' => ['IPv4Forwarding', 'getIPv4Forwarding', 'setIPv4Forwarding'], 'debug' => ['Debug', 'getDebug', 'setDebug'], 'nFd' => ['NFd', 'getNFd', 'setNFd'], 'nGoroutines' => ['NGoroutines', 'getNGoroutines', 'setNGoroutines'], 'systemTime' => ['SystemTime', 'getSystemTime', 'setSystemTime'], 'loggingDriver' => ['LoggingDriver', 'getLoggingDriver', 'setLoggingDriver'], 'cgroupDriver' => ['CgroupDriver', 'getCgroupDriver', 'setCgroupDriver'], 'cgroupVersion' => ['CgroupVersion', 'getCgroupVersion', 'setCgroupVersion'], 'nEventsListener' => ['NEventsListener', 'getNEventsListener', 'setNEventsListener'], 'kernelVersion' => ['KernelVersion', 'getKernelVersion', 'setKernelVersion'], 'operatingSystem' => ['OperatingSystem', 'getOperatingSystem', 'setOperatingSystem'], 'oSVersion' => ['OSVersion', 'getOSVersion', 'setOSVersion'], 'oSType' => ['OSType', 'getOSType', 'setOSType'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'nCPU' => ['NCPU', 'getNCPU', 'setNCPU'], 'memTotal' => ['MemTotal', 'getMemTotal', 'setMemTotal'], 'indexServerAddress' => ['IndexServerAddress', 'getIndexServerAddress', 'setIndexServerAddress'], 'registryConfig' => ['RegistryConfig', 'getRegistryConfig', 'setRegistryConfig'], 'genericResources' => ['GenericResources', 'getGenericResources', 'setGenericResources'], 'httpProxy' => ['HttpProxy', 'getHttpProxy', 'setHttpProxy'], 'httpsProxy' => ['HttpsProxy', 'getHttpsProxy', 'setHttpsProxy'], 'noProxy' => ['NoProxy', 'getNoProxy', 'setNoProxy'], 'name' => ['Name', 'getName', 'setName'], 'labels' => ['Labels', 'getLabels', 'setLabels'], 'experimentalBuild' => ['ExperimentalBuild', 'getExperimentalBuild', 'setExperimentalBuild'], 'serverVersion' => ['ServerVersion', 'getServerVersion', 'setServerVersion'], 'runtimes' => ['Runtimes', 'getRuntimes', 'setRuntimes'], 'defaultRuntime' => ['DefaultRuntime', 'getDefaultRuntime', 'setDefaultRuntime'], 'swarm' => ['Swarm', 'getSwarm', 'setSwarm'], 'liveRestoreEnabled' => ['LiveRestoreEnabled', 'getLiveRestoreEnabled', 'setLiveRestoreEnabled'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'initBinary' => ['InitBinary', 'getInitBinary', 'setInitBinary'], 'containerdCommit' => ['ContainerdCommit', 'getContainerdCommit', 'setContainerdCommit'], 'runcCommit' => ['RuncCommit', 'getRuncCommit', 'setRuncCommit'], 'initCommit' => ['InitCommit', 'getInitCommit', 'setInitCommit'], 'securityOptions' => ['SecurityOptions', 'getSecurityOptions', 'setSecurityOptions'], 'productLicense' => ['ProductLicense', 'getProductLicense', 'setProductLicense'], 'defaultAddressPools' => ['DefaultAddressPools', 'getDefaultAddressPools', 'setDefaultAddressPools'], 'firewallBackend' => ['FirewallBackend', 'getFirewallBackend', 'setFirewallBackend'], 'discoveredDevices' => ['DiscoveredDevices', 'getDiscoveredDevices', 'setDiscoveredDevices'], 'nRI' => ['NRI', 'getNRI', 'setNRI'], 'warnings' => ['Warnings', 'getWarnings', 'setWarnings'], 'cDISpecDirs' => ['CDISpecDirs', 'getCDISpecDirs', 'setCDISpecDirs'], 'containerd' => ['Containerd', 'getContainerd', 'setContainerd']];
     }
 }

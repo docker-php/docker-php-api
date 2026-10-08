@@ -8,18 +8,15 @@ class ContainerUnpause extends \Docker\API\Runtime\Client\BaseEndpoint implement
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $id;
-    protected $accept;
 
     /**
      * Resume a container which has been paused.
      *
-     * @param string $id     ID or name of the container
-     * @param array  $accept Accept content header application/json|text/plain
+     * @param string $id ID or name of the container
      */
-    public function __construct(string $id, array $accept = [])
+    public function __construct(string $id)
     {
         $this->id = $id;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -39,11 +36,7 @@ class ContainerUnpause extends \Docker\API\Runtime\Client\BaseEndpoint implement
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['application/json', 'text/plain']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     /**

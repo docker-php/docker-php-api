@@ -43,9 +43,6 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (\array_key_exists('CheckDuplicate', $data) && \is_int($data['CheckDuplicate'])) {
-            $data['CheckDuplicate'] = (bool) $data['CheckDuplicate'];
-        }
         if (\array_key_exists('Internal', $data) && \is_int($data['Internal'])) {
             $data['Internal'] = (bool) $data['Internal'];
         }
@@ -58,6 +55,9 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         if (\array_key_exists('ConfigOnly', $data) && \is_int($data['ConfigOnly'])) {
             $data['ConfigOnly'] = (bool) $data['ConfigOnly'];
         }
+        if (\array_key_exists('EnableIPv4', $data) && \is_int($data['EnableIPv4'])) {
+            $data['EnableIPv4'] = (bool) $data['EnableIPv4'];
+        }
         if (\array_key_exists('EnableIPv6', $data) && \is_int($data['EnableIPv6'])) {
             $data['EnableIPv6'] = (bool) $data['EnableIPv6'];
         }
@@ -67,13 +67,6 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         } elseif (\array_key_exists('Name', $data) && null === $data['Name']) {
             $object->setName(null);
             unset($data['Name']);
-        }
-        if (\array_key_exists('CheckDuplicate', $data) && null !== $data['CheckDuplicate']) {
-            $object->setCheckDuplicate($data['CheckDuplicate']);
-            unset($data['CheckDuplicate']);
-        } elseif (\array_key_exists('CheckDuplicate', $data) && null === $data['CheckDuplicate']) {
-            $object->setCheckDuplicate(null);
-            unset($data['CheckDuplicate']);
         }
         if (\array_key_exists('Driver', $data) && null !== $data['Driver']) {
             $object->setDriver($data['Driver']);
@@ -131,6 +124,13 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
             $object->setIPAM(null);
             unset($data['IPAM']);
         }
+        if (\array_key_exists('EnableIPv4', $data) && null !== $data['EnableIPv4']) {
+            $object->setEnableIPv4($data['EnableIPv4']);
+            unset($data['EnableIPv4']);
+        } elseif (\array_key_exists('EnableIPv4', $data) && null === $data['EnableIPv4']) {
+            $object->setEnableIPv4(null);
+            unset($data['EnableIPv4']);
+        }
         if (\array_key_exists('EnableIPv6', $data) && null !== $data['EnableIPv6']) {
             $object->setEnableIPv6($data['EnableIPv6']);
             unset($data['EnableIPv6']);
@@ -173,9 +173,6 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
     {
         $dataArray = [];
         $dataArray['Name'] = $data->getName();
-        if ($data->isInitialized('checkDuplicate') && null !== $data->getCheckDuplicate()) {
-            $dataArray['CheckDuplicate'] = $data->getCheckDuplicate();
-        }
         if ($data->isInitialized('driver') && null !== $data->getDriver()) {
             $dataArray['Driver'] = $data->getDriver();
         }
@@ -199,6 +196,9 @@ class NetworksCreatePostBodyNormalizer implements DenormalizerInterface, Normali
         }
         if ($data->isInitialized('iPAM') && null !== $data->getIPAM()) {
             $dataArray['IPAM'] = null === $data->getIPAM() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getIPAM(), 'json', $context));
+        }
+        if ($data->isInitialized('enableIPv4') && null !== $data->getEnableIPv4()) {
+            $dataArray['EnableIPv4'] = $data->getEnableIPv4();
         }
         if ($data->isInitialized('enableIPv6') && null !== $data->getEnableIPv6()) {
             $dataArray['EnableIPv6'] = $data->getEnableIPv6();

@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class IdResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class IDResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use CheckArray;
     use DenormalizerAwareTrait;
@@ -23,17 +23,17 @@ class IdResponseNormalizer implements DenormalizerInterface, NormalizerInterface
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \Docker\API\Model\IdResponse::class === $type;
+        return \Docker\API\Model\IDResponse::class === $type;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return \is_object($data) && \Docker\API\Model\IdResponse::class === $data::class;
+        return \is_object($data) && \Docker\API\Model\IDResponse::class === $data::class;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $object = new \Docker\API\Model\IdResponse();
+        $object = new \Docker\API\Model\IDResponse();
         if (null === $data || false === \is_array($data)) {
             return $object;
         }
@@ -74,6 +74,6 @@ class IdResponseNormalizer implements DenormalizerInterface, NormalizerInterface
 
     public function getSupportedTypes(?string $format = null): array
     {
-        return [\Docker\API\Model\IdResponse::class => false];
+        return [\Docker\API\Model\IDResponse::class => false];
     }
 }

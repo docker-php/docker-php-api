@@ -155,16 +155,6 @@ class HostConfig implements AdditionalPropertiesInterface
      */
     protected $deviceRequests;
     /**
-     * Hard limit for kernel TCP buffer memory (in bytes). Depending on the
-     * OCI runtime in use, this option may be ignored. It is no longer supported
-     * by the default (runc) runtime.
-     *
-     * This field is omitted when empty.
-     *
-     * @var int|null
-     */
-    protected $kernelMemoryTCP;
-    /**
      * Memory soft limit in bytes.
      *
      * @var int|null
@@ -551,11 +541,8 @@ class HostConfig implements AdditionalPropertiesInterface
     protected $shmSize;
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @var array<string, string>|null
      */
@@ -566,6 +553,18 @@ class HostConfig implements AdditionalPropertiesInterface
      * @var string|null
      */
     protected $runtime;
+    /**
+     * Set the initial umask for a Unix container.
+     *
+     * If omitted, the daemon does not set a umask in the OCI process
+     * specification, and the runtime's default behavior applies.
+     *
+     * JSON integers are decimal. For example, use `18` for the octal
+     * umask `0022`, and `511` for the octal umask `0777`.
+     *
+     * @var int|null
+     */
+    protected $umask;
     /**
      * Isolation technology of the container. (Windows only).
      *
@@ -1011,33 +1010,6 @@ class HostConfig implements AdditionalPropertiesInterface
     {
         $this->initialized['deviceRequests'] = true;
         $this->deviceRequests = $deviceRequests;
-
-        return $this;
-    }
-
-    /**
-     * Hard limit for kernel TCP buffer memory (in bytes). Depending on the
-     * OCI runtime in use, this option may be ignored. It is no longer supported
-     * by the default (runc) runtime.
-     *
-     * This field is omitted when empty.
-     */
-    public function getKernelMemoryTCP(): ?int
-    {
-        return $this->kernelMemoryTCP;
-    }
-
-    /**
-     * Hard limit for kernel TCP buffer memory (in bytes). Depending on the
-     * OCI runtime in use, this option may be ignored. It is no longer supported
-     * by the default (runc) runtime.
-     *
-     * This field is omitted when empty.
-     */
-    public function setKernelMemoryTCP(?int $kernelMemoryTCP): self
-    {
-        $this->initialized['kernelMemoryTCP'] = true;
-        $this->kernelMemoryTCP = $kernelMemoryTCP;
 
         return $this;
     }
@@ -2208,11 +2180,8 @@ class HostConfig implements AdditionalPropertiesInterface
 
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @return array<string, string>|null
      */
@@ -2223,11 +2192,8 @@ class HostConfig implements AdditionalPropertiesInterface
 
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @param array<string, string>|null $sysctls
      */
@@ -2254,6 +2220,37 @@ class HostConfig implements AdditionalPropertiesInterface
     {
         $this->initialized['runtime'] = true;
         $this->runtime = $runtime;
+
+        return $this;
+    }
+
+    /**
+     * Set the initial umask for a Unix container.
+     *
+     * If omitted, the daemon does not set a umask in the OCI process
+     * specification, and the runtime's default behavior applies.
+     *
+     * JSON integers are decimal. For example, use `18` for the octal
+     * umask `0022`, and `511` for the octal umask `0777`.
+     */
+    public function getUmask(): ?int
+    {
+        return $this->umask;
+    }
+
+    /**
+     * Set the initial umask for a Unix container.
+     *
+     * If omitted, the daemon does not set a umask in the OCI process
+     * specification, and the runtime's default behavior applies.
+     *
+     * JSON integers are decimal. For example, use `18` for the octal
+     * umask `0022`, and `511` for the octal umask `0777`.
+     */
+    public function setUmask(?int $umask): self
+    {
+        $this->initialized['umask'] = true;
+        $this->umask = $umask;
 
         return $this;
     }
@@ -2329,6 +2326,6 @@ class HostConfig implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['cpuShares' => ['CpuShares', 'getCpuShares', 'setCpuShares'], 'memory' => ['Memory', 'getMemory', 'setMemory'], 'cgroupParent' => ['CgroupParent', 'getCgroupParent', 'setCgroupParent'], 'blkioWeight' => ['BlkioWeight', 'getBlkioWeight', 'setBlkioWeight'], 'blkioWeightDevice' => ['BlkioWeightDevice', 'getBlkioWeightDevice', 'setBlkioWeightDevice'], 'blkioDeviceReadBps' => ['BlkioDeviceReadBps', 'getBlkioDeviceReadBps', 'setBlkioDeviceReadBps'], 'blkioDeviceWriteBps' => ['BlkioDeviceWriteBps', 'getBlkioDeviceWriteBps', 'setBlkioDeviceWriteBps'], 'blkioDeviceReadIOps' => ['BlkioDeviceReadIOps', 'getBlkioDeviceReadIOps', 'setBlkioDeviceReadIOps'], 'blkioDeviceWriteIOps' => ['BlkioDeviceWriteIOps', 'getBlkioDeviceWriteIOps', 'setBlkioDeviceWriteIOps'], 'cpuPeriod' => ['CpuPeriod', 'getCpuPeriod', 'setCpuPeriod'], 'cpuQuota' => ['CpuQuota', 'getCpuQuota', 'setCpuQuota'], 'cpuRealtimePeriod' => ['CpuRealtimePeriod', 'getCpuRealtimePeriod', 'setCpuRealtimePeriod'], 'cpuRealtimeRuntime' => ['CpuRealtimeRuntime', 'getCpuRealtimeRuntime', 'setCpuRealtimeRuntime'], 'cpusetCpus' => ['CpusetCpus', 'getCpusetCpus', 'setCpusetCpus'], 'cpusetMems' => ['CpusetMems', 'getCpusetMems', 'setCpusetMems'], 'devices' => ['Devices', 'getDevices', 'setDevices'], 'deviceCgroupRules' => ['DeviceCgroupRules', 'getDeviceCgroupRules', 'setDeviceCgroupRules'], 'deviceRequests' => ['DeviceRequests', 'getDeviceRequests', 'setDeviceRequests'], 'kernelMemoryTCP' => ['KernelMemoryTCP', 'getKernelMemoryTCP', 'setKernelMemoryTCP'], 'memoryReservation' => ['MemoryReservation', 'getMemoryReservation', 'setMemoryReservation'], 'memorySwap' => ['MemorySwap', 'getMemorySwap', 'setMemorySwap'], 'memorySwappiness' => ['MemorySwappiness', 'getMemorySwappiness', 'setMemorySwappiness'], 'nanoCpus' => ['NanoCpus', 'getNanoCpus', 'setNanoCpus'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'init' => ['Init', 'getInit', 'setInit'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'ulimits' => ['Ulimits', 'getUlimits', 'setUlimits'], 'cpuCount' => ['CpuCount', 'getCpuCount', 'setCpuCount'], 'cpuPercent' => ['CpuPercent', 'getCpuPercent', 'setCpuPercent'], 'iOMaximumIOps' => ['IOMaximumIOps', 'getIOMaximumIOps', 'setIOMaximumIOps'], 'iOMaximumBandwidth' => ['IOMaximumBandwidth', 'getIOMaximumBandwidth', 'setIOMaximumBandwidth'], 'binds' => ['Binds', 'getBinds', 'setBinds'], 'containerIDFile' => ['ContainerIDFile', 'getContainerIDFile', 'setContainerIDFile'], 'logConfig' => ['LogConfig', 'getLogConfig', 'setLogConfig'], 'networkMode' => ['NetworkMode', 'getNetworkMode', 'setNetworkMode'], 'portBindings' => ['PortBindings', 'getPortBindings', 'setPortBindings'], 'restartPolicy' => ['RestartPolicy', 'getRestartPolicy', 'setRestartPolicy'], 'autoRemove' => ['AutoRemove', 'getAutoRemove', 'setAutoRemove'], 'volumeDriver' => ['VolumeDriver', 'getVolumeDriver', 'setVolumeDriver'], 'volumesFrom' => ['VolumesFrom', 'getVolumesFrom', 'setVolumesFrom'], 'mounts' => ['Mounts', 'getMounts', 'setMounts'], 'consoleSize' => ['ConsoleSize', 'getConsoleSize', 'setConsoleSize'], 'annotations' => ['Annotations', 'getAnnotations', 'setAnnotations'], 'capAdd' => ['CapAdd', 'getCapAdd', 'setCapAdd'], 'capDrop' => ['CapDrop', 'getCapDrop', 'setCapDrop'], 'cgroupnsMode' => ['CgroupnsMode', 'getCgroupnsMode', 'setCgroupnsMode'], 'dns' => ['Dns', 'getDns', 'setDns'], 'dnsOptions' => ['DnsOptions', 'getDnsOptions', 'setDnsOptions'], 'dnsSearch' => ['DnsSearch', 'getDnsSearch', 'setDnsSearch'], 'extraHosts' => ['ExtraHosts', 'getExtraHosts', 'setExtraHosts'], 'groupAdd' => ['GroupAdd', 'getGroupAdd', 'setGroupAdd'], 'ipcMode' => ['IpcMode', 'getIpcMode', 'setIpcMode'], 'cgroup' => ['Cgroup', 'getCgroup', 'setCgroup'], 'links' => ['Links', 'getLinks', 'setLinks'], 'oomScoreAdj' => ['OomScoreAdj', 'getOomScoreAdj', 'setOomScoreAdj'], 'pidMode' => ['PidMode', 'getPidMode', 'setPidMode'], 'privileged' => ['Privileged', 'getPrivileged', 'setPrivileged'], 'publishAllPorts' => ['PublishAllPorts', 'getPublishAllPorts', 'setPublishAllPorts'], 'readonlyRootfs' => ['ReadonlyRootfs', 'getReadonlyRootfs', 'setReadonlyRootfs'], 'securityOpt' => ['SecurityOpt', 'getSecurityOpt', 'setSecurityOpt'], 'storageOpt' => ['StorageOpt', 'getStorageOpt', 'setStorageOpt'], 'tmpfs' => ['Tmpfs', 'getTmpfs', 'setTmpfs'], 'uTSMode' => ['UTSMode', 'getUTSMode', 'setUTSMode'], 'usernsMode' => ['UsernsMode', 'getUsernsMode', 'setUsernsMode'], 'shmSize' => ['ShmSize', 'getShmSize', 'setShmSize'], 'sysctls' => ['Sysctls', 'getSysctls', 'setSysctls'], 'runtime' => ['Runtime', 'getRuntime', 'setRuntime'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'maskedPaths' => ['MaskedPaths', 'getMaskedPaths', 'setMaskedPaths'], 'readonlyPaths' => ['ReadonlyPaths', 'getReadonlyPaths', 'setReadonlyPaths']];
+        return ['cpuShares' => ['CpuShares', 'getCpuShares', 'setCpuShares'], 'memory' => ['Memory', 'getMemory', 'setMemory'], 'cgroupParent' => ['CgroupParent', 'getCgroupParent', 'setCgroupParent'], 'blkioWeight' => ['BlkioWeight', 'getBlkioWeight', 'setBlkioWeight'], 'blkioWeightDevice' => ['BlkioWeightDevice', 'getBlkioWeightDevice', 'setBlkioWeightDevice'], 'blkioDeviceReadBps' => ['BlkioDeviceReadBps', 'getBlkioDeviceReadBps', 'setBlkioDeviceReadBps'], 'blkioDeviceWriteBps' => ['BlkioDeviceWriteBps', 'getBlkioDeviceWriteBps', 'setBlkioDeviceWriteBps'], 'blkioDeviceReadIOps' => ['BlkioDeviceReadIOps', 'getBlkioDeviceReadIOps', 'setBlkioDeviceReadIOps'], 'blkioDeviceWriteIOps' => ['BlkioDeviceWriteIOps', 'getBlkioDeviceWriteIOps', 'setBlkioDeviceWriteIOps'], 'cpuPeriod' => ['CpuPeriod', 'getCpuPeriod', 'setCpuPeriod'], 'cpuQuota' => ['CpuQuota', 'getCpuQuota', 'setCpuQuota'], 'cpuRealtimePeriod' => ['CpuRealtimePeriod', 'getCpuRealtimePeriod', 'setCpuRealtimePeriod'], 'cpuRealtimeRuntime' => ['CpuRealtimeRuntime', 'getCpuRealtimeRuntime', 'setCpuRealtimeRuntime'], 'cpusetCpus' => ['CpusetCpus', 'getCpusetCpus', 'setCpusetCpus'], 'cpusetMems' => ['CpusetMems', 'getCpusetMems', 'setCpusetMems'], 'devices' => ['Devices', 'getDevices', 'setDevices'], 'deviceCgroupRules' => ['DeviceCgroupRules', 'getDeviceCgroupRules', 'setDeviceCgroupRules'], 'deviceRequests' => ['DeviceRequests', 'getDeviceRequests', 'setDeviceRequests'], 'memoryReservation' => ['MemoryReservation', 'getMemoryReservation', 'setMemoryReservation'], 'memorySwap' => ['MemorySwap', 'getMemorySwap', 'setMemorySwap'], 'memorySwappiness' => ['MemorySwappiness', 'getMemorySwappiness', 'setMemorySwappiness'], 'nanoCpus' => ['NanoCpus', 'getNanoCpus', 'setNanoCpus'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'init' => ['Init', 'getInit', 'setInit'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'ulimits' => ['Ulimits', 'getUlimits', 'setUlimits'], 'cpuCount' => ['CpuCount', 'getCpuCount', 'setCpuCount'], 'cpuPercent' => ['CpuPercent', 'getCpuPercent', 'setCpuPercent'], 'iOMaximumIOps' => ['IOMaximumIOps', 'getIOMaximumIOps', 'setIOMaximumIOps'], 'iOMaximumBandwidth' => ['IOMaximumBandwidth', 'getIOMaximumBandwidth', 'setIOMaximumBandwidth'], 'binds' => ['Binds', 'getBinds', 'setBinds'], 'containerIDFile' => ['ContainerIDFile', 'getContainerIDFile', 'setContainerIDFile'], 'logConfig' => ['LogConfig', 'getLogConfig', 'setLogConfig'], 'networkMode' => ['NetworkMode', 'getNetworkMode', 'setNetworkMode'], 'portBindings' => ['PortBindings', 'getPortBindings', 'setPortBindings'], 'restartPolicy' => ['RestartPolicy', 'getRestartPolicy', 'setRestartPolicy'], 'autoRemove' => ['AutoRemove', 'getAutoRemove', 'setAutoRemove'], 'volumeDriver' => ['VolumeDriver', 'getVolumeDriver', 'setVolumeDriver'], 'volumesFrom' => ['VolumesFrom', 'getVolumesFrom', 'setVolumesFrom'], 'mounts' => ['Mounts', 'getMounts', 'setMounts'], 'consoleSize' => ['ConsoleSize', 'getConsoleSize', 'setConsoleSize'], 'annotations' => ['Annotations', 'getAnnotations', 'setAnnotations'], 'capAdd' => ['CapAdd', 'getCapAdd', 'setCapAdd'], 'capDrop' => ['CapDrop', 'getCapDrop', 'setCapDrop'], 'cgroupnsMode' => ['CgroupnsMode', 'getCgroupnsMode', 'setCgroupnsMode'], 'dns' => ['Dns', 'getDns', 'setDns'], 'dnsOptions' => ['DnsOptions', 'getDnsOptions', 'setDnsOptions'], 'dnsSearch' => ['DnsSearch', 'getDnsSearch', 'setDnsSearch'], 'extraHosts' => ['ExtraHosts', 'getExtraHosts', 'setExtraHosts'], 'groupAdd' => ['GroupAdd', 'getGroupAdd', 'setGroupAdd'], 'ipcMode' => ['IpcMode', 'getIpcMode', 'setIpcMode'], 'cgroup' => ['Cgroup', 'getCgroup', 'setCgroup'], 'links' => ['Links', 'getLinks', 'setLinks'], 'oomScoreAdj' => ['OomScoreAdj', 'getOomScoreAdj', 'setOomScoreAdj'], 'pidMode' => ['PidMode', 'getPidMode', 'setPidMode'], 'privileged' => ['Privileged', 'getPrivileged', 'setPrivileged'], 'publishAllPorts' => ['PublishAllPorts', 'getPublishAllPorts', 'setPublishAllPorts'], 'readonlyRootfs' => ['ReadonlyRootfs', 'getReadonlyRootfs', 'setReadonlyRootfs'], 'securityOpt' => ['SecurityOpt', 'getSecurityOpt', 'setSecurityOpt'], 'storageOpt' => ['StorageOpt', 'getStorageOpt', 'setStorageOpt'], 'tmpfs' => ['Tmpfs', 'getTmpfs', 'setTmpfs'], 'uTSMode' => ['UTSMode', 'getUTSMode', 'setUTSMode'], 'usernsMode' => ['UsernsMode', 'getUsernsMode', 'setUsernsMode'], 'shmSize' => ['ShmSize', 'getShmSize', 'setShmSize'], 'sysctls' => ['Sysctls', 'getSysctls', 'setSysctls'], 'runtime' => ['Runtime', 'getRuntime', 'setRuntime'], 'umask' => ['Umask', 'getUmask', 'setUmask'], 'isolation' => ['Isolation', 'getIsolation', 'setIsolation'], 'maskedPaths' => ['MaskedPaths', 'getMaskedPaths', 'setMaskedPaths'], 'readonlyPaths' => ['ReadonlyPaths', 'getReadonlyPaths', 'setReadonlyPaths']];
     }
 }

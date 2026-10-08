@@ -155,16 +155,6 @@ class ContainersIdUpdatePostBody implements AdditionalPropertiesInterface
      */
     protected $deviceRequests;
     /**
-     * Hard limit for kernel TCP buffer memory (in bytes). Depending on the
-     * OCI runtime in use, this option may be ignored. It is no longer supported
-     * by the default (runc) runtime.
-     *
-     * This field is omitted when empty.
-     *
-     * @var int|null
-     */
-    protected $kernelMemoryTCP;
-    /**
      * Memory soft limit in bytes.
      *
      * @var int|null
@@ -694,33 +684,6 @@ class ContainersIdUpdatePostBody implements AdditionalPropertiesInterface
     }
 
     /**
-     * Hard limit for kernel TCP buffer memory (in bytes). Depending on the
-     * OCI runtime in use, this option may be ignored. It is no longer supported
-     * by the default (runc) runtime.
-     *
-     * This field is omitted when empty.
-     */
-    public function getKernelMemoryTCP(): ?int
-    {
-        return $this->kernelMemoryTCP;
-    }
-
-    /**
-     * Hard limit for kernel TCP buffer memory (in bytes). Depending on the
-     * OCI runtime in use, this option may be ignored. It is no longer supported
-     * by the default (runc) runtime.
-     *
-     * This field is omitted when empty.
-     */
-    public function setKernelMemoryTCP(?int $kernelMemoryTCP): self
-    {
-        $this->initialized['kernelMemoryTCP'] = true;
-        $this->kernelMemoryTCP = $kernelMemoryTCP;
-
-        return $this;
-    }
-
-    /**
      * Memory soft limit in bytes.
      */
     public function getMemoryReservation(): ?int
@@ -1017,6 +980,6 @@ class ContainersIdUpdatePostBody implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['cpuShares' => ['CpuShares', 'getCpuShares', 'setCpuShares'], 'memory' => ['Memory', 'getMemory', 'setMemory'], 'cgroupParent' => ['CgroupParent', 'getCgroupParent', 'setCgroupParent'], 'blkioWeight' => ['BlkioWeight', 'getBlkioWeight', 'setBlkioWeight'], 'blkioWeightDevice' => ['BlkioWeightDevice', 'getBlkioWeightDevice', 'setBlkioWeightDevice'], 'blkioDeviceReadBps' => ['BlkioDeviceReadBps', 'getBlkioDeviceReadBps', 'setBlkioDeviceReadBps'], 'blkioDeviceWriteBps' => ['BlkioDeviceWriteBps', 'getBlkioDeviceWriteBps', 'setBlkioDeviceWriteBps'], 'blkioDeviceReadIOps' => ['BlkioDeviceReadIOps', 'getBlkioDeviceReadIOps', 'setBlkioDeviceReadIOps'], 'blkioDeviceWriteIOps' => ['BlkioDeviceWriteIOps', 'getBlkioDeviceWriteIOps', 'setBlkioDeviceWriteIOps'], 'cpuPeriod' => ['CpuPeriod', 'getCpuPeriod', 'setCpuPeriod'], 'cpuQuota' => ['CpuQuota', 'getCpuQuota', 'setCpuQuota'], 'cpuRealtimePeriod' => ['CpuRealtimePeriod', 'getCpuRealtimePeriod', 'setCpuRealtimePeriod'], 'cpuRealtimeRuntime' => ['CpuRealtimeRuntime', 'getCpuRealtimeRuntime', 'setCpuRealtimeRuntime'], 'cpusetCpus' => ['CpusetCpus', 'getCpusetCpus', 'setCpusetCpus'], 'cpusetMems' => ['CpusetMems', 'getCpusetMems', 'setCpusetMems'], 'devices' => ['Devices', 'getDevices', 'setDevices'], 'deviceCgroupRules' => ['DeviceCgroupRules', 'getDeviceCgroupRules', 'setDeviceCgroupRules'], 'deviceRequests' => ['DeviceRequests', 'getDeviceRequests', 'setDeviceRequests'], 'kernelMemoryTCP' => ['KernelMemoryTCP', 'getKernelMemoryTCP', 'setKernelMemoryTCP'], 'memoryReservation' => ['MemoryReservation', 'getMemoryReservation', 'setMemoryReservation'], 'memorySwap' => ['MemorySwap', 'getMemorySwap', 'setMemorySwap'], 'memorySwappiness' => ['MemorySwappiness', 'getMemorySwappiness', 'setMemorySwappiness'], 'nanoCpus' => ['NanoCpus', 'getNanoCpus', 'setNanoCpus'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'init' => ['Init', 'getInit', 'setInit'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'ulimits' => ['Ulimits', 'getUlimits', 'setUlimits'], 'cpuCount' => ['CpuCount', 'getCpuCount', 'setCpuCount'], 'cpuPercent' => ['CpuPercent', 'getCpuPercent', 'setCpuPercent'], 'iOMaximumIOps' => ['IOMaximumIOps', 'getIOMaximumIOps', 'setIOMaximumIOps'], 'iOMaximumBandwidth' => ['IOMaximumBandwidth', 'getIOMaximumBandwidth', 'setIOMaximumBandwidth'], 'restartPolicy' => ['RestartPolicy', 'getRestartPolicy', 'setRestartPolicy']];
+        return ['cpuShares' => ['CpuShares', 'getCpuShares', 'setCpuShares'], 'memory' => ['Memory', 'getMemory', 'setMemory'], 'cgroupParent' => ['CgroupParent', 'getCgroupParent', 'setCgroupParent'], 'blkioWeight' => ['BlkioWeight', 'getBlkioWeight', 'setBlkioWeight'], 'blkioWeightDevice' => ['BlkioWeightDevice', 'getBlkioWeightDevice', 'setBlkioWeightDevice'], 'blkioDeviceReadBps' => ['BlkioDeviceReadBps', 'getBlkioDeviceReadBps', 'setBlkioDeviceReadBps'], 'blkioDeviceWriteBps' => ['BlkioDeviceWriteBps', 'getBlkioDeviceWriteBps', 'setBlkioDeviceWriteBps'], 'blkioDeviceReadIOps' => ['BlkioDeviceReadIOps', 'getBlkioDeviceReadIOps', 'setBlkioDeviceReadIOps'], 'blkioDeviceWriteIOps' => ['BlkioDeviceWriteIOps', 'getBlkioDeviceWriteIOps', 'setBlkioDeviceWriteIOps'], 'cpuPeriod' => ['CpuPeriod', 'getCpuPeriod', 'setCpuPeriod'], 'cpuQuota' => ['CpuQuota', 'getCpuQuota', 'setCpuQuota'], 'cpuRealtimePeriod' => ['CpuRealtimePeriod', 'getCpuRealtimePeriod', 'setCpuRealtimePeriod'], 'cpuRealtimeRuntime' => ['CpuRealtimeRuntime', 'getCpuRealtimeRuntime', 'setCpuRealtimeRuntime'], 'cpusetCpus' => ['CpusetCpus', 'getCpusetCpus', 'setCpusetCpus'], 'cpusetMems' => ['CpusetMems', 'getCpusetMems', 'setCpusetMems'], 'devices' => ['Devices', 'getDevices', 'setDevices'], 'deviceCgroupRules' => ['DeviceCgroupRules', 'getDeviceCgroupRules', 'setDeviceCgroupRules'], 'deviceRequests' => ['DeviceRequests', 'getDeviceRequests', 'setDeviceRequests'], 'memoryReservation' => ['MemoryReservation', 'getMemoryReservation', 'setMemoryReservation'], 'memorySwap' => ['MemorySwap', 'getMemorySwap', 'setMemorySwap'], 'memorySwappiness' => ['MemorySwappiness', 'getMemorySwappiness', 'setMemorySwappiness'], 'nanoCpus' => ['NanoCpus', 'getNanoCpus', 'setNanoCpus'], 'oomKillDisable' => ['OomKillDisable', 'getOomKillDisable', 'setOomKillDisable'], 'init' => ['Init', 'getInit', 'setInit'], 'pidsLimit' => ['PidsLimit', 'getPidsLimit', 'setPidsLimit'], 'ulimits' => ['Ulimits', 'getUlimits', 'setUlimits'], 'cpuCount' => ['CpuCount', 'getCpuCount', 'setCpuCount'], 'cpuPercent' => ['CpuPercent', 'getCpuPercent', 'setCpuPercent'], 'iOMaximumIOps' => ['IOMaximumIOps', 'getIOMaximumIOps', 'setIOMaximumIOps'], 'iOMaximumBandwidth' => ['IOMaximumBandwidth', 'getIOMaximumBandwidth', 'setIOMaximumBandwidth'], 'restartPolicy' => ['RestartPolicy', 'getRestartPolicy', 'setRestartPolicy']];
     }
 }

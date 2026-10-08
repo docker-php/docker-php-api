@@ -219,13 +219,6 @@ class HostConfigNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setDeviceRequests(null);
             unset($data['DeviceRequests']);
         }
-        if (\array_key_exists('KernelMemoryTCP', $data) && null !== $data['KernelMemoryTCP']) {
-            $object->setKernelMemoryTCP($data['KernelMemoryTCP']);
-            unset($data['KernelMemoryTCP']);
-        } elseif (\array_key_exists('KernelMemoryTCP', $data) && null === $data['KernelMemoryTCP']) {
-            $object->setKernelMemoryTCP(null);
-            unset($data['KernelMemoryTCP']);
-        }
         if (\array_key_exists('MemoryReservation', $data) && null !== $data['MemoryReservation']) {
             $object->setMemoryReservation($data['MemoryReservation']);
             unset($data['MemoryReservation']);
@@ -646,6 +639,13 @@ class HostConfigNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setRuntime(null);
             unset($data['Runtime']);
         }
+        if (\array_key_exists('Umask', $data) && null !== $data['Umask']) {
+            $object->setUmask($data['Umask']);
+            unset($data['Umask']);
+        } elseif (\array_key_exists('Umask', $data) && null === $data['Umask']) {
+            $object->setUmask(null);
+            unset($data['Umask']);
+        }
         if (\array_key_exists('Isolation', $data) && null !== $data['Isolation']) {
             $object->setIsolation($data['Isolation']);
             unset($data['Isolation']);
@@ -772,9 +772,6 @@ class HostConfigNormalizer implements DenormalizerInterface, NormalizerInterface
                 $values_7[] = null === $value_7 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_7, 'json', $context));
             }
             $dataArray['DeviceRequests'] = $values_7;
-        }
-        if ($data->isInitialized('kernelMemoryTCP') && null !== $data->getKernelMemoryTCP()) {
-            $dataArray['KernelMemoryTCP'] = $data->getKernelMemoryTCP();
         }
         if ($data->isInitialized('memoryReservation') && null !== $data->getMemoryReservation()) {
             $dataArray['MemoryReservation'] = $data->getMemoryReservation();
@@ -1003,6 +1000,9 @@ class HostConfigNormalizer implements DenormalizerInterface, NormalizerInterface
         }
         if ($data->isInitialized('runtime') && null !== $data->getRuntime()) {
             $dataArray['Runtime'] = $data->getRuntime();
+        }
+        if ($data->isInitialized('umask') && null !== $data->getUmask()) {
+            $dataArray['Umask'] = $data->getUmask();
         }
         if ($data->isInitialized('isolation') && null !== $data->getIsolation()) {
             $dataArray['Isolation'] = $data->getIsolation();

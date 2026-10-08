@@ -33,6 +33,35 @@ class ImageInspect implements AdditionalPropertiesInterface
      */
     protected $id;
     /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     *
+     * @var OCIDescriptor|null
+     */
+    protected $descriptor;
+    /**
+     * Manifests is a list of image manifests available in this image. It
+     * provides a more detailed view of the platform-specific image manifests or
+     * other image-attached data like build attestations.
+     *
+     * Only available if the daemon provides a multi-platform image store
+     * and the `manifests` option is set in the inspect request.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @var list<ImageManifestSummary>|null
+     */
+    protected $manifests;
+    /**
+     * Identity holds information about the identity and origin of the image.
+     * This is trusted information verified by the daemon and cannot be modified
+     * by tagging an image to a different name.
+     *
+     * @var Identity|null
+     */
+    protected $identity;
+    /**
      * List of image names/tags in the local image cache that reference this
      * image.
      *
@@ -56,16 +85,6 @@ class ImageInspect implements AdditionalPropertiesInterface
      */
     protected $repoDigests;
     /**
-     * ID of the parent image.
-     *
-     * Depending on how the image was created, this field may be empty and
-     * is only set for images that were built/created locally. This field
-     * is empty if the image was pulled from an image registry.
-     *
-     * @var string|null
-     */
-    protected $parent;
-    /**
      * Optional message that was set when committing or importing the image.
      *
      * @var string|null
@@ -81,14 +100,6 @@ class ImageInspect implements AdditionalPropertiesInterface
      * @var string|null
      */
     protected $created;
-    /**
-     * The version of Docker that was used to build the image.
-     *
-     * Depending on how the image was created, this field may be empty.
-     *
-     * @var string|null
-     */
-    protected $dockerVersion;
     /**
      * Name of the author that was specified when committing the image, or as
      * specified through MAINTAINER (deprecated) in the Dockerfile.
@@ -129,7 +140,18 @@ class ImageInspect implements AdditionalPropertiesInterface
      */
     protected $osVersion;
     /**
-     * Total size of the image including all layers it is composed of.
+     * Total size of the image variant, including all layers it is composed of.
+     *
+     * For multi-platform images, this is the size of the platform variant
+     * selected by the `platform` query parameter. If no platform is specified,
+     * the daemon selects a platform as described in the `platform` parameter.
+     *
+     * When using the containerd image store, this includes both the image content
+     * that's present locally and the unpacked snapshot data for the selected
+     * variant.
+     *
+     * Image data may be shared between images, so this size does not indicate
+     * how much space would be reclaimed by deleting the image.
      *
      * @var int|null
      */
@@ -138,7 +160,7 @@ class ImageInspect implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      *
-     * @var GraphDriverData|null
+     * @var DriverData|null
      */
     protected $graphDriver;
     /**
@@ -184,6 +206,89 @@ class ImageInspect implements AdditionalPropertiesInterface
     {
         $this->initialized['id'] = true;
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function getDescriptor(): ?OCIDescriptor
+    {
+        return $this->descriptor;
+    }
+
+    /**
+     * A descriptor struct containing digest, media type, and size, as defined in
+     * the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+     */
+    public function setDescriptor(?OCIDescriptor $descriptor): self
+    {
+        $this->initialized['descriptor'] = true;
+        $this->descriptor = $descriptor;
+
+        return $this;
+    }
+
+    /**
+     * Manifests is a list of image manifests available in this image. It
+     * provides a more detailed view of the platform-specific image manifests or
+     * other image-attached data like build attestations.
+     *
+     * Only available if the daemon provides a multi-platform image store
+     * and the `manifests` option is set in the inspect request.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @return list<ImageManifestSummary>|null
+     */
+    public function getManifests(): ?array
+    {
+        return $this->manifests;
+    }
+
+    /**
+     * Manifests is a list of image manifests available in this image. It
+     * provides a more detailed view of the platform-specific image manifests or
+     * other image-attached data like build attestations.
+     *
+     * Only available if the daemon provides a multi-platform image store
+     * and the `manifests` option is set in the inspect request.
+     *
+     * WARNING: This is experimental and may change at any time without any backward
+     * compatibility.
+     *
+     * @param list<ImageManifestSummary>|null $manifests
+     */
+    public function setManifests(?array $manifests): self
+    {
+        $this->initialized['manifests'] = true;
+        $this->manifests = $manifests;
+
+        return $this;
+    }
+
+    /**
+     * Identity holds information about the identity and origin of the image.
+     * This is trusted information verified by the daemon and cannot be modified
+     * by tagging an image to a different name.
+     */
+    public function getIdentity(): ?Identity
+    {
+        return $this->identity;
+    }
+
+    /**
+     * Identity holds information about the identity and origin of the image.
+     * This is trusted information verified by the daemon and cannot be modified
+     * by tagging an image to a different name.
+     */
+    public function setIdentity(?Identity $identity): self
+    {
+        $this->initialized['identity'] = true;
+        $this->identity = $identity;
 
         return $this;
     }
@@ -257,33 +362,6 @@ class ImageInspect implements AdditionalPropertiesInterface
     }
 
     /**
-     * ID of the parent image.
-     *
-     * Depending on how the image was created, this field may be empty and
-     * is only set for images that were built/created locally. This field
-     * is empty if the image was pulled from an image registry.
-     */
-    public function getParent(): ?string
-    {
-        return $this->parent;
-    }
-
-    /**
-     * ID of the parent image.
-     *
-     * Depending on how the image was created, this field may be empty and
-     * is only set for images that were built/created locally. This field
-     * is empty if the image was pulled from an image registry.
-     */
-    public function setParent(?string $parent): self
-    {
-        $this->initialized['parent'] = true;
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
      * Optional message that was set when committing or importing the image.
      */
     public function getComment(): ?string
@@ -325,29 +403,6 @@ class ImageInspect implements AdditionalPropertiesInterface
     {
         $this->initialized['created'] = true;
         $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * The version of Docker that was used to build the image.
-     *
-     * Depending on how the image was created, this field may be empty.
-     */
-    public function getDockerVersion(): ?string
-    {
-        return $this->dockerVersion;
-    }
-
-    /**
-     * The version of Docker that was used to build the image.
-     *
-     * Depending on how the image was created, this field may be empty.
-     */
-    public function setDockerVersion(?string $dockerVersion): self
-    {
-        $this->initialized['dockerVersion'] = true;
-        $this->dockerVersion = $dockerVersion;
 
         return $this;
     }
@@ -473,7 +528,18 @@ class ImageInspect implements AdditionalPropertiesInterface
     }
 
     /**
-     * Total size of the image including all layers it is composed of.
+     * Total size of the image variant, including all layers it is composed of.
+     *
+     * For multi-platform images, this is the size of the platform variant
+     * selected by the `platform` query parameter. If no platform is specified,
+     * the daemon selects a platform as described in the `platform` parameter.
+     *
+     * When using the containerd image store, this includes both the image content
+     * that's present locally and the unpacked snapshot data for the selected
+     * variant.
+     *
+     * Image data may be shared between images, so this size does not indicate
+     * how much space would be reclaimed by deleting the image.
      */
     public function getSize(): ?int
     {
@@ -481,7 +547,18 @@ class ImageInspect implements AdditionalPropertiesInterface
     }
 
     /**
-     * Total size of the image including all layers it is composed of.
+     * Total size of the image variant, including all layers it is composed of.
+     *
+     * For multi-platform images, this is the size of the platform variant
+     * selected by the `platform` query parameter. If no platform is specified,
+     * the daemon selects a platform as described in the `platform` parameter.
+     *
+     * When using the containerd image store, this includes both the image content
+     * that's present locally and the unpacked snapshot data for the selected
+     * variant.
+     *
+     * Image data may be shared between images, so this size does not indicate
+     * how much space would be reclaimed by deleting the image.
      */
     public function setSize(?int $size): self
     {
@@ -495,7 +572,7 @@ class ImageInspect implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      */
-    public function getGraphDriver(): ?GraphDriverData
+    public function getGraphDriver(): ?DriverData
     {
         return $this->graphDriver;
     }
@@ -504,7 +581,7 @@ class ImageInspect implements AdditionalPropertiesInterface
      * Information about the storage driver used to store the container's and
      * image's filesystem.
      */
-    public function setGraphDriver(?GraphDriverData $graphDriver): self
+    public function setGraphDriver(?DriverData $graphDriver): self
     {
         $this->initialized['graphDriver'] = true;
         $this->graphDriver = $graphDriver;
@@ -554,6 +631,6 @@ class ImageInspect implements AdditionalPropertiesInterface
 
     public function definedProperties(): array
     {
-        return ['id' => ['Id', 'getId', 'setId'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'parent' => ['Parent', 'getParent', 'setParent'], 'comment' => ['Comment', 'getComment', 'setComment'], 'created' => ['Created', 'getCreated', 'setCreated'], 'dockerVersion' => ['DockerVersion', 'getDockerVersion', 'setDockerVersion'], 'author' => ['Author', 'getAuthor', 'setAuthor'], 'config' => ['Config', 'getConfig', 'setConfig'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'variant' => ['Variant', 'getVariant', 'setVariant'], 'os' => ['Os', 'getOs', 'setOs'], 'osVersion' => ['OsVersion', 'getOsVersion', 'setOsVersion'], 'size' => ['Size', 'getSize', 'setSize'], 'graphDriver' => ['GraphDriver', 'getGraphDriver', 'setGraphDriver'], 'rootFS' => ['RootFS', 'getRootFS', 'setRootFS'], 'metadata' => ['Metadata', 'getMetadata', 'setMetadata']];
+        return ['id' => ['Id', 'getId', 'setId'], 'descriptor' => ['Descriptor', 'getDescriptor', 'setDescriptor'], 'manifests' => ['Manifests', 'getManifests', 'setManifests'], 'identity' => ['Identity', 'getIdentity', 'setIdentity'], 'repoTags' => ['RepoTags', 'getRepoTags', 'setRepoTags'], 'repoDigests' => ['RepoDigests', 'getRepoDigests', 'setRepoDigests'], 'comment' => ['Comment', 'getComment', 'setComment'], 'created' => ['Created', 'getCreated', 'setCreated'], 'author' => ['Author', 'getAuthor', 'setAuthor'], 'config' => ['Config', 'getConfig', 'setConfig'], 'architecture' => ['Architecture', 'getArchitecture', 'setArchitecture'], 'variant' => ['Variant', 'getVariant', 'setVariant'], 'os' => ['Os', 'getOs', 'setOs'], 'osVersion' => ['OsVersion', 'getOsVersion', 'setOsVersion'], 'size' => ['Size', 'getSize', 'setSize'], 'graphDriver' => ['GraphDriver', 'getGraphDriver', 'setGraphDriver'], 'rootFS' => ['RootFS', 'getRootFS', 'setRootFS'], 'metadata' => ['Metadata', 'getMetadata', 'setMetadata']];
     }
 }

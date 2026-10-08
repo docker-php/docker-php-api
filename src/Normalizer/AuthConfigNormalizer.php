@@ -57,13 +57,6 @@ class AuthConfigNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setPassword(null);
             unset($data['password']);
         }
-        if (\array_key_exists('email', $data) && null !== $data['email']) {
-            $object->setEmail($data['email']);
-            unset($data['email']);
-        } elseif (\array_key_exists('email', $data) && null === $data['email']) {
-            $object->setEmail(null);
-            unset($data['email']);
-        }
         if (\array_key_exists('serveraddress', $data) && null !== $data['serveraddress']) {
             $object->setServeraddress($data['serveraddress']);
             unset($data['serveraddress']);
@@ -88,9 +81,6 @@ class AuthConfigNormalizer implements DenormalizerInterface, NormalizerInterface
         }
         if ($data->isInitialized('password') && null !== $data->getPassword()) {
             $dataArray['password'] = $data->getPassword();
-        }
-        if ($data->isInitialized('email') && null !== $data->getEmail()) {
-            $dataArray['email'] = $data->getEmail();
         }
         if ($data->isInitialized('serveraddress') && null !== $data->getServeraddress()) {
             $dataArray['serveraddress'] = $data->getServeraddress();

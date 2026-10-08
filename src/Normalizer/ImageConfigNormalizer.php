@@ -43,43 +43,8 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (\array_key_exists('AttachStdin', $data) && \is_int($data['AttachStdin'])) {
-            $data['AttachStdin'] = (bool) $data['AttachStdin'];
-        }
-        if (\array_key_exists('AttachStdout', $data) && \is_int($data['AttachStdout'])) {
-            $data['AttachStdout'] = (bool) $data['AttachStdout'];
-        }
-        if (\array_key_exists('AttachStderr', $data) && \is_int($data['AttachStderr'])) {
-            $data['AttachStderr'] = (bool) $data['AttachStderr'];
-        }
-        if (\array_key_exists('Tty', $data) && \is_int($data['Tty'])) {
-            $data['Tty'] = (bool) $data['Tty'];
-        }
-        if (\array_key_exists('OpenStdin', $data) && \is_int($data['OpenStdin'])) {
-            $data['OpenStdin'] = (bool) $data['OpenStdin'];
-        }
-        if (\array_key_exists('StdinOnce', $data) && \is_int($data['StdinOnce'])) {
-            $data['StdinOnce'] = (bool) $data['StdinOnce'];
-        }
         if (\array_key_exists('ArgsEscaped', $data) && \is_int($data['ArgsEscaped'])) {
             $data['ArgsEscaped'] = (bool) $data['ArgsEscaped'];
-        }
-        if (\array_key_exists('NetworkDisabled', $data) && \is_int($data['NetworkDisabled'])) {
-            $data['NetworkDisabled'] = (bool) $data['NetworkDisabled'];
-        }
-        if (\array_key_exists('Hostname', $data) && null !== $data['Hostname']) {
-            $object->setHostname($data['Hostname']);
-            unset($data['Hostname']);
-        } elseif (\array_key_exists('Hostname', $data) && null === $data['Hostname']) {
-            $object->setHostname(null);
-            unset($data['Hostname']);
-        }
-        if (\array_key_exists('Domainname', $data) && null !== $data['Domainname']) {
-            $object->setDomainname($data['Domainname']);
-            unset($data['Domainname']);
-        } elseif (\array_key_exists('Domainname', $data) && null === $data['Domainname']) {
-            $object->setDomainname(null);
-            unset($data['Domainname']);
         }
         if (\array_key_exists('User', $data) && null !== $data['User']) {
             $object->setUser($data['User']);
@@ -87,27 +52,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
         } elseif (\array_key_exists('User', $data) && null === $data['User']) {
             $object->setUser(null);
             unset($data['User']);
-        }
-        if (\array_key_exists('AttachStdin', $data) && null !== $data['AttachStdin']) {
-            $object->setAttachStdin($data['AttachStdin']);
-            unset($data['AttachStdin']);
-        } elseif (\array_key_exists('AttachStdin', $data) && null === $data['AttachStdin']) {
-            $object->setAttachStdin(null);
-            unset($data['AttachStdin']);
-        }
-        if (\array_key_exists('AttachStdout', $data) && null !== $data['AttachStdout']) {
-            $object->setAttachStdout($data['AttachStdout']);
-            unset($data['AttachStdout']);
-        } elseif (\array_key_exists('AttachStdout', $data) && null === $data['AttachStdout']) {
-            $object->setAttachStdout(null);
-            unset($data['AttachStdout']);
-        }
-        if (\array_key_exists('AttachStderr', $data) && null !== $data['AttachStderr']) {
-            $object->setAttachStderr($data['AttachStderr']);
-            unset($data['AttachStderr']);
-        } elseif (\array_key_exists('AttachStderr', $data) && null === $data['AttachStderr']) {
-            $object->setAttachStderr(null);
-            unset($data['AttachStderr']);
         }
         if (\array_key_exists('ExposedPorts', $data) && null !== $data['ExposedPorts']) {
             $values = new \Docker\API\Runtime\JsonObject();
@@ -123,27 +67,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
         } elseif (\array_key_exists('ExposedPorts', $data) && null === $data['ExposedPorts']) {
             $object->setExposedPorts(null);
             unset($data['ExposedPorts']);
-        }
-        if (\array_key_exists('Tty', $data) && null !== $data['Tty']) {
-            $object->setTty($data['Tty']);
-            unset($data['Tty']);
-        } elseif (\array_key_exists('Tty', $data) && null === $data['Tty']) {
-            $object->setTty(null);
-            unset($data['Tty']);
-        }
-        if (\array_key_exists('OpenStdin', $data) && null !== $data['OpenStdin']) {
-            $object->setOpenStdin($data['OpenStdin']);
-            unset($data['OpenStdin']);
-        } elseif (\array_key_exists('OpenStdin', $data) && null === $data['OpenStdin']) {
-            $object->setOpenStdin(null);
-            unset($data['OpenStdin']);
-        }
-        if (\array_key_exists('StdinOnce', $data) && null !== $data['StdinOnce']) {
-            $object->setStdinOnce($data['StdinOnce']);
-            unset($data['StdinOnce']);
-        } elseif (\array_key_exists('StdinOnce', $data) && null === $data['StdinOnce']) {
-            $object->setStdinOnce(null);
-            unset($data['StdinOnce']);
         }
         if (\array_key_exists('Env', $data) && null !== $data['Env']) {
             $values_2 = [];
@@ -181,13 +104,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
             $object->setArgsEscaped(null);
             unset($data['ArgsEscaped']);
         }
-        if (\array_key_exists('Image', $data) && null !== $data['Image']) {
-            $object->setImage($data['Image']);
-            unset($data['Image']);
-        } elseif (\array_key_exists('Image', $data) && null === $data['Image']) {
-            $object->setImage(null);
-            unset($data['Image']);
-        }
         if (\array_key_exists('Volumes', $data) && null !== $data['Volumes']) {
             $values_4 = new \Docker\API\Runtime\JsonObject();
             foreach ($data['Volumes'] as $key_2 => $value_4) {
@@ -221,20 +137,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
             $object->setEntrypoint(null);
             unset($data['Entrypoint']);
         }
-        if (\array_key_exists('NetworkDisabled', $data) && null !== $data['NetworkDisabled']) {
-            $object->setNetworkDisabled($data['NetworkDisabled']);
-            unset($data['NetworkDisabled']);
-        } elseif (\array_key_exists('NetworkDisabled', $data) && null === $data['NetworkDisabled']) {
-            $object->setNetworkDisabled(null);
-            unset($data['NetworkDisabled']);
-        }
-        if (\array_key_exists('MacAddress', $data) && null !== $data['MacAddress']) {
-            $object->setMacAddress($data['MacAddress']);
-            unset($data['MacAddress']);
-        } elseif (\array_key_exists('MacAddress', $data) && null === $data['MacAddress']) {
-            $object->setMacAddress(null);
-            unset($data['MacAddress']);
-        }
         if (\array_key_exists('OnBuild', $data) && null !== $data['OnBuild']) {
             $values_7 = [];
             foreach ($data['OnBuild'] as $value_7) {
@@ -264,13 +166,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
             $object->setStopSignal(null);
             unset($data['StopSignal']);
         }
-        if (\array_key_exists('StopTimeout', $data) && null !== $data['StopTimeout']) {
-            $object->setStopTimeout($data['StopTimeout']);
-            unset($data['StopTimeout']);
-        } elseif (\array_key_exists('StopTimeout', $data) && null === $data['StopTimeout']) {
-            $object->setStopTimeout(null);
-            unset($data['StopTimeout']);
-        }
         if (\array_key_exists('Shell', $data) && null !== $data['Shell']) {
             $values_9 = [];
             foreach ($data['Shell'] as $value_9) {
@@ -294,23 +189,8 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
-        if ($data->isInitialized('hostname') && null !== $data->getHostname()) {
-            $dataArray['Hostname'] = $data->getHostname();
-        }
-        if ($data->isInitialized('domainname') && null !== $data->getDomainname()) {
-            $dataArray['Domainname'] = $data->getDomainname();
-        }
         if ($data->isInitialized('user') && null !== $data->getUser()) {
             $dataArray['User'] = $data->getUser();
-        }
-        if ($data->isInitialized('attachStdin') && null !== $data->getAttachStdin()) {
-            $dataArray['AttachStdin'] = $data->getAttachStdin();
-        }
-        if ($data->isInitialized('attachStdout') && null !== $data->getAttachStdout()) {
-            $dataArray['AttachStdout'] = $data->getAttachStdout();
-        }
-        if ($data->isInitialized('attachStderr') && null !== $data->getAttachStderr()) {
-            $dataArray['AttachStderr'] = $data->getAttachStderr();
         }
         if ($data->isInitialized('exposedPorts') && null !== $data->getExposedPorts()) {
             $values = new \Docker\API\Runtime\JsonObject();
@@ -322,15 +202,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
                 $values[$key] = $values_1;
             }
             $dataArray['ExposedPorts'] = $values;
-        }
-        if ($data->isInitialized('tty') && null !== $data->getTty()) {
-            $dataArray['Tty'] = $data->getTty();
-        }
-        if ($data->isInitialized('openStdin') && null !== $data->getOpenStdin()) {
-            $dataArray['OpenStdin'] = $data->getOpenStdin();
-        }
-        if ($data->isInitialized('stdinOnce') && null !== $data->getStdinOnce()) {
-            $dataArray['StdinOnce'] = $data->getStdinOnce();
         }
         if ($data->isInitialized('env') && null !== $data->getEnv()) {
             $values_2 = [];
@@ -351,9 +222,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
         }
         if ($data->isInitialized('argsEscaped') && null !== $data->getArgsEscaped()) {
             $dataArray['ArgsEscaped'] = $data->getArgsEscaped();
-        }
-        if ($data->isInitialized('image') && null !== $data->getImage()) {
-            $dataArray['Image'] = $data->getImage();
         }
         if ($data->isInitialized('volumes') && null !== $data->getVolumes()) {
             $values_4 = new \Docker\API\Runtime\JsonObject();
@@ -376,12 +244,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
             }
             $dataArray['Entrypoint'] = $values_6;
         }
-        if ($data->isInitialized('networkDisabled') && null !== $data->getNetworkDisabled()) {
-            $dataArray['NetworkDisabled'] = $data->getNetworkDisabled();
-        }
-        if ($data->isInitialized('macAddress') && null !== $data->getMacAddress()) {
-            $dataArray['MacAddress'] = $data->getMacAddress();
-        }
         if ($data->isInitialized('onBuild') && null !== $data->getOnBuild()) {
             $values_7 = [];
             foreach ($data->getOnBuild() as $value_7) {
@@ -398,9 +260,6 @@ class ImageConfigNormalizer implements DenormalizerInterface, NormalizerInterfac
         }
         if ($data->isInitialized('stopSignal') && null !== $data->getStopSignal()) {
             $dataArray['StopSignal'] = $data->getStopSignal();
-        }
-        if ($data->isInitialized('stopTimeout') && null !== $data->getStopTimeout()) {
-            $dataArray['StopTimeout'] = $data->getStopTimeout();
         }
         if ($data->isInitialized('shell') && null !== $data->getShell()) {
             $values_9 = [];

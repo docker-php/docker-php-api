@@ -118,9 +118,27 @@ class ImageSummaryNormalizer implements DenormalizerInterface, NormalizerInterfa
             $object->setContainers(null);
             unset($data['Containers']);
         }
-        foreach ($data as $key_1 => $value_3) {
+        if (\array_key_exists('Manifests', $data) && null !== $data['Manifests']) {
+            $values_3 = [];
+            foreach ($data['Manifests'] as $value_3) {
+                $values_3[] = $this->denormalizer->denormalize($value_3, \Docker\API\Model\ImageManifestSummary::class, 'json', $context);
+            }
+            $object->setManifests($values_3);
+            unset($data['Manifests']);
+        } elseif (\array_key_exists('Manifests', $data) && null === $data['Manifests']) {
+            $object->setManifests(null);
+            unset($data['Manifests']);
+        }
+        if (\array_key_exists('Descriptor', $data) && null !== $data['Descriptor']) {
+            $object->setDescriptor($this->denormalizer->denormalize($data['Descriptor'], \Docker\API\Model\OCIDescriptor::class, 'json', $context));
+            unset($data['Descriptor']);
+        } elseif (\array_key_exists('Descriptor', $data) && null === $data['Descriptor']) {
+            $object->setDescriptor(null);
+            unset($data['Descriptor']);
+        }
+        foreach ($data as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_3;
+                $object[$key_1] = $value_4;
             }
         }
 
@@ -151,9 +169,19 @@ class ImageSummaryNormalizer implements DenormalizerInterface, NormalizerInterfa
         }
         $dataArray['Labels'] = $values_2;
         $dataArray['Containers'] = $data->getContainers();
-        foreach ($data->additionalPropertyEntries() as $key_1 => $value_3) {
+        if ($data->isInitialized('manifests') && null !== $data->getManifests()) {
+            $values_3 = [];
+            foreach ($data->getManifests() as $value_3) {
+                $values_3[] = null === $value_3 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_3, 'json', $context));
+            }
+            $dataArray['Manifests'] = $values_3;
+        }
+        if ($data->isInitialized('descriptor') && null !== $data->getDescriptor()) {
+            $dataArray['Descriptor'] = null === $data->getDescriptor() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getDescriptor(), 'json', $context));
+        }
+        foreach ($data->additionalPropertyEntries() as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $dataArray[$key_1] = $value_3;
+                $dataArray[$key_1] = $value_4;
             }
         }
 

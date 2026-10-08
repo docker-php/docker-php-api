@@ -75,6 +75,13 @@ class ContainerSummaryNormalizer implements DenormalizerInterface, NormalizerInt
             $object->setImageID(null);
             unset($data['ImageID']);
         }
+        if (\array_key_exists('ImageManifestDescriptor', $data) && null !== $data['ImageManifestDescriptor']) {
+            $object->setImageManifestDescriptor($this->denormalizer->denormalize($data['ImageManifestDescriptor'], \Docker\API\Model\OCIDescriptor::class, 'json', $context));
+            unset($data['ImageManifestDescriptor']);
+        } elseif (\array_key_exists('ImageManifestDescriptor', $data) && null === $data['ImageManifestDescriptor']) {
+            $object->setImageManifestDescriptor(null);
+            unset($data['ImageManifestDescriptor']);
+        }
         if (\array_key_exists('Command', $data) && null !== $data['Command']) {
             $object->setCommand($data['Command']);
             unset($data['Command']);
@@ -92,7 +99,7 @@ class ContainerSummaryNormalizer implements DenormalizerInterface, NormalizerInt
         if (\array_key_exists('Ports', $data) && null !== $data['Ports']) {
             $values_1 = [];
             foreach ($data['Ports'] as $value_1) {
-                $values_1[] = $this->denormalizer->denormalize($value_1, \Docker\API\Model\Port::class, 'json', $context);
+                $values_1[] = $this->denormalizer->denormalize($value_1, \Docker\API\Model\PortSummary::class, 'json', $context);
             }
             $object->setPorts($values_1);
             unset($data['Ports']);
@@ -164,6 +171,13 @@ class ContainerSummaryNormalizer implements DenormalizerInterface, NormalizerInt
             $object->setMounts(null);
             unset($data['Mounts']);
         }
+        if (\array_key_exists('Health', $data) && null !== $data['Health']) {
+            $object->setHealth($this->denormalizer->denormalize($data['Health'], \Docker\API\Model\ContainerSummaryHealth::class, 'json', $context));
+            unset($data['Health']);
+        } elseif (\array_key_exists('Health', $data) && null === $data['Health']) {
+            $object->setHealth(null);
+            unset($data['Health']);
+        }
         foreach ($data as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {
                 $object[$key_1] = $value_4;
@@ -191,6 +205,9 @@ class ContainerSummaryNormalizer implements DenormalizerInterface, NormalizerInt
         }
         if ($data->isInitialized('imageID') && null !== $data->getImageID()) {
             $dataArray['ImageID'] = $data->getImageID();
+        }
+        if ($data->isInitialized('imageManifestDescriptor') && null !== $data->getImageManifestDescriptor()) {
+            $dataArray['ImageManifestDescriptor'] = null === $data->getImageManifestDescriptor() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getImageManifestDescriptor(), 'json', $context));
         }
         if ($data->isInitialized('command') && null !== $data->getCommand()) {
             $dataArray['Command'] = $data->getCommand();
@@ -236,6 +253,9 @@ class ContainerSummaryNormalizer implements DenormalizerInterface, NormalizerInt
                 $values_3[] = null === $value_3 ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($value_3, 'json', $context));
             }
             $dataArray['Mounts'] = $values_3;
+        }
+        if ($data->isInitialized('health') && null !== $data->getHealth()) {
+            $dataArray['Health'] = null === $data->getHealth() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getHealth(), 'json', $context));
         }
         foreach ($data->additionalPropertyEntries() as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {

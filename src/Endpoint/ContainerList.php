@@ -28,6 +28,7 @@ class ContainerList extends \Docker\API\Runtime\Client\BaseEndpoint implements \
      * Available filters:
      *
      * - `ancestor`=(`<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`)
+     * - `annotation=key` or `annotation="key=value"` of a container annotation
      * - `before`=(`<container id>` or `<container name>`)
      * - `expose`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`)
      * - `exited=<int>` containers with exit code of `<int>`
