@@ -161,6 +161,9 @@ class HostConfig implements AdditionalPropertiesInterface
      *
      * This field is omitted when empty.
      *
+     * **Deprecated**: This field is deprecated as kernel 6.12 has deprecated `memory.kmem.tcp.limit_in_bytes` field
+     * for cgroups v1. This field will be removed in a future release.
+     *
      * @var int|null
      */
     protected $kernelMemoryTCP;
@@ -551,11 +554,8 @@ class HostConfig implements AdditionalPropertiesInterface
     protected $shmSize;
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @var array<string, string>|null
      */
@@ -1021,6 +1021,9 @@ class HostConfig implements AdditionalPropertiesInterface
      * by the default (runc) runtime.
      *
      * This field is omitted when empty.
+     *
+     * **Deprecated**: This field is deprecated as kernel 6.12 has deprecated `memory.kmem.tcp.limit_in_bytes` field
+     * for cgroups v1. This field will be removed in a future release.
      */
     public function getKernelMemoryTCP(): ?int
     {
@@ -1033,6 +1036,9 @@ class HostConfig implements AdditionalPropertiesInterface
      * by the default (runc) runtime.
      *
      * This field is omitted when empty.
+     *
+     **Deprecated**: This field is deprecated as kernel 6.12 has deprecated `memory.kmem.tcp.limit_in_bytes` field
+     * for cgroups v1. This field will be removed in a future release.
      */
     public function setKernelMemoryTCP(?int $kernelMemoryTCP): self
     {
@@ -2208,11 +2214,8 @@ class HostConfig implements AdditionalPropertiesInterface
 
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @return array<string, string>|null
      */
@@ -2223,11 +2226,8 @@ class HostConfig implements AdditionalPropertiesInterface
 
     /**
      * A list of kernel parameters (sysctls) to set in the container.
-     * For example:
      *
-     * ```
-     * {"net.ipv4.ip_forward": "1"}
-     * ```
+     * This field is omitted if not set.
      *
      * @param array<string, string>|null $sysctls
      */

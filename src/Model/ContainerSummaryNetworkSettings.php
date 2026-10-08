@@ -20,11 +20,17 @@ class ContainerSummaryNetworkSettings implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
+     * Summary of network-settings for each network the container is
+     * attached to.
+     *
      * @var array<string, EndpointSettings>|null
      */
     protected $networks;
 
     /**
+     * Summary of network-settings for each network the container is
+     * attached to.
+     *
      * @return array<string, EndpointSettings>|null
      */
     public function getNetworks(): ?iterable
@@ -33,6 +39,9 @@ class ContainerSummaryNetworkSettings implements AdditionalPropertiesInterface
     }
 
     /**
+     * Summary of network-settings for each network the container is
+     * attached to.
+     *
      * @param array<string, EndpointSettings>|null $networks
      */
     public function setNetworks(?iterable $networks): self

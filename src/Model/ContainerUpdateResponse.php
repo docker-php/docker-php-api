@@ -7,7 +7,7 @@ namespace Docker\API\Model;
 use Docker\API\Runtime\AdditionalAndPatternProperties;
 use Docker\API\Runtime\AdditionalPropertiesInterface;
 
-class ContainersIdUpdatePostResponse200 implements AdditionalPropertiesInterface
+class ContainerUpdateResponse implements AdditionalPropertiesInterface
 {
     use AdditionalAndPatternProperties;
     /**
@@ -20,11 +20,15 @@ class ContainersIdUpdatePostResponse200 implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
+     * Warnings encountered when updating the container.
+     *
      * @var list<string>|null
      */
     protected $warnings;
 
     /**
+     * Warnings encountered when updating the container.
+     *
      * @return list<string>|null
      */
     public function getWarnings(): ?array
@@ -33,6 +37,8 @@ class ContainersIdUpdatePostResponse200 implements AdditionalPropertiesInterface
     }
 
     /**
+     * Warnings encountered when updating the container.
+     *
      * @param list<string>|null $warnings
      */
     public function setWarnings(?array $warnings): self

@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class ContainerInspectResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use CheckArray;
     use DenormalizerAwareTrait;
@@ -23,17 +23,17 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \Docker\API\Model\ContainersIdJsonGetResponse200::class === $type;
+        return \Docker\API\Model\ContainerInspectResponse::class === $type;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return \is_object($data) && \Docker\API\Model\ContainersIdJsonGetResponse200::class === $data::class;
+        return \is_object($data) && \Docker\API\Model\ContainerInspectResponse::class === $data::class;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $object = new \Docker\API\Model\ContainersIdJsonGetResponse200();
+        $object = new \Docker\API\Model\ContainerInspectResponse();
         if (null === $data || false === \is_array($data)) {
             return $object;
         }
@@ -145,6 +145,13 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
             $object->setPlatform(null);
             unset($data['Platform']);
         }
+        if (\array_key_exists('ImageManifestDescriptor', $data) && null !== $data['ImageManifestDescriptor']) {
+            $object->setImageManifestDescriptor($this->denormalizer->denormalize($data['ImageManifestDescriptor'], \Docker\API\Model\OCIDescriptor::class, 'json', $context));
+            unset($data['ImageManifestDescriptor']);
+        } elseif (\array_key_exists('ImageManifestDescriptor', $data) && null === $data['ImageManifestDescriptor']) {
+            $object->setImageManifestDescriptor(null);
+            unset($data['ImageManifestDescriptor']);
+        }
         if (\array_key_exists('MountLabel', $data) && null !== $data['MountLabel']) {
             $object->setMountLabel($data['MountLabel']);
             unset($data['MountLabel']);
@@ -185,7 +192,7 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
             unset($data['HostConfig']);
         }
         if (\array_key_exists('GraphDriver', $data) && null !== $data['GraphDriver']) {
-            $object->setGraphDriver($this->denormalizer->denormalize($data['GraphDriver'], \Docker\API\Model\GraphDriverData::class, 'json', $context));
+            $object->setGraphDriver($this->denormalizer->denormalize($data['GraphDriver'], \Docker\API\Model\DriverData::class, 'json', $context));
             unset($data['GraphDriver']);
         } elseif (\array_key_exists('GraphDriver', $data) && null === $data['GraphDriver']) {
             $object->setGraphDriver(null);
@@ -288,6 +295,9 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
         if ($data->isInitialized('platform') && null !== $data->getPlatform()) {
             $dataArray['Platform'] = $data->getPlatform();
         }
+        if ($data->isInitialized('imageManifestDescriptor') && null !== $data->getImageManifestDescriptor()) {
+            $dataArray['ImageManifestDescriptor'] = null === $data->getImageManifestDescriptor() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getImageManifestDescriptor(), 'json', $context));
+        }
         if ($data->isInitialized('mountLabel') && null !== $data->getMountLabel()) {
             $dataArray['MountLabel'] = $data->getMountLabel();
         }
@@ -340,6 +350,6 @@ class ContainersIdJsonGetResponse200Normalizer implements DenormalizerInterface,
 
     public function getSupportedTypes(?string $format = null): array
     {
-        return [\Docker\API\Model\ContainersIdJsonGetResponse200::class => false];
+        return [\Docker\API\Model\ContainerInspectResponse::class => false];
     }
 }

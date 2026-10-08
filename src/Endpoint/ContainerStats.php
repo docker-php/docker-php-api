@@ -88,20 +88,14 @@ class ContainerStats extends \Docker\API\Runtime\Client\BaseEndpoint implements 
      * @throws \Docker\API\Exception\ContainerStatsNotFoundException
      * @throws \Docker\API\Exception\ContainerStatsInternalServerErrorException
      *
-     * @return null
+     * @return \Docker\API\Model\ContainerStatsResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            try {
-                $decodedBody = json_decode($body, false, 512, \JSON_THROW_ON_ERROR);
-
-                return $decodedBody;
-            } catch (\JsonException $jsonException) {
-                throw new \Jane\Component\JsonSchemaRuntime\Exception\MalformedJsonException('Malformed JSON response body.', 0, $jsonException);
-            }
+            return $serializer->deserialize($body, 'Docker\API\Model\ContainerStatsResponse', 'json');
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
             throw new \Docker\API\Exception\ContainerStatsNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);

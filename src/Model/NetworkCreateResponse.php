@@ -7,7 +7,7 @@ namespace Docker\API\Model;
 use Docker\API\Runtime\AdditionalAndPatternProperties;
 use Docker\API\Runtime\AdditionalPropertiesInterface;
 
-class NetworksCreatePostResponse201 implements AdditionalPropertiesInterface
+class NetworkCreateResponse implements AdditionalPropertiesInterface
 {
     use AdditionalAndPatternProperties;
     /**
@@ -26,6 +26,8 @@ class NetworksCreatePostResponse201 implements AdditionalPropertiesInterface
      */
     protected $id;
     /**
+     * Warnings encountered when creating the container.
+     *
      * @var string|null
      */
     protected $warning;
@@ -49,11 +51,17 @@ class NetworksCreatePostResponse201 implements AdditionalPropertiesInterface
         return $this;
     }
 
+    /**
+     * Warnings encountered when creating the container.
+     */
     public function getWarning(): ?string
     {
         return $this->warning;
     }
 
+    /**
+     * Warnings encountered when creating the container.
+     */
     public function setWarning(?string $warning): self
     {
         $this->initialized['warning'] = true;

@@ -95,6 +95,13 @@ class MountNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             $object->setVolumeOptions(null);
             unset($data['VolumeOptions']);
         }
+        if (\array_key_exists('ImageOptions', $data) && null !== $data['ImageOptions']) {
+            $object->setImageOptions($this->denormalizer->denormalize($data['ImageOptions'], \Docker\API\Model\MountImageOptions::class, 'json', $context));
+            unset($data['ImageOptions']);
+        } elseif (\array_key_exists('ImageOptions', $data) && null === $data['ImageOptions']) {
+            $object->setImageOptions(null);
+            unset($data['ImageOptions']);
+        }
         if (\array_key_exists('TmpfsOptions', $data) && null !== $data['TmpfsOptions']) {
             $object->setTmpfsOptions($this->denormalizer->denormalize($data['TmpfsOptions'], \Docker\API\Model\MountTmpfsOptions::class, 'json', $context));
             unset($data['TmpfsOptions']);
@@ -134,6 +141,9 @@ class MountNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         }
         if ($data->isInitialized('volumeOptions') && null !== $data->getVolumeOptions()) {
             $dataArray['VolumeOptions'] = null === $data->getVolumeOptions() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getVolumeOptions(), 'json', $context));
+        }
+        if ($data->isInitialized('imageOptions') && null !== $data->getImageOptions()) {
+            $dataArray['ImageOptions'] = null === $data->getImageOptions() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getImageOptions(), 'json', $context));
         }
         if ($data->isInitialized('tmpfsOptions') && null !== $data->getTmpfsOptions()) {
             $dataArray['TmpfsOptions'] = null === $data->getTmpfsOptions() ? null : new \Docker\API\Runtime\JsonObject($this->normalizer->normalize($data->getTmpfsOptions(), 'json', $context));

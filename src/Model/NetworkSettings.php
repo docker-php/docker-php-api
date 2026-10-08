@@ -22,6 +22,8 @@ class NetworkSettings implements AdditionalPropertiesInterface
     /**
      * Name of the default bridge interface when dockerd's --bridge flag is set.
      *
+     * Deprecated: This field is only set when the daemon is started with the --bridge flag specified.
+     *
      * @var string|null
      */
     protected $bridge;
@@ -205,6 +207,8 @@ class NetworkSettings implements AdditionalPropertiesInterface
 
     /**
      * Name of the default bridge interface when dockerd's --bridge flag is set.
+     *
+     * Deprecated: This field is only set when the daemon is started with the --bridge flag specified.
      */
     public function getBridge(): ?string
     {
@@ -213,6 +217,8 @@ class NetworkSettings implements AdditionalPropertiesInterface
 
     /**
      * Name of the default bridge interface when dockerd's --bridge flag is set.
+     *
+     * Deprecated: This field is only set when the daemon is started with the --bridge flag specified.
      */
     public function setBridge(?string $bridge): self
     {

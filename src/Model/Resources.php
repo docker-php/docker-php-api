@@ -161,6 +161,9 @@ class Resources implements AdditionalPropertiesInterface
      *
      * This field is omitted when empty.
      *
+     * **Deprecated**: This field is deprecated as kernel 6.12 has deprecated `memory.kmem.tcp.limit_in_bytes` field
+     * for cgroups v1. This field will be removed in a future release.
+     *
      * @var int|null
      */
     protected $kernelMemoryTCP;
@@ -689,6 +692,9 @@ class Resources implements AdditionalPropertiesInterface
      * by the default (runc) runtime.
      *
      * This field is omitted when empty.
+     *
+     * **Deprecated**: This field is deprecated as kernel 6.12 has deprecated `memory.kmem.tcp.limit_in_bytes` field
+     * for cgroups v1. This field will be removed in a future release.
      */
     public function getKernelMemoryTCP(): ?int
     {
@@ -701,6 +707,9 @@ class Resources implements AdditionalPropertiesInterface
      * by the default (runc) runtime.
      *
      * This field is omitted when empty.
+     *
+     **Deprecated**: This field is deprecated as kernel 6.12 has deprecated `memory.kmem.tcp.limit_in_bytes` field
+     * for cgroups v1. This field will be removed in a future release.
      */
     public function setKernelMemoryTCP(?int $kernelMemoryTCP): self
     {

@@ -20,19 +20,32 @@ class HostConfigLogConfig implements AdditionalPropertiesInterface
         return \array_key_exists($property, $this->initialized);
     }
     /**
+     * Name of the logging driver used for the container or "none"
+     * if logging is disabled.
+     *
      * @var string|null
      */
     protected $type;
     /**
+     * Driver-specific configuration options for the logging driver.
+     *
      * @var array<string, string>|null
      */
     protected $config;
 
+    /**
+     * Name of the logging driver used for the container or "none"
+     * if logging is disabled.
+     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
+    /**
+     * Name of the logging driver used for the container or "none"
+     * if logging is disabled.
+     */
     public function setType(?string $type): self
     {
         $this->initialized['type'] = true;
@@ -42,6 +55,8 @@ class HostConfigLogConfig implements AdditionalPropertiesInterface
     }
 
     /**
+     * Driver-specific configuration options for the logging driver.
+     *
      * @return array<string, string>|null
      */
     public function getConfig(): ?iterable
@@ -50,6 +65,8 @@ class HostConfigLogConfig implements AdditionalPropertiesInterface
     }
 
     /**
+     * Driver-specific configuration options for the logging driver.
+     *
      * @param array<string, string>|null $config
      */
     public function setConfig(?iterable $config): self
