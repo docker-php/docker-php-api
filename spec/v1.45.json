@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.0",
   "info": {
     "title": "Docker Engine API",
     "version": "1.45",
@@ -1823,12 +1823,10 @@
           "404": {
             "description": "no such container",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "application/json": {
+                },
                 "examples": {
                   "response": {
                     "value": {
@@ -1842,7 +1840,7 @@
           "500": {
             "description": "cannot resize container",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -1902,11 +1900,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -1924,11 +1917,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -1936,11 +1924,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -1997,11 +1980,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2009,11 +1987,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -2075,11 +2048,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2087,11 +2055,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -2154,11 +2117,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2176,11 +2134,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2188,11 +2141,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -2356,11 +2304,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2371,11 +2314,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2383,11 +2321,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -2443,11 +2376,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2455,11 +2383,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -2506,11 +2429,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2518,11 +2436,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -2914,11 +2827,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2935,11 +2843,6 @@
                       "message": "No such container: c2ada9df5af8"
                     }
                   }
-                }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -2958,11 +2861,6 @@
                     }
                   }
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -2970,11 +2868,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -3902,9 +3795,8 @@
           {
             "name": "changes",
             "in": "query",
-            "description": "Apply `Dockerfile` instructions to the image that is created,\nfor example: `changes=ENV DEBUG=true`.\nNote that `ENV DEBUG=true` should be URI component encoded.\n\nSupported `Dockerfile` instructions:\n`CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR`\n",
-            "style": "form",
-            "explode": false,
+            "description": "Apply `Dockerfile` instructions to the image that is created,\nfor example: `changes=ENV DEBUG=true`.\nNote that `ENV DEBUG=true` should be URI component encoded.\nRepeat the parameter to apply multiple instructions.\n\nSupported `Dockerfile` instructions:\n`CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR`\n",
+            "explode": true,
             "schema": {
               "type": "array",
               "items": {
@@ -5434,9 +5326,8 @@
           {
             "name": "names",
             "in": "query",
-            "description": "Image names to filter by",
-            "style": "form",
-            "explode": false,
+            "description": "Image names to filter by. Repeat the parameter for multiple images.",
+            "explode": true,
             "schema": {
               "type": "array",
               "items": {
@@ -6192,11 +6083,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -6207,11 +6093,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -6219,11 +6100,6 @@
             "description": "Server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -6506,11 +6382,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -6521,11 +6392,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -6533,11 +6399,6 @@
             "description": "Server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -7479,11 +7340,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -7491,11 +7347,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -7551,11 +7402,6 @@
             "description": "server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -7687,11 +7533,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
               }
             }
           },
@@ -7699,11 +7540,6 @@
             "description": "Server error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              },
-              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
@@ -17117,7 +16953,6 @@
           "RemoteManagers": {
             "description": "List of ID's and addresses of other managers in the swarm.\n",
             "type": "array",
-            "default": null,
             "items": {
               "$ref": "#/components/schemas/PeerNode"
             },

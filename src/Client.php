@@ -250,16 +250,16 @@ class Client extends Runtime\Client\Client
      *    "h": int, //Height of the TTY session in characters
      *    "w": int, //Width of the TTY session in characters
      * } $queryParameters
-     * @param array  $accept Accept content header text/plain|application/json
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerResizeNotFoundException
+     * @throws Exception\ContainerResizeInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerResize(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerResize(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerResize($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerResize($id, $queryParameters), $fetch);
     }
 
     /**
@@ -269,8 +269,7 @@ class Client extends Runtime\Client\Client
      * single character `[a-Z]` or `ctrl-<value>` where `<value>` is one
      * of: `a-z`, `@`, `^`, `[`, `,` or `_`.
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerStartBadRequestException
      * @throws Exception\ContainerStartNotFoundException
@@ -278,9 +277,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerStart(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerStart(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerStart($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerStart($id, $queryParameters), $fetch);
     }
 
     /**
@@ -289,17 +288,16 @@ class Client extends Runtime\Client\Client
      *    "signal"?: string, //Signal to send to the container as an integer or string (e.g. `SIGINT`).
      *    "t"?: int, //Number of seconds to wait before killing the container
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerStopNotFoundException
      * @throws Exception\ContainerStopInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerStop(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerStop(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerStop($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerStop($id, $queryParameters), $fetch);
     }
 
     /**
@@ -308,17 +306,16 @@ class Client extends Runtime\Client\Client
      *    "signal"?: string, //Signal to send to the container as an integer or string (e.g. `SIGINT`).
      *    "t"?: int, //Number of seconds to wait before killing the container
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerRestartNotFoundException
      * @throws Exception\ContainerRestartInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerRestart(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerRestart(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerRestart($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerRestart($id, $queryParameters), $fetch);
     }
 
     /**
@@ -329,8 +326,7 @@ class Client extends Runtime\Client\Client
      * @param array{
      *    "signal"?: string, //Signal to send to the container as an integer or string (e.g. `SIGINT`).
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerKillNotFoundException
      * @throws Exception\ContainerKillConflictException
@@ -338,9 +334,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerKill(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerKill(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerKill($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerKill($id, $queryParameters), $fetch);
     }
 
     /**
@@ -365,8 +361,7 @@ class Client extends Runtime\Client\Client
      * @param array{
      *    "name": string, //New name for the container
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerRenameNotFoundException
      * @throws Exception\ContainerRenameConflictException
@@ -374,9 +369,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerRename(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerRename(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerRename($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerRename($id, $queryParameters), $fetch);
     }
 
     /**
@@ -387,35 +382,33 @@ class Client extends Runtime\Client\Client
      * cgroup the process is unaware, and unable to capture, that it is being
      * suspended, and subsequently resumed.
      *
-     * @param string $id     ID or name of the container
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $id    ID or name of the container
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerPauseNotFoundException
      * @throws Exception\ContainerPauseInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerPause(string $id, string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerPause(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerPause($id, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerPause($id), $fetch);
     }
 
     /**
      * Resume a container which has been paused.
      *
-     * @param string $id     ID or name of the container
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $id    ID or name of the container
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerUnpauseNotFoundException
      * @throws Exception\ContainerUnpauseInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerUnpause(string $id, string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerUnpause(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerUnpause($id, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerUnpause($id), $fetch);
     }
 
     /**
@@ -599,8 +592,7 @@ class Client extends Runtime\Client\Client
      *    "force"?: bool, //If the container is running, kill it before removing it.
      *    "link"?: bool, //Remove the specified link associated with the container.
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerDeleteBadRequestException
      * @throws Exception\ContainerDeleteNotFoundException
@@ -609,9 +601,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerDelete(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerDelete(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerDelete($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerDelete($id, $queryParameters), $fetch);
     }
 
     /**
@@ -866,6 +858,7 @@ class Client extends Runtime\Client\Client
      *    "changes"?: array, //Apply `Dockerfile` instructions to the image that is created,
      * for example: `changes=ENV DEBUG=true`.
      * Note that `ENV DEBUG=true` should be URI component encoded.
+     * Repeat the parameter to apply multiple instructions.
      *
      * Supported `Dockerfile` instructions:
      * `CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR`
@@ -1270,7 +1263,7 @@ class Client extends Runtime\Client\Client
      * For details on the format, see the [export image endpoint](#operation/ImageGet).
      *
      * @param array{
-     *    "names"?: array, //Image names to filter by
+     *    "names"?: array, //Image names to filter by. Repeat the parameter for multiple images.
      * } $queryParameters
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
@@ -1417,8 +1410,7 @@ class Client extends Runtime\Client\Client
      * @param array{
      *    "force"?: bool, //Force the removal of the volume
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\VolumeDeleteNotFoundException
      * @throws Exception\VolumeDeleteConflictException
@@ -1426,9 +1418,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function volumeDelete(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function volumeDelete(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\VolumeDelete($name, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\VolumeDelete($name, $queryParameters), $fetch);
     }
 
     /**
@@ -1522,9 +1514,8 @@ class Client extends Runtime\Client\Client
     }
 
     /**
-     * @param string $id     Network ID or name
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $id    Network ID or name
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\NetworkDeleteForbiddenException
      * @throws Exception\NetworkDeleteNotFoundException
@@ -1532,9 +1523,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function networkDelete(string $id, string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function networkDelete(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\NetworkDelete($id, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\NetworkDelete($id), $fetch);
     }
 
     /**
@@ -1785,17 +1776,16 @@ class Client extends Runtime\Client\Client
      * Refer to the [authentication section](#section/Authentication) for
      * details.
      * } $headerParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\PluginUpgradeNotFoundException
      * @throws Exception\PluginUpgradeInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function pluginUpgrade(string $name, ?array $requestBody = null, array $queryParameters = [], array $headerParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function pluginUpgrade(string $name, ?array $requestBody = null, array $queryParameters = [], array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\PluginUpgrade($name, $requestBody, $queryParameters, $headerParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\PluginUpgrade($name, $requestBody, $queryParameters, $headerParameters), $fetch);
     }
 
     /**
@@ -1804,16 +1794,15 @@ class Client extends Runtime\Client\Client
      *    "name": string, //The name of the plugin. The `:latest` tag is optional, and is the
      * default if omitted.
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\PluginCreateInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function pluginCreate($requestBody = null, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function pluginCreate($requestBody = null, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\PluginCreate($requestBody, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\PluginCreate($requestBody, $queryParameters), $fetch);
     }
 
     /**
@@ -1838,7 +1827,6 @@ class Client extends Runtime\Client\Client
      * @param string       $name        The name of the plugin. The `:latest` tag is optional, and is the
      *                                  default if omitted.
      * @param array[]|null $requestBody
-     * @param array        $accept      Accept content header application/json|text/plain
      * @param string       $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\PluginSetNotFoundException
@@ -1846,9 +1834,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function pluginSet(string $name, ?array $requestBody = null, string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function pluginSet(string $name, ?array $requestBody = null, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\PluginSet($name, $requestBody, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\PluginSet($name, $requestBody), $fetch);
     }
 
     /**

@@ -8,7 +8,6 @@ class ContainerResize extends \Docker\API\Runtime\Client\BaseEndpoint implements
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $id;
-    protected $accept;
 
     /**
      * Resize the TTY for a container.
@@ -18,13 +17,11 @@ class ContainerResize extends \Docker\API\Runtime\Client\BaseEndpoint implements
      *    "h": int, //Height of the TTY session in characters
      *    "w": int, //Width of the TTY session in characters
      * } $queryParameters
-     * @param array $accept Accept content header text/plain|application/json
      */
-    public function __construct(string $id, array $queryParameters = [], array $accept = [])
+    public function __construct(string $id, array $queryParameters = [])
     {
         $this->id = $id;
         $this->queryParameters = $queryParameters;
-        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -44,11 +41,7 @@ class ContainerResize extends \Docker\API\Runtime\Client\BaseEndpoint implements
 
     public function getExtraHeaders(): array
     {
-        if (empty($this->accept)) {
-            return ['Accept' => ['text/plain', 'application/json']];
-        }
-
-        return $this->accept;
+        return ['Accept' => ['application/json']];
     }
 
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
@@ -65,6 +58,7 @@ class ContainerResize extends \Docker\API\Runtime\Client\BaseEndpoint implements
 
     /**
      * @throws \Docker\API\Exception\ContainerResizeNotFoundException
+     * @throws \Docker\API\Exception\ContainerResizeInternalServerErrorException
      *
      * @return null
      */
@@ -76,9 +70,10 @@ class ContainerResize extends \Docker\API\Runtime\Client\BaseEndpoint implements
             return null;
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            throw new \Docker\API\Exception\ContainerResizeNotFoundException($response);
+            throw new \Docker\API\Exception\ContainerResizeNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (500 === $status) {
+        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ContainerResizeInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 
