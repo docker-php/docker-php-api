@@ -26,7 +26,7 @@ better upgrade path. Development will continue here, and we will archive
 `beluga-php/docker-php-api` once the migration is complete.
 
 Version `7.1.45.1` of this package targets Docker Engine API v1.45. It works with
-the [Docker PHP client](https://github.com/docker-php/docker-php) 3.x and 4.0.
+the [Docker PHP client](https://github.com/docker-php/docker-php) 3.x and 4.x.
 Each Docker API version has its own release line:
 
 | Docker Engine API | Package line | Branch |
@@ -43,6 +43,7 @@ Each Docker API version has its own release line:
 | v1.54 | `>=7.1.54.0 <7.1.55.0` | [`7.1.54`](https://github.com/docker-php/docker-php-api/tree/7.1.54) |
 | v1.55 | `>=7.1.55.0 <7.1.56.0` | [`7.1.55`](https://github.com/docker-php/docker-php-api/tree/7.1.55) |
 | v1.56 | `>=7.1.56.0 <7.1.57.0` | [`7.1.56`](https://github.com/docker-php/docker-php-api/tree/7.1.56) |
+| v1.57 | `>=7.1.57.0 <7.1.58.0` | [`7.1.57`](https://github.com/docker-php/docker-php-api/tree/7.1.57) |
 
 ## Requirements
 
