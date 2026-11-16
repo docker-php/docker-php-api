@@ -48,6 +48,7 @@ class ContainerExport extends \Docker\API\Runtime\Client\BaseEndpoint implements
 
     /**
      * @throws \Docker\API\Exception\ContainerExportNotFoundException
+     * @throws \Docker\API\Exception\ContainerExportInternalServerErrorException
      *
      * @return null
      */
@@ -59,9 +60,10 @@ class ContainerExport extends \Docker\API\Runtime\Client\BaseEndpoint implements
             return null;
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            throw new \Docker\API\Exception\ContainerExportNotFoundException($response);
+            throw new \Docker\API\Exception\ContainerExportNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (500 === $status) {
+        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ContainerExportInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 

@@ -66,7 +66,6 @@ class ImageBuild extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
      * - `2` is [BuildKit](https://github.com/moby/buildkit)
      * } $queryParameters
      * @param array{
-     *    "Content-type"?: string,
      *    "X-Registry-Config"?: string, //This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to.
      *
      * The key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example:
@@ -108,6 +107,9 @@ class ImageBuild extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
     {
         if (\is_string($this->body) || \is_resource($this->body) || $this->body instanceof \Psr\Http\Message\StreamInterface) {
             return [['Content-Type' => ['application/octet-stream']], $this->body];
+        }
+        if (\is_string($this->body) || \is_resource($this->body) || $this->body instanceof \Psr\Http\Message\StreamInterface) {
+            return [['Content-Type' => ['application/x-tar']], $this->body];
         }
 
         return [[], null];
@@ -156,10 +158,9 @@ class ImageBuild extends \Docker\API\Runtime\Client\BaseEndpoint implements \Doc
     protected function getHeadersOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getHeadersOptionsResolver();
-        $optionsResolver->setDefined(['Content-type', 'X-Registry-Config']);
+        $optionsResolver->setDefined(['X-Registry-Config']);
         $optionsResolver->setRequired([]);
-        $optionsResolver->setDefaults(['Content-type' => 'application/x-tar']);
-        $optionsResolver->addAllowedTypes('Content-type', ['string']);
+        $optionsResolver->setDefaults([]);
         $optionsResolver->addAllowedTypes('X-Registry-Config', ['string']);
 
         return $optionsResolver;

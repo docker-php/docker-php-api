@@ -62,7 +62,9 @@ class ContainerArchive extends \Docker\API\Runtime\Client\BaseEndpoint implement
     }
 
     /**
+     * @throws \Docker\API\Exception\ContainerArchiveBadRequestException
      * @throws \Docker\API\Exception\ContainerArchiveNotFoundException
+     * @throws \Docker\API\Exception\ContainerArchiveInternalServerErrorException
      *
      * @return null
      */
@@ -73,12 +75,14 @@ class ContainerArchive extends \Docker\API\Runtime\Client\BaseEndpoint implement
         if (200 === $status) {
             return null;
         }
-        if (400 === $status) {
+        if ((null === $contentType) === false && (400 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ContainerArchiveBadRequestException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            throw new \Docker\API\Exception\ContainerArchiveNotFoundException($response);
+            throw new \Docker\API\Exception\ContainerArchiveNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (500 === $status) {
+        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ContainerArchiveInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 

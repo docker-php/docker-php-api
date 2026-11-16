@@ -80,21 +80,32 @@ class ServiceLogs extends \Docker\API\Runtime\Client\BaseEndpoint implements \Do
 
     /**
      * @throws \Docker\API\Exception\ServiceLogsNotFoundException
+     * @throws \Docker\API\Exception\ServiceLogsInternalServerErrorException
+     * @throws \Docker\API\Exception\ServiceLogsServiceUnavailableException
      *
-     * @return null
+     * @return string|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (200 === $status) {
+        if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            try {
+                $decodedBody = json_decode($body, false, 512, \JSON_THROW_ON_ERROR);
+
+                return $decodedBody;
+            } catch (\JsonException $jsonException) {
+                throw new \Jane\Component\JsonSchemaRuntime\Exception\MalformedJsonException('Malformed JSON response body.', 0, $jsonException);
+            }
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            throw new \Docker\API\Exception\ServiceLogsNotFoundException($response);
+            throw new \Docker\API\Exception\ServiceLogsNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (500 === $status) {
+        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ServiceLogsInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (503 === $status) {
+        if ((null === $contentType) === false && (503 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ServiceLogsServiceUnavailableException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 

@@ -8,6 +8,7 @@ class ImageGet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docke
 {
     use \Docker\API\Runtime\Client\EndpointTrait;
     protected $name;
+    protected $accept;
 
     /**
      * Get a tarball containing all images and metadata for a repository.
@@ -39,11 +40,13 @@ class ImageGet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docke
      *
      * Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}`
      * } $queryParameters
+     * @param array $accept Accept content header application/x-tar|application/json
      */
-    public function __construct(string $name, array $queryParameters = [])
+    public function __construct(string $name, array $queryParameters = [], array $accept = [])
     {
         $this->name = $name;
         $this->queryParameters = $queryParameters;
+        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -63,7 +66,11 @@ class ImageGet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docke
 
     public function getExtraHeaders(): array
     {
-        return ['Accept' => ['application/x-tar']];
+        if (empty($this->accept)) {
+            return ['Accept' => ['application/x-tar', 'application/json']];
+        }
+
+        return $this->accept;
     }
 
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
@@ -83,15 +90,25 @@ class ImageGet extends \Docker\API\Runtime\Client\BaseEndpoint implements \Docke
     }
 
     /**
-     * @return null
+     * @throws \Docker\API\Exception\ImageGetInternalServerErrorException
+     *
+     * @return string|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (200 === $status) {
+        if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            try {
+                $decodedBody = json_decode($body, false, 512, \JSON_THROW_ON_ERROR);
+
+                return $decodedBody;
+            } catch (\JsonException $jsonException) {
+                throw new \Jane\Component\JsonSchemaRuntime\Exception\MalformedJsonException('Malformed JSON response body.', 0, $jsonException);
+            }
         }
-        if (500 === $status) {
+        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ImageGetInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 

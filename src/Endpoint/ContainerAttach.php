@@ -174,7 +174,9 @@ class ContainerAttach extends \Docker\API\Runtime\Client\BaseEndpoint implements
     }
 
     /**
+     * @throws \Docker\API\Exception\ContainerAttachBadRequestException
      * @throws \Docker\API\Exception\ContainerAttachNotFoundException
+     * @throws \Docker\API\Exception\ContainerAttachInternalServerErrorException
      *
      * @return null
      */
@@ -188,12 +190,14 @@ class ContainerAttach extends \Docker\API\Runtime\Client\BaseEndpoint implements
         if (200 === $status) {
             return null;
         }
-        if (400 === $status) {
+        if ((null === $contentType) === false && (400 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ContainerAttachBadRequestException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
         if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
-            throw new \Docker\API\Exception\ContainerAttachNotFoundException($response);
+            throw new \Docker\API\Exception\ContainerAttachNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (500 === $status) {
+        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ContainerAttachInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 

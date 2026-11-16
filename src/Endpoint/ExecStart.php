@@ -16,7 +16,7 @@ class ExecStart extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
      * interactive session with the command.
      *
      * @param string $id     Exec instance ID
-     * @param array  $accept Accept content header application/vnd.docker.raw-stream|application/vnd.docker.multiplexed-stream
+     * @param array  $accept Accept content header application/vnd.docker.raw-stream|application/vnd.docker.multiplexed-stream|application/json
      */
     public function __construct(string $id, ?\Docker\API\Model\ExecIdStartPostBody $requestBody = null, array $accept = [])
     {
@@ -47,13 +47,16 @@ class ExecStart extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/vnd.docker.raw-stream', 'application/vnd.docker.multiplexed-stream']];
+            return ['Accept' => ['application/vnd.docker.raw-stream', 'application/vnd.docker.multiplexed-stream', 'application/json']];
         }
 
         return $this->accept;
     }
 
     /**
+     * @throws \Docker\API\Exception\ExecStartNotFoundException
+     * @throws \Docker\API\Exception\ExecStartConflictException
+     *
      * @return null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -63,9 +66,11 @@ class ExecStart extends \Docker\API\Runtime\Client\BaseEndpoint implements \Dock
         if (200 === $status) {
             return null;
         }
-        if (404 === $status) {
+        if ((null === $contentType) === false && (404 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ExecStartNotFoundException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (409 === $status) {
+        if ((null === $contentType) === false && (409 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\ExecStartConflictException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 

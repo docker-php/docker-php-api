@@ -54,7 +54,7 @@ class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
      * - `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service`, `secret` or `config`
      * - `volume=<string>` volume name
      * } $queryParameters
-     * @param array $accept Accept content header application/jsonl|application/x-ndjson|application/json-seq
+     * @param array $accept Accept content header application/jsonl|application/x-ndjson|application/json-seq|application/json
      */
     public function __construct(array $queryParameters = [], array $accept = [])
     {
@@ -80,7 +80,7 @@ class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/jsonl', 'application/x-ndjson', 'application/json-seq']];
+            return ['Accept' => ['application/jsonl', 'application/x-ndjson', 'application/json-seq', 'application/json']];
         }
 
         return $this->accept;
@@ -100,17 +100,23 @@ class SystemEvents extends \Docker\API\Runtime\Client\BaseEndpoint implements \D
     }
 
     /**
-     * @return null
+     * @throws \Docker\API\Exception\SystemEventsBadRequestException
+     * @throws \Docker\API\Exception\SystemEventsInternalServerErrorException
+     *
+     * @return \Docker\API\Model\EventMessage|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (200 === $status) {
+        if ((null === $contentType) === false && (200 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            return $serializer->deserialize($body, 'Docker\API\Model\EventMessage', 'json');
         }
-        if (400 === $status) {
+        if ((null === $contentType) === false && (400 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\SystemEventsBadRequestException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
-        if (500 === $status) {
+        if ((null === $contentType) === false && (500 === $status && false !== stripos(strtolower($contentType), 'application/json'))) {
+            throw new \Docker\API\Exception\SystemEventsInternalServerErrorException($serializer->deserialize($body, 'Docker\API\Model\ErrorResponse', 'json'), $response);
         }
     }
 

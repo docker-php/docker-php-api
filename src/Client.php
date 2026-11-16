@@ -150,8 +150,9 @@ class Client extends Runtime\Client\Client
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerLogsNotFoundException
+     * @throws Exception\ContainerLogsInternalServerErrorException
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? string|null : \Psr\Http\Message\ResponseInterface)
      */
     public function containerLogs(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -187,6 +188,7 @@ class Client extends Runtime\Client\Client
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerExportNotFoundException
+     * @throws Exception\ContainerExportInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
@@ -529,7 +531,9 @@ class Client extends Runtime\Client\Client
      * @param array  $accept Accept content header application/vnd.docker.raw-stream|application/vnd.docker.multiplexed-stream|application/json
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
+     * @throws Exception\ContainerAttachBadRequestException
      * @throws Exception\ContainerAttachNotFoundException
+     * @throws Exception\ContainerAttachInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
@@ -617,7 +621,9 @@ class Client extends Runtime\Client\Client
      * @param array  $accept Accept content header application/x-tar|application/json
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
+     * @throws Exception\ContainerArchiveBadRequestException
      * @throws Exception\ContainerArchiveNotFoundException
+     * @throws Exception\ContainerArchiveInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
@@ -635,8 +641,7 @@ class Client extends Runtime\Client\Client
      * @param array{
      *    "path": string, //Resource in the container’s filesystem to archive.
      * } $queryParameters
-     * @param array  $accept Accept content header application/json|text/plain
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ContainerArchiveInfoBadRequestException
      * @throws Exception\ContainerArchiveInfoNotFoundException
@@ -644,9 +649,9 @@ class Client extends Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function containerArchiveInfo(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function containerArchiveInfo(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new Endpoint\ContainerArchiveInfo($id, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\ContainerArchiveInfo($id, $queryParameters), $fetch);
     }
 
     /**
@@ -788,7 +793,6 @@ class Client extends Runtime\Client\Client
      * - `2` is [BuildKit](https://github.com/moby/buildkit)
      * } $queryParameters
      * @param array{
-     *    "Content-type"?: string,
      *    "X-Registry-Config"?: string, //This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to.
      *
      * The key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example:
@@ -1203,23 +1207,33 @@ class Client extends Runtime\Client\Client
     }
 
     /**
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * This is a dummy endpoint you can use to test if the server is accessible.
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @param array  $accept Accept content header text/plain|application/json
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @throws Exception\SystemPingInternalServerErrorException
+     *
+     * @return ($fetch is 'object' ? string|null : \Psr\Http\Message\ResponseInterface)
      */
-    public function systemPing(string $fetch = self::FETCH_OBJECT)
+    public function systemPing(string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new Endpoint\SystemPing(), $fetch);
+        return $this->executeEndpoint(new Endpoint\SystemPing($accept), $fetch);
     }
 
     /**
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * This is a dummy endpoint you can use to test if the server is accessible.
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @param array  $accept Accept content header text/plain|application/json
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @throws Exception\SystemPingHeadInternalServerErrorException
+     *
+     * @return ($fetch is 'object' ? string|null : \Psr\Http\Message\ResponseInterface)
      */
-    public function systemPingHead(string $fetch = self::FETCH_OBJECT)
+    public function systemPingHead(string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new Endpoint\SystemPingHead(), $fetch);
+        return $this->executeEndpoint(new Endpoint\SystemPingHead($accept), $fetch);
     }
 
     /**
@@ -1289,10 +1303,13 @@ class Client extends Runtime\Client\Client
      * - `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service`, `secret` or `config`
      * - `volume=<string>` volume name
      * } $queryParameters
-     * @param array  $accept Accept content header application/jsonl|application/x-ndjson|application/json-seq
+     * @param array  $accept Accept content header application/jsonl|application/x-ndjson|application/json-seq|application/json
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @throws Exception\SystemEventsBadRequestException
+     * @throws Exception\SystemEventsInternalServerErrorException
+     *
+     * @return ($fetch is 'object' ? Model\EventMessage|null : \Psr\Http\Message\ResponseInterface)
      */
     public function systemEvents(array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -1346,13 +1363,16 @@ class Client extends Runtime\Client\Client
      *
      * Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}`
      * } $queryParameters
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param array  $accept Accept content header application/x-tar|application/json
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @throws Exception\ImageGetInternalServerErrorException
+     *
+     * @return ($fetch is 'object' ? string|null : \Psr\Http\Message\ResponseInterface)
      */
-    public function imageGet(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageGet(string $name, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new Endpoint\ImageGet($name, $queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ImageGet($name, $queryParameters, $accept), $fetch);
     }
 
     /**
@@ -1376,13 +1396,16 @@ class Client extends Runtime\Client\Client
      *
      * Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}`
      * } $queryParameters
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param array  $accept Accept content header application/x-tar|application/json
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @throws Exception\ImageGetAllInternalServerErrorException
+     *
+     * @return ($fetch is 'object' ? string|null : \Psr\Http\Message\ResponseInterface)
      */
-    public function imageGetAll(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
+    public function imageGetAll(array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new Endpoint\ImageGetAll($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ImageGetAll($queryParameters, $accept), $fetch);
     }
 
     /**
@@ -1434,8 +1457,11 @@ class Client extends Runtime\Client\Client
      * interactive session with the command.
      *
      * @param string $id     Exec instance ID
-     * @param array  $accept Accept content header application/vnd.docker.raw-stream|application/vnd.docker.multiplexed-stream
+     * @param array  $accept Accept content header application/vnd.docker.raw-stream|application/vnd.docker.multiplexed-stream|application/json
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @throws Exception\ExecStartNotFoundException
+     * @throws Exception\ExecStartConflictException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
@@ -2290,8 +2316,10 @@ class Client extends Runtime\Client\Client
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\ServiceLogsNotFoundException
+     * @throws Exception\ServiceLogsInternalServerErrorException
+     * @throws Exception\ServiceLogsServiceUnavailableException
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? string|null : \Psr\Http\Message\ResponseInterface)
      */
     public function serviceLogs(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -2361,8 +2389,10 @@ class Client extends Runtime\Client\Client
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @throws Exception\TaskLogsNotFoundException
+     * @throws Exception\TaskLogsInternalServerErrorException
+     * @throws Exception\TaskLogsServiceUnavailableException
      *
-     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? string|null : \Psr\Http\Message\ResponseInterface)
      */
     public function taskLogs(string $id, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -2563,13 +2593,45 @@ class Client extends Runtime\Client\Client
     }
 
     /**
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * Start a new interactive session with a server. Session allows server to
+     * call back to the client for advanced capabilities.
+     *
+     * > **Deprecated**: This endpoint is deprecated and will be removed in a future version.
+     * > Server should support gRPC directly on the listening socket.
+     *
+     * ### Hijacking
+     *
+     * This endpoint hijacks the HTTP connection to HTTP2 transport that allows
+     * the client to expose gPRC services on that connection.
+     *
+     * For example, the client sends this request to upgrade the connection:
+     *
+     * ```
+     * POST /session HTTP/1.1
+     * Upgrade: h2c
+     * Connection: Upgrade
+     * ```
+     *
+     * The Docker daemon responds with a `101 UPGRADED` response follow with
+     * the raw stream:
+     *
+     * ```
+     * HTTP/1.1 101 UPGRADED
+     * Connection: Upgrade
+     * Upgrade: h2c
+     * ```
+     *
+     * @param array  $accept Accept content header application/vnd.docker.raw-stream|application/json
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @throws Exception\SessionBadRequestException
+     * @throws Exception\SessionInternalServerErrorException
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
-    public function session(string $fetch = self::FETCH_OBJECT)
+    public function session(string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new Endpoint\Session(), $fetch);
+        return $this->executeEndpoint(new Endpoint\Session($accept), $fetch);
     }
 
     public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [], bool $applyServerPlugins = true)
@@ -2579,7 +2641,7 @@ class Client extends Runtime\Client\Client
             $httpClient = \Http\Discovery\Psr18ClientDiscovery::find();
         }
         if ($applyServerPlugins) {
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUriFactory()->createUri('/v1.56');
+            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUriFactory()->createUri('/v1.57');
             $plugins[] = new \Http\Client\Common\Plugin\AddPathPlugin($uri);
         }
         if (\count($additionalPlugins) > 0) {

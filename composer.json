@@ -4,7 +4,7 @@
     "license": "MIT",
     "type": "library",
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-mbstring": "*",
         "jane-php/json-schema-runtime": "^7.14.4",
         "jane-php/open-api-runtime": "^7.14.4",
